@@ -1,0 +1,7 @@
+{
+  "function_id": "dummy_function",
+  "runtime_ms": 5000,
+  "memory_mb": 1024,
+  "instant_execution": false,
+  "description": "Stuff"
+}
