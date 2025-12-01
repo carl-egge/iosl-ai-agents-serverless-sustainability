@@ -19,6 +19,14 @@ except ImportError:  # Optional dependency for local runs
     load_dotenv = None
 
 from agent.prompts import create_gcp_prompt, create_local_prompt
+from sample_functions.simple_addition import (
+    SIMPLE_ADDITION_METADATA,
+    SIMPLE_ADDITION_METADATA_INSTANT,
+)
+from sample_functions.simple_api_call import (
+    SIMPLE_API_CALL_METADATA,
+    SIMPLE_API_CALL_METADATA_INSTANT,
+)
 
 # Base paths (used for data files)
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -505,4 +513,3 @@ def run_planner():
     print("=" * 60)
 
     return schedule
-

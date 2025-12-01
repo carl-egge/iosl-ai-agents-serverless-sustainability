@@ -6,6 +6,21 @@ from typing import Any, Dict
 
 import requests
 
+# Metadata presets for this sample function
+SIMPLE_API_CALL_METADATA = {
+    "function_id": "sample_simple_api_call",
+    "runtime_ms": 2000,
+    "memory_mb": 256,
+    "instant_execution": False,
+    "description": "Fetches Electricity Maps forecast for a zone and returns basic carbon intensity stats.",
+}
+
+SIMPLE_API_CALL_METADATA_INSTANT = {
+    **SIMPLE_API_CALL_METADATA,
+    "function_id": "sample_simple_api_call_instant",
+    "instant_execution": True,
+}
+
 
 def _fetch_forecast(zone: str, token: str, horizon_hours: int = 24) -> Dict[str, Any]:
     url = "https://api.electricitymaps.com/v3/carbon-intensity/forecast"

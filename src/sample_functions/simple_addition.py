@@ -9,6 +9,21 @@ Table 1: Basic Function Examples f2 (Basic addition function)
 import json
 from typing import Any, Dict
 
+# Metadata presets for this sample function
+SIMPLE_ADDITION_METADATA = {
+    "function_id": "sample_simple_addition",
+    "runtime_ms": 50,
+    "memory_mb": 128,
+    "instant_execution": False,
+    "description": "Adds two numbers from the event payload and returns the sum.",
+}
+
+SIMPLE_ADDITION_METADATA_INSTANT = {
+    **SIMPLE_ADDITION_METADATA,
+    "function_id": "sample_simple_addition_instant",
+    "instant_execution": True,
+}
+
 
 def simple_addition(event: Dict[str, Any], context: Any = None) -> Dict[str, Any]:
     """Add num1 and num2 from the event payload and return a lambda-style response."""
@@ -29,4 +44,3 @@ def handler(event: Dict[str, Any], context: Any = None) -> Dict[str, Any]:
 if __name__ == "__main__":
     sample_event = {"num1": 2, "num2": 3}
     print(simple_addition(sample_event))
-
