@@ -2,7 +2,7 @@
 """
 Carbon-Aware Serverless Function Scheduler
 Uses Electricity Maps API for carbon intensity forecasts and Google Gemini for scheduling decisions.
-Writes results to Google Cloud Storage.
+Shared planner logic for both local runs and the Cloud Run deployment.
 """
 
 import json
@@ -18,6 +18,8 @@ try:
 except ImportError:  # Optional dependency for local runs
     load_dotenv = None
 
+from agent.prompts import create_gcp_prompt, create_local_prompt
+
 # Base paths (used for data files)
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_SAMPLE_DIR = PROJECT_ROOT / "data" / "sample"
@@ -29,10 +31,88 @@ if sys.platform == "win32":
     except Exception:
         pass
 
+
+# ---------------------------------------------------------------------------
+# Shared helpers
+# ---------------------------------------------------------------------------
+def _fetch_carbon_forecast(api_token, zone, horizon_hours=24):
+    """Shared Electricity Maps forecast fetch."""
+    forecast_url = "https://api.electricitymaps.com/v3/carbon-intensity/forecast"
+    headers = {"auth-token": api_token}
+    params = {
+        "zone": zone,
+        "horizonHours": horizon_hours,
+    }
+
+    response = requests.get(forecast_url, headers=headers, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        return data.get("forecast", [])
+    else:
+        raise Exception(f"Electricity Maps API failed for zone {zone}: {response.status_code} - {response.text}")
+
+
+def format_forecast_for_llm(forecasts):
+    """Format carbon forecasts into a concise string for LLM."""
+    first_region = next(iter(forecasts.values()))
+    start_time = datetime.fromisoformat(first_region["forecast"][0]["datetime"].replace("Z", "+00:00"))
+
+    formatted = (
+        "Carbon Intensity Forecast (gCO2eq/kWh) for next 24 hours starting "
+        f"{start_time.strftime('%Y-%m-%d %H:%M')}:\n\n"
+    )
+
+    for region_key, region_data in forecasts.items():
+        formatted += f"{region_key} ({region_data['name']}):\n"
+
+        hourly_values = []
+        for point in region_data["forecast"][:24]:
+            dt = datetime.fromisoformat(point["datetime"].replace("Z", "+00:00"))
+            carbon = point["carbonIntensity"]
+            hourly_values.append(f"  {dt.strftime('%Y-%m-%d %H:%M')} - {carbon} gCO2eq/kWh")
+
+        formatted += "\n".join(hourly_values) + "\n\n"
+
+    return formatted
+
+
+def _generate_schedule(api_key, prompt, log_message=None):
+    """Shared Gemini invocation and JSON parsing."""
+    if not api_key:
+        raise Exception("GEMINI_API_KEY environment variable not set")
+
+    if log_message:
+        print(log_message)
+
+    import google.generativeai as genai
+
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel("gemini-2.5-flash")
+
+    response = model.generate_content(prompt)
+    response_text = response.text.strip()
+
+    if response_text.startswith("```json"):
+        response_text = response_text[7:]
+    if response_text.startswith("```"):
+        response_text = response_text[3:]
+    if response_text.endswith("```"):
+        response_text = response_text[:-3]
+
+    response_text = response_text.strip()
+
+    try:
+        return json.loads(response_text)
+    except json.JSONDecodeError as exc:
+        print(f"Error parsing Gemini response as JSON: {exc}")
+        print(f"Raw response:\n{response_text}")
+        raise
+
+
 # ---------------------------------------------------------------------------
 # GCP / Cloud Run scheduler (from gcloud/agent/main.py)
 # ---------------------------------------------------------------------------
-
 GCP_BUCKET_NAME = os.environ.get("GCS_BUCKET_NAME", "your-bucket-name")
 GCP_ELECTRICITYMAPS_TOKEN = os.environ.get("ELECTRICITYMAPS_TOKEN")
 GCP_GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
@@ -70,20 +150,7 @@ def get_carbon_forecast_electricitymaps_gcp(zone, horizon_hours=24):
     if not GCP_ELECTRICITYMAPS_TOKEN:
         raise Exception("ELECTRICITYMAPS_TOKEN environment variable not set")
 
-    forecast_url = "https://api.electricitymaps.com/v3/carbon-intensity/forecast"
-    headers = {"auth-token": GCP_ELECTRICITYMAPS_TOKEN}
-    params = {
-        "zone": zone,
-        "horizonHours": horizon_hours,
-    }
-
-    response = requests.get(forecast_url, headers=headers, params=params)
-
-    if response.status_code == 200:
-        data = response.json()
-        return data.get("forecast", [])
-    else:
-        raise Exception(f"Electricity Maps API failed for zone {zone}: {response.status_code} - {response.text}")
+    return _fetch_carbon_forecast(GCP_ELECTRICITYMAPS_TOKEN, zone, horizon_hours)
 
 
 def get_carbon_forecasts_all_regions_gcp():
@@ -111,114 +178,11 @@ def get_carbon_forecasts_all_regions_gcp():
     return forecasts, failed_regions
 
 
-def format_forecast_for_llm_gcp(forecasts):
-    """Format carbon forecasts into a concise string for LLM."""
-    first_region = next(iter(forecasts.values()))
-    start_time = datetime.fromisoformat(first_region["forecast"][0]["datetime"].replace("Z", "+00:00"))
-
-    formatted = (
-        "Carbon Intensity Forecast (gCO2eq/kWh) for next 24 hours starting "
-        f"{start_time.strftime('%Y-%m-%d %H:%M')}:\n\n"
-    )
-
-    for region_key, region_data in forecasts.items():
-        formatted += f"{region_key} ({region_data['name']}):\n"
-
-        hourly_values = []
-        for point in region_data["forecast"][:24]:
-            dt = datetime.fromisoformat(point["datetime"].replace("Z", "+00:00"))
-            carbon = point["carbonIntensity"]
-            hourly_values.append(f"  {dt.strftime('%Y-%m-%d %H:%M')} - {carbon} gCO2eq/kWh")
-
-        formatted += "\n".join(hourly_values) + "\n\n"
-
-    return formatted
-
-
-def create_scheduling_prompt_gcp(function_metadata, carbon_forecasts_formatted):
-    """Create the prompt for Gemini LLM (GCP workflow)."""
-    instant_note = "INSTANT EXECUTION REQUIRED" if function_metadata["instant_execution"] else "FLEXIBLE DEADLINE"
-
-    prompt = f"""You are a carbon-aware serverless function scheduler. Your goal is to minimize carbon emissions.
-
-Function Details:
-- Function ID: {function_metadata['function_id']}
-- Runtime: {function_metadata['runtime_ms']} ms
-- Memory: {function_metadata['memory_mb']} MB
-- Execution Type: {instant_note}
-- Description: {function_metadata['description']}
-
-{carbon_forecasts_formatted}
-
-Task:
-Create a scheduling recommendation for each of the next 24 time slots.
-For each time slot, recommend the BEST Google Cloud region to execute this function to minimize carbon emissions.
-
-Rules:
-1. Consider the carbon intensity forecast for each region at each time slot
-2. Lower carbon intensity = better choice
-3. If instant_execution is true, prioritize immediate execution in lowest-carbon region
-4. Rank time slots by carbon efficiency (best execution times first)
-
-Output Format (JSON only, no markdown):
-{{
-  "recommendations": [
-    {{
-      "datetime": "2025-01-17T10:00:00",
-      "region": "europe-north1",
-      "carbon_intensity": 45,
-      "priority": 1
-    }},
-    ...
-  ]
-}}
-
-IMPORTANT:
-- Use the EXACT datetime strings from the forecast data above
-- Use the Google Cloud region names (europe-west1, europe-north1, etc.) NOT the Electricity Maps zone codes
-- Provide EXACTLY 24 recommendations, one for each hour in the forecast
-- Sort by priority (1 = best/lowest carbon time to execute)
-- Return ONLY valid JSON, no additional text or markdown formatting.
-"""
-
-    return prompt
-
-
 def get_gemini_schedule_gcp(function_metadata, carbon_forecasts):
     """Use Google Gemini to create optimal execution schedule (GCP workflow)."""
-    if not GCP_GEMINI_API_KEY:
-        raise Exception("GEMINI_API_KEY environment variable not set")
-
-    import google.generativeai as genai
-
-    genai.configure(api_key=GCP_GEMINI_API_KEY)
-    model = genai.GenerativeModel("gemini-2.5-flash")
-
-    carbon_forecasts_formatted = format_forecast_for_llm_gcp(carbon_forecasts)
-    prompt = create_scheduling_prompt_gcp(function_metadata, carbon_forecasts_formatted)
-
-    print("Sending request to Gemini API...")
-    response = model.generate_content(prompt)
-
-    response_text = response.text.strip()
-
-    # Remove markdown code blocks if present
-    if response_text.startswith("```json"):
-        response_text = response_text[7:]
-    if response_text.startswith("```"):
-        response_text = response_text[3:]
-    if response_text.endswith("```"):
-        response_text = response_text[:-3]
-
-    response_text = response_text.strip()
-
-    try:
-        schedule = json.loads(response_text)
-        return schedule
-    except json.JSONDecodeError as exc:
-        print(f"Error parsing Gemini response as JSON: {exc}")
-        print(f"Raw response:\n{response_text}")
-        raise
+    carbon_forecasts_formatted = format_forecast_for_llm(carbon_forecasts)
+    prompt = create_gcp_prompt(function_metadata, carbon_forecasts_formatted)
+    return _generate_schedule(GCP_GEMINI_API_KEY, prompt, log_message="Sending request to Gemini API...")
 
 
 def write_to_gcs(data, blob_name):
@@ -346,7 +310,6 @@ def create_gcp_app():
 # ---------------------------------------------------------------------------
 # Local planner (from local/ai_agent_local.py)
 # ---------------------------------------------------------------------------
-
 SAVE_FORECAST_DATA = True  # Set to True to save raw forecast data to JSON file
 
 # Electricity Maps zones - Using actual zone codes
@@ -385,21 +348,10 @@ def get_carbon_forecast_electricitymaps_local(api_token, zone, horizon_hours=24)
     Returns:
         List of forecast data points with carbonIntensity and datetime
     """
-    forecast_url = "https://api.electricitymaps.com/v3/carbon-intensity/forecast"
-    headers = {"auth-token": api_token}
-    params = {
-        "zone": zone,
-        "horizonHours": horizon_hours,
-    }
+    if not api_token:
+        raise Exception("ELECTRICITYMAPS_TOKEN environment variable not set")
 
-    response = requests.get(forecast_url, headers=headers, params=params)
-
-    if response.status_code == 200:
-        data = response.json()
-        forecast = data.get("forecast", [])
-        return forecast
-    else:
-        raise Exception(f"Electricity Maps API failed for zone {zone}: {response.status_code} - {response.text}")
+    return _fetch_carbon_forecast(api_token, zone, horizon_hours)
 
 
 def get_carbon_forecasts_all_regions_local(api_token):
@@ -429,121 +381,13 @@ def get_carbon_forecasts_all_regions_local(api_token):
     return forecasts
 
 
-def format_forecast_for_llm_local(forecasts):
-    """Format carbon forecasts into a concise string for LLM."""
-    first_region = next(iter(forecasts.values()))
-    start_time = datetime.fromisoformat(first_region["forecast"][0]["datetime"].replace("Z", "+00:00"))
-
-    formatted = (
-        "Carbon Intensity Forecast (gCO2eq/kWh) for next 24 hours starting "
-        f"{start_time.strftime('%Y-%m-%d %H:%M')}:\n\n"
-    )
-
-    for region_key, region_data in forecasts.items():
-        formatted += f"{region_key} ({region_data['name']}):\n"
-
-        hourly_values = []
-        for point in region_data["forecast"][:24]:  # Limit to 24 hours
-            dt = datetime.fromisoformat(point["datetime"].replace("Z", "+00:00"))
-            carbon = point["carbonIntensity"]
-            hourly_values.append(f"  {dt.strftime('%Y-%m-%d %H:%M')} - {carbon} gCO2eq/kWh")
-
-        formatted += "\n".join(hourly_values) + "\n\n"
-
-    return formatted
-
-
-def create_scheduling_prompt_local(function_metadata, carbon_forecasts_formatted, forecasts):
-    """Create the prompt for Gemini LLM."""
-    instant_note = "INSTANT EXECUTION REQUIRED" if function_metadata["instant_execution"] else "FLEXIBLE DEADLINE"
-
-    first_region = next(iter(forecasts.values()))
-    start_time = datetime.fromisoformat(first_region["forecast"][0]["datetime"].replace("Z", "+00:00"))
-
-    prompt = f"""You are a carbon-aware serverless function scheduler. Your goal is to minimize carbon emissions.
-
-Function Details:
-- Function ID: {function_metadata['function_id']}
-- Runtime: {function_metadata['runtime_ms']} ms
-- Memory: {function_metadata['memory_mb']} MB
-- Execution Type: {instant_note}
-- Description: {function_metadata['description']}
-
-{carbon_forecasts_formatted}
-
-Task:
-Create a scheduling recommendation for each of the next 24 time slots.
-For each time slot, recommend the BEST region to execute this function to minimize carbon emissions.
-
-Rules:
-1. Consider the carbon intensity forecast for each region at each time slot
-2. Lower carbon intensity = better choice
-3. If instant_execution is true, prioritize immediate execution in lowest-carbon region
-4. Rank time slots by carbon efficiency (best execution times first)
-
-Output Format (JSON only, no markdown):
-{{
-  "recommendations": [
-    {{
-      "datetime": "2025-01-17T10:00:00",
-      "region": "SE-SE1",
-      "carbon_intensity": 12,
-      "priority": 1
-    }},
-    ...
-  ]
-}}
-
-IMPORTANT:
-- Use the EXACT datetime strings from the forecast data above
-- Provide EXACTLY 24 recommendations, one for each hour in the forecast
-- Sort by priority (1 = best/lowest carbon time to execute)
-- Return ONLY valid JSON, no additional text or markdown formatting.
-"""
-
-    return prompt
-
-
 def get_gemini_schedule_local(function_metadata, carbon_forecasts):
     """Use Google Gemini to create optimal execution schedule."""
-    api_key = os.environ.get("GEMINI_API_KEY")
-    if not api_key:
-        raise Exception("GEMINI_API_KEY environment variable not set")
+    carbon_forecasts_formatted = format_forecast_for_llm(carbon_forecasts)
+    prompt = create_local_prompt(function_metadata, carbon_forecasts_formatted, carbon_forecasts)
 
-    import google.generativeai as genai
-
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-2.5-flash")
-
-    carbon_forecasts_formatted = format_forecast_for_llm_local(carbon_forecasts)
-
-    prompt = create_scheduling_prompt_local(function_metadata, carbon_forecasts_formatted, carbon_forecasts)
-
-    print("\n" + "=" * 60)
-    print("Sending request to Gemini API...")
-    print("=" * 60)
-
-    response = model.generate_content(prompt)
-
-    response_text = response.text.strip()
-
-    # Remove markdown code blocks if present
-    if response_text.startswith("```json"):
-        response_text = response_text[7:]
-    if response_text.startswith("```"):
-        response_text = response_text[3:]
-    if response_text.endswith("```"):
-        response_text = response_text[:-3]
-
-    response_text = response_text.strip()
-
-    try:
-        schedule = json.loads(response_text)
-        return schedule
-    except json.JSONDecodeError as exc:
-        print(f"\nError parsing Gemini response as JSON: {exc}")
-        print(f"Raw response:\n{response_text}")
-        raise
+    log_message = "\n" + "=" * 60 + "\nSending request to Gemini API...\n" + "=" * 60
+    return _generate_schedule(os.environ.get("GEMINI_API_KEY"), prompt, log_message=log_message)
 
 
 def save_schedule(schedule, filepath=None):
