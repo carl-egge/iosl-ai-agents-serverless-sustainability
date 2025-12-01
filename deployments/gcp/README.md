@@ -57,10 +57,10 @@ mkdir -p ~/agent
 cd ~/agent
 ```
 
-Upload these files via Cloud Shell UI (click **⋮** → **Upload**):
-- `main.py`
-- `requirements.txt`
-- `Procfile`
+Upload the deployment files from `deployments/gcp/` via Cloud Shell UI (click **⋮** → **Upload**):
+- `deployments/gcp/main.py`
+- `deployments/gcp/requirements.txt`
+- `deployments/gcp/Procfile`
 
 Verify:
 ```bash

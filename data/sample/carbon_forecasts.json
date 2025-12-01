@@ -1,0 +1,1055 @@
+{
+  "timestamp": "2025-12-01T12:23:48.712781",
+  "regions": {
+    "DE": {
+      "name": "Germany",
+      "forecast": [
+        {
+          "carbonIntensity": 311,
+          "datetime": "2025-12-01T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 317,
+          "datetime": "2025-12-01T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 335,
+          "datetime": "2025-12-01T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 347,
+          "datetime": "2025-12-01T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 348,
+          "datetime": "2025-12-01T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 342,
+          "datetime": "2025-12-01T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 340,
+          "datetime": "2025-12-01T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 341,
+          "datetime": "2025-12-01T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 319,
+          "datetime": "2025-12-01T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 305,
+          "datetime": "2025-12-01T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 285,
+          "datetime": "2025-12-01T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 278,
+          "datetime": "2025-12-01T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 280,
+          "datetime": "2025-12-01T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 279,
+          "datetime": "2025-12-02T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 275,
+          "datetime": "2025-12-02T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 279,
+          "datetime": "2025-12-02T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 278,
+          "datetime": "2025-12-02T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 296,
+          "datetime": "2025-12-02T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 320,
+          "datetime": "2025-12-02T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 327,
+          "datetime": "2025-12-02T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 336,
+          "datetime": "2025-12-02T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 333,
+          "datetime": "2025-12-02T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 322,
+          "datetime": "2025-12-02T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 324,
+          "datetime": "2025-12-02T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 335,
+          "datetime": "2025-12-02T11:00:00.000Z"
+        }
+      ]
+    },
+    "FR": {
+      "name": "France",
+      "forecast": [
+        {
+          "carbonIntensity": 27,
+          "datetime": "2025-12-01T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 27,
+          "datetime": "2025-12-01T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 27,
+          "datetime": "2025-12-01T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 30,
+          "datetime": "2025-12-01T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 32,
+          "datetime": "2025-12-01T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 31,
+          "datetime": "2025-12-01T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 27,
+          "datetime": "2025-12-01T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 26,
+          "datetime": "2025-12-01T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 27,
+          "datetime": "2025-12-01T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 26,
+          "datetime": "2025-12-01T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 26,
+          "datetime": "2025-12-02T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 26,
+          "datetime": "2025-12-02T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 31,
+          "datetime": "2025-12-02T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 34,
+          "datetime": "2025-12-02T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 35,
+          "datetime": "2025-12-02T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 31,
+          "datetime": "2025-12-02T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 30,
+          "datetime": "2025-12-02T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 30,
+          "datetime": "2025-12-02T11:00:00.000Z"
+        }
+      ]
+    },
+    "SE-SE1": {
+      "name": "Sweden North",
+      "forecast": [
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-01T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-01T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-01T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-01T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-01T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-01T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-01T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 12,
+          "datetime": "2025-12-01T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 12,
+          "datetime": "2025-12-01T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 12,
+          "datetime": "2025-12-01T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-01T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 12,
+          "datetime": "2025-12-01T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 12,
+          "datetime": "2025-12-01T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-02T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-02T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 12,
+          "datetime": "2025-12-02T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 12,
+          "datetime": "2025-12-02T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-02T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 12,
+          "datetime": "2025-12-02T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-02T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-02T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-02T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-02T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 12,
+          "datetime": "2025-12-02T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 12,
+          "datetime": "2025-12-02T11:00:00.000Z"
+        }
+      ]
+    },
+    "SE-SE2": {
+      "name": "Sweden North-Central",
+      "forecast": [
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-01T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-01T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-01T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-01T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-01T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-01T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-01T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-01T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-01T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-01T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-01T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-01T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-01T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-02T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-02T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-02T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-02T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-02T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 14,
+          "datetime": "2025-12-02T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-02T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-02T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-02T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-02T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-02T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 13,
+          "datetime": "2025-12-02T11:00:00.000Z"
+        }
+      ]
+    },
+    "SE-SE3": {
+      "name": "Sweden South-Central",
+      "forecast": [
+        {
+          "carbonIntensity": 21,
+          "datetime": "2025-12-01T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 20,
+          "datetime": "2025-12-01T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 20,
+          "datetime": "2025-12-01T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 20,
+          "datetime": "2025-12-01T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 20,
+          "datetime": "2025-12-01T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 20,
+          "datetime": "2025-12-01T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 20,
+          "datetime": "2025-12-01T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 19,
+          "datetime": "2025-12-01T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 18,
+          "datetime": "2025-12-01T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 18,
+          "datetime": "2025-12-01T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 18,
+          "datetime": "2025-12-01T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 18,
+          "datetime": "2025-12-01T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 17,
+          "datetime": "2025-12-01T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 16,
+          "datetime": "2025-12-02T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 16,
+          "datetime": "2025-12-02T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 17,
+          "datetime": "2025-12-02T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 16,
+          "datetime": "2025-12-02T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 16,
+          "datetime": "2025-12-02T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 17,
+          "datetime": "2025-12-02T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 17,
+          "datetime": "2025-12-02T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 17,
+          "datetime": "2025-12-02T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 18,
+          "datetime": "2025-12-02T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 17,
+          "datetime": "2025-12-02T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 18,
+          "datetime": "2025-12-02T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 18,
+          "datetime": "2025-12-02T11:00:00.000Z"
+        }
+      ]
+    },
+    "AU-TAS": {
+      "name": "Australia Tasmania",
+      "forecast": [
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 24,
+          "datetime": "2025-12-01T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 26,
+          "datetime": "2025-12-01T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 27,
+          "datetime": "2025-12-02T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 26,
+          "datetime": "2025-12-02T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 24,
+          "datetime": "2025-12-02T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2025-12-02T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 21,
+          "datetime": "2025-12-02T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 21,
+          "datetime": "2025-12-02T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 21,
+          "datetime": "2025-12-02T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 21,
+          "datetime": "2025-12-02T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 20,
+          "datetime": "2025-12-02T11:00:00.000Z"
+        }
+      ]
+    },
+    "NO-NO2": {
+      "name": "Norway Zone 2",
+      "forecast": [
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 26,
+          "datetime": "2025-12-01T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 24,
+          "datetime": "2025-12-01T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2025-12-02T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2025-12-02T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2025-12-02T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T11:00:00.000Z"
+        }
+      ]
+    },
+    "NO-NO1": {
+      "name": "Norway Zone 1",
+      "forecast": [
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 24,
+          "datetime": "2025-12-01T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-01T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2025-12-01T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2025-12-02T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2025-12-02T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2025-12-02T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2025-12-02T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2025-12-02T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2025-12-02T11:00:00.000Z"
+        }
+      ]
+    },
+    "NO-NO5": {
+      "name": "Norway Zone 5",
+      "forecast": [
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-01T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 26,
+          "datetime": "2025-12-02T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2025-12-02T11:00:00.000Z"
+        }
+      ]
+    },
+    "IS": {
+      "name": "Iceland",
+      "forecast": [
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-01T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-02T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-02T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-02T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-02T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-02T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-02T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-02T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-02T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-02T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-02T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-02T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2025-12-02T11:00:00.000Z"
+        }
+      ]
+    }
+  }
+}

@@ -6,6 +6,7 @@ import requests
 import sys
 import json
 from datetime import datetime
+from pathlib import Path
 
 # Fix encoding for Windows
 if sys.platform == 'win32':
@@ -13,6 +14,10 @@ if sys.platform == 'win32':
         sys.stdout.reconfigure(encoding='utf-8')
     except:
         pass
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DATA_SAMPLE_DIR = PROJECT_ROOT / "data" / "sample"
+OUTPUT_PATH = DATA_SAMPLE_DIR / "all_regions_forecast.json"
 
 # Comprehensive list - country level first, then sub-regions for countries that don't work at country level
 TEST_ZONES = [
@@ -166,6 +171,7 @@ def get_forecast_data(api_token, zone):
                 }
         return None
     except Exception as e:
+        print(f"Error fetching data for zone {zone}: {e}")
         return None
 
 def main():
@@ -207,9 +213,9 @@ def main():
             print(f"✗ {zone:20s} {name:35s} - No forecast data")
 
     # Save all forecast data
-    with open('testing apis/all_regions_forecast.json', 'w') as f:
+    with open(OUTPUT_PATH, 'w') as f:
         json.dump(all_forecasts, f, indent=2)
-    print(f"\n✓ Saved forecast data for {len(all_forecasts['zones'])} zones to testing apis/all_regions_forecast.json")
+    print(f"\n✓ Saved forecast data for {len(all_forecasts['zones'])} zones to {OUTPUT_PATH}")
 
     print()
     print("="*90)
