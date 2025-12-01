@@ -5,4 +5,5 @@ Write-Host "Running Carbon-Aware Serverless Scheduler..."
 Write-Host "API keys loaded from .env file"
 Write-Host ""
 
-python ai_agent.py
+$scriptPath = Join-Path $PSScriptRoot "run_agent.py"
+python "$scriptPath"
