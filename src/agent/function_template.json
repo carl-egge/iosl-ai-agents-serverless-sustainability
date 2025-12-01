@@ -1,0 +1,122 @@
+{
+  "description": "Information users can provide when describing their Cloud Run job",
+  
+  "job_information": {
+    "function_name": {
+      "description": "Name or identifier for your function",
+      "example": "video-processor"
+    },
+    
+    "memory_gib": {
+      "description": "How much memory your function needs (in GiB)",
+      "range": "0.128 to 32 GiB",
+      "example": 4,
+      "notes": "If using GPU, minimum is 16 GiB"
+    },
+    
+    "execution_time_estimate_s": {
+      "description": "How long your function typically runs (in seconds)",
+      "range": "Up to 3600 seconds (1 hour)",
+      "example": 30
+    },
+    
+    "data_input_gb": {
+      "description": "Size of input data downloaded from storage (in GB)",
+      "example": 0.5
+    },
+    
+    "data_output_gb": {
+      "description": "Size of output data uploaded to storage (in GB)",
+      "example": 0.2
+    },
+    
+    "gpu_required": {
+      "description": "Whether your function needs a GPU (NVIDIA L4)",
+      "options": [true, false],
+      "example": false,
+      "notes": "GPUs available in: Iowa, Virginia, Belgium, Netherlands"
+    }
+  },
+  
+  "scheduling_preferences": {
+    "urgency": {
+      "description": "When does this job need to run?",
+      "options": {
+        "immediate": "Run as soon as possible",
+        "flexible": "Can wait for lower-carbon time windows"
+      },
+      "default": "immediate",
+      "example": "flexible"
+    },
+    
+    "deadline": {
+      "description": "Latest time the job must complete (if urgency is flexible)",
+      "format": "ISO 8601 datetime with timezone",
+      "examples": [
+        "2024-12-02T18:00:00Z",
+        "2024-12-03T09:00:00-05:00"
+      ],
+      "notes": "Required when urgency = flexible"
+    },
+    
+    "priority": {
+      "description": "What should be optimized when choosing a region?",
+      "options": {
+        "carbon": "Minimize carbon emissions (greenest option)",
+        "cost": "Minimize cost (cheapest option)",
+        "balanced": "Balance both carbon and cost"
+      },
+      "default": "carbon",
+      "example": "carbon"
+    }
+  },
+  
+  "examples": {
+    "simple_job": {
+      "description": "Basic image processing, run immediately",
+      "function_name": "image-resize",
+      "memory_gib": 2,
+      "execution_time_estimate_s": 15,
+      "data_input_gb": 0.1,
+      "data_output_gb": 0.05,
+      "gpu_required": false
+    },
+    
+    "batch_processing": {
+      "description": "Large batch job, can wait for low-carbon window",
+      "function_name": "batch-data-processing",
+      "memory_gib": 8,
+      "execution_time_estimate_s": 120,
+      "data_input_gb": 2.0,
+      "data_output_gb": 1.5,
+      "gpu_required": false,
+      "urgency": "flexible",
+      "deadline": "2024-12-02T23:59:59Z",
+      "priority": "carbon"
+    },
+    
+    "gpu_job": {
+      "description": "AI inference with GPU, run immediately",
+      "function_name": "llm-inference",
+      "memory_gib": 16,
+      "execution_time_estimate_s": 45,
+      "data_input_gb": 0.5,
+      "data_output_gb": 0.01,
+      "gpu_required": true,
+      "urgency": "immediate"
+    },
+    
+    "cost_focused": {
+      "description": "Report generation, optimize for cost",
+      "function_name": "report-generator",
+      "memory_gib": 4,
+      "execution_time_estimate_s": 60,
+      "data_input_gb": 0.3,
+      "data_output_gb": 0.2,
+      "gpu_required": false,
+      "urgency": "flexible",
+      "deadline": "2024-12-03T09:00:00-05:00",
+      "priority": "cost"
+    }
+  }
+}

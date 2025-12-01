@@ -1,0 +1,316 @@
+{
+  "config_version": "1.0.0",
+  "last_updated": "2024-12-01",
+  "bucket_location": "us-east1",
+  
+  "agent_defaults": {
+    "vcpus_default": 1,
+    "vcpus_if_gpu": 4,
+    "gpu_count": 1,
+    "notes": "Agent applies vcpus_default=1 for non-GPU workloads, vcpus_if_gpu=4 for GPU workloads"
+  },
+  
+  "gpu_constraints": {
+    "minimum_cpu": 4,
+    "minimum_memory_gib": 16,
+    "recommended_cpu": 8,
+    "recommended_memory_gib": 32,
+    "notes": "Cloud Run requires minimum 4 CPU and 16 GiB memory for GPU workloads"
+  },
+  
+  "regions": {
+    "us-central1": {
+      "name": "Iowa",
+      "pricing_tier": 1,
+      "gpu_available": true,
+      "gpu_types": ["nvidia-l4"],
+      "data_transfer_cost_per_gb_usd": 0.02,
+      "electricity_maps_zone": "US-MIDW-MISO"
+    },
+    "us-east1": {
+      "name": "South Carolina",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.0,
+      "electricity_maps_zone": "US-CAR-SC",
+      "notes": "Same region as bucket - no transfer cost"
+    },
+    "us-east4": {
+      "name": "Northern Virginia",
+      "pricing_tier": 1,
+      "gpu_available": true,
+      "gpu_types": ["nvidia-l4"],
+      "data_transfer_cost_per_gb_usd": 0.02,
+      "electricity_maps_zone": "US-MIDA-PJM"
+    },
+    "us-east5": {
+      "name": "Columbus, Ohio",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.02,
+      "electricity_maps_zone": "US-MIDA-PJM"
+    },
+    "us-south1": {
+      "name": "Dallas, Texas",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.02,
+      "electricity_maps_zone": "US-TEX-ERCO"
+    },
+    "us-west1": {
+      "name": "Oregon",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.02,
+      "electricity_maps_zone": "US-NW-BPAT"
+    },
+    "us-west2": {
+      "name": "Los Angeles",
+      "pricing_tier": 2,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.02,
+      "electricity_maps_zone": "US-CAL-CISO"
+    },
+    "us-west3": {
+      "name": "Salt Lake City",
+      "pricing_tier": 2,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.02,
+      "electricity_maps_zone": "US-NW-PACE"
+    },
+    "us-west4": {
+      "name": "Las Vegas",
+      "pricing_tier": 2,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.02,
+      "electricity_maps_zone": "US-NW-NEVP"
+    },
+    "northamerica-northeast1": {
+      "name": "Montreal",
+      "pricing_tier": 2,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.02,
+      "electricity_maps_zone": "CA-QC"
+    },
+    "northamerica-northeast2": {
+      "name": "Toronto",
+      "pricing_tier": 2,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.02,
+      "electricity_maps_zone": "CA-ON"
+    },
+    "northamerica-south1": {
+      "name": "Queretaro, Mexico",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.02,
+      "electricity_maps_zone": "MX"
+    },
+    "europe-central2": {
+      "name": "Warsaw",
+      "pricing_tier": 2,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "PL"
+    },
+    "europe-north1": {
+      "name": "Finland",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "FI"
+    },
+    "europe-north2": {
+      "name": "Stockholm, Sweden",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "SE"
+    },
+    "europe-southwest1": {
+      "name": "Madrid",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "ES"
+    },
+    "europe-west1": {
+      "name": "Belgium",
+      "pricing_tier": 1,
+      "gpu_available": true,
+      "gpu_types": ["nvidia-l4"],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "BE"
+    },
+    "europe-west2": {
+      "name": "London",
+      "pricing_tier": 2,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "GB"
+    },
+    "europe-west3": {
+      "name": "Frankfurt",
+      "pricing_tier": 2,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "DE"
+    },
+    "europe-west4": {
+      "name": "Netherlands",
+      "pricing_tier": 1,
+      "gpu_available": true,
+      "gpu_types": ["nvidia-l4"],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "NL"
+    },
+    "europe-west6": {
+      "name": "Zurich",
+      "pricing_tier": 2,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "CH"
+    },
+    "europe-west8": {
+      "name": "Milan",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "IT-NO"
+    },
+    "europe-west9": {
+      "name": "Paris",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "FR"
+    },
+    "europe-west10": {
+      "name": "Berlin",
+      "pricing_tier": 2,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "DE"
+    },
+    "europe-west12": {
+      "name": "Turin",
+      "pricing_tier": 2,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "IT-NO"
+    }
+  },
+  
+  "pricing": {
+    "tier1": {
+      "invocation_usd": 0.0000004,
+      "vcpu_second_usd": 0.000024,
+      "memory_gib_second_usd": 0.0000025
+    },
+    "tier2": {
+      "invocation_usd": 0.0000006,
+      "vcpu_second_usd": 0.000036,
+      "memory_gib_second_usd": 0.00000375
+    },
+    "gpu": {
+      "nvidia-l4": {
+        "tier1_gpu_second_usd": 0.001197,
+        "tier2_gpu_second_usd": 0.0017955
+      }
+    }
+  },
+  
+  "power_constants": {
+    "cpu_watts_per_vcpu": 2.5,
+    "cpu_utilization_factor": 0.5,
+    "memory_watts_per_gib": 0.4,
+    "datacenter_pue": 1.1,
+    "network_kwh_per_gb": 0.002,
+    "gpu_tdp_watts": {
+      "nvidia-l4": 72
+    },
+    "gpu_utilization_factor": 0.8
+  },
+  
+  "calculation_formulas": {
+    "input_dependent_values": {
+      "vcpus": "USER INPUT (via agent_defaults: 1 for non-GPU, 4 for GPU)",
+      "memory_gib": "USER INPUT",
+      "execution_time_s": "USER INPUT",
+      "data_input_gb": "USER INPUT",
+      "data_output_gb": "USER INPUT",
+      "gpu_required": "USER INPUT (boolean)",
+      "gpu_count": "CONSTANT: 1 (if gpu_required=true)"
+    },
+    
+    "constant_values": {
+      "cpu_watts_per_vcpu": "CONSTANT: 2.5W",
+      "cpu_utilization_factor": "CONSTANT: 0.5 (50%)",
+      "memory_watts_per_gib": "CONSTANT: 0.4W",
+      "datacenter_pue": "CONSTANT: 1.1",
+      "network_kwh_per_gb": "CONSTANT: 0.002",
+      "gpu_tdp_watts": "CONSTANT: 72W (nvidia-l4)",
+      "gpu_utilization_factor": "CONSTANT: 0.8 (80%)"
+    },
+    
+    "cost_per_invocation": {
+      "total_cost_usd": "invocation_cost + compute_cost + gpu_cost + transfer_cost",
+      "invocation_cost": "pricing[tier][invocation_usd]",
+      "compute_cost": "(vcpus × pricing[tier][vcpu_second_usd] × execution_time_s) + (memory_gib × pricing[tier][memory_gib_second_usd] × execution_time_s)",
+      "gpu_cost": "gpu_count × pricing[gpu][gpu_type][tier_gpu_second_usd] × execution_time_s",
+      "transfer_cost": "(data_input_gb + data_output_gb) × regions[region][data_transfer_cost_per_gb_usd]"
+    },
+    
+    "energy_per_invocation": {
+      "total_energy_kwh": "compute_energy_kwh + transfer_energy_kwh",
+      "compute_energy_kwh": "(cpu_power_w + memory_power_w + gpu_power_w) × (execution_time_s / 3600) × power_constants[datacenter_pue]",
+      "cpu_power_w": "vcpus × power_constants[cpu_watts_per_vcpu] × power_constants[cpu_utilization_factor]",
+      "memory_power_w": "memory_gib × power_constants[memory_watts_per_gib]",
+      "gpu_power_w": "gpu_count × power_constants[gpu_tdp_watts][gpu_type] × power_constants[gpu_utilization_factor]",
+      "transfer_energy_kwh": "(data_input_gb + data_output_gb) × power_constants[network_kwh_per_gb]"
+    },
+    
+    "carbon_per_invocation": {
+      "total_carbon_grams": "total_energy_kwh × carbon_intensity_g_per_kwh",
+      "carbon_intensity_source": "Fetch from Electricity Maps API using regions[region][electricity_maps_zone]"
+    }
+  },
+  
+  "metadata": {
+    "source": "Verified from official GCP and Electricity Maps documentation Dec 2024",
+    "data_sources": {
+      "pricing_tiers": "https://cloud.google.com/run/pricing",
+      "gpu_availability": "https://cloud.google.com/run/docs/locations#gpu",
+      "transfer_costs": "https://cloud.google.com/storage/pricing#network-buckets",
+      "electricity_maps_zones": "https://portal.electricitymaps.com/docs"
+    },
+    "important_notes": {
+      "data_transfer": "Costs apply for BOTH download AND upload. Total = (input_gb + output_gb) × rate",
+      "gpu_availability": "Cloud Run GPU support (nvidia-l4 only) in 4 regions: us-central1, us-east4, europe-west1, europe-west4",
+      "carbon_intensity": "Real-time carbon intensity must be fetched from Electricity Maps API - NOT included in this config",
+      "free_tier": "Calculations exclude Cloud Run free tier (180k vCPU-seconds, 360k GiB-seconds, 2M requests/month). Actual costs may be lower.",
+      "vcpu_allocation": "Cloud Run allows independent CPU and memory configuration. Agent uses defaults: 1 vCPU (non-GPU) or 4 vCPU (GPU)."
+    }
+  }
+}
