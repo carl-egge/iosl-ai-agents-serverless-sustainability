@@ -138,7 +138,7 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "SE"
+      "electricity_maps_zone": "SE-SE3"
     },
     "europe-southwest1": {
       "name": "Madrid",
@@ -219,6 +219,96 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
       "electricity_maps_zone": "IT-NO"
+    },
+    "DE": {
+      "name": "Germany",
+      "pricing_tier": 2,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "DE",
+      "notes": "Electricity Maps zone code (used in local workflow)"
+    },
+    "FR": {
+      "name": "France",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "FR",
+      "notes": "Electricity Maps zone code (used in local workflow)"
+    },
+    "SE-SE1": {
+      "name": "Sweden North",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "SE-SE1",
+      "notes": "Electricity Maps zone code (used in local workflow)"
+    },
+    "SE-SE2": {
+      "name": "Sweden North-Central",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "SE-SE2",
+      "notes": "Electricity Maps zone code (used in local workflow)"
+    },
+    "SE-SE3": {
+      "name": "Sweden South-Central",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "SE-SE3",
+      "notes": "Electricity Maps zone code (used in local workflow)"
+    },
+    "AU-TAS": {
+      "name": "Australia Tasmania",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.12,
+      "electricity_maps_zone": "AU-TAS",
+      "notes": "Electricity Maps zone code (used in local workflow). Higher cost for AU region."
+    },
+    "NO-NO1": {
+      "name": "Norway Zone 1",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "NO-NO1",
+      "notes": "Electricity Maps zone code (used in local workflow)"
+    },
+    "NO-NO2": {
+      "name": "Norway Zone 2",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "NO-NO2",
+      "notes": "Electricity Maps zone code (used in local workflow)"
+    },
+    "NO-NO5": {
+      "name": "Norway Zone 5",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "NO-NO5",
+      "notes": "Electricity Maps zone code (used in local workflow)"
+    },
+    "IS": {
+      "name": "Iceland",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "IS",
+      "notes": "Electricity Maps zone code (used in local workflow)"
     }
   },
   

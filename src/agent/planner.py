@@ -8,7 +8,7 @@ Shared planner logic for both local runs and the Cloud Run deployment.
 import json
 import os
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 
 import requests
@@ -19,13 +19,10 @@ except ImportError:  # Optional dependency for local runs
     load_dotenv = None
 
 from agent.prompts import create_gcp_prompt, create_local_prompt
-from sample_functions.simple_addition import (
-    SIMPLE_ADDITION_METADATA,
-    SIMPLE_ADDITION_METADATA_INSTANT,
-)
-from sample_functions.simple_api_call import (
-    SIMPLE_API_CALL_METADATA,
-    SIMPLE_API_CALL_METADATA_INSTANT,
+from agent.config_loader import (
+    load_static_config,
+    calculate_transfer_cost,
+    format_region_costs_for_llm,
 )
 
 # Base paths (used for data files)
@@ -121,27 +118,44 @@ def _generate_schedule(api_key, prompt, log_message=None):
 # ---------------------------------------------------------------------------
 # GCP / Cloud Run scheduler (from gcloud/agent/main.py)
 # ---------------------------------------------------------------------------
-GCP_BUCKET_NAME = os.environ.get("GCS_BUCKET_NAME", "your-bucket-name")
+GCP_BUCKET_NAME = os.environ.get("GCS_BUCKET_NAME")
 GCP_ELECTRICITYMAPS_TOKEN = os.environ.get("ELECTRICITYMAPS_TOKEN")
 GCP_GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-# Google Cloud Run European regions mapped to Electricity Maps zones
-# GCloud Region -> Electricity Maps Zone
-GCP_REGIONS = {
-    "europe-north1": {"name": "Finland", "emaps_zone": "FI", "gcloud_region": "europe-north1"},
-    "europe-north2": {"name": "Stockholm, Sweden", "emaps_zone": "SE-SE3", "gcloud_region": "europe-north2"},
-    "europe-west1": {"name": "Belgium", "emaps_zone": "BE", "gcloud_region": "europe-west1"},
-    "europe-west2": {"name": "London, UK", "emaps_zone": "GB", "gcloud_region": "europe-west2"},
-    "europe-west3": {"name": "Frankfurt, Germany", "emaps_zone": "DE", "gcloud_region": "europe-west3"},
-    "europe-west4": {"name": "Netherlands", "emaps_zone": "NL", "gcloud_region": "europe-west4"},
-    "europe-west6": {"name": "Zurich, Switzerland", "emaps_zone": "CH", "gcloud_region": "europe-west6"},
-    "europe-west8": {"name": "Milan, Italy", "emaps_zone": "IT-NO", "gcloud_region": "europe-west8"},
-    "europe-west9": {"name": "Paris, France", "emaps_zone": "FR", "gcloud_region": "europe-west9"},
-    "europe-west10": {"name": "Berlin, Germany", "emaps_zone": "DE", "gcloud_region": "europe-west10"},
-    "europe-west12": {"name": "Turin, Italy", "emaps_zone": "IT-NO", "gcloud_region": "europe-west12"},
-    "europe-central2": {"name": "Warsaw, Poland", "emaps_zone": "PL", "gcloud_region": "europe-central2"},
-    "europe-southwest1": {"name": "Madrid, Spain", "emaps_zone": "ES", "gcloud_region": "europe-southwest1"},
-}
+# Google Cloud Run European regions - loaded from static_config.json
+# List of GCP regions to use for scheduling
+GCP_REGION_CODES = [
+    "europe-north1",
+    "europe-north2",
+    "europe-west1",
+    "europe-west2",
+    "europe-west3",
+    "europe-west4",
+    "europe-west6",
+    "europe-west8",
+    "europe-west9",
+    "europe-west10",
+    "europe-west12",
+    "europe-central2",
+    "europe-southwest1",
+]
+
+def _load_gcp_regions():
+    """Load GCP region mappings from static_config.json."""
+    config = load_static_config()
+    regions = {}
+    for region_code in GCP_REGION_CODES:
+        region_info = config["regions"].get(region_code)
+        if region_info:
+            regions[region_code] = {
+                "name": region_info["name"],
+                "emaps_zone": region_info["electricity_maps_zone"],
+                "gcloud_region": region_code,
+            }
+    return regions
+
+# Load GCP regions from config (lazy loaded on first use)
+GCP_REGIONS = None
 
 # Default function metadata (can be overridden via request)
 GCP_DEFAULT_FUNCTION_METADATA = {
@@ -163,6 +177,10 @@ def get_carbon_forecast_electricitymaps_gcp(zone, horizon_hours=24):
 
 def get_carbon_forecasts_all_regions_gcp():
     """Fetch carbon forecasts for all configured regions from Electricity Maps."""
+    global GCP_REGIONS
+    if GCP_REGIONS is None:
+        GCP_REGIONS = _load_gcp_regions()
+
     forecasts = {}
     failed_regions = []
 
@@ -189,12 +207,37 @@ def get_carbon_forecasts_all_regions_gcp():
 def get_gemini_schedule_gcp(function_metadata, carbon_forecasts):
     """Use Google Gemini to create optimal execution schedule (GCP workflow)."""
     carbon_forecasts_formatted = format_forecast_for_llm(carbon_forecasts)
-    prompt = create_gcp_prompt(function_metadata, carbon_forecasts_formatted)
+
+    # Load static config and format cost information
+    static_config = load_static_config()
+    cost_info = ""
+
+    # Only include cost info if data transfer is specified
+    if function_metadata.get("data_input_gb") or function_metadata.get("data_output_gb"):
+        data_input_gb = function_metadata.get("data_input_gb", 0.0)
+        data_output_gb = function_metadata.get("data_output_gb", 0.0)
+        source_location = function_metadata.get("source_location")
+
+        cost_info = format_region_costs_for_llm(
+            carbon_forecasts,
+            data_input_gb,
+            data_output_gb,
+            source_location,
+            static_config
+        )
+
+    prompt = create_gcp_prompt(function_metadata, carbon_forecasts_formatted, cost_info)
     return _generate_schedule(GCP_GEMINI_API_KEY, prompt, log_message="Sending request to Gemini API...")
 
 
 def write_to_gcs(data, blob_name):
     """Write JSON data to Google Cloud Storage."""
+    if not GCP_BUCKET_NAME:
+        raise Exception(
+            "GCS_BUCKET_NAME environment variable not set. "
+            "Please set it when deploying: --set-env-vars GCS_BUCKET_NAME=your-bucket-name"
+        )
+
     from google.cloud import storage
 
     storage_client = storage.Client()
@@ -392,7 +435,26 @@ def get_carbon_forecasts_all_regions_local(api_token):
 def get_gemini_schedule_local(function_metadata, carbon_forecasts):
     """Use Google Gemini to create optimal execution schedule."""
     carbon_forecasts_formatted = format_forecast_for_llm(carbon_forecasts)
-    prompt = create_local_prompt(function_metadata, carbon_forecasts_formatted, carbon_forecasts)
+
+    # Load static config and format cost information
+    static_config = load_static_config()
+    cost_info = ""
+
+    # Only include cost info if data transfer is specified
+    if function_metadata.get("data_input_gb") or function_metadata.get("data_output_gb"):
+        data_input_gb = function_metadata.get("data_input_gb", 0.0)
+        data_output_gb = function_metadata.get("data_output_gb", 0.0)
+        source_location = function_metadata.get("source_location")
+
+        cost_info = format_region_costs_for_llm(
+            carbon_forecasts,
+            data_input_gb,
+            data_output_gb,
+            source_location,
+            static_config
+        )
+
+    prompt = create_local_prompt(function_metadata, carbon_forecasts_formatted, cost_info)
 
     log_message = "\n" + "=" * 60 + "\nSending request to Gemini API...\n" + "=" * 60
     return _generate_schedule(os.environ.get("GEMINI_API_KEY"), prompt, log_message=log_message)
@@ -443,8 +505,13 @@ def print_schedule_summary(schedule):
         region = rec.get("region", "N/A")
         carbon = rec.get("carbon_intensity", "N/A")
         priority = rec.get("priority", "N/A")
+        transfer_cost = rec.get("transfer_cost_usd", None)
+        reasoning = rec.get("reasoning", "")
 
-        print(f"{i}. {dt} -> {region:20s} ({carbon} gCO2eq/kWh) [Priority: {priority}]")
+        cost_str = f" | Cost: ${transfer_cost:.4f}" if transfer_cost is not None else ""
+        print(f"{i}. {dt} -> {region:20s} ({carbon} gCO2eq/kWh){cost_str} [Priority: {priority}]")
+        if reasoning:
+            print(f"   Reasoning: {reasoning}")
 
     print("\nWorst 3 Execution Times:")
     print("-" * 60)
@@ -453,8 +520,13 @@ def print_schedule_summary(schedule):
         region = rec.get("region", "N/A")
         carbon = rec.get("carbon_intensity", "N/A")
         priority = rec.get("priority", "N/A")
+        transfer_cost = rec.get("transfer_cost_usd", None)
+        reasoning = rec.get("reasoning", "")
 
-        print(f"{i}. {dt} -> {region:20s} ({carbon} gCO2eq/kWh) [Priority: {priority}]")
+        cost_str = f" | Cost: ${transfer_cost:.4f}" if transfer_cost is not None else ""
+        print(f"{i}. {dt} -> {region:20s} ({carbon} gCO2eq/kWh){cost_str} [Priority: {priority}]")
+        if reasoning:
+            print(f"   Reasoning: {reasoning}")
 
 
 def run_planner():

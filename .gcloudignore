@@ -1,0 +1,53 @@
+# This file specifies files that are intentionally NOT uploaded to Cloud Run
+# to reduce deployment size and speed up builds
+
+# Version control
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Documentation (not needed at runtime)
+docs/
+*.md
+!deployments/gcp/README.md
+
+# Local test scripts (not needed in production)
+scripts/
+
+# Local deployment files
+deployments/local/
+
+# Test directories
+tests/
+
+# Environment files (use Cloud Run secrets instead)
+.env
+.env.example
+
+# Sample data outputs (generated at runtime)
+data/sample/carbon_forecasts.json
+data/sample/execution_schedule.json
+data/sample/all_regions_forecast.json
+
+# Keep only essential files needed for Cloud Run:
+# - src/ (agent code)
+# - deployments/gcp/ (entrypoint)
+# - data/sample/function_metadata.json (default config)
+# - data/sample/example_functions.json (optional examples)
