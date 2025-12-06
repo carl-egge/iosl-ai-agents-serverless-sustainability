@@ -115,6 +115,94 @@ def _generate_schedule(api_key, prompt, log_message=None):
         raise
 
 
+def parse_natural_language_request(user_description: str, api_key: str = None) -> dict:
+    """
+    Convert natural language function description to structured metadata using Gemini.
+
+    Args:
+        user_description: Natural language description of the serverless function
+        api_key: Gemini API key (defaults to GCP_GEMINI_API_KEY)
+
+    Returns:
+        Dictionary with structured function metadata
+    """
+    if api_key is None:
+        api_key = GCP_GEMINI_API_KEY
+
+    if not api_key:
+        raise Exception("GEMINI_API_KEY not set")
+
+    prompt = f"""You are a serverless infrastructure expert. Convert this natural language function description into structured metadata for carbon-aware scheduling.
+
+User's description:
+\"\"\"{user_description}\"\"\"
+
+Extract and estimate these parameters:
+1. function_id: Create a descriptive ID (snake_case, lowercase, no spaces)
+2. runtime_ms: Estimate execution time in milliseconds
+   - Simple API calls: 50-200ms
+   - Image processing: 500-2000ms
+   - Video processing: 30,000-300,000ms
+   - ML inference: 1,000-10,000ms
+   - Data transformations: 100-5,000ms
+3. memory_mb: Estimate memory requirement (choose from: 128, 256, 512, 1024, 2048, 4096)
+4. instant_execution: true if time-sensitive/real-time, false if batch/flexible
+5. description: Clean technical summary of the function (one sentence)
+6. data_input_gb: Estimate input data size per invocation (in GB)
+7. data_output_gb: Estimate output data size per invocation (in GB)
+8. source_location: Extract if mentioned (e.g., us-east1, europe-west1), default to "us-east1"
+9. invocations_per_day: Extract frequency or estimate based on use case
+
+IMPORTANT estimation guidelines:
+- Be conservative with estimates (overestimate resource needs for safety)
+- If runtime is uncertain, multiply your estimate by 2x
+- For memory, always round UP to the next tier
+- Include ALL data transfer (downloads AND uploads)
+- Consider peak loads, not just average usage
+
+Return ONLY valid JSON matching this exact schema (no markdown, no explanations):
+{{
+  "function_id": "string",
+  "runtime_ms": number,
+  "memory_mb": number,
+  "instant_execution": boolean,
+  "description": "string",
+  "data_input_gb": number,
+  "data_output_gb": number,
+  "source_location": "string",
+  "invocations_per_day": number,
+  "confidence_score": number (0.0-1.0, how confident you are in these estimates),
+  "assumptions": ["list of key assumptions made during estimation"],
+  "warnings": ["list of potential concerns or uncertainties"]
+}}
+
+Example output:
+{{
+  "function_id": "image_resizer",
+  "runtime_ms": 1200,
+  "memory_mb": 512,
+  "instant_execution": true,
+  "description": "Resize user-uploaded images to multiple thumbnail sizes",
+  "data_input_gb": 0.008,
+  "data_output_gb": 0.012,
+  "source_location": "us-east1",
+  "invocations_per_day": 500,
+  "confidence_score": 0.75,
+  "assumptions": [
+    "Estimated 1200ms based on typical image processing with multiple outputs",
+    "Input: single 8MB image",
+    "Output: 3 resized versions totaling 12MB"
+  ],
+  "warnings": [
+    "Runtime could vary significantly based on image dimensions",
+    "Memory usage may spike for very large images"
+  ]
+}}"""
+
+    print("Parsing natural language request with Gemini...")
+    return _generate_schedule(api_key, prompt, log_message="Extracting function metadata from natural language...")
+
+
 # ---------------------------------------------------------------------------
 # GCP / Cloud Run scheduler (from gcloud/agent/main.py)
 # ---------------------------------------------------------------------------
@@ -122,8 +210,8 @@ GCP_BUCKET_NAME = os.environ.get("GCS_BUCKET_NAME")
 GCP_ELECTRICITYMAPS_TOKEN = os.environ.get("ELECTRICITYMAPS_TOKEN")
 GCP_GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-# Google Cloud Run European regions - loaded from static_config.json
-# List of GCP regions to use for scheduling
+# loaded from static_config.json
+# 
 GCP_REGION_CODES = [
     "europe-north1",
     "europe-north2",
@@ -154,7 +242,6 @@ def _load_gcp_regions():
             }
     return regions
 
-# Load GCP regions from config (lazy loaded on first use)
 GCP_REGIONS = None
 
 # Default function metadata (can be overridden via request)
@@ -354,6 +441,103 @@ def create_gcp_app():
             ),
             200,
         )
+
+    @app.route("/schedule-from-description", methods=["POST"])
+    def schedule_from_description():
+        """
+        Accept natural language description and generate carbon-aware schedule.
+        Two-stage process: Natural Language → Metadata → Schedule
+        """
+        try:
+            if not request.is_json:
+                return jsonify({"status": "error", "message": "Request must be JSON"}), 400
+
+            data = request.get_json()
+            nl_description = data.get("description")
+
+            if not nl_description:
+                return jsonify({
+                    "status": "error",
+                    "message": "Missing 'description' field in request body"
+                }), 400
+
+            print("=" * 60)
+            print("Natural Language Scheduling Request")
+            print("=" * 60)
+            print(f"Description: {nl_description[:100]}...")
+
+            # Stage 1: Convert natural language to structured metadata
+            print("\nStage 1: Parsing natural language description...")
+            metadata = parse_natural_language_request(nl_description)
+
+            print(f"Extracted metadata: {metadata.get('function_id')}")
+            print(f"Confidence: {metadata.get('confidence_score', 0):.2f}")
+
+            # Check if user wants to auto-approve or review first
+            auto_approve = data.get("auto_approve", False)
+
+            if not auto_approve:
+                # Return extracted metadata for user review
+                return jsonify({
+                    "status": "pending_review",
+                    "message": "Function metadata extracted successfully. Please review and confirm.",
+                    "extracted_metadata": metadata,
+                    "next_step": "To generate schedule, POST to /run with this metadata, or call this endpoint again with 'auto_approve': true"
+                }), 200
+
+            # Stage 2: Generate schedule with extracted metadata
+            print("\nStage 2: Generating carbon-aware schedule...")
+
+            # Fetch carbon forecasts
+            carbon_forecasts, failed_regions = get_carbon_forecasts_all_regions_gcp()
+
+            # Save forecast data
+            forecast_data = {
+                "timestamp": datetime.now().isoformat(),
+                "regions": carbon_forecasts,
+                "failed_regions": failed_regions,
+            }
+            forecast_path = write_to_gcs(forecast_data, "carbon_forecasts.json")
+
+            # Generate schedule
+            schedule = get_gemini_schedule_gcp(metadata, carbon_forecasts)
+
+            # Add metadata to schedule
+            schedule["metadata"] = {
+                "generated_at": datetime.now().isoformat(),
+                "function_metadata": metadata,
+                "regions_used": list(carbon_forecasts.keys()),
+                "failed_regions": failed_regions,
+                "generated_from": "natural_language",
+                "original_description": nl_description,
+            }
+
+            # Save schedule
+            schedule_path = write_to_gcs(schedule, "execution_schedule.json")
+
+            # Return results
+            recommendations = schedule.get("recommendations", [])
+            sorted_recs = sorted(recommendations, key=lambda x: x.get("priority", 999))
+            top_5 = sorted_recs[:5]
+
+            return jsonify({
+                "status": "success",
+                "message": "Schedule generated from natural language description",
+                "extracted_metadata": metadata,
+                "schedule_location": schedule_path,
+                "forecast_location": forecast_path,
+                "top_5_recommendations": top_5,
+                "total_recommendations": len(recommendations),
+            }), 200
+
+        except Exception as exc:
+            print(f"Error in natural language scheduling: {exc}")
+            import traceback
+            traceback.print_exc()
+            return jsonify({
+                "status": "error",
+                "message": str(exc)
+            }), 500
 
     return app
 
