@@ -1,0 +1,6 @@
+{
+  "description": "Function metadata for carbon-aware scheduling - natural language format",
+  "functions": {
+    "write_to_bucket": "I have a lightweight HTTP-triggered Cloud Function deployed in three regions: europe-north2, europe-west1, and us-east1. The function writes JSON data to a GCS bucket - it receives optional JSON payload from users, generates a UUID and timestamp, then writes to gs://OUTPUT_BUCKET/runs/{timestamp}-{region}/run-{uuid}/result.json. The function executes instantly since it's a real-time HTTP endpoint that users call directly. It runs about 1000 times per day, processing approximately 10KB of data per invocation (both input and output combined). The data source is located in us-east1. Execution time is very fast at around 150 milliseconds with 256MB memory. Please schedule this function to minimize carbon emissions, but only if the cost overhead is reasonable - if moving data across regions would be expensive, prefer the local us-east1 region even if carbon is higher. We want to save emissions when the cost tradeoff makes sense."
+  }
+}

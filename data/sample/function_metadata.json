@@ -1,10 +1,17 @@
 {
-  "function_id": "dummy_function",
-  "runtime_ms": 5000,
-  "memory_mb": 1024,
-  "instant_execution": false,
-  "description": "Image processing function that downloads raw images, applies ML inference, and uploads results",
-  "data_input_gb": 2.5,
-  "data_output_gb": 0.8,
-  "source_location": "us-east1"
+  "description": "Function metadata for carbon-aware scheduling",
+  "functions": {
+    "write_to_bucket": {
+      "function_id": "write_to_bucket",
+      "runtime_ms": 150,
+      "memory_mb": 256,
+      "instant_execution": true,
+      "description": "HTTP Cloud Function that writes JSON data with timestamp and region info to GCS bucket. Accepts optional JSON payload, generates UUID and timestamp, writes to gs://OUTPUT_BUCKET/runs/{timestamp}-{region}/run-{uuid}/result.json",
+      "data_input_gb": 0.00001,
+      "data_output_gb": 0.00001,
+      "source_location": "us-east1",
+      "invocations_per_day": 1000,
+      "allowed_regions": ["europe-north2", "europe-west1", "us-east1"]
+    }
+  }
 }

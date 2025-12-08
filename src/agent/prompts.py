@@ -131,11 +131,14 @@ Your reasoning MUST include:
 3. EXPLANATION of why this choice beats alternatives
 4. TRADEOFF analysis (cost vs carbon benefit)
 
-IMPORTANT:
+CRITICAL REQUIREMENTS:
 - Use the EXACT datetime strings from the forecast data above
 - Use the Google Cloud region names (europe-west1, europe-north1, etc.) NOT the Electricity Maps zone codes
 - Provide EXACTLY 24 recommendations, one for each hour in the forecast
-- Sort by priority (1 = best overall choice considering both carbon and cost)
+- **MUST sort recommendations by priority field (1 = BEST, 24 = WORST)**
+  The FIRST recommendation in the array MUST have priority=1 (the absolute best time/region to execute)
+  The LAST recommendation MUST have priority=24 (the worst time/region)
+  Sort the array in ASCENDING order by priority before returning
 - Include detailed "reasoning" field for EACH recommendation with specific tradeoff analysis
 - For transfer_cost_usd: Copy the EXACT dollar amount from the "Cost per region for this workload" section above
   Example: If the section shows "$2.0000 USD: europe-north2", use 2.0 for transfer_cost_usd
