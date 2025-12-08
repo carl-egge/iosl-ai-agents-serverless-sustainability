@@ -23,14 +23,11 @@ A new GCP-deployable agent that:
 From `src/agent/`:
 1. **`gcp_agent.py`** - Main agent (GCP-specific logic)
 2. **`prompts.py`** - Shared prompt generation
+3. **`config_loader.py`** - GCP-compatible config loader (loads config from GCS)
 
 From `deployments/gcp/`:
-3. **`config_loader_gcp.py`** - GCP-compatible config loader (rename to `config_loader.py` when uploading)
 4. **`requirements.txt`** - Python dependencies
 5. **`Procfile`** - Gunicorn configuration
-
-**IMPORTANT:** Upload `config_loader_gcp.py` from `deployments/gcp/` NOT `config_loader.py` from `src/agent/`!
-The GCP version doesn't try to load files from local filesystem.
 
 ## File You Need to Upload to GCS Bucket
 
@@ -98,19 +95,14 @@ cd ~/agent-new
 Upload these 5 files via Cloud Shell UI (click **⋮** → **Upload**):
 - `src/agent/gcp_agent.py`
 - `src/agent/prompts.py`
-- `deployments/gcp/config_loader_gcp.py` ← **Rename to `config_loader.py` after upload!**
+- `src/agent/config_loader.py`
 - `deployments/gcp/requirements.txt`
 - `deployments/gcp/Procfile`
-
-**After uploading, rename the config loader:**
-```bash
-mv config_loader_gcp.py config_loader.py
-```
 
 Verify all files are there:
 ```bash
 ls -la
-# Should show: gcp_agent.py, prompts.py, config_loader.py (renamed!), requirements.txt, Procfile
+# Should show: gcp_agent.py, prompts.py, config_loader.py, requirements.txt, Procfile
 ```
 
 ### Step 3: Deploy to Cloud Run
