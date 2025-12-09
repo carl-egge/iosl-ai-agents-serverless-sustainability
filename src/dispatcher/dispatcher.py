@@ -109,16 +109,39 @@ def schedule_function(function_url: str, target_time: datetime):
     logging.info(f"Created task {response.name}")
     logging.info(f"Function will execute at {response.schedule_time}")
 
-def find_optimal_region(deadline: datetime, schedule: dict):
-    hour_bucket = deadline.replace(minute=0, second=0, microsecond=0)
+def to_aware(dt: datetime) -> datetime:
+    # If dt has no timezone, assume UTC
+    if dt.tzinfo is None or dt.tzinfo.utcoffset(dt) is None:
+        return dt.replace(tzinfo=timezone.utc)
+    return dt
 
-    # Search for matching hour in recommendations
-    bucket_str = hour_bucket.strftime("%Y-%m-%d %H:%M:%S")
-    for slot in schedule['recommendations']:
-        if slot["datetime"] == bucket_str:
-            return slot["region"]
-    
-    raise Exception("No recommendation for time: " + str(deadline) + " found")
+def find_optimal_region(deadline: datetime, schedule: dict):
+    # Ensure deadline is timezone aware
+    deadline = to_aware(deadline)
+
+    # Parse, convert to aware, and sort ascending
+    recs = sorted(
+        schedule['recommendations'],
+        key=lambda r: to_aware(datetime.fromisoformat(r["datetime"]))
+    )
+
+    latest = None
+    for slot in recs:
+        slot_dt = to_aware(datetime.fromisoformat(slot["datetime"]))
+        if slot_dt <= deadline:
+            latest = slot
+        else:
+            break
+
+    # If we found a matching previous slot, return that region
+    if latest:
+        return latest["region"]
+
+    # Otherwise: return the *oldest* entry
+    return recs[0]["region"]
+
+
+
 
 
 def handler(event):
@@ -155,7 +178,7 @@ def handler(event):
         try:
             optimal_region = find_optimal_region(deadline_dt, schedule)
             result = {
-                "datetime": datetime.now(timezone.utc),
+                "datetime": str(datetime.now(timezone.utc)),
                 "region": optimal_region,
                 "priority": 0
             }
@@ -171,7 +194,7 @@ def handler(event):
     logging.info("done")
     if result:
         logging.info(f"Dispatching to {result['region']} at {result['datetime']}")
-        schedule_function(FUNCTION_URL, result['datetime'])
+        schedule_function(FUNCTION_URL, datetime.fromisoformat(result['datetime']).replace(tzinfo=timezone.utc))
         return {
             "statusCode": 200,
             "status": "scheduled",
@@ -192,7 +215,7 @@ if __name__ == "__main__":
     load_dotenv()
     event = {
         "function_name": "write_to_bucket",
-        "deadline": "2025-12-09T20:01:00"
+        "deadline": "2025-12-01T20:01:00"
     }
 
     logging.info(handler(event))
