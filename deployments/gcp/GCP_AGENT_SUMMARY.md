@@ -54,8 +54,8 @@ If you see `ELECTRICITYMAPS_TOKEN` and `GEMINI_API_KEY`, **skip this section**.
 If NOT, create them:
 ```bash
 # Create secrets
-echo -n "VpIbTuGVPZglfeI34rIT" | gcloud secrets create ELECTRICITYMAPS_TOKEN --data-file=-
-echo -n "AIzaSyC3zxHdw2piG42sZbQf9fd335StSgM1BPs" | gcloud secrets create GEMINI_API_KEY --data-file=-
+echo -n "xxx" | gcloud secrets create ELECTRICITYMAPS_TOKEN --data-file=-
+echo -n "xxx" | gcloud secrets create GEMINI_API_KEY --data-file=-
 
 # Grant permissions
 PROJECT_NUMBER=$(gcloud projects describe $(gcloud config get-value project) --format='value(projectNumber)')
@@ -122,7 +122,7 @@ gcloud run deploy agent \
 - `--set-secrets` maps GCP secrets to environment variables
 - Format: `ENV_VAR_NAME=SECRET_NAME:version`
 - `gcp_agent.py` reads these via `os.environ.get("ELECTRICITYMAPS_TOKEN")` and `os.environ.get("GEMINI_API_KEY")`
-- Your actual API keys (`VpIbTuGVPZglfeI34rIT` and `AIzaSyC3zxHdw2piG42sZbQf9fd335StSgM1BPs`) are stored securely in GCP Secret Manager
+- Your actual API keys are stored securely in GCP Secret Manager
 
 Wait for deployment (~2-3 minutes). You'll see a service URL when done.
 
