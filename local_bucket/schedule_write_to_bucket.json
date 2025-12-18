@@ -1,0 +1,220 @@
+{
+  "recommendations": [
+    {
+      "datetime": "2025-12-19T06:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 16,
+      "transfer_cost_usd": 0.0,
+      "priority": 1,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (16 gCO2eq/kWh) offers substantial carbon savings (approximately 1995g CO2 per workload equivalent) compared to the source region (681 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-19T04:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 17,
+      "transfer_cost_usd": 0.0,
+      "priority": 2,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (17 gCO2eq/kWh) offers substantial carbon savings (approximately 2025g CO2 per workload equivalent) compared to the source region (692 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-19T05:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 17,
+      "transfer_cost_usd": 0.0,
+      "priority": 3,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (17 gCO2eq/kWh) offers substantial carbon savings (approximately 2007g CO2 per workload equivalent) compared to the source region (686 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-19T09:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 17,
+      "transfer_cost_usd": 0.0,
+      "priority": 4,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (17 gCO2eq/kWh) offers substantial carbon savings (approximately 2000g CO2 per workload equivalent) compared to the source region (683 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-19T10:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 17,
+      "transfer_cost_usd": 0.0,
+      "priority": 5,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (17 gCO2eq/kWh) offers substantial carbon savings (approximately 2010g CO2 per workload equivalent) compared to the source region (687 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-19T11:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 17,
+      "transfer_cost_usd": 0.0,
+      "priority": 6,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (17 gCO2eq/kWh) offers substantial carbon savings (approximately 2025g CO2 per workload equivalent) compared to the source region (692 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-19T12:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 17,
+      "transfer_cost_usd": 0.0,
+      "priority": 7,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (17 gCO2eq/kWh) offers substantial carbon savings (approximately 2037g CO2 per workload equivalent) compared to the source region (696 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-18T23:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 18,
+      "transfer_cost_usd": 0.0,
+      "priority": 8,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (18 gCO2eq/kWh) offers substantial carbon savings (approximately 2049g CO2 per workload equivalent) compared to the source region (701 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-19T00:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 18,
+      "transfer_cost_usd": 0.0,
+      "priority": 9,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (18 gCO2eq/kWh) offers substantial carbon savings (approximately 2043g CO2 per workload equivalent) compared to the source region (699 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-19T01:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 18,
+      "transfer_cost_usd": 0.0,
+      "priority": 10,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (18 gCO2eq/kWh) offers substantial carbon savings (approximately 2058g CO2 per workload equivalent) compared to the source region (704 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-19T02:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 18,
+      "transfer_cost_usd": 0.0,
+      "priority": 11,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (18 gCO2eq/kWh) offers substantial carbon savings (approximately 2040g CO2 per workload equivalent) compared to the source region (698 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-19T03:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 18,
+      "transfer_cost_usd": 0.0,
+      "priority": 12,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (18 gCO2eq/kWh) offers substantial carbon savings (approximately 2022g CO2 per workload equivalent) compared to the source region (692 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-19T07:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 18,
+      "transfer_cost_usd": 0.0,
+      "priority": 13,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (18 gCO2eq/kWh) offers substantial carbon savings (approximately 1980g CO2 per workload equivalent) compared to the source region (678 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-19T08:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 18,
+      "transfer_cost_usd": 0.0,
+      "priority": 14,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (18 gCO2eq/kWh) offers substantial carbon savings (approximately 1947g CO2 per workload equivalent) compared to the source region (667 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-19T13:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 18,
+      "transfer_cost_usd": 0.0,
+      "priority": 15,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (18 gCO2eq/kWh) offers substantial carbon savings (approximately 1995g CO2 per workload equivalent) compared to the source region (685 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-19T14:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 18,
+      "transfer_cost_usd": 0.0,
+      "priority": 16,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (18 gCO2eq/kWh) offers substantial carbon savings (approximately 1935g CO2 per workload equivalent) compared to the source region (663 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-18T19:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 19,
+      "transfer_cost_usd": 0.0,
+      "priority": 17,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (19 gCO2eq/kWh) offers substantial carbon savings (approximately 1908g CO2 per workload equivalent) compared to the source region (649 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-18T20:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 19,
+      "transfer_cost_usd": 0.0,
+      "priority": 18,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (19 gCO2eq/kWh) offers substantial carbon savings (approximately 1917g CO2 per workload equivalent) compared to the source region (658 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-18T21:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 19,
+      "transfer_cost_usd": 0.0,
+      "priority": 19,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (19 gCO2eq/kWh) offers substantial carbon savings (approximately 1971g CO2 per workload equivalent) compared to the source region (676 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-18T22:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 19,
+      "transfer_cost_usd": 0.0,
+      "priority": 20,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (19 gCO2eq/kWh) offers substantial carbon savings (approximately 2016g CO2 per workload equivalent) compared to the source region (691 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-18T15:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "priority": 21,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (20 gCO2eq/kWh) offers substantial carbon savings (approximately 1893g CO2 per workload equivalent) compared to the source region (651 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-18T16:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "priority": 22,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (20 gCO2eq/kWh) offers substantial carbon savings (approximately 1866g CO2 per workload equivalent) compared to the source region (642 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-18T17:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "priority": 23,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (20 gCO2eq/kWh) offers substantial carbon savings (approximately 1869g CO2 per workload equivalent) compared to the source region (643 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    },
+    {
+      "datetime": "2025-12-18T18:00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "priority": 24,
+      "reasoning": "Chose europe-north2 over source region (us-east1). The 'INSTANT EXECUTION REQUIRED' and 'NEGLIGIBLE COST' rules apply: since all regions have zero transfer cost for this workload, the primary goal is to purely optimize for carbon emissions. This region (20 gCO2eq/kWh) offers substantial carbon savings (approximately 1872g CO2 per workload equivalent) compared to the source region (644 gCO2eq/kWh). This choice maximizes environmental benefit with no additional financial expense, as transfer cost is zero across all viable regions."
+    }
+  ],
+  "metadata": {
+    "generated_at": "2025-12-18T16:48:31.531426",
+    "function_metadata": {
+      "function_id": "write_to_bucket",
+      "runtime_ms": 150,
+      "memory_mb": 256,
+      "instant_execution": true,
+      "description": "HTTP Cloud Function that writes JSON data with timestamp and region info to GCS bucket. Accepts optional JSON payload, generates UUID and timestamp, writes to gs://OUTPUT_BUCKET/runs/{timestamp}-{region}/run-{uuid}/result.json",
+      "data_input_gb": 1e-05,
+      "data_output_gb": 1e-05,
+      "source_location": "us-east1",
+      "invocations_per_day": 1000,
+      "allowed_regions": [
+        "europe-north2",
+        "europe-west1",
+        "us-east1"
+      ]
+    },
+    "regions_used": [
+      "us-east1",
+      "europe-west1",
+      "europe-north2"
+    ]
+  }
+}

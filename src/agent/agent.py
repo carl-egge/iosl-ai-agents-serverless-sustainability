@@ -1,26 +1,30 @@
 #!/usr/bin/env python3
 """
-Carbon-Aware Serverless Function Scheduler - GCP Agent
-Reads function metadata from GCS bucket and generates carbon-aware schedules.
-All configuration and function info is loaded from gs://faas-scheduling-us-east1/
+Carbon-Aware Serverless Function Scheduler - Unified Agent
 
-DEPLOYMENT NOTE: Deploy this file along with prompts.py and gcp_config_loader.py
+Works both locally and in GCP Cloud Run deployment.
+- Local mode: Reads from local_bucket/ directory
+- Cloud mode: Reads from GCS bucket
+
+Mode detection:
+- If run as main script (__name__ == "__main__"): Local mode
+- If run as Flask app in Cloud Run: Cloud mode
 """
 
 import json
 import os
 from datetime import datetime
-from google.cloud import storage
-from flask import Flask, jsonify
-import google.generativeai as genai
+from pathlib import Path
+from typing import Optional, Dict, Any
 import requests
+import google.generativeai as genai
 
-# Import shared logic from other modules
-from prompts import create_gcp_prompt
-from gcp_config_loader import format_region_costs_for_llm
+# Determine if we're running locally
+IS_LOCAL_MODE = False
+LOCAL_BUCKET_PATH = Path(__file__).resolve().parents[2] / "local_bucket"
 
-# Configuration from environment variables
-BUCKET_NAME = "faas-scheduling-us-east1"
+# Configuration - will be set either from environment or when entering local mode
+BUCKET_NAME = os.environ.get("GCS_BUCKET_NAME", "faas-scheduling-us-east1")
 ELECTRICITYMAPS_TOKEN = os.environ.get("ELECTRICITYMAPS_TOKEN")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
@@ -32,47 +36,114 @@ FUNCTION_METADATA_PATH = "function_metadata.json"
 _static_config_cache = None
 
 
-def read_from_gcs(blob_name):
-    """Read JSON data from Google Cloud Storage."""
-    storage_client = storage.Client()
-    bucket = storage_client.bucket(BUCKET_NAME)
-    blob = bucket.blob(blob_name)
-
-    content = blob.download_as_string()
-    return json.loads(content)
-
-
-def write_to_gcs(data, blob_name):
-    """Write JSON data to Google Cloud Storage."""
-    storage_client = storage.Client()
-    bucket = storage_client.bucket(BUCKET_NAME)
-    blob = bucket.blob(blob_name)
-
-    blob.upload_from_string(
-        json.dumps(data, indent=2),
-        content_type="application/json"
-    )
-
-    print(f"Written to gs://{BUCKET_NAME}/{blob_name}")
-    return f"gs://{BUCKET_NAME}/{blob_name}"
+def read_from_storage(blob_name: str) -> dict:
+    """
+    Read JSON data from storage.
+    Uses local_bucket/ in local mode, GCS in cloud mode.
+    """
+    if IS_LOCAL_MODE:
+        filepath = LOCAL_BUCKET_PATH / blob_name
+        with open(filepath, 'r') as f:
+            return json.load(f)
+    else:
+        from google.cloud import storage
+        storage_client = storage.Client()
+        bucket = storage_client.bucket(BUCKET_NAME)
+        blob = bucket.blob(blob_name)
+        content = blob.download_as_string()
+        return json.loads(content)
 
 
-def load_static_config():
-    """Load static configuration from GCS bucket."""
+def write_to_storage(data: dict, blob_name: str) -> str:
+    """
+    Write JSON data to storage.
+    Uses local_bucket/ in local mode, GCS in cloud mode.
+    """
+    if IS_LOCAL_MODE:
+        filepath = LOCAL_BUCKET_PATH / blob_name
+        filepath.parent.mkdir(parents=True, exist_ok=True)
+        with open(filepath, 'w') as f:
+            json.dump(data, f, indent=2)
+        print(f"Written to {filepath}")
+        return str(filepath)
+    else:
+        from google.cloud import storage
+        storage_client = storage.Client()
+        bucket = storage_client.bucket(BUCKET_NAME)
+        blob = bucket.blob(blob_name)
+        blob.upload_from_string(
+            json.dumps(data, indent=2),
+            content_type="application/json"
+        )
+        location = f"gs://{BUCKET_NAME}/{blob_name}"
+        print(f"Written to {location}")
+        return location
+
+
+def load_static_config() -> dict:
+    """Load static configuration from storage."""
     global _static_config_cache
     if _static_config_cache is None:
-        print(f"Loading static_config.json from gs://{BUCKET_NAME}/{STATIC_CONFIG_PATH}")
-        _static_config_cache = read_from_gcs(STATIC_CONFIG_PATH)
+        source = str(LOCAL_BUCKET_PATH / STATIC_CONFIG_PATH) if IS_LOCAL_MODE else f"gs://{BUCKET_NAME}/{STATIC_CONFIG_PATH}"
+        print(f"Loading static_config.json from {source}")
+        _static_config_cache = read_from_storage(STATIC_CONFIG_PATH)
     return _static_config_cache
 
 
-def load_function_metadata():
-    """Load function metadata from GCS bucket."""
-    print(f"Loading function_metadata.json from gs://{BUCKET_NAME}/{FUNCTION_METADATA_PATH}")
-    return read_from_gcs(FUNCTION_METADATA_PATH)
+def load_function_metadata() -> dict:
+    """Load function metadata from storage."""
+    source = str(LOCAL_BUCKET_PATH / FUNCTION_METADATA_PATH) if IS_LOCAL_MODE else f"gs://{BUCKET_NAME}/{FUNCTION_METADATA_PATH}"
+    print(f"Loading function_metadata.json from {source}")
+    return read_from_storage(FUNCTION_METADATA_PATH)
 
 
-def get_carbon_forecast_electricitymaps(zone, horizon_hours=24):
+def get_region_info(region_code: str, config: dict) -> dict:
+    """
+    Get region information from config.
+
+    Args:
+        region_code: GCP region code (e.g., 'us-east1', 'europe-west1')
+        config: Static config dict
+
+    Returns:
+        Dictionary with region info including name, pricing tier, transfer costs, etc.
+    """
+    regions = config.get("regions", {})
+    return regions.get(region_code, {})
+
+
+def calculate_transfer_cost(
+    region_code: str,
+    data_input_gb: float,
+    data_output_gb: float,
+    source_location: str,
+    config: dict
+) -> float:
+    """
+    Calculate data transfer cost for a region.
+
+    Args:
+        region_code: Target execution region
+        data_input_gb: Amount of input data in GB
+        data_output_gb: Amount of output data in GB
+        source_location: Source data location (if same as target, cost is 0)
+        config: Static config dict
+
+    Returns:
+        Total transfer cost in USD
+    """
+    # If executing in same region as data source, no transfer cost
+    if source_location and region_code == source_location:
+        return 0.0
+
+    region_info = get_region_info(region_code, config)
+    cost_per_gb = region_info.get("data_transfer_cost_per_gb_usd", 0.0)
+
+    total_data_gb = data_input_gb + data_output_gb
+    return total_data_gb * cost_per_gb
+
+
+def get_carbon_forecast_electricitymaps(zone: str, horizon_hours: int = 24) -> list:
     """Fetch carbon intensity forecast from Electricity Maps API."""
     if not ELECTRICITYMAPS_TOKEN:
         raise Exception("ELECTRICITYMAPS_TOKEN environment variable not set")
@@ -95,13 +166,15 @@ def get_carbon_forecast_electricitymaps(zone, horizon_hours=24):
         )
 
 
-def get_carbon_forecasts_all_regions(allowed_regions=None):
+def get_carbon_forecasts_all_regions(allowed_regions: Optional[list] = None) -> tuple:
     """
     Fetch carbon forecasts for configured regions from Electricity Maps.
 
     Args:
         allowed_regions: Optional list of region codes to fetch. If None, fetches all European regions.
-                        Example: ["europe-north2", "europe-west1", "us-east1"]
+
+    Returns:
+        Tuple of (forecasts dict, failed_regions list)
     """
     static_config = load_static_config()
 
@@ -109,7 +182,6 @@ def get_carbon_forecasts_all_regions(allowed_regions=None):
     regions = {}
 
     if allowed_regions:
-        # Use only the specified regions
         print(f"Filtering to allowed regions: {allowed_regions}")
         for region_code in allowed_regions:
             if region_code in static_config["regions"]:
@@ -156,7 +228,7 @@ def get_carbon_forecasts_all_regions(allowed_regions=None):
     return forecasts, failed_regions
 
 
-def format_forecast_for_llm(forecasts):
+def format_forecast_for_llm(forecasts: dict) -> str:
     """Format carbon forecasts into a concise string for LLM."""
     first_region = next(iter(forecasts.values()))
     start_time = datetime.fromisoformat(
@@ -184,7 +256,7 @@ def format_forecast_for_llm(forecasts):
     return formatted
 
 
-def _generate_with_gemini(prompt, log_message=None):
+def _generate_with_gemini(prompt: str, log_message: Optional[str] = None) -> dict:
     """Shared Gemini invocation and JSON parsing."""
     if not GEMINI_API_KEY:
         raise Exception("GEMINI_API_KEY environment variable not set")
@@ -300,11 +372,76 @@ Example output:
     return _generate_with_gemini(prompt, log_message="Extracting function metadata from natural language...")
 
 
-def get_gemini_schedule(function_metadata, carbon_forecasts):
+def format_region_costs_for_llm(
+    carbon_forecasts: dict,
+    data_input_gb: float,
+    data_output_gb: float,
+    source_location: str,
+    static_config: dict
+) -> str:
+    """
+    Format data transfer costs for each region.
+
+    Args:
+        carbon_forecasts: Dictionary of region forecasts
+        data_input_gb: Amount of input data in GB
+        data_output_gb: Amount of output data in GB
+        source_location: Source data location
+        static_config: Static config dict
+
+    Returns:
+        Formatted string with cost information
+    """
+    total_data_gb = data_input_gb + data_output_gb
+
+    cost_info = (
+        f"\nData Transfer Costs:\n"
+        f"- Total data volume: {total_data_gb:.2f} GB "
+        f"({data_input_gb:.2f} GB input + {data_output_gb:.2f} GB output)\n"
+    )
+
+    if source_location:
+        cost_info += f"- Data source location: {source_location}\n"
+        cost_info += f"- Note: Executing in {source_location} has ZERO transfer cost\n"
+
+    cost_info += "\nCost per region for this workload:\n"
+
+    # Group regions by cost
+    cost_groups = {}
+    for region_code in carbon_forecasts.keys():
+        cost = calculate_transfer_cost(
+            region_code,
+            data_input_gb,
+            data_output_gb,
+            source_location,
+            static_config
+        )
+        region_info = get_region_info(region_code, static_config)
+        region_name = region_info.get("name", region_code)
+
+        if cost not in cost_groups:
+            cost_groups[cost] = []
+        cost_groups[cost].append(f"{region_code} ({region_name})")
+
+    # Sort by cost and format
+    for cost in sorted(cost_groups.keys()):
+        regions_list = ", ".join(cost_groups[cost])
+        cost_info += f"  ${cost:.4f} USD: {regions_list}\n"
+
+    return cost_info
+
+
+def get_gemini_schedule(function_metadata: dict, carbon_forecasts: dict) -> dict:
     """Use Google Gemini to create optimal execution schedule."""
+    # Import using absolute or relative depending on context
+    try:
+        from agent.prompts import create_gcp_prompt
+    except ImportError:
+        from prompts import create_gcp_prompt
+
     carbon_forecasts_formatted = format_forecast_for_llm(carbon_forecasts)
 
-    # Load static config and format cost information using imported function
+    # Load static config and format cost information
     static_config = load_static_config()
     cost_info = ""
 
@@ -314,18 +451,16 @@ def get_gemini_schedule(function_metadata, carbon_forecasts):
         data_output_gb = function_metadata.get("data_output_gb", 0.0)
         source_location = function_metadata.get("source_location")
 
-        # Use imported format_region_costs_for_llm from config_loader
         cost_info = format_region_costs_for_llm(
             carbon_forecasts, data_input_gb, data_output_gb, source_location, static_config
         )
 
-    # Use imported create_gcp_prompt from prompts
     prompt = create_gcp_prompt(function_metadata, carbon_forecasts_formatted, cost_info)
 
     return _generate_with_gemini(prompt, log_message="Sending request to Gemini API...")
 
 
-def run_scheduler_for_function(function_name, function_metadata, carbon_forecasts):
+def run_scheduler_for_function(function_name: str, function_metadata: dict, carbon_forecasts: dict) -> tuple:
     """Generate schedule for a single function."""
     print(f"\nGenerating schedule for function: {function_name}")
     print(f"  Runtime: {function_metadata.get('runtime_ms')}ms")
@@ -342,27 +477,31 @@ def run_scheduler_for_function(function_name, function_metadata, carbon_forecast
         "regions_used": list(carbon_forecasts.keys()),
     }
 
-    # Save schedule to GCS
+    # Save schedule to storage
     schedule_filename = f"schedule_{function_name}.json"
-    schedule_path = write_to_gcs(schedule, schedule_filename)
+    schedule_path = write_to_storage(schedule, schedule_filename)
 
     return schedule, schedule_path
 
 
-def run_scheduler():
-    """Main scheduling logic for the GCP agent."""
+def run_scheduler() -> tuple:
+    """
+    Main scheduling logic.
+    Works for both local and cloud deployments.
+    """
+    mode = "LOCAL" if IS_LOCAL_MODE else "CLOUD"
     print("=" * 60)
-    print("Carbon-Aware Serverless Function Scheduler - GCP Agent")
+    print(f"Carbon-Aware Serverless Function Scheduler - {mode} Mode")
     print("=" * 60)
 
-    # Step 1: Load function metadata from GCS
-    print("\n1. Loading function metadata from GCS...")
+    # Step 1: Load function metadata from storage
+    print("\n1. Loading function metadata from storage...")
     try:
         function_metadata_file = load_function_metadata()
     except Exception as exc:
         print(f"Error loading function_metadata.json: {exc}")
         raise Exception(
-            f"Could not load function_metadata.json from gs://{BUCKET_NAME}/{FUNCTION_METADATA_PATH}. "
+            f"Could not load function_metadata.json. "
             "Please ensure the file exists and contains valid JSON."
         )
 
@@ -426,13 +565,13 @@ def run_scheduler():
     else:
         carbon_forecasts, failed_regions = get_carbon_forecasts_all_regions()
 
-    # Save raw forecast data to GCS
+    # Save raw forecast data to storage
     forecast_data = {
         "timestamp": datetime.now().isoformat(),
         "regions": carbon_forecasts,
         "failed_regions": failed_regions,
     }
-    forecast_path = write_to_gcs(forecast_data, "carbon_forecasts.json")
+    forecast_path = write_to_storage(forecast_data, "carbon_forecasts.json")
 
     # Step 4: Generate schedules for each function
     print("\n4. Generating optimal execution schedules with Gemini...")
@@ -467,74 +606,129 @@ def run_scheduler():
     return schedules, schedule_paths, forecast_path
 
 
-# Flask app for Cloud Run deployment
-app = Flask(__name__)
+def create_flask_app():
+    """Create Flask app for Cloud Run deployment."""
+    from flask import Flask, jsonify
 
+    app = Flask(__name__)
 
-@app.route("/run", methods=["POST", "GET"])
-def run():
-    """Endpoint to trigger the carbon-aware scheduler."""
-    try:
-        print("Running carbon-aware scheduler...")
-        schedules, schedule_paths, forecast_path = run_scheduler()
+    @app.route("/run", methods=["POST", "GET"])
+    def run():
+        """Endpoint to trigger the carbon-aware scheduler."""
+        try:
+            print("Running carbon-aware scheduler...")
+            schedules, schedule_paths, forecast_path = run_scheduler()
 
-        # Prepare response with top recommendations for each function
-        results = {}
-        for function_name, schedule in schedules.items():
-            if "error" in schedule:
-                results[function_name] = {
-                    "status": "error",
-                    "message": schedule["error"],
-                }
-            else:
-                recommendations = schedule.get("recommendations", [])
-                sorted_recs = sorted(recommendations, key=lambda x: x.get("priority", 999))
-                top_5 = sorted_recs[:5]
+            # Prepare response with top recommendations for each function
+            results = {}
+            for function_name, schedule in schedules.items():
+                if "error" in schedule:
+                    results[function_name] = {
+                        "status": "error",
+                        "message": schedule["error"],
+                    }
+                else:
+                    recommendations = schedule.get("recommendations", [])
+                    sorted_recs = sorted(recommendations, key=lambda x: x.get("priority", 999))
+                    top_5 = sorted_recs[:5]
 
-                results[function_name] = {
-                    "status": "success",
-                    "schedule_location": schedule_paths[function_name],
-                    "top_5_recommendations": top_5,
-                    "total_recommendations": len(recommendations),
-                }
+                    results[function_name] = {
+                        "status": "success",
+                        "schedule_location": schedule_paths[function_name],
+                        "top_5_recommendations": top_5,
+                        "total_recommendations": len(recommendations),
+                    }
 
+            return (
+                jsonify(
+                    {
+                        "status": "success",
+                        "message": "Carbon-aware schedules generated successfully",
+                        "forecast_location": forecast_path,
+                        "functions": results,
+                    }
+                ),
+                200,
+            )
+
+        except Exception as exc:
+            print(f"Error: {exc}")
+            import traceback
+
+            traceback.print_exc()
+            return jsonify({"status": "error", "message": str(exc)}), 500
+
+    @app.route("/health", methods=["GET"])
+    def health():
+        """Health check endpoint."""
+        mode = "LOCAL" if IS_LOCAL_MODE else "CLOUD"
         return (
             jsonify(
                 {
-                    "status": "success",
-                    "message": "Carbon-aware schedules generated successfully",
-                    "forecast_location": forecast_path,
-                    "functions": results,
+                    "status": "healthy",
+                    "service": "agent",
+                    "mode": mode,
+                    "bucket": BUCKET_NAME if not IS_LOCAL_MODE else str(LOCAL_BUCKET_PATH),
+                    "has_emaps_token": bool(ELECTRICITYMAPS_TOKEN),
+                    "has_gemini_key": bool(GEMINI_API_KEY),
                 }
             ),
             200,
         )
 
-    except Exception as exc:
-        print(f"Error: {exc}")
-        import traceback
-
-        traceback.print_exc()
-        return jsonify({"status": "error", "message": str(exc)}), 500
-
-
-@app.route("/health", methods=["GET"])
-def health():
-    """Health check endpoint."""
-    return (
-        jsonify(
-            {
-                "status": "healthy",
-                "service": "agent",
-                "bucket": BUCKET_NAME,
-                "has_emaps_token": bool(ELECTRICITYMAPS_TOKEN),
-                "has_gemini_key": bool(GEMINI_API_KEY),
-            }
-        ),
-        200,
-    )
+    return app
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))
-    app.run(host="0.0.0.0", port=port)
+    import sys
+
+    # Add src directory to path for imports
+    src_dir = Path(__file__).resolve().parents[1]
+    if str(src_dir) not in sys.path:
+        sys.path.insert(0, str(src_dir))
+
+    # Load environment variables for local execution
+    try:
+        from dotenv import load_dotenv
+        # Load from project root
+        env_path = Path(__file__).resolve().parents[2] / ".env"
+        # Use override=True to force .env values to take precedence over system env vars
+        load_dotenv(dotenv_path=env_path, override=True)
+        print(f"Loaded environment variables from {env_path}")
+    except ImportError:
+        print("Warning: dotenv not available, using existing environment variables")
+
+    # Local mode execution - set after loading env vars
+    IS_LOCAL_MODE = True
+
+    # Reload configuration with newly loaded environment variables
+    ELECTRICITYMAPS_TOKEN = os.environ.get("ELECTRICITYMAPS_TOKEN")
+    GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+
+    print("Running in LOCAL mode")
+    print(f"Using local_bucket at: {LOCAL_BUCKET_PATH}")
+
+    # Run the scheduler
+    schedules, schedule_paths, forecast_path = run_scheduler()
+
+    # Print summary for each function
+    for function_name, schedule in schedules.items():
+        if "error" in schedule:
+            print(f"\n{function_name}: ERROR - {schedule['error']}")
+            continue
+
+        print(f"\n{'=' * 60}")
+        print(f"Schedule Summary for {function_name}")
+        print('=' * 60)
+
+        recommendations = schedule.get("recommendations", [])
+        sorted_recs = sorted(recommendations, key=lambda x: x.get("priority", 999))
+
+        print("\nTop 5 Best Execution Times:")
+        print("-" * 60)
+        for i, rec in enumerate(sorted_recs[:5], 1):
+            dt = rec.get("datetime", "N/A")
+            region = rec.get("region", "N/A")
+            carbon = rec.get("carbon_intensity", "N/A")
+            priority = rec.get("priority", "N/A")
+            print(f"{i}. {dt} -> {region:20s} ({carbon} gCO2eq/kWh) [Priority: {priority}]")
