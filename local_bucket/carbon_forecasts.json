@@ -1,237 +1,11 @@
 {
-  "timestamp": "2025-12-18T16:47:14.754788",
+  "timestamp": "2025-12-18T19:33:57.587558",
   "regions": {
-    "us-east1": {
-      "name": "South Carolina",
-      "gcloud_region": "us-east1",
-      "emaps_zone": "US-CAR-SC",
-      "forecast": [
-        {
-          "carbonIntensity": 651,
-          "datetime": "2025-12-18T15:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 642,
-          "datetime": "2025-12-18T16:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 643,
-          "datetime": "2025-12-18T17:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 644,
-          "datetime": "2025-12-18T18:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 649,
-          "datetime": "2025-12-18T19:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 658,
-          "datetime": "2025-12-18T20:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 676,
-          "datetime": "2025-12-18T21:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 691,
-          "datetime": "2025-12-18T22:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 701,
-          "datetime": "2025-12-18T23:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 699,
-          "datetime": "2025-12-19T00:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 704,
-          "datetime": "2025-12-19T01:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 698,
-          "datetime": "2025-12-19T02:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 692,
-          "datetime": "2025-12-19T03:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 692,
-          "datetime": "2025-12-19T04:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 686,
-          "datetime": "2025-12-19T05:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 681,
-          "datetime": "2025-12-19T06:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 678,
-          "datetime": "2025-12-19T07:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 667,
-          "datetime": "2025-12-19T08:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 683,
-          "datetime": "2025-12-19T09:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 687,
-          "datetime": "2025-12-19T10:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 692,
-          "datetime": "2025-12-19T11:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 696,
-          "datetime": "2025-12-19T12:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 685,
-          "datetime": "2025-12-19T13:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 663,
-          "datetime": "2025-12-19T14:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 641,
-          "datetime": "2025-12-19T15:00:00.000Z"
-        }
-      ]
-    },
-    "europe-west1": {
-      "name": "Belgium",
-      "gcloud_region": "europe-west1",
-      "emaps_zone": "BE",
-      "forecast": [
-        {
-          "carbonIntensity": 119,
-          "datetime": "2025-12-18T15:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 121,
-          "datetime": "2025-12-18T16:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 122,
-          "datetime": "2025-12-18T17:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 123,
-          "datetime": "2025-12-18T18:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 121,
-          "datetime": "2025-12-18T19:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 122,
-          "datetime": "2025-12-18T20:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 128,
-          "datetime": "2025-12-18T21:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 129,
-          "datetime": "2025-12-18T22:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 126,
-          "datetime": "2025-12-18T23:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 122,
-          "datetime": "2025-12-19T00:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 124,
-          "datetime": "2025-12-19T01:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 125,
-          "datetime": "2025-12-19T02:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 126,
-          "datetime": "2025-12-19T03:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 123,
-          "datetime": "2025-12-19T04:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 127,
-          "datetime": "2025-12-19T05:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 132,
-          "datetime": "2025-12-19T06:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 152,
-          "datetime": "2025-12-19T07:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 164,
-          "datetime": "2025-12-19T08:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 163,
-          "datetime": "2025-12-19T09:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 161,
-          "datetime": "2025-12-19T10:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 162,
-          "datetime": "2025-12-19T11:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 162,
-          "datetime": "2025-12-19T12:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 174,
-          "datetime": "2025-12-19T13:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 185,
-          "datetime": "2025-12-19T14:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 200,
-          "datetime": "2025-12-19T15:00:00.000Z"
-        }
-      ]
-    },
     "europe-north2": {
       "name": "Stockholm, Sweden",
       "gcloud_region": "europe-north2",
       "emaps_zone": "SE-SE3",
       "forecast": [
-        {
-          "carbonIntensity": 20,
-          "datetime": "2025-12-18T15:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 20,
-          "datetime": "2025-12-18T16:00:00.000Z"
-        },
-        {
-          "carbonIntensity": 20,
-          "datetime": "2025-12-18T17:00:00.000Z"
-        },
         {
           "carbonIntensity": 20,
           "datetime": "2025-12-18T18:00:00.000Z"
@@ -319,6 +93,232 @@
         {
           "carbonIntensity": 18,
           "datetime": "2025-12-19T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 18,
+          "datetime": "2025-12-19T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 18,
+          "datetime": "2025-12-19T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 17,
+          "datetime": "2025-12-19T18:00:00.000Z"
+        }
+      ]
+    },
+    "us-east1": {
+      "name": "South Carolina",
+      "gcloud_region": "us-east1",
+      "emaps_zone": "US-CAR-SC",
+      "forecast": [
+        {
+          "carbonIntensity": 644,
+          "datetime": "2025-12-18T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 649,
+          "datetime": "2025-12-18T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 658,
+          "datetime": "2025-12-18T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 676,
+          "datetime": "2025-12-18T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 691,
+          "datetime": "2025-12-18T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 701,
+          "datetime": "2025-12-18T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 699,
+          "datetime": "2025-12-19T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 704,
+          "datetime": "2025-12-19T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 698,
+          "datetime": "2025-12-19T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 692,
+          "datetime": "2025-12-19T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 692,
+          "datetime": "2025-12-19T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 686,
+          "datetime": "2025-12-19T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 681,
+          "datetime": "2025-12-19T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 678,
+          "datetime": "2025-12-19T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 667,
+          "datetime": "2025-12-19T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 683,
+          "datetime": "2025-12-19T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 687,
+          "datetime": "2025-12-19T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 692,
+          "datetime": "2025-12-19T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 696,
+          "datetime": "2025-12-19T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 685,
+          "datetime": "2025-12-19T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 663,
+          "datetime": "2025-12-19T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 641,
+          "datetime": "2025-12-19T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 628,
+          "datetime": "2025-12-19T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 612,
+          "datetime": "2025-12-19T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 603,
+          "datetime": "2025-12-19T18:00:00.000Z"
+        }
+      ]
+    },
+    "europe-west1": {
+      "name": "Belgium",
+      "gcloud_region": "europe-west1",
+      "emaps_zone": "BE",
+      "forecast": [
+        {
+          "carbonIntensity": 123,
+          "datetime": "2025-12-18T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 121,
+          "datetime": "2025-12-18T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 122,
+          "datetime": "2025-12-18T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 128,
+          "datetime": "2025-12-18T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 128,
+          "datetime": "2025-12-18T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 127,
+          "datetime": "2025-12-18T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 125,
+          "datetime": "2025-12-19T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 127,
+          "datetime": "2025-12-19T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 129,
+          "datetime": "2025-12-19T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 130,
+          "datetime": "2025-12-19T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 127,
+          "datetime": "2025-12-19T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 131,
+          "datetime": "2025-12-19T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 135,
+          "datetime": "2025-12-19T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 155,
+          "datetime": "2025-12-19T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 167,
+          "datetime": "2025-12-19T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 166,
+          "datetime": "2025-12-19T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 163,
+          "datetime": "2025-12-19T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 163,
+          "datetime": "2025-12-19T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 161,
+          "datetime": "2025-12-19T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 174,
+          "datetime": "2025-12-19T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 184,
+          "datetime": "2025-12-19T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 200,
+          "datetime": "2025-12-19T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 200,
+          "datetime": "2025-12-19T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 206,
+          "datetime": "2025-12-19T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 213,
+          "datetime": "2025-12-19T18:00:00.000Z"
         }
       ]
     }

@@ -1,8 +1,8 @@
 # Integrating AI Agents into Serverless Platforms for Enhanced Sustainability
 
 ## 📘 Project Overview
-This project explores how **AI agents** can improve the **sustainability and efficiency** of **serverless computing platforms** such as AWS Lambda, Google Cloud Functions, or OpenFaaS.  
-Serverless computing simplifies deployment and scaling, but its growing adoption also increases energy consumption and environmental impact.  
+This project explores how **AI agents** can improve the **sustainability and efficiency** of **serverless computing platforms** such as AWS Lambda, Google Cloud Functions, or OpenFaaS.
+Serverless computing simplifies deployment and scaling, but its growing adoption also increases energy consumption and environmental impact.
 By integrating **intelligent, autonomous AI agents**, we aim to optimize resource allocation, deployment decisions, and code execution to achieve **better energy efficiency and performance**.
 
 ## 🎯 Objectives
@@ -45,77 +45,104 @@ By integrating **intelligent, autonomous AI agents**, we aim to optimize resourc
 
 # Carbon-Aware Serverless Function Scheduler
 
-An AI-assisted scheduler that recommends when and where to run serverless functions based on carbon intensity forecasts. The shared planner powers both local runs and a Google Cloud Run deployment.
+An AI-powered scheduler that optimizes when and where to run serverless functions based on real-time carbon intensity forecasts and data transfer costs. Works both locally and in Google Cloud Run.
 
-## Repository Layout
-```
-README.md
-.env.example
-src/
-  agent/                 # Shared planner logic (local + GCP)
-  dispatcher/            # Placeholder for future dispatch logic
-deployments/
-  gcp/                   # Cloud Run entrypoint + Procfile + deps
-  local/                 # Local runner entrypoint + helper script
-data/sample/             # Example function metadata and sample outputs
-scripts/                 # Utility/test scripts for APIs and regions
-tests/                   # (empty placeholder)
-```
+## Features
+- **Carbon-aware scheduling**: Uses Electricity Maps API for real-time carbon intensity forecasts
+- **Cost optimization**: Calculates data transfer costs between regions
+- **AI-powered decisions**: Google Gemini analyzes trade-offs and generates schedules
+- **Dual mode**: Works locally for testing and in Cloud Run for production
+- **Natural language support**: Define functions with plain English descriptions
+- **Multi-function scheduling**: Process multiple functions with region filtering
 
 ## Prerequisites
-- Python 3.10+ recommended
-- Keys: `ELECTRICITYMAPS_TOKEN`, `GEMINI_API_KEY`
-- (Local) `python-dotenv` for loading `.env`
+- Python 3.10+
+- API Keys:
+  - `ELECTRICITYMAPS_TOKEN` - [Get from Electricity Maps](https://www.electricitymaps.com/)
+  - `GEMINI_API_KEY` - [Get from Google AI Studio](https://aistudio.google.com/app/apikey)
 
-## Setup & Local Run
-1) Copy env template and fill in your keys:
+## Local Setup
+
+### 1. Clone and Install
+```bash
+git clone <repository-url>
+cd iosl-ai-agents-serverless-sustainability
+
+# Create conda environment
+conda env create -f environment.yml
+conda activate iosl-faas-scheduling
 ```
+
+### 2. Configure Environment
+```bash
 cp .env.example .env
+# Edit .env and add your API keys:
+# GEMINI_API_KEY=your-gemini-key
+# ELECTRICITYMAPS_TOKEN=your-electricitymaps-token
 ```
-2) Install dependencies (reuse the GCP requirements plus dotenv):
+
+### 3. Configure Functions
+Edit `local_bucket/function_metadata.json` to define functions you want to schedule. Supports both structured JSON with explicit parameters or natural language descriptions.
+
+### 4. Run Locally
+```bash
+python src/agent/agent.py
 ```
-python -m venv .venv
-.\.venv\Scripts\activate   # Windows
-# source .venv/bin/activate  # macOS/Linux
-pip install -r deployments/gcp/requirements.txt python-dotenv
-```
-3) Run the planner from the repo root:
-```
-python deployments/local/run_agent.py
-```
-Outputs (schedule + forecasts) are written to `data/sample/` and summarized in the console. The PowerShell helper `deployments/local/run_agent_local.ps1` runs the same entrypoint.
+
+This will:
+- Load config from `local_bucket/`
+- Fetch real-time carbon forecasts
+- Generate optimized schedules
+- Save results to `local_bucket/schedule_*.json`
 
 ## Google Cloud Run Deployment
-- Entry module: `deployments/gcp/main.py`
-- Procfile: `deployments/gcp/Procfile`
-- Requirements: `deployments/gcp/requirements.txt`
 
-Deploy (see `deployments/gcp/README.md` for full steps, secrets, and troubleshooting):
-```
+See [src/agent/gcp_deploy/README.md](src/agent/gcp_deploy/README.md) for complete deployment instructions.
+
+**Quick deploy:**
+```bash
 gcloud run deploy agent \
-  --source . \
-  --region <region> \
-  --allow-unauthenticated \
+  --source src/agent/gcp_deploy \
+  --region us-east1 \
   --timeout=300 \
-  --set-env-vars GCS_BUCKET_NAME=<your-bucket> \
+  --allow-unauthenticated \
+  --set-env-vars GCS_BUCKET_NAME=your-bucket \
   --set-secrets ELECTRICITYMAPS_TOKEN=ELECTRICITYMAPS_TOKEN:latest,GEMINI_API_KEY=GEMINI_API_KEY:latest
 ```
 
-## Data & Samples
-- `data/sample/function_metadata.json` — sample function metadata the planner reads.
-- `data/sample/carbon_forecasts.json` / `execution_schedule.json` — sample outputs (overwritten by new runs).
-- `data/sample/all_regions_forecast.json` — produced by `scripts/test_all_regions.py`.
+## Dispatcher
 
-## Utility Scripts (run from repo root)
-- `python scripts/test_all_regions.py` — fetch forecasts for many zones; writes to `data/sample/all_regions_forecast.json`.
-- `python scripts/test_electricitymaps.py` — quick Electricity Maps key check (update inline `API_TOKEN` first).
-- `python scripts/test_gemini.py` — list available Gemini models (uses `GEMINI_API_KEY` or CLI arg).
+The dispatcher schedules functions at optimal times based on generated schedules.
 
-## Notes
-- Core planner lives in `src/agent/planner.py`; entrypoints are thin wrappers.
-- Ensure `.env` or environment variables are set before running locally.
-- Cloud Run Flask app is created via `create_gcp_app()` in `src/agent/planner.py` and referenced by the Procfile.
+## Configuration Files
 
+### static_config.json
+Contains:
+- GCP region mappings to Electricity Maps zones
+- Data transfer costs per region
+- Pricing tiers and GPU availability
+- Power consumption constants
+
+### function_metadata.json
+Defines functions to schedule with:
+- **Structured format**: Explicit parameters (runtime, memory, etc.)
+- **Natural language**: AI extracts parameters automatically
+
+## API Endpoints (Cloud Run)
+
+- **GET /health** - Health check endpoint
+- **POST /run** - Triggers scheduler for all functions in `function_metadata.json`
+
+## Output Files
+
+After running, check `local_bucket/` (or GCS bucket in cloud):
+- `carbon_forecasts.json` - Raw carbon intensity data for all regions
+- `schedule_<function>.json` - Optimized schedule for each function with:
+  - Recommended execution times and regions
+  - Carbon intensity at each time
+  - Data transfer costs
+  - Priority rankings
+  - Reasoning for each recommendation
 
 ## License
 

@@ -1,0 +1,16 @@
+name: iosl-faas-scheduling
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+    - flask==3.0.0
+    - google-cloud-storage==2.14.0
+    - google-generativeai==0.8.3
+    - google-cloud-tasks==2.20.0
+    - requests==2.31.0
+    - python-dotenv==1.0.0
+    - gunicorn==21.2.0
+    - functions-framework==3.*
