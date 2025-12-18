@@ -21,7 +21,9 @@ import google.generativeai as genai
 
 # Determine if we're running locally
 IS_LOCAL_MODE = False
-LOCAL_BUCKET_PATH = Path(__file__).resolve().parents[2] / "local_bucket"
+# LOCAL_BUCKET_PATH will be set when entering local mode (in __main__ block)
+# Don't compute it at module level to avoid IndexError in Cloud Run's flat structure
+LOCAL_BUCKET_PATH = None
 
 # Configuration - will be set either from environment or when entering local mode
 BUCKET_NAME = os.environ.get("GCS_BUCKET_NAME", "faas-scheduling-us-east1")
@@ -700,6 +702,7 @@ if __name__ == "__main__":
 
     # Local mode execution - set after loading env vars
     IS_LOCAL_MODE = True
+    LOCAL_BUCKET_PATH = Path(__file__).resolve().parents[2] / "local_bucket"
 
     # Reload configuration with newly loaded environment variables
     ELECTRICITYMAPS_TOKEN = os.environ.get("ELECTRICITYMAPS_TOKEN")
