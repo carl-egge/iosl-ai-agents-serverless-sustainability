@@ -20,9 +20,8 @@ import requests
 import google.generativeai as genai
 
 # Determine if we're running locally
-IS_LOCAL_MODE = False
+IS_LOCAL_MODE = False # DO NOT CHANGE WHEN DEPLOY
 # LOCAL_BUCKET_PATH will be set when entering local mode (in __main__ block)
-# Don't compute it at module level to avoid IndexError in Cloud Run's flat structure
 LOCAL_BUCKET_PATH = None
 
 # Configuration - will be set either from environment or when entering local mode
@@ -143,6 +142,43 @@ def calculate_transfer_cost(
 
     total_data_gb = data_input_gb + data_output_gb
     return total_data_gb * cost_per_gb
+
+
+def calculate_emissions_per_execution(
+    runtime_ms: float,
+    memory_mb: float,
+    carbon_intensity: float
+) -> float:
+    """
+    Calculate CO2 emissions for a single function execution.
+
+    Args:
+        runtime_ms: Function runtime in milliseconds
+        memory_mb: Function memory allocation in MB
+        carbon_intensity: Carbon intensity in gCO2/kWh
+
+    Returns:
+        CO2 emissions in grams for one execution
+
+    Formula based on GCP Cloud Functions power model:
+    - Power (W) ≈ 0.0014 × memory_mb (empirical estimate)
+    - Energy (kWh) = Power (W) × runtime (hours) / 1000
+    - Emissions (g) = Energy (kWh) × carbon_intensity (gCO2/kWh)
+    """
+    # Estimate power consumption based on memory allocation
+    # Typical cloud function: ~1.4W per 1GB (1024MB) memory
+    power_watts = 0.0014 * memory_mb
+
+    # Convert runtime to hours
+    runtime_hours = runtime_ms / (1000 * 60 * 60)
+
+    # Calculate energy consumption in kWh
+    energy_kwh = (power_watts * runtime_hours) / 1000
+
+    # Calculate emissions in grams CO2
+    emissions_grams = energy_kwh * carbon_intensity
+
+    return emissions_grams
 
 
 def get_carbon_forecast_electricitymaps(zone: str, horizon_hours: int = 24) -> list:
@@ -314,13 +350,16 @@ Extract and estimate these parameters:
    - ML inference: 1,000-10,000ms
    - Data transformations: 100-5,000ms
 3. memory_mb: Estimate memory requirement (choose from: 128, 256, 512, 1024, 2048, 4096)
-4. instant_execution: true if time-sensitive/real-time, false if batch/flexible
-5. description: Clean technical summary of the function (one sentence)
-6. data_input_gb: Estimate input data size per invocation (in GB)
-7. data_output_gb: Estimate output data size per invocation (in GB)
-8. source_location: Extract if mentioned (e.g., us-east1, europe-west1), default to "us-east1"
-9. invocations_per_day: Extract frequency or estimate based on use case
-10. allowed_regions: Extract if mentioned, otherwise leave empty array []
+4. description: Clean technical summary of the function (one sentence)
+5. data_input_gb: Estimate input data size per invocation (in GB)
+6. data_output_gb: Estimate output data size per invocation (in GB)
+7. source_location: Extract if mentioned (e.g., us-east1, europe-west1), default to "us-east1"
+8. invocations_per_day: Extract frequency or estimate based on use case
+9. priority: Optimization priority - "balanced" (default), "costs" (minimize costs), or "emissions" (minimize emissions)
+   Extract if mentioned (keywords: cost-sensitive → "costs", green/sustainable → "emissions"), otherwise default to "balanced"
+10. latency_important: true if low latency/real-time response is critical, false otherwise (default: false)
+   Extract if mentioned (keywords: latency-sensitive, real-time, interactive → true), otherwise default to false
+11. allowed_regions: Extract if mentioned, otherwise leave empty array []
 
 IMPORTANT estimation guidelines:
 - Be conservative with estimates (overestimate resource needs for safety)
@@ -334,12 +373,13 @@ Return ONLY valid JSON matching this exact schema (no markdown, no explanations)
   "function_id": "string",
   "runtime_ms": number,
   "memory_mb": number,
-  "instant_execution": boolean,
   "description": "string",
   "data_input_gb": number,
   "data_output_gb": number,
   "source_location": "string",
   "invocations_per_day": number,
+  "priority": "balanced|costs|emissions",
+  "latency_important": boolean,
   "allowed_regions": ["array of region codes or empty"],
   "confidence_score": number (0.0-1.0, how confident you are in these estimates),
   "assumptions": ["list of key assumptions made during estimation"],
@@ -351,12 +391,13 @@ Example output:
   "function_id": "image_resizer",
   "runtime_ms": 1200,
   "memory_mb": 512,
-  "instant_execution": true,
   "description": "Resize user-uploaded images to multiple thumbnail sizes",
   "data_input_gb": 0.008,
   "data_output_gb": 0.012,
   "source_location": "us-east1",
   "invocations_per_day": 500,
+  "priority": "balanced",
+  "latency_important": false,
   "allowed_regions": [],
   "confidence_score": 0.75,
   "assumptions": [
@@ -374,90 +415,195 @@ Example output:
     return _generate_with_gemini(prompt, log_message="Extracting function metadata from natural language...")
 
 
-def format_region_costs_for_llm(
+def calculate_region_metrics(
     carbon_forecasts: dict,
+    runtime_ms: float,
+    memory_mb: float,
     data_input_gb: float,
     data_output_gb: float,
+    invocations_per_day: int,
     source_location: str,
     static_config: dict
-) -> str:
+) -> dict:
     """
-    Format data transfer costs for each region.
+    Calculate yearly costs and emissions for each region.
 
     Args:
-        carbon_forecasts: Dictionary of region forecasts
-        data_input_gb: Amount of input data in GB
-        data_output_gb: Amount of output data in GB
+        carbon_forecasts: Dictionary of region forecasts with carbon intensity data
+        runtime_ms: Function runtime in milliseconds
+        memory_mb: Function memory in MB
+        data_input_gb: Input data per invocation in GB
+        data_output_gb: Output data per invocation in GB
+        invocations_per_day: Number of invocations per day
         source_location: Source data location
         static_config: Static config dict
 
     Returns:
-        Formatted string with cost information
+        Dict mapping region_code to metrics:
+        {
+            "region_code": {
+                "transfer_cost_per_execution": float,
+                "transfer_cost_yearly": float,
+                "emissions_per_execution": float (gCO2),
+                "emissions_yearly": float (kgCO2),
+                "avg_carbon_intensity": float (gCO2/kWh)
+            }
+        }
     """
-    total_data_gb = data_input_gb + data_output_gb
+    region_metrics = {}
 
-    cost_info = (
-        f"\nData Transfer Costs:\n"
-        f"- Total data volume: {total_data_gb:.2f} GB "
-        f"({data_input_gb:.2f} GB input + {data_output_gb:.2f} GB output)\n"
-    )
+    for region_code, forecast_data in carbon_forecasts.items():
+        # Calculate average carbon intensity for this region
+        forecasts = forecast_data.get("forecast", [])
+        if forecasts:
+            avg_carbon_intensity = sum(f["carbonIntensity"] for f in forecasts) / len(forecasts)
+        else:
+            avg_carbon_intensity = 0
 
-    if source_location:
-        cost_info += f"- Data source location: {source_location}\n"
-        cost_info += f"- Note: Executing in {source_location} has ZERO transfer cost\n"
-
-    cost_info += "\nCost per region for this workload:\n"
-
-    # Group regions by cost
-    cost_groups = {}
-    for region_code in carbon_forecasts.keys():
-        cost = calculate_transfer_cost(
+        # Calculate transfer cost per execution
+        transfer_cost_per_exec = calculate_transfer_cost(
             region_code,
             data_input_gb,
             data_output_gb,
             source_location,
             static_config
         )
+
+        # Calculate emissions per execution (in grams CO2)
+        emissions_per_exec = calculate_emissions_per_execution(
+            runtime_ms,
+            memory_mb,
+            avg_carbon_intensity
+        )
+
+        # Calculate yearly totals
+        yearly_invocations = invocations_per_day * 365
+        transfer_cost_yearly = transfer_cost_per_exec * yearly_invocations
+        emissions_yearly_kg = (emissions_per_exec * yearly_invocations) / 1000  # Convert g to kg
+
+        region_metrics[region_code] = {
+            "transfer_cost_per_execution": transfer_cost_per_exec,
+            "transfer_cost_yearly": transfer_cost_yearly,
+            "emissions_per_execution": emissions_per_exec,
+            "emissions_yearly": emissions_yearly_kg,
+            "avg_carbon_intensity": avg_carbon_intensity
+        }
+
+    return region_metrics
+
+
+def format_region_metrics_for_llm(
+    region_metrics: dict,
+    data_input_gb: float,
+    data_output_gb: float,
+    invocations_per_day: int,
+    source_location: str,
+    static_config: dict
+) -> str:
+    """
+    Format region costs and emissions for LLM prompt.
+
+    Args:
+        region_metrics: Pre-calculated metrics from calculate_region_metrics()
+        data_input_gb: Input data per invocation
+        data_output_gb: Output data per invocation
+        invocations_per_day: Daily invocations
+        source_location: Source data location
+        static_config: Static config
+
+    Returns:
+        Formatted string with cost and emissions information
+    """
+    total_data_gb = data_input_gb + data_output_gb
+
+    info = f"\nFunction Execution Profile:\n"
+    info += f"- Data transfer per execution: {total_data_gb:.2f} GB ({data_input_gb:.2f} GB input + {data_output_gb:.2f} GB output)\n"
+    info += f"- Invocations per day: {invocations_per_day}\n"
+    info += f"- Data source location: {source_location or 'not specified'}\n"
+    if source_location:
+        info += f"- Note: Executing in {source_location} has ZERO transfer cost\n"
+
+    info += f"\n{'='*80}\n"
+    info += f"REGION COMPARISON - Yearly Costs and Emissions ({invocations_per_day * 365:,} executions/year)\n"
+    info += f"{'='*80}\n\n"
+
+    # Sort regions by total yearly cost (transfer + emissions)
+    sorted_regions = sorted(
+        region_metrics.items(),
+        key=lambda x: x[1]["transfer_cost_yearly"]
+    )
+
+    for region_code, metrics in sorted_regions:
         region_info = get_region_info(region_code, static_config)
         region_name = region_info.get("name", region_code)
 
-        if cost not in cost_groups:
-            cost_groups[cost] = []
-        cost_groups[cost].append(f"{region_code} ({region_name})")
+        info += f"{region_code} ({region_name}):\n"
+        info += f"  Transfer Cost: ${metrics['transfer_cost_per_execution']:.4f}/exec → ${metrics['transfer_cost_yearly']:,.0f}/year\n"
+        info += f"  CO2 Emissions: {metrics['emissions_per_execution']:.2f}g/exec → {metrics['emissions_yearly']:.1f}kg/year\n"
+        info += f"  Avg Carbon Intensity: {metrics['avg_carbon_intensity']:.0f} gCO2/kWh\n"
+        info += "\n"
 
-    # Sort by cost and format
-    for cost in sorted(cost_groups.keys()):
-        regions_list = ", ".join(cost_groups[cost])
-        cost_info += f"  ${cost:.4f} USD: {regions_list}\n"
-
-    return cost_info
+    return info
 
 
 def get_gemini_schedule(function_metadata: dict, carbon_forecasts: dict) -> dict:
     """Use Google Gemini to create optimal execution schedule."""
     # Import using absolute or relative depending on context
     try:
-        from agent.prompts import create_gcp_prompt
+        from agent.prompts import create_prompt
     except ImportError:
-        from prompts import create_gcp_prompt
+        from prompts import create_prompt
 
     carbon_forecasts_formatted = format_forecast_for_llm(carbon_forecasts)
 
-    # Load static config and format cost information
+    # Load static config
     static_config = load_static_config()
-    cost_info = ""
 
-    # Only include cost info if data transfer is specified
-    if function_metadata.get("data_input_gb") or function_metadata.get("data_output_gb"):
-        data_input_gb = function_metadata.get("data_input_gb", 0.0)
-        data_output_gb = function_metadata.get("data_output_gb", 0.0)
-        source_location = function_metadata.get("source_location")
+    # Calculate region metrics (costs and emissions)
+    runtime_ms = function_metadata.get("runtime_ms", 1000)
+    memory_mb = function_metadata.get("memory_mb", 512)
+    data_input_gb = function_metadata.get("data_input_gb", 0.0)
+    data_output_gb = function_metadata.get("data_output_gb", 0.0)
+    invocations_per_day = function_metadata.get("invocations_per_day", 1)
+    source_location = function_metadata.get("source_location")
+    priority = function_metadata.get("priority", "balanced")
+    latency_important = function_metadata.get("latency_important", False)
 
-        cost_info = format_region_costs_for_llm(
-            carbon_forecasts, data_input_gb, data_output_gb, source_location, static_config
-        )
+    # Build latency context if applicable
+    latency_context = ""
+    if latency_important:
+        source_region_info = get_region_info(source_location, static_config)
+        source_continent = source_region_info.get("continent", "north-america")
+        latency_context = f"\nLATENCY REQUIREMENT: This function is latency-sensitive. Only {source_continent} regions are included to minimize cross-continent latency. All scheduling decisions must consider low-latency requirement.\n"
 
-    prompt = create_gcp_prompt(function_metadata, carbon_forecasts_formatted, cost_info)
+    region_metrics = calculate_region_metrics(
+        carbon_forecasts,
+        runtime_ms,
+        memory_mb,
+        data_input_gb,
+        data_output_gb,
+        invocations_per_day,
+        source_location,
+        static_config
+    )
+
+    # Format metrics for LLM
+    metrics_info = format_region_metrics_for_llm(
+        region_metrics,
+        data_input_gb,
+        data_output_gb,
+        invocations_per_day,
+        source_location,
+        static_config
+    )
+
+    prompt = create_prompt(
+        function_metadata,
+        carbon_forecasts_formatted,
+        metrics_info + latency_context,
+        region_metrics,
+        priority
+    )
 
     return _generate_with_gemini(prompt, log_message="Sending request to Gemini API...")
 
@@ -467,7 +613,6 @@ def run_scheduler_for_function(function_name: str, function_metadata: dict, carb
     print(f"\nGenerating schedule for function: {function_name}")
     print(f"  Runtime: {function_metadata.get('runtime_ms')}ms")
     print(f"  Memory: {function_metadata.get('memory_mb')}MB")
-    print(f"  Instant execution: {function_metadata.get('instant_execution', False)}")
 
     # Generate schedule
     schedule = get_gemini_schedule(function_metadata, carbon_forecasts)
@@ -549,16 +694,50 @@ def run_scheduler() -> tuple:
                 f"or object (structured metadata), got {type(func_data).__name__}"
             )
 
-    # Step 2: Collect unique regions from all functions
+    # Step 2: Collect unique regions from all functions, applying latency filtering
     print("\n2. Determining regions to fetch...")
+    static_config = load_static_config()
     all_allowed_regions = set()
+
     for func_name, func_metadata in functions_to_schedule.items():
         allowed_regions = func_metadata.get("allowed_regions")
-        if allowed_regions:
-            all_allowed_regions.update(allowed_regions)
-            print(f"  {func_name} -> regions: {allowed_regions}")
+        latency_important = func_metadata.get("latency_important", False)
+        source_location = func_metadata.get("source_location", "us-east1")
+
+        # Get source continent
+        source_region_info = get_region_info(source_location, static_config)
+        source_continent = source_region_info.get("continent", "north-america")
+
+        # If latency_important, filter to same-continent regions only
+        if latency_important:
+            if allowed_regions:
+                # Filter allowed_regions to same continent
+                filtered_regions = [
+                    r for r in allowed_regions
+                    if get_region_info(r, static_config).get("continent") == source_continent
+                ]
+                func_metadata["allowed_regions"] = filtered_regions
+                all_allowed_regions.update(filtered_regions)
+                excluded_count = len(allowed_regions) - len(filtered_regions)
+                print(f"  {func_name} -> latency-important, filtered to {source_continent}: {filtered_regions}")
+                if excluded_count > 0:
+                    print(f"    (excluded {excluded_count} cross-continent region(s))")
+            else:
+                # No allowed_regions specified - use all same-continent regions
+                same_continent_regions = [
+                    region_code for region_code, region_data in static_config["regions"].items()
+                    if region_data.get("continent") == source_continent
+                ]
+                func_metadata["allowed_regions"] = same_continent_regions
+                all_allowed_regions.update(same_continent_regions)
+                print(f"  {func_name} -> latency-important, using all {source_continent} regions: {len(same_continent_regions)} regions")
         else:
-            print(f"  {func_name} -> no region filter (will use all European regions)")
+            # No latency filtering
+            if allowed_regions:
+                all_allowed_regions.update(allowed_regions)
+                print(f"  {func_name} -> regions: {allowed_regions}")
+            else:
+                print(f"  {func_name} -> no region filter (will use all available regions)")
 
     # Step 3: Fetch carbon forecasts for all needed regions
     print("\n3. Fetching carbon intensity forecasts from Electricity Maps...")
