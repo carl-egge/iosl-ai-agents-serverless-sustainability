@@ -1,0 +1,30 @@
+{
+  "description": "Function metadata for carbon-aware scheduling",
+  "functions": {
+    "write_to_bucket": {
+      "function_id": "write_to_bucket",
+      "runtime_ms": 150,
+      "memory_mb": 256,
+      "description": "HTTP Cloud Function that writes JSON data with timestamp and region info to GCS bucket. Accepts optional JSON payload, generates UUID and timestamp, writes to gs://OUTPUT_BUCKET/runs/{timestamp}-{region}/run-{uuid}/result.json",
+      "data_input_gb": 0.00001,
+      "data_output_gb": 0.00001,
+      "source_location": "us-east1",
+      "invocations_per_day": 1000,
+      "allowed_regions": ["europe-north2", "us-east1", "northamerica-northeast1"]
+    },
+    "image_format_converter": {
+      "function_id": "image_format_converter",
+      "runtime_ms": 600000,
+      "memory_mb": 25000,
+      "instant_execution": false,
+      "description": "Convert images from PNG to WebP format for web optimization",
+      "data_input_gb": 25.0,
+      "data_output_gb": 15.0,
+      "source_location": "us-east1",
+      "invocations_per_day": 1,
+      "allowed_regions": ["europe-north2", "us-east1", "northamerica-northeast1"],
+      "priority": "costs",
+      "latency_important": false
+      }
+  }
+}

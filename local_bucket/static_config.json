@@ -2,14 +2,12 @@
   "config_version": "1.0.0",
   "last_updated": "2024-12-01",
   "bucket_location": "us-east1",
-  
   "agent_defaults": {
     "vcpus_default": 1,
     "vcpus_if_gpu": 4,
     "gpu_count": 1,
     "notes": "Agent applies vcpus_default=1 for non-GPU workloads, vcpus_if_gpu=4 for GPU workloads"
   },
-  
   "gpu_constraints": {
     "minimum_cpu": 4,
     "minimum_memory_gib": 16,
@@ -17,13 +15,15 @@
     "recommended_memory_gib": 32,
     "notes": "Cloud Run requires minimum 4 CPU and 16 GiB memory for GPU workloads"
   },
-  
   "regions": {
     "us-central1": {
       "name": "Iowa",
+      "continent": "north-america",
       "pricing_tier": 1,
       "gpu_available": true,
-      "gpu_types": ["nvidia-l4"],
+      "gpu_types": [
+        "nvidia-l4"
+      ],
       "data_transfer_cost_per_gb_usd": 0.02,
       "electricity_maps_zone": "US-MIDW-MISO"
     },
@@ -34,15 +34,19 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.0,
       "electricity_maps_zone": "US-CAR-SC",
-      "notes": "Same region as bucket - no transfer cost"
+      "notes": "Same region as bucket - no transfer cost",
+      "continent": "north-america"
     },
     "us-east4": {
       "name": "Northern Virginia",
       "pricing_tier": 1,
       "gpu_available": true,
-      "gpu_types": ["nvidia-l4"],
+      "gpu_types": [
+        "nvidia-l4"
+      ],
       "data_transfer_cost_per_gb_usd": 0.02,
-      "electricity_maps_zone": "US-MIDA-PJM"
+      "electricity_maps_zone": "US-MIDA-PJM",
+      "continent": "north-america"
     },
     "us-east5": {
       "name": "Columbus, Ohio",
@@ -50,7 +54,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
-      "electricity_maps_zone": "US-MIDA-PJM"
+      "electricity_maps_zone": "US-MIDA-PJM",
+      "continent": "north-america"
     },
     "us-south1": {
       "name": "Dallas, Texas",
@@ -58,7 +63,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
-      "electricity_maps_zone": "US-TEX-ERCO"
+      "electricity_maps_zone": "US-TEX-ERCO",
+      "continent": "north-america"
     },
     "us-west1": {
       "name": "Oregon",
@@ -66,7 +72,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
-      "electricity_maps_zone": "US-NW-BPAT"
+      "electricity_maps_zone": "US-NW-BPAT",
+      "continent": "north-america"
     },
     "us-west2": {
       "name": "Los Angeles",
@@ -74,7 +81,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
-      "electricity_maps_zone": "US-CAL-CISO"
+      "electricity_maps_zone": "US-CAL-CISO",
+      "continent": "north-america"
     },
     "us-west3": {
       "name": "Salt Lake City",
@@ -82,7 +90,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
-      "electricity_maps_zone": "US-NW-PACE"
+      "electricity_maps_zone": "US-NW-PACE",
+      "continent": "north-america"
     },
     "us-west4": {
       "name": "Las Vegas",
@@ -90,7 +99,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
-      "electricity_maps_zone": "US-NW-NEVP"
+      "electricity_maps_zone": "US-NW-NEVP",
+      "continent": "north-america"
     },
     "northamerica-northeast1": {
       "name": "Montreal",
@@ -98,7 +108,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
-      "electricity_maps_zone": "CA-QC"
+      "electricity_maps_zone": "CA-QC",
+      "continent": "north-america"
     },
     "northamerica-northeast2": {
       "name": "Toronto",
@@ -106,7 +117,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
-      "electricity_maps_zone": "CA-ON"
+      "electricity_maps_zone": "CA-ON",
+      "continent": "north-america"
     },
     "northamerica-south1": {
       "name": "Queretaro, Mexico",
@@ -114,7 +126,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
-      "electricity_maps_zone": "MX"
+      "electricity_maps_zone": "MX",
+      "continent": "north-america"
     },
     "europe-central2": {
       "name": "Warsaw",
@@ -122,7 +135,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "PL"
+      "electricity_maps_zone": "PL",
+      "continent": "europe"
     },
     "europe-north1": {
       "name": "Finland",
@@ -130,7 +144,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "FI"
+      "electricity_maps_zone": "FI",
+      "continent": "europe"
     },
     "europe-north2": {
       "name": "Stockholm, Sweden",
@@ -138,7 +153,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "SE-SE3"
+      "electricity_maps_zone": "SE-SE3",
+      "continent": "europe"
     },
     "europe-southwest1": {
       "name": "Madrid",
@@ -146,15 +162,19 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "ES"
+      "electricity_maps_zone": "ES",
+      "continent": "europe"
     },
     "europe-west1": {
       "name": "Belgium",
       "pricing_tier": 1,
       "gpu_available": true,
-      "gpu_types": ["nvidia-l4"],
+      "gpu_types": [
+        "nvidia-l4"
+      ],
       "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "BE"
+      "electricity_maps_zone": "BE",
+      "continent": "europe"
     },
     "europe-west2": {
       "name": "London",
@@ -162,7 +182,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "GB"
+      "electricity_maps_zone": "GB",
+      "continent": "europe"
     },
     "europe-west3": {
       "name": "Frankfurt",
@@ -170,15 +191,19 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "DE"
+      "electricity_maps_zone": "DE",
+      "continent": "europe"
     },
     "europe-west4": {
       "name": "Netherlands",
       "pricing_tier": 1,
       "gpu_available": true,
-      "gpu_types": ["nvidia-l4"],
+      "gpu_types": [
+        "nvidia-l4"
+      ],
       "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "NL"
+      "electricity_maps_zone": "NL",
+      "continent": "europe"
     },
     "europe-west6": {
       "name": "Zurich",
@@ -186,7 +211,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "CH"
+      "electricity_maps_zone": "CH",
+      "continent": "europe"
     },
     "europe-west8": {
       "name": "Milan",
@@ -194,7 +220,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "IT-NO"
+      "electricity_maps_zone": "IT-NO",
+      "continent": "europe"
     },
     "europe-west9": {
       "name": "Paris",
@@ -202,7 +229,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "FR"
+      "electricity_maps_zone": "FR",
+      "continent": "europe"
     },
     "europe-west10": {
       "name": "Berlin",
@@ -210,7 +238,8 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "DE"
+      "electricity_maps_zone": "DE",
+      "continent": "europe"
     },
     "europe-west12": {
       "name": "Turin",
@@ -218,110 +247,20 @@
       "gpu_available": false,
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "IT-NO"
-    },
-    "DE": {
-      "name": "Germany",
-      "pricing_tier": 2,
-      "gpu_available": false,
-      "gpu_types": [],
-      "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "DE",
-      "notes": "Electricity Maps zone code (used in local workflow)"
-    },
-    "FR": {
-      "name": "France",
-      "pricing_tier": 1,
-      "gpu_available": false,
-      "gpu_types": [],
-      "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "FR",
-      "notes": "Electricity Maps zone code (used in local workflow)"
-    },
-    "SE-SE1": {
-      "name": "Sweden North",
-      "pricing_tier": 1,
-      "gpu_available": false,
-      "gpu_types": [],
-      "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "SE-SE1",
-      "notes": "Electricity Maps zone code (used in local workflow)"
-    },
-    "SE-SE2": {
-      "name": "Sweden North-Central",
-      "pricing_tier": 1,
-      "gpu_available": false,
-      "gpu_types": [],
-      "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "SE-SE2",
-      "notes": "Electricity Maps zone code (used in local workflow)"
-    },
-    "SE-SE3": {
-      "name": "Sweden South-Central",
-      "pricing_tier": 1,
-      "gpu_available": false,
-      "gpu_types": [],
-      "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "SE-SE3",
-      "notes": "Electricity Maps zone code (used in local workflow)"
-    },
-    "AU-TAS": {
-      "name": "Australia Tasmania",
-      "pricing_tier": 1,
-      "gpu_available": false,
-      "gpu_types": [],
-      "data_transfer_cost_per_gb_usd": 0.12,
-      "electricity_maps_zone": "AU-TAS",
-      "notes": "Electricity Maps zone code (used in local workflow). Higher cost for AU region."
-    },
-    "NO-NO1": {
-      "name": "Norway Zone 1",
-      "pricing_tier": 1,
-      "gpu_available": false,
-      "gpu_types": [],
-      "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "NO-NO1",
-      "notes": "Electricity Maps zone code (used in local workflow)"
-    },
-    "NO-NO2": {
-      "name": "Norway Zone 2",
-      "pricing_tier": 1,
-      "gpu_available": false,
-      "gpu_types": [],
-      "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "NO-NO2",
-      "notes": "Electricity Maps zone code (used in local workflow)"
-    },
-    "NO-NO5": {
-      "name": "Norway Zone 5",
-      "pricing_tier": 1,
-      "gpu_available": false,
-      "gpu_types": [],
-      "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "NO-NO5",
-      "notes": "Electricity Maps zone code (used in local workflow)"
-    },
-    "IS": {
-      "name": "Iceland",
-      "pricing_tier": 1,
-      "gpu_available": false,
-      "gpu_types": [],
-      "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "IS",
-      "notes": "Electricity Maps zone code (used in local workflow)"
+      "electricity_maps_zone": "IT-NO",
+      "continent": "europe"
     }
   },
-  
   "pricing": {
     "tier1": {
-      "invocation_usd": 0.0000004,
-      "vcpu_second_usd": 0.000024,
-      "memory_gib_second_usd": 0.0000025
+      "invocation_usd": 4e-07,
+      "vcpu_second_usd": 2.4e-05,
+      "memory_gib_second_usd": 2.5e-06
     },
     "tier2": {
-      "invocation_usd": 0.0000006,
-      "vcpu_second_usd": 0.000036,
-      "memory_gib_second_usd": 0.00000375
+      "invocation_usd": 6e-07,
+      "vcpu_second_usd": 3.6e-05,
+      "memory_gib_second_usd": 3.75e-06
     },
     "gpu": {
       "nvidia-l4": {
@@ -330,7 +269,6 @@
       }
     }
   },
-  
   "power_constants": {
     "cpu_watts_per_vcpu": 2.5,
     "cpu_utilization_factor": 0.5,
@@ -342,7 +280,6 @@
     },
     "gpu_utilization_factor": 0.8
   },
-  
   "calculation_formulas": {
     "input_dependent_values": {
       "vcpus": "USER INPUT (via agent_defaults: 1 for non-GPU, 4 for GPU)",
@@ -353,7 +290,6 @@
       "gpu_required": "USER INPUT (boolean)",
       "gpu_count": "CONSTANT: 1 (if gpu_required=true)"
     },
-    
     "constant_values": {
       "cpu_watts_per_vcpu": "CONSTANT: 2.5W",
       "cpu_utilization_factor": "CONSTANT: 0.5 (50%)",
@@ -363,30 +299,26 @@
       "gpu_tdp_watts": "CONSTANT: 72W (nvidia-l4)",
       "gpu_utilization_factor": "CONSTANT: 0.8 (80%)"
     },
-    
     "cost_per_invocation": {
       "total_cost_usd": "invocation_cost + compute_cost + gpu_cost + transfer_cost",
       "invocation_cost": "pricing[tier][invocation_usd]",
-      "compute_cost": "(vcpus × pricing[tier][vcpu_second_usd] × execution_time_s) + (memory_gib × pricing[tier][memory_gib_second_usd] × execution_time_s)",
-      "gpu_cost": "gpu_count × pricing[gpu][gpu_type][tier_gpu_second_usd] × execution_time_s",
-      "transfer_cost": "(data_input_gb + data_output_gb) × regions[region][data_transfer_cost_per_gb_usd]"
+      "compute_cost": "(vcpus \u00c3\u2014 pricing[tier][vcpu_second_usd] \u00c3\u2014 execution_time_s) + (memory_gib \u00c3\u2014 pricing[tier][memory_gib_second_usd] \u00c3\u2014 execution_time_s)",
+      "gpu_cost": "gpu_count \u00c3\u2014 pricing[gpu][gpu_type][tier_gpu_second_usd] \u00c3\u2014 execution_time_s",
+      "transfer_cost": "(data_input_gb + data_output_gb) \u00c3\u2014 regions[region][data_transfer_cost_per_gb_usd]"
     },
-    
     "energy_per_invocation": {
       "total_energy_kwh": "compute_energy_kwh + transfer_energy_kwh",
-      "compute_energy_kwh": "(cpu_power_w + memory_power_w + gpu_power_w) × (execution_time_s / 3600) × power_constants[datacenter_pue]",
-      "cpu_power_w": "vcpus × power_constants[cpu_watts_per_vcpu] × power_constants[cpu_utilization_factor]",
-      "memory_power_w": "memory_gib × power_constants[memory_watts_per_gib]",
-      "gpu_power_w": "gpu_count × power_constants[gpu_tdp_watts][gpu_type] × power_constants[gpu_utilization_factor]",
-      "transfer_energy_kwh": "(data_input_gb + data_output_gb) × power_constants[network_kwh_per_gb]"
+      "compute_energy_kwh": "(cpu_power_w + memory_power_w + gpu_power_w) \u00c3\u2014 (execution_time_s / 3600) \u00c3\u2014 power_constants[datacenter_pue]",
+      "cpu_power_w": "vcpus \u00c3\u2014 power_constants[cpu_watts_per_vcpu] \u00c3\u2014 power_constants[cpu_utilization_factor]",
+      "memory_power_w": "memory_gib \u00c3\u2014 power_constants[memory_watts_per_gib]",
+      "gpu_power_w": "gpu_count \u00c3\u2014 power_constants[gpu_tdp_watts][gpu_type] \u00c3\u2014 power_constants[gpu_utilization_factor]",
+      "transfer_energy_kwh": "(data_input_gb + data_output_gb) \u00c3\u2014 power_constants[network_kwh_per_gb]"
     },
-    
     "carbon_per_invocation": {
-      "total_carbon_grams": "total_energy_kwh × carbon_intensity_g_per_kwh",
+      "total_carbon_grams": "total_energy_kwh \u00c3\u2014 carbon_intensity_g_per_kwh",
       "carbon_intensity_source": "Fetch from Electricity Maps API using regions[region][electricity_maps_zone]"
     }
   },
-  
   "metadata": {
     "source": "Verified from official GCP and Electricity Maps documentation Dec 2024",
     "data_sources": {
@@ -396,7 +328,7 @@
       "electricity_maps_zones": "https://portal.electricitymaps.com/docs"
     },
     "important_notes": {
-      "data_transfer": "Costs apply for BOTH download AND upload. Total = (input_gb + output_gb) × rate",
+      "data_transfer": "Costs apply for BOTH download AND upload. Total = (input_gb + output_gb) \u00c3\u2014 rate",
       "gpu_availability": "Cloud Run GPU support (nvidia-l4 only) in 4 regions: us-central1, us-east4, europe-west1, europe-west4",
       "carbon_intensity": "Real-time carbon intensity must be fetched from Electricity Maps API - NOT included in this config",
       "free_tier": "Calculations exclude Cloud Run free tier (180k vCPU-seconds, 360k GiB-seconds, 2M requests/month). Actual costs may be lower.",
