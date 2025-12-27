@@ -1,32 +1,38 @@
 # Cloud Run Sample Functions
 
-This directory contains three tiny Python entrypoints that work on Cloud Run via `functions-framework`. Each module exposes one HTTP handler whose sole job is the functionality you asked for: an addition calculator, a carbon-intensity API summary, and a bucket writer.
+A set of self-contained Python entrypoint scripts that can be deployed from `src/sample_functions` via `functions-framework`. Each handler focuses on one workload profile so you can explore different runtime/data scenarios without writing Flask apps.
 
 ## Files
 
-- `simple_addition.py`: read `num1`/`num2` from a JSON body, return their sum in JSON.
-- `carbon_api_call.py`: hit the Electricity Maps forecast API for a zone (defaults to `DE`) and summarize the carbon-intensity values; the module loads the repo root `.env` so the token can be set locally.
-- `write_to_bucket.py`: write the request payload to a new `runs/.../result.json` object in the bucket named by `OUTPUT_BUCKET`.
-- `requirements.txt`: dependencies that the Cloud Run buildpack installs.
+- `simple_addition.py`: read `num1`/`num2` from a JSON POST payload and return the sum in JSON.
+- `carbon_api_call.py`: call Electricity Maps, summarize carbon-intensity metrics, and load credentials from the repo root `.env` for local runs.
+- `write_to_bucket.py`: write the received JSON payload into a new `runs/.../result.json` object under `OUTPUT_BUCKET`.
+- `api_health_check.py`: lightweight API health check payload for high-throughput, low-data invocations.
+- `image_format_converter.py`: synthesize a large PNG image and transcode it to WebP to emulate short runtime + large data.
+- `crypto_key_gen.py`: generate an RSA key pair to consume CPU time while keeping payload sizes small (long runtime + little data).
+- `video_transcoder.py`: create large buffers and compress them multiple times so the function resembles a long runtime + large data transcoding job.
+- `requirements.txt`: declares `functions-framework`, HTTP helpers, image/crypto dependencies, and the GCS client.
 
-## Deploying with one command
+## Deploying each handler from source
 
 1. `cd src/sample_functions`
-2. Run the appropriate `gcloud run deploy` command (replace the placeholders below):
+2. Run the command that matches the handler you want to publish (replace placeholders with your region/bucket/token values):
 
 ```
 gcloud run deploy simple-addition \
   --source . \
-  --region YOUR_REGION \
+  --region us-central1 \
   --allow-unauthenticated \
+  --runtime python314 \
   --function simple_addition
 ```
 
 ```
 gcloud run deploy carbon-call \
   --source . \
-  --region YOUR_REGION \
+  --region us-central1 \
   --allow-unauthenticated \
+  --runtime python314 \
   --function carbon_api_call \
   --set-env-vars ELECTRICITYMAPS_TOKEN=your-token
 ```
@@ -34,17 +40,54 @@ gcloud run deploy carbon-call \
 ```
 gcloud run deploy bucket-writer \
   --source . \
-  --region YOUR_REGION \
+  --region us-central1 \
   --allow-unauthenticated \
+  --runtime python314 \
   --function write_to_bucket \
   --set-env-vars OUTPUT_BUCKET=your-bucket,REGION=europe-west1
 ```
 
-The buildpack reads `requirements.txt`, installs the deps, and runs each module via the Functions Framework entrypoint you supply.
+```
+gcloud run deploy api-health-check \
+  --source . \
+  --region europe-north1 \
+  --allow-unauthenticated \
+  --runtime python314 \
+  --function api_health_check
+```
+
+```
+gcloud run deploy image-converter \
+  --source . \
+  --region us-east1 \
+  --allow-unauthenticated \
+  --runtime python314 \
+  --function image_format_converter
+```
+
+```
+gcloud run deploy crypto-key-gen \
+  --source . \
+  --region europe-north1 \
+  --allow-unauthenticated \
+  --runtime python314 \
+  --function crypto_key_gen
+```
+
+```
+gcloud run deploy video-transcoder \
+  --source . \
+  --region us-east1 \
+  --allow-unauthenticated \
+  --runtime python314 \
+  --function video_transcoder
+```
+
+The buildpack reads `requirements.txt`, installs the dependencies, and runs the Functions Framework handler you declare via `--entrypoint` or `--function` (for the runtime-powered paths).
 
 ## Calling the functions
 
-Use the URL that `gcloud run deploy` prints.
+Use the URL that each `gcloud run deploy` command prints (replace `$URL` below):
 
 - Simple addition:
 
@@ -64,12 +107,36 @@ curl -X POST $URL -H "Content-Type: application/json" -d '{"zone": "DE", "horizo
 curl -X POST $URL -H "Content-Type: application/json" -d '{"note": "cloud run write"}'
 ```
 
+- Health check:
+
+```
+curl -X POST $URL -H "Content-Type: application/json" -d '{"check": "ping"}'
+```
+
+- Image converter (optional `width`/`height` override):
+
+```
+curl -X POST $URL -H "Content-Type: application/json" -d '{"width": 3840, "height": 2160}'
+```
+
+- Crypto key generator (optional `bits`):
+
+```
+curl -X POST $URL -H "Content-Type: application/json" -d '{"bits": 4096}'
+```
+
+- Video transcoder (adjust chunk size/passes to tune runtime):
+
+```
+curl -X POST $URL -H "Content-Type: application/json" -d '{"chunk_mb": 20, "passes": 4}'
+```
+
 ## Local sanity checks
 
-Install deps with `pip install -r requirements.txt`, then run any module directly, for example:
+Install dependencies with `pip install -r requirements.txt`, then run any module directly, for example:
 
 ```
-python carbon_api_call.py
+python simple_addition.py
 ```
 
-This prints the handler output using the built-in dummy requests defined at the bottom of each file.
+Each module prints its own sample response by invoking the decorated handler with a dummy request.
