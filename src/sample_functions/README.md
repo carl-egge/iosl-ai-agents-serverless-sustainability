@@ -5,9 +5,9 @@ This directory contains three tiny Python entrypoints that work on Cloud Run via
 ## Files
 
 - `simple_addition.py`: read `num1`/`num2` from a JSON body, return their sum in JSON.
-- `simple_api_call.py`: hit the Electricity Maps forecast API for a zone (defaults to `DE`) and summarize the carbon-intensity values.
+- `carbon_api_call.py`: hit the Electricity Maps forecast API for a zone (defaults to `DE`) and summarize the carbon-intensity values; the module loads the repo root `.env` so the token can be set locally.
 - `write_to_bucket.py`: write the request payload to a new `runs/.../result.json` object in the bucket named by `OUTPUT_BUCKET`.
-- `requirements.txt`: dependencies (`functions-framework`, `requests`, `google-cloud-storage`) that the Cloud Run buildpack installs.
+- `requirements.txt`: dependencies that the Cloud Run buildpack installs.
 
 ## Deploying with one command
 
@@ -17,26 +17,26 @@ This directory contains three tiny Python entrypoints that work on Cloud Run via
 ```
 gcloud run deploy simple-addition \
   --source . \
-  --region us-central1 \
+  --region YOUR_REGION \
   --allow-unauthenticated \
-  --entrypoint "functions-framework --target simple_addition"
+  --function simple_addition
 ```
 
 ```
 gcloud run deploy carbon-call \
   --source . \
-  --region us-central1 \
+  --region YOUR_REGION \
   --allow-unauthenticated \
-  --entrypoint "functions-framework --target simple_api_call" \
+  --function carbon_api_call \
   --set-env-vars ELECTRICITYMAPS_TOKEN=your-token
 ```
 
 ```
 gcloud run deploy bucket-writer \
   --source . \
-  --region us-central1 \
+  --region YOUR_REGION \
   --allow-unauthenticated \
-  --entrypoint "functions-framework --target write_to_bucket" \
+  --function write_to_bucket \
   --set-env-vars OUTPUT_BUCKET=your-bucket,REGION=europe-west1
 ```
 
@@ -69,7 +69,7 @@ curl -X POST $URL -H "Content-Type: application/json" -d '{"note": "cloud run wr
 Install deps with `pip install -r requirements.txt`, then run any module directly, for example:
 
 ```
-python simple_addition.py
+python carbon_api_call.py
 ```
 
 This prints the handler output using the built-in dummy requests defined at the bottom of each file.

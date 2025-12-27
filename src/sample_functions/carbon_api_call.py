@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
-"""Minimal HTTP Carbon Intensity helper built for Cloud Run."""
+"""Cloud Run carbon-intensity helper that reads Electricity Maps and returns simple stats."""
 
 from __future__ import annotations
 
 import json
 import os
+from pathlib import Path
 from typing import Any, Dict
 
 import functions_framework
 import requests
+from dotenv import load_dotenv
+
+
+ROOT_DIR = Path(__file__).resolve().parents[2]
+load_dotenv(ROOT_DIR / ".env")
 
 
 def _fetch_forecast(zone: str, token: str, horizon_hours: int) -> list[Dict[str, Any]]:
@@ -37,8 +43,8 @@ def _aggregate(forecast: list[Dict[str, Any]]) -> Dict[str, Any]:
 
 
 @functions_framework.http
-def simple_api_call(request) -> tuple[str, int, Dict[str, str]]:
-    """Fetch a basic carbon intensity forecast summary for the requested zone."""
+def carbon_api_call(request) -> tuple[str, int, Dict[str, str]]:
+    """Fetch a carbon-intensity forecast summary for the requested zone."""
 
     try:
         payload = request.get_json(silent=True) or {}
@@ -50,7 +56,7 @@ def simple_api_call(request) -> tuple[str, int, Dict[str, str]]:
     token = os.environ.get("ELECTRICITYMAPS_TOKEN")
     if not token:
         return (
-            json.dumps({"error": "ELECTRICITYMAPS_TOKEN environment variable is required."}),
+            json.dumps({"error": "ELECTRICITYMAPS_TOKEN must be set in the environment."}),
             500,
             {"Content-Type": "application/json"},
         )
@@ -84,5 +90,4 @@ if __name__ == "__main__":
         def get_json(self, silent=False):
             return {"zone": "DE", "horizonHours": 6}
 
-    # This will raise if the token is missing.
-    print(simple_api_call(DummyRequest()))
+    print(carbon_api_call(DummyRequest()))
