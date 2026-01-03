@@ -13,6 +13,8 @@ Mode detection:
 
 import json
 import os
+import uuid
+import asyncio
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, Dict, Any
@@ -28,6 +30,10 @@ LOCAL_BUCKET_PATH = None
 BUCKET_NAME = os.environ.get("GCS_BUCKET_NAME", "faas-scheduling-us-east1")
 ELECTRICITYMAPS_TOKEN = os.environ.get("ELECTRICITYMAPS_TOKEN")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+
+# MCP Server configuration for function deployment
+MCP_SERVER_URL = os.environ.get("MCP_SERVER_URL", "http://localhost:8080")
+MCP_API_KEY = os.environ.get("MCP_API_KEY", "")
 
 # GCS paths for configuration files
 STATIC_CONFIG_PATH = "static_config.json"
@@ -852,10 +858,210 @@ def create_flask_app():
                     "bucket": BUCKET_NAME if not IS_LOCAL_MODE else str(LOCAL_BUCKET_PATH),
                     "has_emaps_token": bool(ELECTRICITYMAPS_TOKEN),
                     "has_gemini_key": bool(GEMINI_API_KEY),
+                    "mcp_server_url": MCP_SERVER_URL,
+                    "has_mcp_api_key": bool(MCP_API_KEY),
                 }
             ),
             200,
         )
+
+    @app.route("/submit", methods=["POST"])
+    def submit_function():
+        """
+        Submit a function for carbon-aware deployment and execution.
+
+        Request body:
+        {
+            "code": "def handler(data): return {'result': data['x'] * 2}",
+            "deadline": "2025-01-03T18:00:00Z",
+            "requirements": "numpy>=1.0.0",  // optional
+            "description": "Multiply input by 2",  // optional, for metadata
+            "memory_mb": 256,  // optional, default 256
+            "timeout_seconds": 60,  // optional, default 60
+            "priority": "balanced"  // optional: balanced, costs, emissions
+        }
+
+        Response:
+        {
+            "status": "success",
+            "submission_id": "uuid",
+            "function_name": "user-func-a1b2c3d4",
+            "deployment": { ... },
+            "schedule": { ... },
+            "optimal_execution": { ... }
+        }
+        """
+        from flask import request
+
+        try:
+            data = request.get_json()
+            if not data:
+                return jsonify({"status": "error", "message": "No JSON body provided"}), 400
+
+            # Extract required fields
+            code = data.get("code")
+            deadline = data.get("deadline")
+
+            if not code:
+                return jsonify({"status": "error", "message": "Missing 'code' field"}), 400
+            if not deadline:
+                return jsonify({"status": "error", "message": "Missing 'deadline' field"}), 400
+
+            # Extract optional fields
+            requirements = data.get("requirements", "")
+            description = data.get("description", "User-submitted function")
+            memory_mb = data.get("memory_mb", 256)
+            timeout_seconds = data.get("timeout_seconds", 60)
+            priority = data.get("priority", "balanced")
+
+            # Generate submission ID and function name
+            submission_id = str(uuid.uuid4())
+            function_name = f"user-func-{submission_id[:8]}"
+
+            print(f"\n{'='*60}")
+            print(f"New function submission: {submission_id}")
+            print(f"Function name: {function_name}")
+            print(f"Deadline: {deadline}")
+            print(f"Priority: {priority}")
+            print(f"{'='*60}")
+
+            # Step 1: Parse the code to estimate metadata (if description not provided)
+            # For now, use provided metadata or defaults
+            function_metadata = {
+                "function_id": function_name,
+                "description": description,
+                "runtime_ms": 1000,  # Default estimate
+                "memory_mb": memory_mb,
+                "data_input_gb": 0.001,
+                "data_output_gb": 0.001,
+                "source_location": "us-east1",
+                "invocations_per_day": 1,
+                "priority": priority,
+                "latency_important": False,
+                "allowed_regions": [],  # Will use all available regions
+            }
+
+            # Step 2: Generate carbon-aware schedule
+            print("\n2. Generating carbon-aware schedule...")
+            static_config = load_static_config()
+
+            # Fetch carbon forecasts
+            carbon_forecasts, failed_regions = get_carbon_forecasts_all_regions()
+
+            # Generate schedule
+            schedule = get_gemini_schedule(function_metadata, carbon_forecasts)
+
+            # Find optimal region from schedule
+            recommendations = schedule.get("recommendations", [])
+            if not recommendations:
+                return jsonify({
+                    "status": "error",
+                    "message": "Failed to generate schedule recommendations"
+                }), 500
+
+            # Sort by priority and get best recommendation
+            sorted_recs = sorted(recommendations, key=lambda x: x.get("priority", 999))
+            optimal_rec = sorted_recs[0]
+            optimal_region = optimal_rec.get("region", "us-east1")
+
+            print(f"\n3. Optimal region selected: {optimal_region}")
+            print(f"   Carbon intensity: {optimal_rec.get('carbon_intensity')} gCO2/kWh")
+
+            # Step 3: Deploy function to optimal region via MCP
+            print(f"\n4. Deploying function to {optimal_region} via MCP server...")
+
+            # Import MCP client
+            try:
+                from agent.mcp_client import MCPClientSync
+            except ImportError:
+                from mcp_client import MCPClientSync
+
+            mcp_client = MCPClientSync(MCP_SERVER_URL, MCP_API_KEY)
+
+            # Check MCP server health
+            health_status = mcp_client.health_check()
+            if health_status.get("status") != "healthy":
+                print(f"Warning: MCP server health check: {health_status}")
+
+            # Deploy the function
+            deployment_result = mcp_client.deploy_function(
+                function_name=function_name,
+                code=code,
+                region=optimal_region,
+                runtime="python312",
+                memory_mb=memory_mb,
+                timeout_seconds=timeout_seconds,
+                entry_point="main",
+                requirements=requirements
+            )
+
+            if not deployment_result.get("success"):
+                return jsonify({
+                    "status": "error",
+                    "message": f"Deployment failed: {deployment_result.get('error', 'Unknown error')}",
+                    "submission_id": submission_id,
+                    "function_name": function_name
+                }), 500
+
+            function_url = deployment_result.get("function_url")
+            print(f"   Deployed successfully: {function_url}")
+
+            # Step 4: Save schedule in dispatcher-compatible format
+            schedule_path = write_to_storage(schedule, f"schedule_{function_name}.json")
+            print(f"   Schedule saved: {schedule_path}")
+
+            # Step 5: Save submission info for tracking
+            submission_info = {
+                "submission_id": submission_id,
+                "function_name": function_name,
+                "deadline": deadline,
+                "submitted_at": datetime.now().isoformat(),
+                "optimal_region": optimal_region,
+                "function_url": function_url,
+                "schedule": schedule,
+                "metadata": function_metadata
+            }
+
+            submission_path = write_to_storage(submission_info, f"submission_{submission_id}.json")
+
+            # Prepare response
+            response = {
+                "status": "success",
+                "submission_id": submission_id,
+                "function_name": function_name,
+                "deployment": {
+                    "success": True,
+                    "function_url": function_url,
+                    "region": optimal_region,
+                    "status": deployment_result.get("status", "ACTIVE")
+                },
+                "schedule": {
+                    "total_recommendations": len(recommendations),
+                    "top_5": sorted_recs[:5]
+                },
+                "optimal_execution": {
+                    "datetime": optimal_rec.get("datetime"),
+                    "region": optimal_region,
+                    "carbon_intensity": optimal_rec.get("carbon_intensity"),
+                    "reasoning": optimal_rec.get("reasoning")
+                },
+                "submission_location": submission_path
+            }
+
+            print(f"\n{'='*60}")
+            print(f"Submission complete: {submission_id}")
+            print(f"{'='*60}")
+
+            return jsonify(response), 200
+
+        except Exception as exc:
+            print(f"Error in /submit: {exc}")
+            import traceback
+            traceback.print_exc()
+            return jsonify({
+                "status": "error",
+                "message": str(exc)
+            }), 500
 
     return app
 

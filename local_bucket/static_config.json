@@ -147,24 +147,6 @@
       "electricity_maps_zone": "FI",
       "continent": "europe"
     },
-    "europe-north2": {
-      "name": "Stockholm, Sweden",
-      "pricing_tier": 1,
-      "gpu_available": false,
-      "gpu_types": [],
-      "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "SE-SE3",
-      "continent": "europe"
-    },
-    "europe-southwest1": {
-      "name": "Madrid",
-      "pricing_tier": 1,
-      "gpu_available": false,
-      "gpu_types": [],
-      "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "ES",
-      "continent": "europe"
-    },
     "europe-west1": {
       "name": "Belgium",
       "pricing_tier": 1,
@@ -230,24 +212,6 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
       "electricity_maps_zone": "FR",
-      "continent": "europe"
-    },
-    "europe-west10": {
-      "name": "Berlin",
-      "pricing_tier": 2,
-      "gpu_available": false,
-      "gpu_types": [],
-      "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "DE",
-      "continent": "europe"
-    },
-    "europe-west12": {
-      "name": "Turin",
-      "pricing_tier": 2,
-      "gpu_available": false,
-      "gpu_types": [],
-      "data_transfer_cost_per_gb_usd": 0.05,
-      "electricity_maps_zone": "IT-NO",
       "continent": "europe"
     }
   },
