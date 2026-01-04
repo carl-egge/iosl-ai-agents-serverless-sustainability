@@ -133,7 +133,7 @@ Output Format (JSON only, no markdown):
 {{
   "recommendations": [
     {{
-      "datetime": "2025-01-17T10:00:00",
+      "datetime": "2025-01-17 10:00",
       "region": "europe-north1",
       "carbon_intensity": 45,
       "transfer_cost_usd": <USE EXACT VALUE FROM REGION COMPARISON ABOVE>,
@@ -142,7 +142,7 @@ Output Format (JSON only, no markdown):
       "reasoning": "europe-north1 costs $1,200/year vs source region's $800/year (+$400), but saves 50kg CO2/year (150kg vs 200kg). Cost per kg CO2 avoided = $8/kg, which is excellent. Worth the extra cost for substantial emissions reduction."
     }},
     {{
-      "datetime": "2025-01-17T18:00",
+      "datetime": "2025-01-17 18:00",
       "region": "{function_metadata.get('source_location', 'us-east1')}",
       "carbon_intensity": 420,
       "transfer_cost_usd": 0.0,
@@ -174,7 +174,7 @@ Your reasoning MUST include:
 5. Comparison to source region or other alternatives
 
 CRITICAL REQUIREMENTS:
-- Use the EXACT datetime strings from the forecast data above
+- Use datetime format "YYYY-MM-DD HH:MM" (e.g., "2025-01-17 10:00") - convert from forecast timestamps if needed
 - Use the Google Cloud region names (europe-west1, europe-north1, etc.) NOT the Electricity Maps zone codes
 - Provide EXACTLY 24 recommendations, one for each hour in the forecast
 - **MUST sort recommendations by priority field (1 = BEST, 24 = WORST)**

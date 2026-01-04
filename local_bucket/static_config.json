@@ -4,9 +4,9 @@
   "bucket_location": "us-east1",
   "agent_defaults": {
     "vcpus_default": 1,
-    "vcpus_if_gpu": 4,
+    "vcpus_if_gpu": 8,
     "gpu_count": 1,
-    "notes": "Agent applies vcpus_default=1 for non-GPU workloads, vcpus_if_gpu=4 for GPU workloads"
+    "notes": "Agent applies vcpus_default=1 for non-GPU workloads, vcpus_if_gpu=8 for GPU workloads (8 vCPUs recommended per Cloud Run GPU constraints)"
   },
   "gpu_constraints": {
     "minimum_cpu": 4,
@@ -147,6 +147,15 @@
       "electricity_maps_zone": "FI",
       "continent": "europe"
     },
+    "europe-north2": {
+      "name": "Stockholm, Sweden",
+      "pricing_tier": 1,
+      "gpu_available": false,
+      "gpu_types": [],
+      "data_transfer_cost_per_gb_usd": 0.05,
+      "electricity_maps_zone": "SE-SE3",
+      "continent": "europe"
+    },
     "europe-west1": {
       "name": "Belgium",
       "pricing_tier": 1,
@@ -266,20 +275,20 @@
     "cost_per_invocation": {
       "total_cost_usd": "invocation_cost + compute_cost + gpu_cost + transfer_cost",
       "invocation_cost": "pricing[tier][invocation_usd]",
-      "compute_cost": "(vcpus \u00c3\u2014 pricing[tier][vcpu_second_usd] \u00c3\u2014 execution_time_s) + (memory_gib \u00c3\u2014 pricing[tier][memory_gib_second_usd] \u00c3\u2014 execution_time_s)",
-      "gpu_cost": "gpu_count \u00c3\u2014 pricing[gpu][gpu_type][tier_gpu_second_usd] \u00c3\u2014 execution_time_s",
-      "transfer_cost": "(data_input_gb + data_output_gb) \u00c3\u2014 regions[region][data_transfer_cost_per_gb_usd]"
+      "compute_cost": "(vcpus * pricing[tier][vcpu_second_usd] * execution_time_s) + (memory_gib * pricing[tier][memory_gib_second_usd] * execution_time_s)",
+      "gpu_cost": "gpu_count * pricing[gpu][gpu_type][tier_gpu_second_usd] * execution_time_s",
+      "transfer_cost": "(data_input_gb + data_output_gb) * regions[region][data_transfer_cost_per_gb_usd]"
     },
     "energy_per_invocation": {
       "total_energy_kwh": "compute_energy_kwh + transfer_energy_kwh",
-      "compute_energy_kwh": "(cpu_power_w + memory_power_w + gpu_power_w) \u00c3\u2014 (execution_time_s / 3600) \u00c3\u2014 power_constants[datacenter_pue]",
-      "cpu_power_w": "vcpus \u00c3\u2014 power_constants[cpu_watts_per_vcpu] \u00c3\u2014 power_constants[cpu_utilization_factor]",
-      "memory_power_w": "memory_gib \u00c3\u2014 power_constants[memory_watts_per_gib]",
-      "gpu_power_w": "gpu_count \u00c3\u2014 power_constants[gpu_tdp_watts][gpu_type] \u00c3\u2014 power_constants[gpu_utilization_factor]",
-      "transfer_energy_kwh": "(data_input_gb + data_output_gb) \u00c3\u2014 power_constants[network_kwh_per_gb]"
+      "compute_energy_kwh": "(cpu_power_w + memory_power_w + gpu_power_w) * (execution_time_s / 3600) * power_constants[datacenter_pue]",
+      "cpu_power_w": "vcpus * power_constants[cpu_watts_per_vcpu] * power_constants[cpu_utilization_factor]",
+      "memory_power_w": "memory_gib * power_constants[memory_watts_per_gib]",
+      "gpu_power_w": "gpu_count * power_constants[gpu_tdp_watts][gpu_type] * power_constants[gpu_utilization_factor]",
+      "transfer_energy_kwh": "(data_input_gb + data_output_gb) * power_constants[network_kwh_per_gb]"
     },
     "carbon_per_invocation": {
-      "total_carbon_grams": "total_energy_kwh \u00c3\u2014 carbon_intensity_g_per_kwh",
+      "total_carbon_grams": "total_energy_kwh * carbon_intensity_g_per_kwh",
       "carbon_intensity_source": "Fetch from Electricity Maps API using regions[region][electricity_maps_zone]"
     }
   },
@@ -292,7 +301,7 @@
       "electricity_maps_zones": "https://portal.electricitymaps.com/docs"
     },
     "important_notes": {
-      "data_transfer": "Costs apply for BOTH download AND upload. Total = (input_gb + output_gb) \u00c3\u2014 rate",
+      "data_transfer": "Costs apply for BOTH download AND upload. Total = (input_gb + output_gb) * rate",
       "gpu_availability": "Cloud Run GPU support (nvidia-l4 only) in 4 regions: us-central1, us-east4, europe-west1, europe-west4",
       "carbon_intensity": "Real-time carbon intensity must be fetched from Electricity Maps API - NOT included in this config",
       "free_tier": "Calculations exclude Cloud Run free tier (180k vCPU-seconds, 360k GiB-seconds, 2M requests/month). Actual costs may be lower.",

@@ -1,220 +1,254 @@
 {
   "recommendations": [
     {
-      "datetime": "2025-12-19 06:00",
+      "datetime": "2026-01-04 23:00",
       "region": "europe-north2",
-      "carbon_intensity": 16,
+      "carbon_intensity": 19,
       "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
       "priority": 1,
-      "reasoning": "Chose europe-north2 (current 16 gCO2eq/kWh) over source region us-east1 (current 681 gCO2eq/kWh), resulting in approximately 2281g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
     },
     {
-      "datetime": "2025-12-19 12:00",
-      "region": "europe-north2",
-      "carbon_intensity": 17,
-      "transfer_cost_usd": 0.0,
-      "priority": 2,
-      "reasoning": "Chose europe-north2 (current 17 gCO2eq/kWh) over source region us-east1 (current 696 gCO2eq/kWh), resulting in approximately 2330g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 04:00",
-      "region": "europe-north2",
-      "carbon_intensity": 17,
-      "transfer_cost_usd": 0.0,
-      "priority": 3,
-      "reasoning": "Chose europe-north2 (current 17 gCO2eq/kWh) over source region us-east1 (current 692 gCO2eq/kWh), resulting in approximately 2316g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 11:00",
-      "region": "europe-north2",
-      "carbon_intensity": 17,
-      "transfer_cost_usd": 0.0,
-      "priority": 4,
-      "reasoning": "Chose europe-north2 (current 17 gCO2eq/kWh) over source region us-east1 (current 692 gCO2eq/kWh), resulting in approximately 2316g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 10:00",
-      "region": "europe-north2",
-      "carbon_intensity": 17,
-      "transfer_cost_usd": 0.0,
-      "priority": 5,
-      "reasoning": "Chose europe-north2 (current 17 gCO2eq/kWh) over source region us-east1 (current 687 gCO2eq/kWh), resulting in approximately 2299g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 05:00",
-      "region": "europe-north2",
-      "carbon_intensity": 17,
-      "transfer_cost_usd": 0.0,
-      "priority": 6,
-      "reasoning": "Chose europe-north2 (current 17 gCO2eq/kWh) over source region us-east1 (current 686 gCO2eq/kWh), resulting in approximately 2295g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 09:00",
-      "region": "europe-north2",
-      "carbon_intensity": 17,
-      "transfer_cost_usd": 0.0,
-      "priority": 7,
-      "reasoning": "Chose europe-north2 (current 17 gCO2eq/kWh) over source region us-east1 (current 683 gCO2eq/kWh), resulting in approximately 2285g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 01:00",
-      "region": "europe-north2",
-      "carbon_intensity": 18,
-      "transfer_cost_usd": 0.0,
-      "priority": 8,
-      "reasoning": "Chose europe-north2 (current 18 gCO2eq/kWh) over source region us-east1 (current 704 gCO2eq/kWh), resulting in approximately 2354g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-18 23:00",
-      "region": "europe-north2",
-      "carbon_intensity": 18,
-      "transfer_cost_usd": 0.0,
-      "priority": 9,
-      "reasoning": "Chose europe-north2 (current 18 gCO2eq/kWh) over source region us-east1 (current 701 gCO2eq/kWh), resulting in approximately 2343g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 00:00",
-      "region": "europe-north2",
-      "carbon_intensity": 18,
-      "transfer_cost_usd": 0.0,
-      "priority": 10,
-      "reasoning": "Chose europe-north2 (current 18 gCO2eq/kWh) over source region us-east1 (current 699 gCO2eq/kWh), resulting in approximately 2337g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 02:00",
-      "region": "europe-north2",
-      "carbon_intensity": 18,
-      "transfer_cost_usd": 0.0,
-      "priority": 11,
-      "reasoning": "Chose europe-north2 (current 18 gCO2eq/kWh) over source region us-east1 (current 698 gCO2eq/kWh), resulting in approximately 2333g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 03:00",
-      "region": "europe-north2",
-      "carbon_intensity": 18,
-      "transfer_cost_usd": 0.0,
-      "priority": 12,
-      "reasoning": "Chose europe-north2 (current 18 gCO2eq/kWh) over source region us-east1 (current 692 gCO2eq/kWh), resulting in approximately 2312g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 13:00",
-      "region": "europe-north2",
-      "carbon_intensity": 18,
-      "transfer_cost_usd": 0.0,
-      "priority": 13,
-      "reasoning": "Chose europe-north2 (current 18 gCO2eq/kWh) over source region us-east1 (current 685 gCO2eq/kWh), resulting in approximately 2288g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 07:00",
-      "region": "europe-north2",
-      "carbon_intensity": 18,
-      "transfer_cost_usd": 0.0,
-      "priority": 14,
-      "reasoning": "Chose europe-north2 (current 18 gCO2eq/kWh) over source region us-east1 (current 678 gCO2eq/kWh), resulting in approximately 2264g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 08:00",
-      "region": "europe-north2",
-      "carbon_intensity": 18,
-      "transfer_cost_usd": 0.0,
-      "priority": 15,
-      "reasoning": "Chose europe-north2 (current 18 gCO2eq/kWh) over source region us-east1 (current 667 gCO2eq/kWh), resulting in approximately 2228g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 14:00",
-      "region": "europe-north2",
-      "carbon_intensity": 18,
-      "transfer_cost_usd": 0.0,
-      "priority": 16,
-      "reasoning": "Chose europe-north2 (current 18 gCO2eq/kWh) over source region us-east1 (current 663 gCO2eq/kWh), resulting in approximately 2215g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 15:00",
-      "region": "europe-north2",
-      "carbon_intensity": 18,
-      "transfer_cost_usd": 0.0,
-      "priority": 17,
-      "reasoning": "Chose europe-north2 (current 18 gCO2eq/kWh) over source region us-east1 (current 641 gCO2eq/kWh), resulting in approximately 2137g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 16:00",
-      "region": "europe-north2",
-      "carbon_intensity": 18,
-      "transfer_cost_usd": 0.0,
-      "priority": 18,
-      "reasoning": "Chose europe-north2 (current 18 gCO2eq/kWh) over source region us-east1 (current 628 gCO2eq/kWh), resulting in approximately 2093g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-19 17:00",
-      "region": "europe-north2",
-      "carbon_intensity": 18,
-      "transfer_cost_usd": 0.0,
-      "priority": 19,
-      "reasoning": "Chose europe-north2 (current 18 gCO2eq/kWh) over source region us-east1 (current 612 gCO2eq/kWh), resulting in approximately 2039g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-18 22:00",
-      "region": "europe-north2",
-      "carbon_intensity": 19,
-      "transfer_cost_usd": 0.0,
-      "priority": 20,
-      "reasoning": "Chose europe-north2 (current 19 gCO2eq/kWh) over source region us-east1 (current 691 gCO2eq/kWh), resulting in approximately 2306g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-18 21:00",
-      "region": "europe-north2",
-      "carbon_intensity": 19,
-      "transfer_cost_usd": 0.0,
-      "priority": 21,
-      "reasoning": "Chose europe-north2 (current 19 gCO2eq/kWh) over source region us-east1 (current 676 gCO2eq/kWh), resulting in approximately 2254g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-18 20:00",
-      "region": "europe-north2",
-      "carbon_intensity": 19,
-      "transfer_cost_usd": 0.0,
-      "priority": 22,
-      "reasoning": "Chose europe-north2 (current 19 gCO2eq/kWh) over source region us-east1 (current 658 gCO2eq/kWh), resulting in approximately 2192g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-18 19:00",
-      "region": "europe-north2",
-      "carbon_intensity": 19,
-      "transfer_cost_usd": 0.0,
-      "priority": 23,
-      "reasoning": "Chose europe-north2 (current 19 gCO2eq/kWh) over source region us-east1 (current 649 gCO2eq/kWh), resulting in approximately 2162g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
-    },
-    {
-      "datetime": "2025-12-18 18:00",
+      "datetime": "2026-01-04 22:00",
       "region": "europe-north2",
       "carbon_intensity": 20,
       "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 2,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 3,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 01:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 4,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 02:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 5,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 03:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 6,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 04:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 7,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 06:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 8,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 07:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 9,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 08:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 10,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 09:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 11,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 10:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 12,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 11:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 13,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 12:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 14,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 14:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 15,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 15:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 16,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 16:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 17,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 17:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 18,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 18:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 19,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 19:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 20,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 20:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 21,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 21:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 22,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 05:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 23,
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
+    },
+    {
+      "datetime": "2026-01-04 13:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
       "priority": 24,
-      "reasoning": "Chose europe-north2 (current 20 gCO2eq/kWh) over source region us-east1 (current 644 gCO2eq/kWh), resulting in approximately 2140g CO2 savings per execution. Given instant execution and zero data transfer costs for all available regions, this choice prioritizes maximizing carbon efficiency without any financial tradeoff."
+      "reasoning": "[BALANCED] All regions have zero transfer cost, meaning cost is not a differentiator. Therefore, optimal scheduling for 'BALANCED' priority is to minimize carbon emissions. This region (europe-north2: 0.5kg) saves 14.3kg CO2 annually compared to the source region (us-east1: 14.8kg) for $0 extra cost. This represents a significant carbon reduction with no financial penalty."
     }
   ],
   "metadata": {
-    "generated_at": "2025-12-18T19:35:23.273682",
+    "generated_at": "2026-01-04T15:16:32.612532",
     "function_metadata": {
-      "function_id": "write_to_bucket",
       "runtime_ms": 150,
       "memory_mb": 256,
-      "instant_execution": true,
-      "description": "HTTP Cloud Function that writes JSON data with timestamp and region info to GCS bucket. Accepts optional JSON payload, generates UUID and timestamp, writes to gs://OUTPUT_BUCKET/runs/{timestamp}-{region}/run-{uuid}/result.json",
       "data_input_gb": 1e-05,
       "data_output_gb": 1e-05,
       "source_location": "us-east1",
       "invocations_per_day": 1000,
+      "priority": "balanced",
+      "latency_important": false,
+      "gpu_required": false,
+      "vcpus": null,
       "allowed_regions": [
         "europe-north2",
-        "europe-west1",
-        "us-east1"
-      ]
+        "us-east1",
+        "northamerica-northeast1",
+        "us-central1",
+        "europe-west1"
+      ],
+      "allow_schedule_caching": true,
+      "function_id": "write_to_bucket",
+      "description": "HTTP Cloud Function that writes JSON data with timestamp and region info to GCS bucket. Accepts optional JSON payload, generates UUID and timestamp, writes to gs://OUTPUT_BUCKET/runs/{timestamp}-{region}/run-{uuid}/result.json"
     },
     "regions_used": [
-      "europe-north2",
+      "europe-west1",
+      "northamerica-northeast1",
       "us-east1",
-      "europe-west1"
-    ]
+      "us-central1",
+      "europe-north2"
+    ],
+    "metadata_hash": "a1bb8609ca41c5309bc887f478ae61ae3489de97b726fba2e4024ba777fd765a",
+    "created_at": "2026-01-04T15:12:56.519867"
   }
 }
