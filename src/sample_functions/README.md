@@ -12,27 +12,28 @@ A set of self-contained Python entrypoint scripts that can be deployed from `src
 - `crypto_key_gen.py`: generate an RSA key pair to consume CPU time while keeping payload sizes small (long runtime + little data).
 - `video_transcoder.py`: create large buffers and compress them multiple times so the function resembles a long runtime + large data transcoding job.
 - `requirements.txt`: declares `functions-framework`, HTTP helpers, image/crypto dependencies, and the GCS client.
+- `main.py`: re-exports every handler so Cloud Run Buildpacks find the functions without an explicit `GOOGLE_FUNCTION_SOURCE`.
 
 ## Deploying each handler from source
 
 1. `cd src/sample_functions`
 2. Run the command that matches the handler you want to publish (replace placeholders with your region/bucket/token values):
 
+The `main.py` file re-exports every handler so that Buildpacks discover the function you name with `--function` without needing `GOOGLE_FUNCTION_SOURCE`.
+
 ```
 gcloud run deploy simple-addition \
   --source . \
-  --region us-central1 \
+  --region us-east1 \
   --allow-unauthenticated \
-  --runtime python314 \
   --function simple_addition
 ```
 
 ```
 gcloud run deploy carbon-call \
   --source . \
-  --region us-central1 \
+  --region us-east1 \
   --allow-unauthenticated \
-  --runtime python314 \
   --function carbon_api_call \
   --set-env-vars ELECTRICITYMAPS_TOKEN=your-token
 ```
@@ -40,9 +41,8 @@ gcloud run deploy carbon-call \
 ```
 gcloud run deploy bucket-writer \
   --source . \
-  --region us-central1 \
+  --region us-east1 \
   --allow-unauthenticated \
-  --runtime python314 \
   --function write_to_bucket \
   --set-env-vars OUTPUT_BUCKET=your-bucket,REGION=europe-west1
 ```
@@ -50,9 +50,8 @@ gcloud run deploy bucket-writer \
 ```
 gcloud run deploy api-health-check \
   --source . \
-  --region europe-north1 \
+  --region us-east1 \
   --allow-unauthenticated \
-  --runtime python314 \
   --function api_health_check
 ```
 
@@ -61,16 +60,14 @@ gcloud run deploy image-converter \
   --source . \
   --region us-east1 \
   --allow-unauthenticated \
-  --runtime python314 \
   --function image_format_converter
 ```
 
 ```
 gcloud run deploy crypto-key-gen \
   --source . \
-  --region europe-north1 \
+  --region us-east1 \
   --allow-unauthenticated \
-  --runtime python314 \
   --function crypto_key_gen
 ```
 
@@ -79,7 +76,6 @@ gcloud run deploy video-transcoder \
   --source . \
   --region us-east1 \
   --allow-unauthenticated \
-  --runtime python314 \
   --function video_transcoder
 ```
 

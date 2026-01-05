@@ -16,9 +16,6 @@ from google.cloud import storage
 BUCKET_NAME = os.environ.get("OUTPUT_BUCKET")
 REGION = os.environ.get("REGION", "unknown")
 
-if not BUCKET_NAME:
-    raise RuntimeError("Set OUTPUT_BUCKET before importing this module.")
-
 storage_client = storage.Client()
 
 
@@ -31,6 +28,13 @@ def _build_path() -> str:
 @functions_framework.http
 def write_to_bucket(request) -> tuple[str, int, Dict[str, str]]:
     """Write the received payload to a new object under OUTPUT_BUCKET."""
+
+    if not BUCKET_NAME:
+        return (
+            json.dumps({"error": "OUTPUT_BUCKET must be set in the deployment."}),
+            500,
+            {"Content-Type": "application/json"},
+        )
 
     try:
         payload = request.get_json(silent=True) or {}

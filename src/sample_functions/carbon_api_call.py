@@ -13,7 +13,7 @@ import requests
 from dotenv import load_dotenv
 
 
-ROOT_DIR = Path(__file__).resolve().parents[2]
+ROOT_DIR = Path(__file__).resolve().parent
 load_dotenv(ROOT_DIR / ".env")
 
 
