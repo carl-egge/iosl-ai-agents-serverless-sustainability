@@ -1,4 +1,4 @@
-# Integrating AI Agents into Serverless Platforms for Enhanced Sustainability
+# WIP: Integrating AI Agents into Serverless Platforms for Enhanced Sustainability
 
 ## 📘 Project Overview
 This project explores how **AI agents** can improve the **sustainability and efficiency** of **serverless computing platforms** such as AWS Lambda, Google Cloud Functions, or OpenFaaS.
