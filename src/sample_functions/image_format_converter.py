@@ -1,54 +1,77 @@
 #!/usr/bin/env python3
-"""Simulated image converter that creates a large PNG and exports WebP to mimic heavy transfer loads."""
+"""Image converter that accepts uploaded image bytes and returns the requested format."""
 
 from __future__ import annotations
 
+import base64
+import binascii
 import io
 import json
-import os
 from typing import Dict
 
 from PIL import Image
 import functions_framework
 
 
-@functions_framework.http
+def _load_image_bytes(request) -> bytes:
+    raw_body = request.get_data(cache=False)
+    if raw_body:
+        return raw_body
+    payload = request.get_json(silent=True) or {}
+    encoded = payload.get("data")
+    if isinstance(encoded, str):
+        try:
+            return base64.b64decode(encoded)
+        except (ValueError, binascii.Error):
+            pass
+    raise ValueError("Send raw image bytes in the body or base64-encoded `data` field.")
 
+
+@functions_framework.http
 def image_format_converter(request) -> tuple[str, int, Dict[str, str]]:
-    """Generate a synthetic image in PNG format and transcode it to WebP in memory."""
+    """Convert uploaded image bytes into the requested format."""
 
     payload = request.get_json(silent=True) or {}
-    width = int(payload.get("width", 4000))
-    height = int(payload.get("height", 2500))
-    width = max(1000, min(width, 5000))
-    height = max(1000, min(height, 4000))
+    target_format = payload.get("format", "WEBP").upper()
+    quality = int(payload.get("quality", 80))
+    quality = max(30, min(quality, 100))
 
-    # Generate pseudo-random RGB canvas so the data volume is real.
-    canvas = os.urandom(width * height * 3)
-    image = Image.frombytes("RGB", (width, height), canvas)
+    try:
+        input_bytes = _load_image_bytes(request)
+    except ValueError as error:
+        return (
+            json.dumps({"error": str(error)}),
+            400,
+            {"Content-Type": "application/json"},
+        )
 
-    png_bytes = io.BytesIO()
-    image.save(png_bytes, format="PNG")
-    png_data = png_bytes.getvalue()
-
-    webp_bytes = io.BytesIO()
-    image.save(webp_bytes, format="WEBP", quality=80)
-    webp_data = webp_bytes.getvalue()
+    image = Image.open(io.BytesIO(input_bytes))
+    output_buffer = io.BytesIO()
+    image.save(output_buffer, format=target_format, quality=quality)
+    output_bytes = output_buffer.getvalue()
 
     response = {
         "scenario": "Short runtime + Large data",
-        "input_size_mb": round(len(png_data) / (1024 * 1024), 2),
-        "output_size_mb": round(len(webp_data) / (1024 * 1024), 2),
-        "compression_ratio": round(len(webp_data) / len(png_data), 3),
-        "frames": payload.get("frames", 1),
+        "input_size_mb": round(len(input_bytes) / (1024 * 1024), 2),
+        "output_size_mb": round(len(output_bytes) / (1024 * 1024), 2),
+        "format": target_format,
+        "quality": quality,
+        "converted_image": base64.b64encode(output_bytes).decode(),
     }
-
     return json.dumps(response), 200, {"Content-Type": "application/json"}
 
 
 if __name__ == "__main__":
+    # Create a small PNG for local sanity checks.
+    buffer = io.BytesIO()
+    Image.new("RGB", (128, 128), color=(120, 200, 150)).save(buffer, format="PNG")
+    encoded = base64.b64encode(buffer.getvalue()).decode()
+
     class DummyRequest:
         def get_json(self, silent=False):
-            return {}
+            return {"format": "WEBP", "quality": 75, "data": encoded}
+
+        def get_data(self, cache=False):
+            return b""
 
     print(image_format_converter(DummyRequest()))

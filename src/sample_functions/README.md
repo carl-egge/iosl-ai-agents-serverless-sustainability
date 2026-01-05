@@ -109,11 +109,13 @@ curl -X POST $URL -H "Content-Type: application/json" -d '{"note": "cloud run wr
 curl -X POST $URL -H "Content-Type: application/json" -d '{"check": "ping"}'
 ```
 
-- Image converter (optional `width`/`height` override):
+- Image converter (convert an uploaded image and return the new bytes; responds with base64 `converted_image`):
 
 ```
-curl -X POST $URL -H "Content-Type: application/json" -d '{"width": 3840, "height": 2160}'
+curl -X POST $URL -H "Content-Type: application/octet-stream" --data-binary @input.png
 ```
+
+If you prefer JSON, encode your bytes with `base64` and send `{"data": "..."}`; the handler still returns the converted bytes as `converted_image`.
 
 - Crypto key generator (optional `bits`):
 
@@ -121,11 +123,13 @@ curl -X POST $URL -H "Content-Type: application/json" -d '{"width": 3840, "heigh
 curl -X POST $URL -H "Content-Type: application/json" -d '{"bits": 4096}'
 ```
 
-- Video transcoder (adjust chunk size/passes to tune runtime):
+- Video transcoder (compress the payload you upload and receive the processed bytes as base64):
 
 ```
-curl -X POST $URL -H "Content-Type: application/json" -d '{"chunk_mb": 20, "passes": 4}'
+curl -X POST $URL -H "Content-Type: application/octet-stream" --data-binary @large-video.bin
 ```
+
+You can optionally send `{"passes": 4, "data": "...base64..."}` if you need to wrap the payload inside JSON; the `processed_data` field in the response holds the last pass output.
 
 ## Local sanity checks
 
@@ -136,3 +140,4 @@ python simple_addition.py
 ```
 
 Each module prints its own sample response by invoking the decorated handler with a dummy request.
+The latest video and image handlers already build a sample payload when executed this way, so running `python video_transcoder.py` or `python image_format_converter.py` still demonstrates a valid response.
