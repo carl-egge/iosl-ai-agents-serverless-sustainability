@@ -1,231 +1,231 @@
 {
   "recommendations": [
     {
-      "datetime": "2026-01-04 19:00",
+      "datetime": "2026-01-05 18:00",
       "region": "us-central1",
-      "carbon_intensity": 438,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 6253.44,
+      "carbon_intensity": 517,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 1,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1255.99 kg CO2/year) than us-central1 (2282.32 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1026.33 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot also offers the lowest carbon intensity (517 gCO2eq/kWh) within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 18:00",
+      "datetime": "2026-01-05 17:00",
       "region": "us-central1",
-      "carbon_intensity": 440,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 6282.02,
+      "carbon_intensity": 518,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 2,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1229.69 kg CO2/year) than us-central1 (2292.94 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1063.25 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 518 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 17:00",
+      "datetime": "2026-01-05 19:00",
       "region": "us-central1",
-      "carbon_intensity": 447,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 6384.16,
+      "carbon_intensity": 524,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 3,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1214.31 kg CO2/year) than us-central1 (2330.22 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1115.91 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 524 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 20:00",
+      "datetime": "2026-01-05 16:00",
       "region": "us-central1",
-      "carbon_intensity": 452,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 6457.04,
+      "carbon_intensity": 525,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 4,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1315.40 kg CO2/year) than us-central1 (2356.91 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1041.51 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 525 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 16:00",
+      "datetime": "2026-01-06 10:00",
       "region": "us-central1",
-      "carbon_intensity": 455,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 6499.51,
+      "carbon_intensity": 527,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 5,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1172.50 kg CO2/year) than us-central1 (2372.32 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1199.82 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 527 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 15:00",
+      "datetime": "2026-01-06 11:00",
       "region": "us-central1",
-      "carbon_intensity": 470,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 6710.19,
+      "carbon_intensity": 527,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 6,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1167.27 kg CO2/year) than us-central1 (2449.22 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1281.95 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 527 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 22:00",
+      "datetime": "2026-01-05 20:00",
       "region": "us-central1",
-      "carbon_intensity": 483,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 6905.41,
+      "carbon_intensity": 529,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 7,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1315.40 kg CO2/year) than us-central1 (2519.38 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1203.98 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 529 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 14:00",
+      "datetime": "2026-01-06 08:00",
       "region": "us-central1",
-      "carbon_intensity": 500,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 7138.5,
+      "carbon_intensity": 529,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 8,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1042.32 kg CO2/year) than us-central1 (2605.55 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1563.23 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 529 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 23:00",
+      "datetime": "2026-01-06 09:00",
       "region": "us-central1",
-      "carbon_intensity": 505,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 7210.08,
+      "carbon_intensity": 530,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 9,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1224.41 kg CO2/year) than us-central1 (2631.48 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1407.07 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 530 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 02:00",
+      "datetime": "2026-01-06 13:00",
       "region": "us-central1",
-      "carbon_intensity": 510,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 7282.37,
+      "carbon_intensity": 530,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 10,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1172.50 kg CO2/year) than us-central1 (2658.07 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1485.57 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 530 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 00:00",
+      "datetime": "2026-01-06 12:00",
       "region": "us-central1",
-      "carbon_intensity": 511,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 7296.65,
+      "carbon_intensity": 532,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 11,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1189.69 kg CO2/year) than us-central1 (2663.18 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1473.49 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 532 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 06:00",
+      "datetime": "2026-01-05 15:00",
       "region": "us-central1",
-      "carbon_intensity": 511,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 7296.65,
+      "carbon_intensity": 535,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 12,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1177.68 kg CO2/year) than us-central1 (2663.18 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1485.50 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 535 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 04:00",
-      "region": "us-central1",
-      "carbon_intensity": 512,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 7311.02,
-      "priority": 13,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1199.71 kg CO2/year) than us-central1 (2667.92 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1468.21 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
-    },
-    {
-      "datetime": "2026-01-04 01:00",
-      "region": "us-central1",
-      "carbon_intensity": 513,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 7325.21,
-      "priority": 14,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1189.69 kg CO2/year) than us-central1 (2673.61 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1483.92 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
-    },
-    {
-      "datetime": "2026-01-04 05:00",
-      "region": "us-central1",
-      "carbon_intensity": 513,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 7325.21,
-      "priority": 15,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1194.48 kg CO2/year) than us-central1 (2673.61 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1479.13 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
-    },
-    {
-      "datetime": "2026-01-04 03:00",
-      "region": "us-central1",
-      "carbon_intensity": 516,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 7367.77,
-      "priority": 16,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1172.50 kg CO2/year) than us-central1 (2689.04 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1516.54 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
-    },
-    {
-      "datetime": "2026-01-04 21:00",
-      "region": "us-central1",
-      "carbon_intensity": 465,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 6648.71,
-      "priority": 17,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1341.59 kg CO2/year) than us-central1 (2426.58 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1084.99 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
-    },
-    {
-      "datetime": "2026-01-04 07:00",
-      "region": "us-central1",
-      "carbon_intensity": 521,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 7439.14,
-      "priority": 18,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1204.93 kg CO2/year) than us-central1 (2714.88 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1509.95 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
-    },
-    {
-      "datetime": "2026-01-04 08:00",
-      "region": "us-central1",
-      "carbon_intensity": 521,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 7439.14,
-      "priority": 19,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1335.99 kg CO2/year) than us-central1 (2714.88 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1378.89 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
-    },
-    {
-      "datetime": "2026-01-04 09:00",
+      "datetime": "2026-01-06 07:00",
       "region": "us-central1",
       "carbon_intensity": 537,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 7666.78,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
+      "priority": 13,
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 537 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
+    },
+    {
+      "datetime": "2026-01-05 21:00",
+      "region": "us-central1",
+      "carbon_intensity": 539,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
+      "priority": 14,
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 539 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
+    },
+    {
+      "datetime": "2026-01-05 14:00",
+      "region": "us-central1",
+      "carbon_intensity": 550,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
+      "priority": 15,
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 550 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
+    },
+    {
+      "datetime": "2026-01-06 06:00",
+      "region": "us-central1",
+      "carbon_intensity": 551,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
+      "priority": 16,
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 551 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
+    },
+    {
+      "datetime": "2026-01-05 22:00",
+      "region": "us-central1",
+      "carbon_intensity": 557,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
+      "priority": 17,
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 557 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
+    },
+    {
+      "datetime": "2026-01-06 05:00",
+      "region": "us-central1",
+      "carbon_intensity": 568,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
+      "priority": 18,
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 568 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
+    },
+    {
+      "datetime": "2026-01-05 23:00",
+      "region": "us-central1",
+      "carbon_intensity": 570,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
+      "priority": 19,
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 570 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
+    },
+    {
+      "datetime": "2026-01-06 01:00",
+      "region": "us-central1",
+      "carbon_intensity": 572,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 20,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1302.70 kg CO2/year) than us-central1 (2797.37 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1494.67 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 572 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 10:00",
+      "datetime": "2026-01-06 03:00",
       "region": "us-central1",
-      "carbon_intensity": 541,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 7723.77,
+      "carbon_intensity": 573,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 21,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1194.48 kg CO2/year) than us-central1 (2818.17 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1623.69 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot offers a carbon intensity of 573 gCO2eq/kWh within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 11:00",
+      "datetime": "2026-01-06 00:00",
       "region": "us-central1",
-      "carbon_intensity": 555,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 7924.63,
+      "carbon_intensity": 574,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 22,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1136.31 kg CO2/year) than us-central1 (2891.40 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1755.09 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot also represents one of the highest carbon intensities (574 gCO2eq/kWh) within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 12:00",
+      "datetime": "2026-01-06 02:00",
       "region": "us-central1",
-      "carbon_intensity": 563,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 8038.85,
+      "carbon_intensity": 574,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 23,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1115.65 kg CO2/year) than us-central1 (2933.08 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1817.43 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot also represents one of the highest carbon intensities (574 gCO2eq/kWh) within the selected cost-optimal region for this 24-hour period."
     },
     {
-      "datetime": "2026-01-04 13:00",
+      "datetime": "2026-01-06 04:00",
       "region": "us-central1",
-      "carbon_intensity": 571,
-      "transfer_cost_usd": 0.8,
-      "emissions_grams": 8153.07,
+      "carbon_intensity": 574,
+      "transfer_cost_usd": 0.016,
+      "emissions_grams": 15.63,
       "priority": 24,
-      "reasoning": "[COSTS] us-central1 (Iowa) is chosen for its significantly lower transfer cost ($292/year) compared to europe-west1 (Belgium) ($730/year), representing an annual saving of $438. While europe-west1 offers lower emissions (1210.54 kg CO2/year) than us-central1 (2974.77 kg CO2/year) at this time, the 150.7% cost increase to save approximately 1764.23 kg CO2/year is not justified under a strict cost optimization priority, as per the decision framework."
+      "reasoning": "[COSTS] us-central1 is chosen due to its significantly lower annual transfer cost of $58 compared to europe-west1's $146. This represents an annual saving of $88. While europe-west1 offers lower emissions (31.6kg CO2/year vs us-central1's 57.1kg CO2/year), resulting in 25.5kg CO2 saved annually, the cost to achieve this reduction is $88/year, or approximately $3.45 per kg CO2 avoided. Under a strict 'COSTS' priority, this substantial increase in cost is not justified for the corresponding emissions reduction, aligning with the principle that a significant cost increase for a non-extreme emissions reduction is not warranted. This specific time slot also represents one of the highest carbon intensities (574 gCO2eq/kWh) within the selected cost-optimal region for this 24-hour period."
     }
   ],
   "metadata": {
-    "generated_at": "2026-01-04T15:16:32.618407",
+    "generated_at": "2026-01-05T16:04:34.287937",
     "function_metadata": {
-      "runtime_ms": 600000,
-      "memory_mb": 25000,
-      "data_input_gb": 25.0,
-      "data_output_gb": 15.0,
+      "runtime_ms": 1300,
+      "memory_mb": 2048,
+      "data_input_gb": 0.5,
+      "data_output_gb": 0.3,
       "source_location": "us-east1",
-      "invocations_per_day": 1,
+      "invocations_per_day": 10,
       "priority": "costs",
       "latency_important": false,
       "gpu_required": true,
@@ -236,13 +236,13 @@
       ],
       "allow_schedule_caching": true,
       "function_id": "image_format_converter",
-      "description": "Convert images from PNG to WebP format for web optimization"
+      "description": "Transforms uploaded images from PNG (or any byte stream) into WebP/alternative formats, creating tens of megabytes of transfer."
     },
     "regions_used": [
       "europe-west1",
       "us-central1"
     ],
-    "metadata_hash": "c3587f54f3cf2b7b46bbae2264ccb41b3c0f9c49f1544448869adb6f67b29ea9",
-    "created_at": "2026-01-04T15:14:11.989293"
+    "metadata_hash": "06991ce22dd329931b33d0f8c1f26f4ce413f02ab70f486eb017efe98663ae02",
+    "created_at": "2026-01-05T16:04:34.287937"
   }
 }

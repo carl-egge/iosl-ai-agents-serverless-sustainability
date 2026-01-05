@@ -1,5 +1,5 @@
 {
-  "description": "Function metadata for carbon-aware scheduling",
+  "description": "Sample function metadata that cover the different runtime and data transfer scenarios implemented in src/sample_functions.",
   "functions": {
     "api_health_check": {
       "function_id": "api_health_check",
@@ -10,6 +10,25 @@
       "data_output_gb": 0.000002,
       "source_location": "us-east1",
       "invocations_per_day": 20000,
+      "priority": "balanced",
+      "latency_important": true,
+      "allowed_regions": [
+        "europe-north2",
+        "us-east1",
+        "northamerica-northeast1",
+        "us-central1",
+        "europe-west1"
+      ]
+    },
+    "simple_addition": {
+      "function_id": "simple_addition",
+      "runtime_ms": 120,
+      "memory_mb": 128,
+      "description": "Lightweight calculator that sums two numbers from a JSON payload and responds instantly.",
+      "data_input_gb": 0.000002,
+      "data_output_gb": 0.000002,
+      "source_location": "us-east1",
+      "invocations_per_day": 5000,
       "priority": "balanced",
       "latency_important": true,
       "allowed_regions": [
