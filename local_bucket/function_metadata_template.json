@@ -1,0 +1,51 @@
+{
+  "description": "Template showing all available fields for function metadata",
+  "functions": {
+    "example_function": {
+      "function_id": "example_function",
+      "runtime_ms": 1000,
+      "memory_mb": 512,
+      "description": "Technical description of what this function does",
+      "data_input_gb": 0.0,
+      "data_output_gb": 0.0,
+      "source_location": "us-east1",
+      "invocations_per_day": 1,
+      "priority": "balanced",
+      "latency_important": false,
+      "gpu_required": false,
+      "vcpus": null,
+      "allowed_regions": ["europe-north2", "us-east1", "northamerica-northeast1", "us-central1", "europe-west1"],
+      "allow_schedule_caching": true,
+
+      "_field_descriptions": {
+        "function_id": "REQUIRED: Unique identifier for the function",
+        "runtime_ms": "REQUIRED: Execution time in milliseconds",
+        "memory_mb": "REQUIRED: Memory allocation in MB (128, 256, 512, 1024, 2048, 4096, or higher)",
+        "description": "REQUIRED: Technical description of the function",
+        "data_input_gb": "REQUIRED: Input data per invocation in GB (default: 0.0)",
+        "data_output_gb": "REQUIRED: Output data per invocation in GB (default: 0.0)",
+        "source_location": "REQUIRED: GCS bucket region where data is stored (default: 'us-east1')",
+        "invocations_per_day": "REQUIRED: Number of invocations per day (default: 1)",
+        "priority": "OPTIONAL: Optimization priority - 'balanced' (default), 'costs', or 'emissions'",
+        "latency_important": "OPTIONAL: Whether low latency is critical (default: false)",
+        "gpu_required": "OPTIONAL: Whether GPU acceleration is needed (default: false)",
+        "vcpus": "OPTIONAL: Number of vCPUs (1-8). If not specified, defaults to 1 for non-GPU, 8 for GPU workloads",
+        "allowed_regions": "OPTIONAL: List of allowed GCP region codes. Empty array [] means all regions are allowed (default: [])",
+        "allow_schedule_caching": "OPTIONAL: Allow reusing schedules when metadata unchanged and forecast fresh (< 7 days). Set to false to always regenerate schedules (default: true)"
+      },
+
+      "_default_values": {
+        "priority": "balanced",
+        "latency_important": false,
+        "gpu_required": false,
+        "vcpus": "1 for non-GPU, 8 for GPU (if not specified)",
+        "allowed_regions": "[] (all regions)",
+        "source_location": "us-east1",
+        "invocations_per_day": 1,
+        "data_input_gb": 0.0,
+        "data_output_gb": 0.0,
+        "allow_schedule_caching": true
+      }
+    }
+  }
+}

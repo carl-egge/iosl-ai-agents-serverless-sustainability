@@ -13,7 +13,10 @@ Mode detection:
 
 import json
 import os
-from datetime import datetime
+import uuid
+import asyncio
+import hashlib
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional, Dict, Any
 import requests
@@ -29,9 +32,32 @@ BUCKET_NAME = os.environ.get("GCS_BUCKET_NAME", "faas-scheduling-us-east1")
 ELECTRICITYMAPS_TOKEN = os.environ.get("ELECTRICITYMAPS_TOKEN")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
+# MCP Server configuration for function deployment
+MCP_SERVER_URL = os.environ.get("MCP_SERVER_URL", "http://localhost:8080")
+MCP_API_KEY = os.environ.get("MCP_API_KEY", "")
+
+# Forecast caching configuration
+MAX_FORECAST_AGE_DAYS = 7  # Regenerate schedule if older than this many days
+
 # GCS paths for configuration files
 STATIC_CONFIG_PATH = "static_config.json"
 FUNCTION_METADATA_PATH = "function_metadata.json"
+
+# Metadata defaults - single source of truth
+METADATA_DEFAULTS = {
+    "runtime_ms": 1000,
+    "memory_mb": 512,
+    "data_input_gb": 0.0,
+    "data_output_gb": 0.0,
+    "source_location": "us-east1",
+    "invocations_per_day": 1,
+    "priority": "balanced",
+    "latency_important": False,
+    "gpu_required": False,
+    "vcpus": None,  # Dynamically determined based on gpu_required
+    "allowed_regions": [],
+    "allow_schedule_caching": True  # Allow reusing schedules if inputs unchanged and not too old
+}
 
 # Cache for static config
 _static_config_cache = None
@@ -98,6 +124,56 @@ def load_function_metadata() -> dict:
     return read_from_storage(FUNCTION_METADATA_PATH)
 
 
+def apply_defaults(metadata: dict) -> dict:
+    """
+    Apply default values to function metadata.
+
+    User-provided values override defaults. This ensures all required fields
+    exist in the metadata dict, allowing simple direct access without .get().
+
+    Args:
+        metadata: User-provided function metadata
+
+    Returns:
+        Metadata dict with defaults applied
+    """
+    return {**METADATA_DEFAULTS, **metadata}
+
+
+def compute_metadata_hash(metadata: dict) -> str:
+    """
+    Compute a hash of metadata inputs to detect changes.
+
+    Only includes fields that affect scheduling decisions, excludes allow_schedule_caching.
+
+    Args:
+        metadata: Function metadata dict
+
+    Returns:
+        SHA256 hash of relevant metadata fields
+    """
+    # Select only fields that affect scheduling
+    relevant_fields = {
+        "runtime_ms": metadata.get("runtime_ms"),
+        "memory_mb": metadata.get("memory_mb"),
+        "data_input_gb": metadata.get("data_input_gb"),
+        "data_output_gb": metadata.get("data_output_gb"),
+        "source_location": metadata.get("source_location"),
+        "invocations_per_day": metadata.get("invocations_per_day"),
+        "priority": metadata.get("priority"),
+        "latency_important": metadata.get("latency_important"),
+        "gpu_required": metadata.get("gpu_required"),
+        "vcpus": metadata.get("vcpus"),
+        "allowed_regions": tuple(sorted(metadata.get("allowed_regions", [])))  # Sort for consistency
+    }
+
+    # Create a consistent JSON string
+    metadata_str = json.dumps(relevant_fields, sort_keys=True)
+
+    # Compute SHA256 hash
+    return hashlib.sha256(metadata_str.encode()).hexdigest()
+
+
 def get_region_info(region_code: str, config: dict) -> dict:
     """
     Get region information from config.
@@ -147,36 +223,79 @@ def calculate_transfer_cost(
 def calculate_emissions_per_execution(
     runtime_ms: float,
     memory_mb: float,
-    carbon_intensity: float
+    data_input_gb: float,
+    data_output_gb: float,
+    carbon_intensity: float,
+    config: dict,
+    vcpus: int = 1,
+    gpu_count: int = 0,
+    gpu_type: str = "nvidia-l4"
 ) -> float:
     """
-    Calculate CO2 emissions for a single function execution.
+    Calculate CO2 emissions for a single function execution using static_config formulas.
 
     Args:
         runtime_ms: Function runtime in milliseconds
         memory_mb: Function memory allocation in MB
+        data_input_gb: Input data in GB
+        data_output_gb: Output data in GB
         carbon_intensity: Carbon intensity in gCO2/kWh
+        config: Static config dict with power_constants
+        vcpus: Number of vCPUs (default: 1)
+        gpu_count: Number of GPUs (default: 0)
+        gpu_type: GPU type if used (default: "nvidia-l4")
 
     Returns:
         CO2 emissions in grams for one execution
 
-    Formula based on GCP Cloud Functions power model:
-    - Power (W) ≈ 0.0014 × memory_mb (empirical estimate)
-    - Energy (kWh) = Power (W) × runtime (hours) / 1000
-    - Emissions (g) = Energy (kWh) × carbon_intensity (gCO2/kWh)
+    Formula from static_config.json:
+    - cpu_power_w = vcpus × cpu_watts_per_vcpu × cpu_utilization_factor
+    - memory_power_w = memory_gib × memory_watts_per_gib
+    - gpu_power_w = gpu_count × gpu_tdp_watts × gpu_utilization_factor
+    - compute_energy_kwh = (cpu_power + memory_power + gpu_power) × (runtime_s / 3600) × PUE
+    - transfer_energy_kwh = (data_input + data_output) × network_kwh_per_gb
+    - total_energy_kwh = compute_energy + transfer_energy
+    - emissions = total_energy_kwh × carbon_intensity
     """
-    # Estimate power consumption based on memory allocation
-    # Typical cloud function: ~1.4W per 1GB (1024MB) memory
-    power_watts = 0.0014 * memory_mb
+    power_constants = config.get("power_constants", {})
 
-    # Convert runtime to hours
-    runtime_hours = runtime_ms / (1000 * 60 * 60)
+    # Convert runtime to seconds
+    runtime_s = runtime_ms / 1000
 
-    # Calculate energy consumption in kWh
-    energy_kwh = (power_watts * runtime_hours) / 1000
+    # Convert memory to GiB
+    memory_gib = memory_mb / 1024
 
-    # Calculate emissions in grams CO2
-    emissions_grams = energy_kwh * carbon_intensity
+    # Calculate CPU power (Watts)
+    cpu_watts_per_vcpu = power_constants.get("cpu_watts_per_vcpu", 2.5)
+    cpu_utilization_factor = power_constants.get("cpu_utilization_factor", 0.5)
+    cpu_power_w = vcpus * cpu_watts_per_vcpu * cpu_utilization_factor
+
+    # Calculate memory power (Watts)
+    memory_watts_per_gib = power_constants.get("memory_watts_per_gib", 0.4)
+    memory_power_w = memory_gib * memory_watts_per_gib
+
+    # Calculate GPU power (Watts) if applicable
+    gpu_power_w = 0
+    if gpu_count > 0:
+        gpu_tdp_watts = power_constants.get("gpu_tdp_watts", {}).get(gpu_type, 72)
+        gpu_utilization_factor = power_constants.get("gpu_utilization_factor", 0.8)
+        gpu_power_w = gpu_count * gpu_tdp_watts * gpu_utilization_factor
+
+    # Calculate compute energy (kWh)
+    total_power_w = cpu_power_w + memory_power_w + gpu_power_w
+    datacenter_pue = power_constants.get("datacenter_pue", 1.1)
+    compute_energy_kwh = (total_power_w * (runtime_s / 3600)) * datacenter_pue
+
+    # Calculate transfer energy (kWh)
+    network_kwh_per_gb = power_constants.get("network_kwh_per_gb", 0.002)
+    total_data_gb = data_input_gb + data_output_gb
+    transfer_energy_kwh = total_data_gb * network_kwh_per_gb
+
+    # Total energy
+    total_energy_kwh = compute_energy_kwh + transfer_energy_kwh
+
+    # Calculate emissions (grams CO2)
+    emissions_grams = total_energy_kwh * carbon_intensity
 
     return emissions_grams
 
@@ -359,7 +478,11 @@ Extract and estimate these parameters:
    Extract if mentioned (keywords: cost-sensitive → "costs", green/sustainable → "emissions"), otherwise default to "balanced"
 10. latency_important: true if low latency/real-time response is critical, false otherwise (default: false)
    Extract if mentioned (keywords: latency-sensitive, real-time, interactive → true), otherwise default to false
-11. allowed_regions: Extract if mentioned, otherwise leave empty array []
+11. gpu_required: true if GPU acceleration is needed, false otherwise (default: false)
+   Extract if mentioned (keywords: GPU, machine learning, AI inference, training → true), otherwise default to false
+12. vcpus: Number of vCPUs to allocate (optional, defaults: 1 for non-GPU, 8 for GPU workloads)
+   Only specify if different from defaults. Must be integer between 1-8.
+13. allowed_regions: Extract if mentioned, otherwise leave empty array []
 
 IMPORTANT estimation guidelines:
 - Be conservative with estimates (overestimate resource needs for safety)
@@ -380,6 +503,8 @@ Return ONLY valid JSON matching this exact schema (no markdown, no explanations)
   "invocations_per_day": number,
   "priority": "balanced|costs|emissions",
   "latency_important": boolean,
+  "gpu_required": boolean,
+  "vcpus": number (optional, defaults: 1 for non-GPU, 8 for GPU),
   "allowed_regions": ["array of region codes or empty"],
   "confidence_score": number (0.0-1.0, how confident you are in these estimates),
   "assumptions": ["list of key assumptions made during estimation"],
@@ -398,6 +523,7 @@ Example output:
   "invocations_per_day": 500,
   "priority": "balanced",
   "latency_important": false,
+  "gpu_required": false,
   "allowed_regions": [],
   "confidence_score": 0.75,
   "assumptions": [
@@ -423,7 +549,9 @@ def calculate_region_metrics(
     data_output_gb: float,
     invocations_per_day: int,
     source_location: str,
-    static_config: dict
+    static_config: dict,
+    gpu_required: bool = False,
+    vcpus: int = None
 ) -> dict:
     """
     Calculate yearly costs and emissions for each region.
@@ -470,10 +598,30 @@ def calculate_region_metrics(
         )
 
         # Calculate emissions per execution (in grams CO2)
+        # Determine vCPU count: use specified value or defaults from agent_defaults
+        if vcpus is None:
+            if gpu_required:
+                vcpus_to_use = static_config.get("agent_defaults", {}).get("vcpus_if_gpu", 8)
+            else:
+                vcpus_to_use = static_config.get("agent_defaults", {}).get("vcpus_default", 1)
+        else:
+            vcpus_to_use = vcpus
+
+        # GPU count
+        if gpu_required:
+            gpu_count = static_config.get("agent_defaults", {}).get("gpu_count", 1)
+        else:
+            gpu_count = 0
+
         emissions_per_exec = calculate_emissions_per_execution(
             runtime_ms,
             memory_mb,
-            avg_carbon_intensity
+            data_input_gb,
+            data_output_gb,
+            avg_carbon_intensity,
+            static_config,
+            vcpus=vcpus_to_use,
+            gpu_count=gpu_count
         )
 
         # Calculate yearly totals
@@ -559,15 +707,18 @@ def get_gemini_schedule(function_metadata: dict, carbon_forecasts: dict) -> dict
     # Load static config
     static_config = load_static_config()
 
-    # Calculate region metrics (costs and emissions)
-    runtime_ms = function_metadata.get("runtime_ms", 1000)
-    memory_mb = function_metadata.get("memory_mb", 512)
-    data_input_gb = function_metadata.get("data_input_gb", 0.0)
-    data_output_gb = function_metadata.get("data_output_gb", 0.0)
-    invocations_per_day = function_metadata.get("invocations_per_day", 1)
-    source_location = function_metadata.get("source_location")
-    priority = function_metadata.get("priority", "balanced")
-    latency_important = function_metadata.get("latency_important", False)
+    # Extract region metrics (costs and emissions)
+    # Defaults already applied via apply_defaults(), so direct access is safe
+    runtime_ms = function_metadata["runtime_ms"]
+    memory_mb = function_metadata["memory_mb"]
+    data_input_gb = function_metadata["data_input_gb"]
+    data_output_gb = function_metadata["data_output_gb"]
+    invocations_per_day = function_metadata["invocations_per_day"]
+    source_location = function_metadata["source_location"]
+    priority = function_metadata["priority"]
+    latency_important = function_metadata["latency_important"]
+    gpu_required = function_metadata["gpu_required"]
+    vcpus = function_metadata["vcpus"]  # None if not specified, dynamically determined later
 
     # Build latency context if applicable
     latency_context = ""
@@ -584,7 +735,9 @@ def get_gemini_schedule(function_metadata: dict, carbon_forecasts: dict) -> dict
         data_output_gb,
         invocations_per_day,
         source_location,
-        static_config
+        static_config,
+        gpu_required=gpu_required,
+        vcpus=vcpus
     )
 
     # Format metrics for LLM
@@ -608,8 +761,77 @@ def get_gemini_schedule(function_metadata: dict, carbon_forecasts: dict) -> dict
     return _generate_with_gemini(prompt, log_message="Sending request to Gemini API...")
 
 
-def run_scheduler_for_function(function_name: str, function_metadata: dict, carbon_forecasts: dict) -> tuple:
-    """Generate schedule for a single function."""
+def is_cached_schedule_valid(function_name: str, function_metadata: dict) -> tuple:
+    """
+    Check if a cached schedule exists and is still valid.
+
+    A cached schedule is valid if:
+    1. allow_schedule_caching is True in metadata
+    2. Schedule file exists
+    3. Metadata hash matches current metadata
+    4. Schedule is not older than MAX_FORECAST_AGE_DAYS
+
+    Returns:
+        tuple: (is_valid: bool, cached_schedule: dict or None, schedule_path: str or None)
+    """
+    # Check if caching is allowed
+    if not function_metadata["allow_schedule_caching"]:
+        return False, None, None
+
+    # Try to load existing schedule
+    schedule_filename = f"schedule_{function_name}.json"
+    try:
+        cached_schedule = read_from_storage(schedule_filename)
+    except FileNotFoundError:
+        # No cached schedule exists
+        return False, None, None
+    except Exception:
+        # Error reading cached schedule, treat as invalid
+        return False, None, None
+
+    # Check if metadata has changed
+    current_hash = compute_metadata_hash(function_metadata)
+    cached_hash = cached_schedule.get("metadata", {}).get("metadata_hash")
+
+    if cached_hash != current_hash:
+        # Metadata changed, cache invalid
+        return False, None, None
+
+    # Check if schedule is too old
+    created_at_str = cached_schedule.get("metadata", {}).get("created_at")
+    if not created_at_str:
+        # No creation timestamp, cache invalid
+        return False, None, None
+
+    try:
+        created_at = datetime.fromisoformat(created_at_str)
+        age_days = (datetime.now() - created_at).days
+
+        if age_days > MAX_FORECAST_AGE_DAYS:
+            # Schedule too old
+            return False, None, None
+    except Exception:
+        # Error parsing timestamp, cache invalid
+        return False, None, None
+
+    # Cache is valid!
+    if IS_LOCAL_MODE:
+        schedule_path = str(LOCAL_BUCKET_PATH / schedule_filename)
+    else:
+        schedule_path = f"gs://{BUCKET_NAME}/{schedule_filename}"
+
+    return True, cached_schedule, schedule_path
+
+
+def run_scheduler_for_function(function_name: str, function_metadata: dict, carbon_forecasts: dict, metadata_hash: str = None) -> tuple:
+    """Generate schedule for a single function.
+
+    Args:
+        function_name: Name of the function
+        function_metadata: Function metadata (may have filtered regions)
+        carbon_forecasts: Carbon forecast data for regions
+        metadata_hash: Pre-computed hash based on ORIGINAL unfiltered metadata (optional, will compute if not provided)
+    """
     print(f"\nGenerating schedule for function: {function_name}")
     print(f"  Runtime: {function_metadata.get('runtime_ms')}ms")
     print(f"  Memory: {function_metadata.get('memory_mb')}MB")
@@ -622,6 +844,8 @@ def run_scheduler_for_function(function_name: str, function_metadata: dict, carb
         "generated_at": datetime.now().isoformat(),
         "function_metadata": function_metadata,
         "regions_used": list(carbon_forecasts.keys()),
+        "metadata_hash": metadata_hash if metadata_hash else compute_metadata_hash(function_metadata),
+        "created_at": datetime.now().isoformat(),
     }
 
     # Save schedule to storage
@@ -673,7 +897,8 @@ def run_scheduler() -> tuple:
                 parsed_metadata = parse_natural_language_request(func_data)
                 # Override function_id with the key name from JSON
                 parsed_metadata["function_id"] = func_name
-                functions_to_schedule[func_name] = parsed_metadata
+                # Apply defaults
+                functions_to_schedule[func_name] = apply_defaults(parsed_metadata)
                 print(f"    ✓ Parsed successfully (confidence: {parsed_metadata.get('confidence_score', 0):.2f})")
 
                 # Show extracted info
@@ -685,24 +910,96 @@ def run_scheduler() -> tuple:
                 print(f"    ✗ Failed to parse natural language: {exc}")
                 raise Exception(f"Could not parse natural language description for function '{func_name}': {exc}")
         elif isinstance(func_data, dict):
-            # Structured metadata - use directly
+            # Structured metadata - use directly and apply defaults
             print(f"  {func_name}: Using structured metadata directly")
-            functions_to_schedule[func_name] = func_data
+            functions_to_schedule[func_name] = apply_defaults(func_data)
         else:
             raise Exception(
                 f"Invalid format for function '{func_name}': must be either a string (natural language) "
                 f"or object (structured metadata), got {type(func_data).__name__}"
             )
 
-    # Step 2: Collect unique regions from all functions, applying latency filtering
-    print("\n2. Determining regions to fetch...")
+    # Compute and store metadata hashes BEFORE any filtering (GPU, latency, etc.)
+    # This ensures hash is based on original input metadata, not filtered regions
+    metadata_hashes = {}
+    for func_name, func_metadata in functions_to_schedule.items():
+        metadata_hashes[func_name] = compute_metadata_hash(func_metadata)
+
+    # Step 2: Check cache validity for each function BEFORE fetching forecasts
+    print("\n2. Checking cached schedules...")
     static_config = load_static_config()
-    all_allowed_regions = set()
+
+    # Track which functions can use cache vs need new schedules
+    cached_functions = {}  # func_name -> (schedule, path)
+    functions_needing_schedule = {}  # func_name -> metadata
 
     for func_name, func_metadata in functions_to_schedule.items():
-        allowed_regions = func_metadata.get("allowed_regions")
-        latency_important = func_metadata.get("latency_important", False)
-        source_location = func_metadata.get("source_location", "us-east1")
+        is_valid, cached_schedule, cached_path = is_cached_schedule_valid(func_name, func_metadata)
+
+        if is_valid:
+            print(f"  ✓ {func_name}: Valid cache found (age: {(datetime.now() - datetime.fromisoformat(cached_schedule['metadata']['created_at'])).days} days)")
+            cached_functions[func_name] = (cached_schedule, cached_path)
+        else:
+            print(f"  ✗ {func_name}: No valid cache, will generate new schedule")
+            functions_needing_schedule[func_name] = func_metadata
+
+    # If all functions have valid cache, skip forecast fetch entirely!
+    if not functions_needing_schedule:
+        print("\n✓ All functions have valid cached schedules - skipping carbon forecast fetch!")
+        print("\n3. Updating cached schedules with today's date...")
+        schedules = {}
+        schedule_paths = {}
+
+        for func_name, (cached_schedule, cached_path) in cached_functions.items():
+            # Update dates in cached schedule
+            now = datetime.now()
+            created_at_str = cached_schedule["metadata"]["created_at"]
+            created_at = datetime.fromisoformat(created_at_str)
+            age_days = (now - created_at).days
+
+            print(f"\n  {func_name}:")
+            print(f"    Originally created: {created_at_str}")
+            print(f"    Age: {age_days} day(s)")
+
+            # Update recommendation dates to today
+            if "recommendations" in cached_schedule:
+                today = now.date()
+                for rec in cached_schedule["recommendations"]:
+                    if "datetime" in rec:
+                        dt_str = rec["datetime"]
+                        # Standard format: "YYYY-MM-DD HH:MM"
+                        original_dt = datetime.strptime(dt_str, "%Y-%m-%d %H:%M")
+                        new_dt = datetime.combine(today, original_dt.time())
+                        rec["datetime"] = new_dt.strftime("%Y-%m-%d %H:%M")
+
+                print(f"    Updated {len(cached_schedule['recommendations'])} recommendation dates to {today.isoformat()}")
+
+            # Update metadata timestamps
+            cached_schedule["metadata"]["generated_at"] = now.isoformat()
+
+            # Save updated schedule
+            schedule_filename = f"schedule_{func_name}.json"
+            schedule_path = write_to_storage(cached_schedule, schedule_filename)
+
+            schedules[func_name] = cached_schedule
+            schedule_paths[func_name] = schedule_path
+
+        print("\n" + "=" * 60)
+        print("Scheduling complete!")
+        print("=" * 60)
+
+        return schedules, schedule_paths, None  # No forecast path since we didn't fetch
+
+    # Step 3: Collect unique regions from functions that need new schedules
+    print(f"\n3. Determining regions to fetch (for {len(functions_needing_schedule)} function(s))...")
+    all_allowed_regions = set()
+
+    for func_name, func_metadata in functions_needing_schedule.items():
+        # Defaults already applied, safe to access directly
+        allowed_regions = func_metadata["allowed_regions"]
+        latency_important = func_metadata["latency_important"]
+        gpu_required = func_metadata["gpu_required"]
+        source_location = func_metadata["source_location"]
 
         # Get source continent
         source_region_info = get_region_info(source_location, static_config)
@@ -739,8 +1036,35 @@ def run_scheduler() -> tuple:
             else:
                 print(f"  {func_name} -> no region filter (will use all available regions)")
 
-    # Step 3: Fetch carbon forecasts for all needed regions
-    print("\n3. Fetching carbon intensity forecasts from Electricity Maps...")
+        # Apply GPU filtering if gpu_required=True
+        # NOTE: We only update the function's allowed_regions, NOT all_allowed_regions
+        # This ensures we fetch forecasts for all regions needed by ANY function
+        if gpu_required:
+            current_regions = func_metadata["allowed_regions"]
+            if current_regions:
+                # Filter to GPU-available regions for THIS function only
+                gpu_regions = [
+                    r for r in current_regions
+                    if get_region_info(r, static_config).get("gpu_available", False)
+                ]
+                excluded_count = len(current_regions) - len(gpu_regions)
+                func_metadata["allowed_regions"] = gpu_regions
+                # Do NOT remove from all_allowed_regions - other functions may need them
+                print(f"  {func_name} -> GPU-required, filtered to GPU-capable regions: {gpu_regions}")
+                if excluded_count > 0:
+                    print(f"    (excluded {excluded_count} non-GPU region(s))")
+            else:
+                # No allowed_regions - use all GPU-capable regions
+                gpu_regions = [
+                    region_code for region_code, region_data in static_config["regions"].items()
+                    if region_data.get("gpu_available", False)
+                ]
+                func_metadata["allowed_regions"] = gpu_regions
+                all_allowed_regions.update(gpu_regions)
+                print(f"  {func_name} -> GPU-required, using all GPU-capable regions: {len(gpu_regions)} regions")
+
+    # Step 4: Fetch carbon forecasts for functions needing new schedules
+    print(f"\n4. Fetching carbon intensity forecasts from Electricity Maps...")
     if all_allowed_regions:
         carbon_forecasts, failed_regions = get_carbon_forecasts_all_regions(list(all_allowed_regions))
     else:
@@ -754,12 +1078,50 @@ def run_scheduler() -> tuple:
     }
     forecast_path = write_to_storage(forecast_data, "carbon_forecasts.json")
 
-    # Step 4: Generate schedules for each function
-    print("\n4. Generating optimal execution schedules with Gemini...")
+    # Step 5: Generate schedules for functions needing new schedules, update cached ones
+    print(f"\n5. Processing schedules...")
     schedules = {}
     schedule_paths = {}
 
-    for function_name, function_metadata in functions_to_schedule.items():
+    # First, add cached functions with updated dates
+    print(f"\n  Updating {len(cached_functions)} cached schedule(s)...")
+    for func_name, (cached_schedule, _) in cached_functions.items():
+        now = datetime.now()
+        created_at_str = cached_schedule["metadata"]["created_at"]
+        created_at = datetime.fromisoformat(created_at_str)
+        age_days = (now - created_at).days
+
+        print(f"\n  ✓ Using cached schedule for {func_name}")
+        print(f"    Originally created: {created_at_str}")
+        print(f"    Age: {age_days} day(s)")
+        print(f"    Reason: Metadata unchanged and forecast still fresh (< {MAX_FORECAST_AGE_DAYS} days)")
+
+        # Update recommendation dates to today
+        if "recommendations" in cached_schedule:
+            today = now.date()
+            for rec in cached_schedule["recommendations"]:
+                if "datetime" in rec:
+                    dt_str = rec["datetime"]
+                    # Standard format: "YYYY-MM-DD HH:MM"
+                    original_dt = datetime.strptime(dt_str, "%Y-%m-%d %H:%M")
+                    new_dt = datetime.combine(today, original_dt.time())
+                    rec["datetime"] = new_dt.strftime("%Y-%m-%d %H:%M")
+
+            print(f"    Updated {len(cached_schedule['recommendations'])} recommendation dates to {today.isoformat()}")
+
+        # Update metadata timestamps
+        cached_schedule["metadata"]["generated_at"] = now.isoformat()
+
+        # Save updated schedule
+        schedule_filename = f"schedule_{func_name}.json"
+        schedule_path = write_to_storage(cached_schedule, schedule_filename)
+
+        schedules[func_name] = cached_schedule
+        schedule_paths[func_name] = schedule_path
+
+    # Then, generate new schedules
+    print(f"\n  Generating {len(functions_needing_schedule)} new schedule(s) with Gemini...")
+    for function_name, function_metadata in functions_needing_schedule.items():
         try:
             # Filter carbon forecasts to only the allowed regions for this function
             allowed_regions = function_metadata.get("allowed_regions")
@@ -771,7 +1133,7 @@ def run_scheduler() -> tuple:
                 print(f"\n  Scheduling {function_name} with all available regions")
 
             schedule, schedule_path = run_scheduler_for_function(
-                function_name, function_metadata, filtered_forecasts
+                function_name, function_metadata, filtered_forecasts, metadata_hashes[function_name]
             )
             schedules[function_name] = schedule
             schedule_paths[function_name] = schedule_path
@@ -852,10 +1214,210 @@ def create_flask_app():
                     "bucket": BUCKET_NAME if not IS_LOCAL_MODE else str(LOCAL_BUCKET_PATH),
                     "has_emaps_token": bool(ELECTRICITYMAPS_TOKEN),
                     "has_gemini_key": bool(GEMINI_API_KEY),
+                    "mcp_server_url": MCP_SERVER_URL,
+                    "has_mcp_api_key": bool(MCP_API_KEY),
                 }
             ),
             200,
         )
+
+    @app.route("/submit", methods=["POST"])
+    def submit_function():
+        """
+        Submit a function for carbon-aware deployment and execution.
+
+        Request body:
+        {
+            "code": "def handler(data): return {'result': data['x'] * 2}",
+            "deadline": "2025-01-03T18:00:00Z",
+            "requirements": "numpy>=1.0.0",  // optional
+            "description": "Multiply input by 2",  // optional, for metadata
+            "memory_mb": 256,  // optional, default 256
+            "timeout_seconds": 60,  // optional, default 60
+            "priority": "balanced"  // optional: balanced, costs, emissions
+        }
+
+        Response:
+        {
+            "status": "success",
+            "submission_id": "uuid",
+            "function_name": "user-func-a1b2c3d4",
+            "deployment": { ... },
+            "schedule": { ... },
+            "optimal_execution": { ... }
+        }
+        """
+        from flask import request
+
+        try:
+            data = request.get_json()
+            if not data:
+                return jsonify({"status": "error", "message": "No JSON body provided"}), 400
+
+            # Extract required fields
+            code = data.get("code")
+            deadline = data.get("deadline")
+
+            if not code:
+                return jsonify({"status": "error", "message": "Missing 'code' field"}), 400
+            if not deadline:
+                return jsonify({"status": "error", "message": "Missing 'deadline' field"}), 400
+
+            # Extract optional fields
+            requirements = data.get("requirements", "")
+            description = data.get("description", "User-submitted function")
+            memory_mb = data.get("memory_mb", 256)
+            timeout_seconds = data.get("timeout_seconds", 60)
+            priority = data.get("priority", "balanced")
+
+            # Generate submission ID and function name
+            submission_id = str(uuid.uuid4())
+            function_name = f"user-func-{submission_id[:8]}"
+
+            print(f"\n{'='*60}")
+            print(f"New function submission: {submission_id}")
+            print(f"Function name: {function_name}")
+            print(f"Deadline: {deadline}")
+            print(f"Priority: {priority}")
+            print(f"{'='*60}")
+
+            # Step 1: Parse the code to estimate metadata (if description not provided)
+            # For now, use provided metadata or defaults
+            function_metadata = {
+                "function_id": function_name,
+                "description": description,
+                "runtime_ms": 1000,  # Default estimate
+                "memory_mb": memory_mb,
+                "data_input_gb": 0.001,
+                "data_output_gb": 0.001,
+                "source_location": "us-east1",
+                "invocations_per_day": 1,
+                "priority": priority,
+                "latency_important": False,
+                "allowed_regions": [],  # Will use all available regions
+            }
+
+            # Step 2: Generate carbon-aware schedule
+            print("\n2. Generating carbon-aware schedule...")
+            static_config = load_static_config()
+
+            # Fetch carbon forecasts
+            carbon_forecasts, failed_regions = get_carbon_forecasts_all_regions()
+
+            # Generate schedule
+            schedule = get_gemini_schedule(function_metadata, carbon_forecasts)
+
+            # Find optimal region from schedule
+            recommendations = schedule.get("recommendations", [])
+            if not recommendations:
+                return jsonify({
+                    "status": "error",
+                    "message": "Failed to generate schedule recommendations"
+                }), 500
+
+            # Sort by priority and get best recommendation
+            sorted_recs = sorted(recommendations, key=lambda x: x.get("priority", 999))
+            optimal_rec = sorted_recs[0]
+            optimal_region = optimal_rec.get("region", "us-east1")
+
+            print(f"\n3. Optimal region selected: {optimal_region}")
+            print(f"   Carbon intensity: {optimal_rec.get('carbon_intensity')} gCO2/kWh")
+
+            # Step 3: Deploy function to optimal region via MCP
+            print(f"\n4. Deploying function to {optimal_region} via MCP server...")
+
+            # Import MCP client
+            try:
+                from agent.mcp_client import MCPClientSync
+            except ImportError:
+                from mcp_client import MCPClientSync
+
+            mcp_client = MCPClientSync(MCP_SERVER_URL, MCP_API_KEY)
+
+            # Check MCP server health
+            health_status = mcp_client.health_check()
+            if health_status.get("status") != "healthy":
+                print(f"Warning: MCP server health check: {health_status}")
+
+            # Deploy the function
+            deployment_result = mcp_client.deploy_function(
+                function_name=function_name,
+                code=code,
+                region=optimal_region,
+                runtime="python312",
+                memory_mb=memory_mb,
+                timeout_seconds=timeout_seconds,
+                entry_point="main",
+                requirements=requirements
+            )
+
+            if not deployment_result.get("success"):
+                return jsonify({
+                    "status": "error",
+                    "message": f"Deployment failed: {deployment_result.get('error', 'Unknown error')}",
+                    "submission_id": submission_id,
+                    "function_name": function_name
+                }), 500
+
+            function_url = deployment_result.get("function_url")
+            print(f"   Deployed successfully: {function_url}")
+
+            # Step 4: Save schedule in dispatcher-compatible format
+            schedule_path = write_to_storage(schedule, f"schedule_{function_name}.json")
+            print(f"   Schedule saved: {schedule_path}")
+
+            # Step 5: Save submission info for tracking
+            submission_info = {
+                "submission_id": submission_id,
+                "function_name": function_name,
+                "deadline": deadline,
+                "submitted_at": datetime.now().isoformat(),
+                "optimal_region": optimal_region,
+                "function_url": function_url,
+                "schedule": schedule,
+                "metadata": function_metadata
+            }
+
+            submission_path = write_to_storage(submission_info, f"submission_{submission_id}.json")
+
+            # Prepare response
+            response = {
+                "status": "success",
+                "submission_id": submission_id,
+                "function_name": function_name,
+                "deployment": {
+                    "success": True,
+                    "function_url": function_url,
+                    "region": optimal_region,
+                    "status": deployment_result.get("status", "ACTIVE")
+                },
+                "schedule": {
+                    "total_recommendations": len(recommendations),
+                    "top_5": sorted_recs[:5]
+                },
+                "optimal_execution": {
+                    "datetime": optimal_rec.get("datetime"),
+                    "region": optimal_region,
+                    "carbon_intensity": optimal_rec.get("carbon_intensity"),
+                    "reasoning": optimal_rec.get("reasoning")
+                },
+                "submission_location": submission_path
+            }
+
+            print(f"\n{'='*60}")
+            print(f"Submission complete: {submission_id}")
+            print(f"{'='*60}")
+
+            return jsonify(response), 200
+
+        except Exception as exc:
+            print(f"Error in /submit: {exc}")
+            import traceback
+            traceback.print_exc()
+            return jsonify({
+                "status": "error",
+                "message": str(exc)
+            }), 500
 
     return app
 
