@@ -22,4 +22,7 @@ dist/
 
 # OS
 .DS_Store
-Thumbs.db
+Thumbs.
+
+# Terraform
+terraform.tfvars
