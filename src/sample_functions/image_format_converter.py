@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Image converter that accepts uploaded image bytes and returns the requested format."""
+"""Image converter that accepts uploaded image bytes (body/base64), multipart files, or a GCS pointer and returns the requested format."""
 
 from __future__ import annotations
 
@@ -7,24 +7,67 @@ import base64
 import binascii
 import io
 import json
-from typing import Dict
+from typing import Dict, Optional, Tuple
 
 from PIL import Image
 import functions_framework
+from google.cloud import storage
+
+storage_client = storage.Client()
+
+
+def _parse_gcs_uri(uri: Optional[str]) -> Optional[Tuple[str, str]]:
+    if not uri:
+        return None
+    if uri.startswith("gs://"):
+        uri = uri[5:]
+    parts = uri.split("/", 1)
+    if len(parts) == 2 and parts[0] and parts[1]:
+        return parts[0], parts[1]
+    return None
+
+
+def _download_from_bucket(bucket_name: str, object_path: str) -> bytes:
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(object_path)
+    return blob.download_as_bytes()
+
+
+def _value_from_sources(request, key: str) -> Optional[str]:
+    payload = request.get_json(silent=True) or {}
+    form_payload = request.form or {}
+    for source in (payload, form_payload):
+        value = source.get(key)
+        if value:
+            return value
+    return None
 
 
 def _load_image_bytes(request) -> bytes:
-    raw_body = request.get_data(cache=False)
-    if raw_body:
-        return raw_body
-    payload = request.get_json(silent=True) or {}
-    encoded = payload.get("data")
+    if request.files:
+        file_storage = next(iter(request.files.values()))
+        return file_storage.read()
+
+    encoded = _value_from_sources(request, "data")
     if isinstance(encoded, str):
         try:
             return base64.b64decode(encoded)
         except (ValueError, binascii.Error):
             pass
-    raise ValueError("Send raw image bytes in the body or base64-encoded `data` field.")
+
+    gcs_location = _parse_gcs_uri(_value_from_sources(request, "gcs_uri"))
+    bucket = _value_from_sources(request, "bucket")
+    object_path = _value_from_sources(request, "object")
+    if gcs_location:
+        bucket, object_path = gcs_location
+    if bucket and object_path:
+        return _download_from_bucket(bucket, object_path)
+    raw_body = request.get_data(cache=False)
+    if raw_body and "multipart/" not in (request.content_type or ""):
+        return raw_body
+    raise ValueError(
+        "Send raw image bytes (body), multipart/form-data file, base64 `data`, or specify `bucket`/`object` or `gcs_uri=gs://bucket/path`."
+    )
 
 
 @functions_framework.http

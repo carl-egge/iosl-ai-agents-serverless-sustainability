@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Transcoder that consumes the provided payload, compresses it multiple times, and returns the processed data."""
+"""Transcoder that consumes the provided payload (body/base64/GCS/multipart), compresses it multiple times, and returns the processed data."""
 
 import base64
 import binascii
@@ -8,22 +8,66 @@ import json
 import os
 import time
 import zlib
-from typing import Dict
+from typing import Dict, Optional, Tuple
 
 import functions_framework
+from google.cloud import storage
+
+storage_client = storage.Client()
+def _parse_gcs_uri(uri: Optional[str]) -> Optional[Tuple[str, str]]:
+    if not uri:
+        return None
+    if uri.startswith("gs://"):
+        uri = uri[5:]
+    parts = uri.split("/", 1)
+    if len(parts) == 2 and parts[0] and parts[1]:
+        return parts[0], parts[1]
+    return None
+
+
+def _download_from_bucket(bucket_name: str, object_path: str) -> bytes:
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(object_path)
+    return blob.download_as_bytes()
+
+
+def _value_from_sources(request, key: str) -> Optional[str]:
+    payload = request.get_json(silent=True) or {}
+    form_payload = request.form or {}
+    for source in (payload, form_payload):
+        value = source.get(key)
+        if value:
+            return value
+    return None
+
 
 def _extract_payload(request) -> bytes:
-    payload = request.get_json(silent=True) or {}
+    if request.files:
+        file_storage = next(iter(request.files.values()))
+        return file_storage.read()
+
     raw_body = request.get_data(cache=False)
-    if raw_body:
+    if raw_body and "multipart/" not in (request.content_type or ""):
         return raw_body
-    encoded = payload.get("data")
+
+    encoded = _value_from_sources(request, "data")
     if isinstance(encoded, str):
         try:
             return base64.b64decode(encoded)
         except (ValueError, binascii.Error):
             pass
-    raise ValueError("Send binary payload either as the request body or base64-encoded `data` field.")
+
+    gcs_location = _parse_gcs_uri(_value_from_sources(request, "gcs_uri"))
+    bucket = _value_from_sources(request, "bucket")
+    object_path = _value_from_sources(request, "object")
+    if gcs_location:
+        bucket, object_path = gcs_location
+    if bucket and object_path:
+        return _download_from_bucket(bucket, object_path)
+
+    raise ValueError(
+        "Send binary payload (body/multipart/base64) or specify `bucket`/`object` or `gcs_uri=gs://bucket/path`."
+    )
 
 
 @functions_framework.http

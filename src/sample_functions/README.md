@@ -22,11 +22,11 @@ A set of self-contained Python entrypoint scripts that can be deployed from `src
 The `main.py` file re-exports every handler so that Buildpacks discover the function you name with `--function` without needing `GOOGLE_FUNCTION_SOURCE`.
 
 ```
-gcloud run deploy simple-addition \
+gcloud run deploy api-health-check \
   --source . \
   --region us-east1 \
   --allow-unauthenticated \
-  --function simple_addition
+  --function api_health_check
 ```
 
 ```
@@ -45,14 +45,6 @@ gcloud run deploy bucket-writer \
   --allow-unauthenticated \
   --function write_to_bucket \
   --set-env-vars OUTPUT_BUCKET=your-bucket,REGION=europe-west1
-```
-
-```
-gcloud run deploy api-health-check \
-  --source . \
-  --region us-east1 \
-  --allow-unauthenticated \
-  --function api_health_check
 ```
 
 ```
@@ -115,7 +107,13 @@ curl -X POST $URL -H "Content-Type: application/json" -d '{"check": "ping"}'
 curl -X POST $URL -H "Content-Type: application/octet-stream" --data-binary @input.png
 ```
 
-If you prefer JSON, encode your bytes with `base64` and send `{"data": "..."}`; the handler still returns the converted bytes as `converted_image`.
+To process a larger file already in GCS, send JSON with either `gcs_uri` (e.g. `"gs://your-bucket/big.png"`) or `bucket`/`object` fields along with optional `format`/`quality` overrides. You can also use `multipart/form-data` (or Insomnia’s form editor) and add the `gcs_uri` field there instead of JSON:
+```
+curl -X POST $URL -H "Content-Type: application/json" \
+  -d '{"gcs_uri":"gs://example-bucket/big.png","format":"WEBP","quality":85}'
+```
+
+If you prefer JSON for smaller payloads, encode them with `base64` and send `{"data": "..."}`; the handler still returns the converted bytes as `converted_image`.
 
 - Crypto key generator (optional `bits`):
 
@@ -130,6 +128,12 @@ curl -X POST $URL -H "Content-Type: application/octet-stream" --data-binary @lar
 ```
 
 You can optionally send `{"passes": 4, "data": "...base64..."}` if you need to wrap the payload inside JSON; the `processed_data` field in the response holds the last pass output.
+
+To process a large asset already in GCS, send a JSON body with `gcs_uri` (or `bucket`/`object`). You can still specify `passes` to control the number of compression passes.
+```
+curl -X POST $URL -H "Content-Type: application/json" \
+  -d '{"gcs_uri":"gs://example-bucket/big-video.bin","passes":4}'
+```
 
 ## Local sanity checks
 
