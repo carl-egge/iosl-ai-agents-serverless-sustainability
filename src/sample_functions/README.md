@@ -8,9 +8,9 @@ A set of self-contained Python entrypoint scripts that can be deployed from `src
 - `carbon_api_call.py`: call Electricity Maps, summarize carbon-intensity metrics, and load credentials from the repo root `.env` for local runs.
 - `write_to_bucket.py`: write the received JSON payload into a new `runs/.../result.json` object under `OUTPUT_BUCKET`.
 - `api_health_check.py`: lightweight API health check payload for high-throughput, low-data invocations.
-- `image_format_converter.py`: synthesize a large PNG image and transcode it to WebP to emulate short runtime + large data.
+- `image_format_converter.py`: convert an input image (base64 JSON or GCS) to another format. Defaults to writing output to GCS.
 - `crypto_key_gen.py`: generate an RSA key pair to consume CPU time while keeping payload sizes small (long runtime + little data).
-- `video_transcoder.py`: create large buffers and compress them multiple times so the function resembles a long runtime + large data transcoding job.
+- `video_transcoder.py`: compress an input payload (base64 JSON or GCS) multiple times to emulate long runtime + large data. Defaults to writing output to GCS.
 - `requirements.txt`: declares `functions-framework`, HTTP helpers, image/crypto dependencies, and the GCS client.
 - `main.py`: re-exports every handler so Cloud Run Buildpacks find the functions without an explicit `GOOGLE_FUNCTION_SOURCE`.
 
@@ -101,19 +101,17 @@ curl -X POST $URL -H "Content-Type: application/json" -d '{"note": "cloud run wr
 curl -X POST $URL -H "Content-Type: application/json" -d '{"check": "ping"}'
 ```
 
-- Image converter (convert an uploaded image and return the new bytes; responds with base64 `converted_image`):
+- Image converter (JSON only; by default writes output to GCS and returns metadata):
 
 ```
-curl -X POST $URL -H "Content-Type: application/octet-stream" --data-binary @input.png
+curl -X POST $URL -H "Content-Type: application/json" -d '{"gcs_uri":"gs://example-bucket/big.png","format":"WEBP","quality":85}'
 ```
 
-To process a larger file already in GCS, send JSON with either `gcs_uri` (e.g. `"gs://your-bucket/big.png"`) or `bucket`/`object` fields along with optional `format`/`quality` overrides. You can also use `multipart/form-data` (or Insomnia’s form editor) and add the `gcs_uri` field there instead of JSON:
+If you need inline output (debug only), send base64 data and set `return_inline: true`.
+The response includes `converted_image_base64` and is capped by `MAX_INLINE_MB` (default: 16).
 ```
-curl -X POST $URL -H "Content-Type: application/json" \
-  -d '{"gcs_uri":"gs://example-bucket/big.png","format":"WEBP","quality":85}'
+curl -X POST $URL -H "Content-Type: application/json" -d '{"data":"<base64>","format":"WEBP","quality":85,"return_inline":true}'
 ```
-
-If you prefer JSON for smaller payloads, encode them with `base64` and send `{"data": "..."}`; the handler still returns the converted bytes as `converted_image`.
 
 - Crypto key generator (optional `bits`):
 
@@ -121,18 +119,16 @@ If you prefer JSON for smaller payloads, encode them with `base64` and send `{"d
 curl -X POST $URL -H "Content-Type: application/json" -d '{"bits": 4096}'
 ```
 
-- Video transcoder (compress the payload you upload and receive the processed bytes as base64):
+- Video transcoder (JSON only; by default writes output to GCS and returns metadata):
 
 ```
-curl -X POST $URL -H "Content-Type: application/octet-stream" --data-binary @large-video.bin
+curl -X POST $URL -H "Content-Type: application/json" -d '{"gcs_uri":"gs://example-bucket/big-video.bin","passes":4}'
 ```
 
-You can optionally send `{"passes": 4, "data": "...base64..."}` if you need to wrap the payload inside JSON; the `processed_data` field in the response holds the last pass output.
-
-To process a large asset already in GCS, send a JSON body with `gcs_uri` (or `bucket`/`object`). You can still specify `passes` to control the number of compression passes.
+If you need inline output (debug only), send base64 data and set `return_inline: true`.
+The response includes `processed_data_base64` and is capped by `MAX_INLINE_MB` (default: 16).
 ```
-curl -X POST $URL -H "Content-Type: application/json" \
-  -d '{"gcs_uri":"gs://example-bucket/big-video.bin","passes":4}'
+curl -X POST $URL -H "Content-Type: application/json" -d '{"data":"<base64>","passes":4,"return_inline":true}'
 ```
 
 ## Local sanity checks
