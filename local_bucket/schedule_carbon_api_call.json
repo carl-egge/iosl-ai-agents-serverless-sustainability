@@ -1,0 +1,254 @@
+{
+  "recommendations": [
+    {
+      "datetime": "2026-01-06 00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 1,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (20 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-06 01:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 2,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (20 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-06 02:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 3,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (20 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-05 21:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 4,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (21 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-05 22:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 5,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (21 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-05 23:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 6,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (21 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-06 03:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 7,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (21 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-06 04:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 8,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (21 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-06 05:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 9,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (21 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-06 06:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 10,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (21 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-06 07:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 11,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (21 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-06 08:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 12,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (21 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-06 09:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 13,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (21 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-06 13:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 14,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (21 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-05 14:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 15,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (22 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-05 15:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 16,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (22 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-05 17:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 17,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (22 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-05 18:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 18,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (22 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-05 19:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 19,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (22 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-05 20:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 20,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (22 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-06 10:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 21,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (22 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-06 11:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 22,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (22 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-06 12:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 23,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (22 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    },
+    {
+      "datetime": "2026-01-05 16:00",
+      "region": "europe-north2",
+      "carbon_intensity": 23,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.02,
+      "priority": 24,
+      "reasoning": "[EMISSIONS] europe-north2 is chosen for its consistently lowest carbon intensity (23 gCO2eq/kWh) across all forecasted hours. Compared to the source region (us-east1), europe-north2 incurs an additional annual transfer cost of $5 (Total annual transfer cost: $5/year vs $0/year). However, this additional cost yields a substantial annual emissions saving of 108.3kg CO2 (Annual emissions: 3.8kg vs 112.1kg). The cost to avoid 1kg of CO2 is approximately $0.05/kg, which is an extremely efficient trade-off, fully aligned with the EMISSIONS optimization priority."
+    }
+  ],
+  "metadata": {
+    "generated_at": "2026-01-05T16:02:19.509090",
+    "function_metadata": {
+      "runtime_ms": 2200,
+      "memory_mb": 512,
+      "data_input_gb": 0.0001,
+      "data_output_gb": 0.0005,
+      "source_location": "us-east1",
+      "invocations_per_day": 500,
+      "priority": "emissions",
+      "latency_important": false,
+      "gpu_required": false,
+      "vcpus": null,
+      "allowed_regions": [
+        "europe-north2",
+        "us-east1",
+        "northamerica-northeast1",
+        "us-central1",
+        "europe-west1"
+      ],
+      "allow_schedule_caching": true,
+      "function_id": "carbon_api_call",
+      "description": "Fetches Electricity Maps carbon-intensity forecasts for the requested zone, doing external HTTP work."
+    },
+    "regions_used": [
+      "europe-north2",
+      "us-east1",
+      "europe-west1",
+      "us-central1",
+      "northamerica-northeast1"
+    ],
+    "metadata_hash": "55d99eab9ce694ee2ab7981b3cb961bc0ce46c38731d82f788e5c4ce7e78ebd0",
+    "created_at": "2026-01-05T16:02:19.509090"
+  }
+}

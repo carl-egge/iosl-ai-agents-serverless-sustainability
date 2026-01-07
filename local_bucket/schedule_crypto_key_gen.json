@@ -1,0 +1,254 @@
+{
+  "recommendations": [
+    {
+      "datetime": "2026-01-06 00:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 1,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 20 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 316.2 kg CO2 annually compared to us-east1 (forecasted at 661 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-06 01:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 2,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 20 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 315.8 kg CO2 annually compared to us-east1 (forecasted at 660 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-06 02:00",
+      "region": "europe-north2",
+      "carbon_intensity": 20,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 3,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 20 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 316.6 kg CO2 annually compared to us-east1 (forecasted at 662 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-05 21:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 4,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 21 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 309.2 kg CO2 annually compared to us-east1 (forecasted at 630 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-05 22:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 5,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 21 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 324.8 kg CO2 annually compared to us-east1 (forecasted at 663 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-05 23:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 6,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 21 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 324.8 kg CO2 annually compared to us-east1 (forecasted at 663 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-06 03:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 7,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 21 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 314.5 kg CO2 annually compared to us-east1 (forecasted at 659 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-06 04:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 8,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 21 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 310.8 kg CO2 annually compared to us-east1 (forecasted at 651 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-06 05:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 9,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 21 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 309.4 kg CO2 annually compared to us-east1 (forecasted at 648 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-06 06:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 10,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 21 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 308.4 kg CO2 annually compared to us-east1 (forecasted at 646 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-06 07:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 11,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 21 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 308.9 kg CO2 annually compared to us-east1 (forecasted at 647 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-06 08:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 12,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 21 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 309.4 kg CO2 annually compared to us-east1 (forecasted at 648 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-06 09:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 13,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 21 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 308.9 kg CO2 annually compared to us-east1 (forecasted at 647 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-06 13:00",
+      "region": "europe-north2",
+      "carbon_intensity": 21,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 14,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 21 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 307.5 kg CO2 annually compared to us-east1 (forecasted at 628 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-05 14:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 15,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 22 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 299.7 kg CO2 annually compared to us-east1 (forecasted at 611 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-05 15:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 16,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 22 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 291.6 kg CO2 annually compared to us-east1 (forecasted at 592 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-05 17:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 17,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 22 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 289.4 kg CO2 annually compared to us-east1 (forecasted at 567 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-05 18:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 18,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 22 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 287.0 kg CO2 annually compared to us-east1 (forecasted at 562 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-05 19:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 19,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 22 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 288.4 kg CO2 annually compared to us-east1 (forecasted at 565 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-05 20:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 20,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 22 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 295.5 kg CO2 annually compared to us-east1 (forecasted at 580 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-06 10:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 21,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 22 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 306.9 kg CO2 annually compared to us-east1 (forecasted at 656 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-06 11:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 22,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 22 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 308.2 kg CO2 annually compared to us-east1 (forecasted at 659 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-06 12:00",
+      "region": "europe-north2",
+      "carbon_intensity": 22,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 23,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 22 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 308.7 kg CO2 annually compared to us-east1 (forecasted at 660 gCO2eq/kWh for this hour), a significant reduction."
+    },
+    {
+      "datetime": "2026-01-05 16:00",
+      "region": "europe-north2",
+      "carbon_intensity": 23,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.96,
+      "priority": 24,
+      "reasoning": "Choosing europe-north2 with a forecasted carbon intensity of 23 gCO2eq/kWh for this hour. This is the lowest available intensity among all regions. As all regions have zero transfer costs ($0/year), there are no cost implications, making emissions minimization the sole decision factor. Running here saves approximately 285.3 kg CO2 annually compared to us-east1 (forecasted at 572 gCO2eq/kWh for this hour), a significant reduction."
+    }
+  ],
+  "metadata": {
+    "generated_at": "2026-01-05T16:06:01.987839",
+    "function_metadata": {
+      "runtime_ms": 60000,
+      "memory_mb": 3072,
+      "data_input_gb": 1e-05,
+      "data_output_gb": 1e-05,
+      "source_location": "us-east1",
+      "invocations_per_day": 30,
+      "priority": "emissions",
+      "latency_important": false,
+      "gpu_required": false,
+      "vcpus": null,
+      "allowed_regions": [
+        "europe-north2",
+        "us-east1",
+        "northamerica-northeast1",
+        "us-central1",
+        "europe-west1"
+      ],
+      "allow_schedule_caching": true,
+      "function_id": "crypto_key_gen",
+      "description": "Generate RSA key pairs to exercise sustained CPU work while keeping the input/output payloads minuscule."
+    },
+    "regions_used": [
+      "europe-north2",
+      "us-east1",
+      "europe-west1",
+      "us-central1",
+      "northamerica-northeast1"
+    ],
+    "metadata_hash": "42f0a1af3a7e999d7836b0b61b05cc1c97ab07d70fd49ccbdb72b41c9bd2fda4",
+    "created_at": "2026-01-05T16:06:01.987839"
+  }
+}

@@ -30,8 +30,8 @@ deployer = FunctionDeployer()
 
 async def deploy_function(
     function_name: str,
-    code: str,
     region: str,
+    code: str,
     runtime: str = "python312",
     memory_mb: int = 256,
     timeout_seconds: int = 60,
@@ -43,8 +43,8 @@ async def deploy_function(
 
     Args:
         function_name: Unique identifier for the function (e.g., "user-func-a1b2c3d4")
-        code: Raw Python code to deploy. Should contain a handler/main/run function.
         region: GCP region to deploy to (e.g., "us-east1", "europe-west1")
+        code: Raw Python code to deploy. Should contain a handler/main/run function.
         runtime: Python runtime version (default: "python312")
         memory_mb: Memory allocation in MB (default: 256, max: 32768)
         timeout_seconds: Function timeout in seconds (default: 60, max: 3600)
@@ -60,6 +60,15 @@ async def deploy_function(
             - status: ACTIVE, DEPLOYING, or FAILED
     """
     logger.info(f"deploy_function called: {function_name} -> {region}")
+
+    if not code:
+        return {
+            "success": False,
+            "error": "'code' parameter is required",
+            "function_name": function_name,
+            "region": region,
+            "status": "FAILED"
+        }
 
     result = await deployer.deploy(
         function_name=function_name,
