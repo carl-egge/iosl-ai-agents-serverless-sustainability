@@ -8,9 +8,9 @@ A set of self-contained Python entrypoint scripts that can be deployed from `src
 - `carbon_api_call.py`: call Electricity Maps, summarize carbon-intensity metrics, and load credentials from the repo root `.env` for local runs.
 - `write_to_bucket.py`: write the received JSON payload into a new `runs/.../result.json` object under `OUTPUT_BUCKET`.
 - `api_health_check.py`: lightweight API health check payload for high-throughput, low-data invocations.
-- `image_format_converter.py`: synthesize a large PNG image and transcode it to WebP to emulate short runtime + large data.
+- `image_format_converter.py`: convert an input image (base64 JSON or GCS) to another format. Defaults to writing output to GCS.
 - `crypto_key_gen.py`: generate an RSA key pair to consume CPU time while keeping payload sizes small (long runtime + little data).
-- `video_transcoder.py`: create large buffers and compress them multiple times so the function resembles a long runtime + large data transcoding job.
+- `video_transcoder.py`: compress an input payload (base64 JSON or GCS) multiple times to emulate long runtime + large data. Defaults to writing output to GCS.
 - `requirements.txt`: declares `functions-framework`, HTTP helpers, image/crypto dependencies, and the GCS client.
 - `main.py`: re-exports every handler so Cloud Run Buildpacks find the functions without an explicit `GOOGLE_FUNCTION_SOURCE`.
 
@@ -22,11 +22,11 @@ A set of self-contained Python entrypoint scripts that can be deployed from `src
 The `main.py` file re-exports every handler so that Buildpacks discover the function you name with `--function` without needing `GOOGLE_FUNCTION_SOURCE`.
 
 ```
-gcloud run deploy simple-addition \
+gcloud run deploy api-health-check \
   --source . \
   --region us-east1 \
   --allow-unauthenticated \
-  --function simple_addition
+  --function api_health_check
 ```
 
 ```
@@ -45,14 +45,6 @@ gcloud run deploy bucket-writer \
   --allow-unauthenticated \
   --function write_to_bucket \
   --set-env-vars OUTPUT_BUCKET=your-bucket,REGION=europe-west1
-```
-
-```
-gcloud run deploy api-health-check \
-  --source . \
-  --region us-east1 \
-  --allow-unauthenticated \
-  --function api_health_check
 ```
 
 ```
@@ -109,10 +101,16 @@ curl -X POST $URL -H "Content-Type: application/json" -d '{"note": "cloud run wr
 curl -X POST $URL -H "Content-Type: application/json" -d '{"check": "ping"}'
 ```
 
-- Image converter (optional `width`/`height` override):
+- Image converter (JSON only; by default writes output to GCS and returns metadata):
 
 ```
-curl -X POST $URL -H "Content-Type: application/json" -d '{"width": 3840, "height": 2160}'
+curl -X POST $URL -H "Content-Type: application/json" -d '{"gcs_uri":"gs://example-bucket/big.png","format":"WEBP","quality":85}'
+```
+
+If you need inline output (debug only), send base64 data and set `return_inline: true`.
+The response includes `converted_image_base64` and is capped by `MAX_INLINE_MB` (default: 16).
+```
+curl -X POST $URL -H "Content-Type: application/json" -d '{"data":"<base64>","format":"WEBP","quality":85,"return_inline":true}'
 ```
 
 - Crypto key generator (optional `bits`):
@@ -121,10 +119,16 @@ curl -X POST $URL -H "Content-Type: application/json" -d '{"width": 3840, "heigh
 curl -X POST $URL -H "Content-Type: application/json" -d '{"bits": 4096}'
 ```
 
-- Video transcoder (adjust chunk size/passes to tune runtime):
+- Video transcoder (JSON only; by default writes output to GCS and returns metadata):
 
 ```
-curl -X POST $URL -H "Content-Type: application/json" -d '{"chunk_mb": 20, "passes": 4}'
+curl -X POST $URL -H "Content-Type: application/json" -d '{"gcs_uri":"gs://example-bucket/big-video.bin","passes":4}'
+```
+
+If you need inline output (debug only), send base64 data and set `return_inline: true`.
+The response includes `processed_data_base64` and is capped by `MAX_INLINE_MB` (default: 16).
+```
+curl -X POST $URL -H "Content-Type: application/json" -d '{"data":"<base64>","passes":4,"return_inline":true}'
 ```
 
 ## Local sanity checks
@@ -136,3 +140,4 @@ python simple_addition.py
 ```
 
 Each module prints its own sample response by invoking the decorated handler with a dummy request.
+The latest video and image handlers already build a sample payload when executed this way, so running `python video_transcoder.py` or `python image_format_converter.py` still demonstrates a valid response.
