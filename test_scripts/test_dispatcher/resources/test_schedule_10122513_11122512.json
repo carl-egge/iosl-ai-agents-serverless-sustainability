@@ -1,0 +1,220 @@
+{
+  "recommendations": [
+    {
+      "datetime": "2025-12-10 22:00",
+      "region": "REGION-1",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 1,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-10 19:00",
+      "region": "REGION-2",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 2,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-10 20:00",
+      "region": "REGION-3",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 3,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-10 21:00",
+      "region": "REGION-4",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 4,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-10 18:00",
+      "region": "REGION-5",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 5,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-10 17:00",
+      "region": "REGION-6",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 6,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-10 16:00",
+      "region": "REGION-7",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 7,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-10 15:00",
+      "region": "REGION-8",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 8,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-10 14:00",
+      "region": "REGION-9",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 9,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-10 13:00",
+      "region": "REGION-10",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 10,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE1 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-11 11:00",
+      "region": "REGION-11",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 11,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-11 10:00",
+      "region": "REGION-12",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 12,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-11 09:00",
+      "region": "REGION-13",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 13,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-11 08:00",
+      "region": "REGION-14",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 14,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-11 07:00",
+      "region": "REGION-15",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 15,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-11 06:00",
+      "region": "REGION-16",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 16,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-11 05:00",
+      "region": "REGION-17",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 17,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-11 04:00",
+      "region": "REGION-18",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 18,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-11 03:00",
+      "region": "REGION-19",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 19,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-11 02:00",
+      "region": "REGION-20",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 20,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-11 01:00",
+      "region": "REGION-21",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 21,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-11 00:00",
+      "region": "REGION-22",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 22,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-10 23:00",
+      "region": "REGION-23",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 23,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    },
+    {
+      "datetime": "2025-12-11 12:00",
+      "region": "REGION-24",
+      "carbon_intensity": 13,
+      "transfer_cost_usd": 0.165,
+      "priority": 24,
+      "url": "function.test",
+      "reasoning": "Chose SE-SE2 despite $0.1650 transfer cost. It has the lowest carbon intensity (13 gCO2eq/kWh) for this time slot. This saves approximately 1397g CO2 per execution compared to executing in us-east1 (420 gCO2eq/kWh). According to the negligible cost check rule (annual cost < $1000), transfer cost is insignificant, making carbon optimization the primary driver for this choice."
+    }
+  ]
+}
