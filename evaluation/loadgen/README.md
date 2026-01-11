@@ -15,12 +15,7 @@ Cloud Run endpoints, with consistent JSON payloads.
 
 ## Quick start
 
-1) Install dependencies:
-
-```bash
-cd evaluation
-pip install -r requirements.txt
-```
+1) Ensure dependencies are installed (managed through the project's `environment.yml`)
 
 2) Configure your environment:
 

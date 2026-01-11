@@ -1,0 +1,27 @@
+{
+  "experiment_name": "project-a-fixed-region",
+  "project_id": "your-gcp-project-id",
+  "description": "Project A - All functions deployed to us-central1 (fixed region strategy)",
+  "functions": [
+    {
+      "url": "https://dispatcher-hash-uc.a.run.app",
+      "label": "dispatcher"
+    },
+    {
+      "url": "https://image-converter-hash-uc.a.run.app",
+      "label": "image-converter"
+    },
+    {
+      "url": "https://video-transcoder-hash-uc.a.run.app",
+      "label": "video-transcoder"
+    },
+    {
+      "url": "https://crypto-key-gen-hash-uc.a.run.app",
+      "label": "crypto-key-gen"
+    }
+  ],
+  "time_window": {
+    "start": "2026-01-10T00:00:00Z",
+    "end": "2026-01-10T23:59:59Z"
+  }
+}

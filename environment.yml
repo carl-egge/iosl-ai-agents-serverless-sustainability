@@ -10,6 +10,8 @@ dependencies:
     - google-cloud-storage==2.14.0
     - google-generativeai==0.8.3
     - google-cloud-tasks==2.20.0
+    - google-cloud-monitoring>=2.22.0
+    - google-cloud-run>=0.10.0
     - requests==2.31.0
     - python-dotenv==1.0.0
     - Pillow==10.1.0

@@ -1,0 +1,37 @@
+{
+  "experiment_id": "single_query",
+  "generated_at": "2026-01-11T13:09:43.921681+00:00",
+  "time_window": {
+    "start": null,
+    "end": null
+  },
+  "function": {
+    "service_name": "dispatcher",
+    "region": "us-east1",
+    "url": "https://dispatcher-rtwa6zd2ma-ue.a.run.app/",
+    "gcp_metrics": {
+      "request_count": 5,
+      "request_latencies_ms": {
+        "p50": 2974.569019,
+        "p95": 4243.877844000001,
+        "p99": 4398.3799672000005,
+        "mean": 2753.319362
+      },
+      "cpu_utilization": {
+        "mean": 0.007525315799172971,
+        "p95": 0.02442303570275022
+      },
+      "memory_utilization": {
+        "mean": 0.22340068937228152,
+        "p95": 0.309488
+      },
+      "billable_instance_time_s": 31.137025798536133,
+      "network": {
+        "received_bytes_total": 29205,
+        "sent_bytes_total": 9896,
+        "received_gb": 2.719927579164505e-05,
+        "sent_gb": 9.216368198394775e-06
+      }
+    }
+  }
+}

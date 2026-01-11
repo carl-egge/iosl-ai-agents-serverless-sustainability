@@ -237,10 +237,29 @@
     },
     "gpu": {
       "nvidia-l4": {
-        "tier1_gpu_second_usd": 0.001197,
-        "tier2_gpu_second_usd": 0.0017955
+        "tier1_gpu_second_usd": 0.0001867,
+        "tier2_gpu_second_usd": 0.00028005
       }
     }
+  },
+  "free_tier": {
+    "description": "Cloud Run always-free tier limits (monthly, request-based billing)",
+    "applies_to": "All regions, project-wide",
+    "limits": {
+      "requests_per_month": 2000000,
+      "vcpu_seconds_per_month": 180000,
+      "gib_seconds_per_month": 360000,
+      "gpu_seconds_per_month": 0
+    },
+    "notes": "Free tier based on us-central1 pricing. Applies across all regions and all functions in a project. No free tier for GPU usage or data transfer."
+  },
+  "billing_model": {
+    "type": "request-based",
+    "description": "CPU-only pricing - charges only during active request processing",
+    "minimum_billable_duration_ms": 100,
+    "rounding": "up",
+    "idle_charges": false,
+    "notes": "Containers scale to zero when not processing requests. No idle time charges with request-based billing. Billed time rounded up to nearest 100ms."
   },
   "power_constants": {
     "cpu_watts_per_vcpu": 2.5,
@@ -305,7 +324,7 @@
       "gpu_availability": "Cloud Run GPU support (nvidia-l4 only) in 4 regions: us-central1, us-east4, europe-west1, europe-west4",
       "carbon_intensity": "Real-time carbon intensity must be fetched from Electricity Maps API - NOT included in this config",
       "free_tier": "Calculations exclude Cloud Run free tier (180k vCPU-seconds, 360k GiB-seconds, 2M requests/month). Actual costs may be lower.",
-      "vcpu_allocation": "Cloud Run allows independent CPU and memory configuration. Agent uses defaults: 1 vCPU (non-GPU) or 4 vCPU (GPU)."
+      "vcpu_allocation": "Cloud Run allows independent CPU and memory configuration. Agent uses defaults: 1 vCPU (non-GPU) or 8 vCPU (GPU)."
     }
   }
 }
