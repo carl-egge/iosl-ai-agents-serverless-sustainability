@@ -3,14 +3,22 @@
 Generate a single-file bundle for one sample function so it can be deployed by MCP.
 
 Usage:
-  python src/sample_functions/generate_mcp_bundle.py <function_key>
+  python src/sample_functions/generate_mcp_bundle.py <function_key> [--deadline ISO8601] [--memory-mb N]
+
+  Ideally pipe the output to a file, e.g.:
+    python src/sample_functions/generate_mcp_bundle.py hello_world > hello_world_mcp_payload.json
 """
 
 from __future__ import annotations
 
+import argparse
 import ast
+import json
 import sys
 from pathlib import Path
+
+DEFAULT_DEADLINE = "2026-01-05T18:00:00Z"
+DEFAULT_MEMORY_MB = 256
 
 
 def _find_repo_root(start: Path) -> Path:
@@ -71,6 +79,41 @@ def _exit_with_error(message: str, valid_keys: list[str]) -> None:
         for key in sorted(valid_keys):
             sys.stderr.write(f"  - {key}\n")
     raise SystemExit(1)
+
+
+def _parse_args(argv: list[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Generate a single-file MCP function bundle as a JSON payload."
+    )
+    parser.add_argument("function_key", help="Key from FUNCTION_REGISTRY in main.py")
+    parser.add_argument(
+        "--deadline",
+        help="ISO8601 deadline for MCP submission",
+    )
+    parser.add_argument(
+        "--memory-mb",
+        type=int,
+        help="Override memory in MB for MCP submission",
+    )
+    return parser.parse_args(argv)
+
+
+def _load_default_memory_mb(repo_root: Path, function_key: str) -> int | None:
+    metadata_path = repo_root / "local_bucket" / "function_metadata.json"
+    if not metadata_path.exists():
+        return None
+    try:
+        data = json.loads(metadata_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    functions = data.get("functions")
+    if isinstance(functions, dict):
+        entry = functions.get(function_key)
+        if isinstance(entry, dict):
+            memory_mb = entry.get("memory_mb")
+            if isinstance(memory_mb, (int, float)):
+                return int(memory_mb)
+    return None
 
 
 def _strip_shebang(text: str) -> str:
@@ -173,9 +216,8 @@ def _extract_wrapper_sources(main_text: str) -> str:
 
 
 def main() -> int:
-    if len(sys.argv) != 2:
-        _exit_with_error("Usage: python src/sample_functions/generate_mcp_bundle.py <function_key>", [])
-    function_key = sys.argv[1].strip()
+    args = _parse_args(sys.argv[1:])
+    function_key = args.function_key.strip()
     if not function_key:
         _exit_with_error("Function key is empty.", [])
 
@@ -249,8 +291,19 @@ def main() -> int:
     output_path = output_dir / f"mcp_bundle_{function_key}.py"
     output_path.write_text(bundle_text, encoding="utf-8")
 
-    # Print bundle content to stdout for MCP ingestion or manual copy.
-    sys.stdout.write(bundle_text)
+    deadline = args.deadline or DEFAULT_DEADLINE
+    memory_mb = args.memory_mb
+    if memory_mb is None:
+        memory_mb = _load_default_memory_mb(repo_root, function_key) or DEFAULT_MEMORY_MB
+
+    payload = {
+        "code": bundle_text,
+        "deadline": deadline,
+        "memory_mb": memory_mb,
+    }
+
+    # Print MCP submission payload JSON to stdout.
+    sys.stdout.write(json.dumps(payload, ensure_ascii=True))
     return 0
 
 
