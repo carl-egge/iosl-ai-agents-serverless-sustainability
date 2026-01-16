@@ -34,6 +34,7 @@ async def deploy_function(
     code: str,
     runtime: str = "python312",
     memory_mb: int = 256,
+    cpu: str = None,
     timeout_seconds: int = 60,
     entry_point: str = "main",
     requirements: str = ""
@@ -47,6 +48,7 @@ async def deploy_function(
         code: Raw Python code to deploy. Should contain a handler/main/run function.
         runtime: Python runtime version (default: "python312")
         memory_mb: Memory allocation in MB (default: 256, max: 32768)
+        cpu: Number of vCPUs as string (e.g., "1", "2", "4", "8"). If not specified, GCP calculates from memory.
         timeout_seconds: Function timeout in seconds (default: 60, max: 3600)
         entry_point: Function entry point name (default: "main")
         requirements: Optional requirements.txt content for additional dependencies
@@ -76,6 +78,7 @@ async def deploy_function(
         region=region,
         runtime=runtime,
         memory_mb=memory_mb,
+        cpu=cpu,
         timeout_seconds=timeout_seconds,
         entry_point=entry_point,
         requirements=requirements

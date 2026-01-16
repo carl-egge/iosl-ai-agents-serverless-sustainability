@@ -58,33 +58,60 @@ class FunctionDeployer:
 
     def _create_function_zip(self, code: str, requirements: str = "", entry_point: str = DEFAULT_ENTRY_POINT) -> bytes:
         """Create a zip archive with wrapped function code and requirements."""
+        import re
         zip_buffer = io.BytesIO()
 
         with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zf:
-            wrapped_code = f'''"""Auto-generated Cloud Function wrapper."""
+            # Extract from __future__ imports from user code - they must be at the top
+            future_imports = []
+            remaining_code = []
+            for line in code.split('\n'):
+                if re.match(r'^\s*from\s+__future__\s+import\s+', line):
+                    future_imports.append(line)
+                else:
+                    remaining_code.append(line)
+            
+            # Remove shebang and initial docstring from remaining code if present
+            clean_code_lines = remaining_code
+            if clean_code_lines and clean_code_lines[0].startswith('#!'):
+                clean_code_lines = clean_code_lines[1:]
+            
+            future_section = '\n'.join(future_imports) + '\n' if future_imports else ''
+            clean_code = '\n'.join(clean_code_lines)
+            
+            wrapped_code = f'''{future_section}\"\"\"Auto-generated Cloud Function wrapper.\"\"\"
 import functions_framework
 from flask import jsonify
 
-{code}
+{clean_code}
+
+# Store reference to user's handler before defining wrapper
+_user_handler = None
+if 'handler' in dir():
+    _user_handler = handler
+elif 'main' in dir():
+    _user_handler = main
+elif 'run' in dir():
+    _user_handler = run
 
 @functions_framework.http
 def {entry_point}(request):
-    """HTTP Cloud Function entry point."""
+    \"\"\"HTTP Cloud Function entry point.\"\"\"
     try:
-        request_json = request.get_json(silent=True) or {{}}
-
-        if 'handler' in dir():
-            result = handler(request_json)
-        elif 'main' in dir() and callable(main):
-            result = main(request_json)
-        elif 'run' in dir():
-            result = run(request_json)
+        if _user_handler is not None:
+            # Call user's handler with the Flask request object
+            result = _user_handler(request)
+            # If result is a tuple (body, status, headers), return as-is
+            if isinstance(result, tuple):
+                return result
+            # Otherwise jsonify the result
+            return jsonify(result) if not isinstance(result, str) else result
         else:
-            result = {{"message": "Function executed successfully", "input": request_json}}
-
-        return jsonify(result)
+            request_json = request.get_json(silent=True) or {{}}
+            return jsonify({{"message": "No handler found", "input": request_json}})
     except Exception as e:
-        return jsonify({{"error": str(e)}}), 500
+        import traceback
+        return jsonify({{"error": str(e), "traceback": traceback.format_exc()}}), 500
 '''
             zf.writestr("main.py", wrapped_code)
 
@@ -117,6 +144,7 @@ def {entry_point}(request):
         region: str,
         runtime: str = DEFAULT_RUNTIME,
         memory_mb: int = 256,
+        cpu: str = None,
         timeout_seconds: int = DEFAULT_TIMEOUT,
         entry_point: str = DEFAULT_ENTRY_POINT,
         requirements: str = ""
@@ -130,6 +158,7 @@ def {entry_point}(request):
             region: GCP region (e.g., "us-east1")
             runtime: Python runtime version (default: python312)
             memory_mb: Memory allocation in MB (default: 256)
+            cpu: Number of vCPUs as string (e.g., "1", "2", "4"). If None, GCP calculates from memory.
             timeout_seconds: Function timeout (default: 60)
             entry_point: Function entry point name (default: "main")
             requirements: Optional requirements.txt content
@@ -160,6 +189,16 @@ def {entry_point}(request):
             function_path = f"{parent}/functions/{function_name}"
             memory_str = f"{memory_mb}Mi"
 
+            # Build service config with optional CPU
+            service_config_kwargs = {
+                "available_memory": memory_str,
+                "timeout_seconds": timeout_seconds,
+                "ingress_settings": functions_v2.ServiceConfig.IngressSettings.ALLOW_ALL,
+                "all_traffic_on_latest_revision": True
+            }
+            if cpu is not None:
+                service_config_kwargs["available_cpu"] = str(cpu)
+
             function = functions_v2.Function(
                 name=function_path,
                 build_config=functions_v2.BuildConfig(
@@ -172,12 +211,7 @@ def {entry_point}(request):
                         )
                     )
                 ),
-                service_config=functions_v2.ServiceConfig(
-                    available_memory=memory_str,
-                    timeout_seconds=timeout_seconds,
-                    ingress_settings=functions_v2.ServiceConfig.IngressSettings.ALLOW_ALL,
-                    all_traffic_on_latest_revision=True
-                )
+                service_config=functions_v2.ServiceConfig(**service_config_kwargs)
             )
 
             try:

@@ -254,6 +254,9 @@ def deploy_functions_to_optimal_regions(
     # Load existing deployment state
     deployment_state = load_deployment_state()
 
+    # Load static config for default values
+    static_config = load_static_config()
+
     deployment_results = {}
 
     for func_name, schedule in schedules.items():
@@ -368,12 +371,22 @@ def deploy_functions_to_optimal_regions(
                 timeout_seconds = func_metadata.get("timeout_seconds", 60)
                 requirements = func_metadata.get("requirements", "")
 
+                # Calculate vCPUs: use specified value or defaults based on gpu_required
+                vcpus = func_metadata.get("vcpus")
+                gpu_required = func_metadata.get("gpu_required", False)
+                if vcpus is None:
+                    if gpu_required:
+                        vcpus = static_config.get("agent_defaults", {}).get("vcpus_if_gpu", 8)
+                    else:
+                        vcpus = static_config.get("agent_defaults", {}).get("vcpus_default", 1)
+
                 deployment_result = mcp_client.deploy_function(
                     function_name=func_name,
                     code=code,
                     region=optimal_region,
                     runtime="python312",
                     memory_mb=memory_mb,
+                    cpu=str(vcpus),
                     timeout_seconds=timeout_seconds,
                     entry_point="main",
                     requirements=requirements
@@ -1544,6 +1557,8 @@ def create_flask_app():
             requirements = data.get("requirements", "")
             description = data.get("description", "User-submitted function")
             memory_mb = data.get("memory_mb", 256)
+            vcpus = data.get("vcpus")  # None means use default based on gpu_required
+            gpu_required = data.get("gpu_required", False)
             timeout_seconds = data.get("timeout_seconds", 60)
             priority = data.get("priority", "balanced")
 
@@ -1565,6 +1580,8 @@ def create_flask_app():
                 "description": description,
                 "runtime_ms": 1000,  # Default estimate
                 "memory_mb": memory_mb,
+                "vcpus": vcpus,
+                "gpu_required": gpu_required,
                 "data_input_gb": 0.001,
                 "data_output_gb": 0.001,
                 "source_location": "us-east1",
@@ -1616,6 +1633,15 @@ def create_flask_app():
             if health_status.get("status") != "healthy":
                 print(f"Warning: MCP server health check: {health_status}")
 
+            # Calculate vCPUs: use specified value or defaults based on gpu_required
+            if vcpus is None:
+                if gpu_required:
+                    vcpus_to_use = static_config.get("agent_defaults", {}).get("vcpus_if_gpu", 8)
+                else:
+                    vcpus_to_use = static_config.get("agent_defaults", {}).get("vcpus_default", 1)
+            else:
+                vcpus_to_use = vcpus
+
             # Deploy the function
             deployment_result = mcp_client.deploy_function(
                 function_name=function_name,
@@ -1623,6 +1649,7 @@ def create_flask_app():
                 region=optimal_region,
                 runtime="python312",
                 memory_mb=memory_mb,
+                cpu=str(vcpus_to_use),
                 timeout_seconds=timeout_seconds,
                 entry_point="main",
                 requirements=requirements

@@ -254,6 +254,9 @@ def deploy_functions_to_optimal_regions(
     # Load existing deployment state
     deployment_state = load_deployment_state()
 
+    # Load static config for default values
+    static_config = load_static_config()
+
     deployment_results = {}
 
     for func_name, schedule in schedules.items():
@@ -368,12 +371,22 @@ def deploy_functions_to_optimal_regions(
                 timeout_seconds = func_metadata.get("timeout_seconds", 60)
                 requirements = func_metadata.get("requirements", "")
 
+                # Calculate vCPUs: use specified value or defaults based on gpu_required
+                vcpus = func_metadata.get("vcpus")
+                gpu_required = func_metadata.get("gpu_required", False)
+                if vcpus is None:
+                    if gpu_required:
+                        vcpus = static_config.get("agent_defaults", {}).get("vcpus_if_gpu", 8)
+                    else:
+                        vcpus = static_config.get("agent_defaults", {}).get("vcpus_default", 1)
+
                 deployment_result = mcp_client.deploy_function(
                     function_name=func_name,
                     code=code,
                     region=optimal_region,
                     runtime="python312",
                     memory_mb=memory_mb,
+                    cpu=str(vcpus),
                     timeout_seconds=timeout_seconds,
                     entry_point="main",
                     requirements=requirements

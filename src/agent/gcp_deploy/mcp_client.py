@@ -94,6 +94,7 @@ class MCPClient:
         region: str,
         runtime: str = "python312",
         memory_mb: int = 256,
+        cpu: str = None,
         timeout_seconds: int = 60,
         entry_point: str = "main",
         requirements: str = ""
@@ -107,6 +108,7 @@ class MCPClient:
             region: GCP region (e.g., "us-east1")
             runtime: Python runtime version
             memory_mb: Memory allocation in MB
+            cpu: Number of vCPUs as string (e.g., "1", "2", "4"). If None, GCP calculates from memory.
             timeout_seconds: Function timeout
             entry_point: Function entry point name
             requirements: Optional requirements.txt content
@@ -114,7 +116,7 @@ class MCPClient:
         Returns:
             dict with success, function_url, status, etc.
         """
-        return await self.call_tool("deploy_function", {
+        args = {
             "function_name": function_name,
             "code": code,
             "region": region,
@@ -123,7 +125,10 @@ class MCPClient:
             "timeout_seconds": timeout_seconds,
             "entry_point": entry_point,
             "requirements": requirements
-        })
+        }
+        if cpu is not None:
+            args["cpu"] = str(cpu)
+        return await self.call_tool("deploy_function", args)
 
     async def invoke_function(
         self,
