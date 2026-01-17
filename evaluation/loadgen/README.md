@@ -1,140 +1,124 @@
-# Load Generator (loadgen.py)
+# Loadgen Job (Cloud Run)
 
-`loadgen.py` drives repeatable HTTP POST workloads against the sample functions
-and writes structured results for analysis. It is designed for local runs and
-Cloud Run endpoints, with consistent JSON payloads.
+This directory contains a Cloud Run Job implementation that follows
+`evaluation/EVALUATION.md` and drives the hourly workload trace used for
+scenario A/B/C experiments.
 
 ## What it does
 
-- Sends POST requests with JSON bodies to each configured function endpoint.
-- Supports multiple URLs per function (comma-separated), with randomized
-  distribution across the list.
-- Runs a warmup phase (optional) and a measured phase.
-- Writes per-request logs (`results_<run_id>.jsonl`) and a summary
-  (`summary_<run_id>.json`) to `OUT_DIR`.
+- Generates the fixed hourly invocation mix: 20 health, 3 crypto, 2 image, 1 video.
+- Uses fixed minute slots and deterministic jitter derived from each event ID.
+- Supports scenario A (fixed region), B (hourly lowest-carbon), C (AI dispatcher).
+- Logs one JSON line per invocation with `experiment_id`, `scenario`, `event_id`,
+  and `trace_hour` so you can correlate runner, dispatcher, and function logs.
 
-## Quick start
+## Files
 
-1) Ensure dependencies are installed (managed through the project's `environment.yml`)
+- `loadgen_job.py`: Cloud Run Job entrypoint.
+- `Dockerfile`: container image for the job.
+- `requirements.txt`: Python dependencies.
+- `env.example.yaml`: example env vars for `gcloud run jobs deploy`.
+- `function_urls.example.json`: sample mapping of function -> region -> URL.
+- `hourly_region_map.example.json`: sample hourly region mapping for scenario B.
 
-2) Configure your environment:
+## Payloads (aligned to the protocol)
+
+- Health check: `{"check":"ping"}`
+- Image converter: `{"gcs_uri":"<IMAGE_URI>","format":"WEBP","quality":85}`
+- Crypto key gen: `{"bits":4096}`
+- Video transcoder: `{"gcs_uri":"<VIDEO_URI>","passes":4}`
+
+The runner injects `experiment_id`, `scenario`, `event_id`, and `trace_hour` into
+every payload for correlation.
+
+Function IDs used in the runner and dispatcher payloads:
+
+- `api_health_check`
+- `crypto_key_gen`
+- `image_format_converter`
+- `video_transcoder`
+
+## Configuration
+
+Required for all scenarios:
+
+- `EXPERIMENT_ID`: Stable ID for the scenario run.
+- `SCENARIO`: `A`, `B`, or `C`.
+- `IMAGE_GCS_URI`: GCS URI for the image input.
+- `VIDEO_GCS_URI`: GCS URI for the video-like input.
+
+Function URL mapping (required for scenario A/B, and scenario C client mode):
+
+- `FUNCTION_URLS_JSON`: JSON mapping of function -> region -> URL.
+- or `FUNCTION_URLS_PATH`: Path to a JSON file (for example `/app/function_urls.json`).
+
+Scenario A (fixed region):
+
+- `FIXED_REGION`: Region name used for all functions (for example `us-east1`).
+
+Scenario B (hourly lowest-carbon):
+
+- `HOURLY_REGION_MAP_JSON`: JSON mapping of hour (0-23) to region.
+- or `HOURLY_REGION_MAP_PATH`: Path to the mapping file.
+
+Scenario C (AI dispatcher):
+
+- `DISPATCHER_URL`: Dispatcher endpoint.
+- `DISPATCHER_EXECUTION_MODE`: `client` (default) or `dispatcher_only`.
+  - `client` calls the dispatcher, then invokes the function at the target time.
+  - `dispatcher_only` only calls the dispatcher (use only if your dispatcher
+    schedules and forwards payloads on its own).
+
+Optional:
+
+- `TRACE_HOUR_UTC`: ISO timestamp to override the trace hour.
+- `JITTER_S`: Max deterministic jitter in seconds (default `15`).
+- `TIMEOUT_S`: HTTP timeout in seconds (default `120`).
+- `VERIFY_TLS`: `true` or `false` (default `true`).
+- `DRY_RUN`: `true` to validate scheduling without HTTP calls.
+- `AUTH_BEARER_TOKEN`: Bearer token for authenticated services.
+- `EXTRA_HEADERS_JSON`: Extra headers as JSON (for example `{"X-Experiment":"A"}`).
+- `DISPATCHER_AUTH_BEARER_TOKEN`: Optional dispatcher-specific token override.
+- `DISPATCHER_EXTRA_HEADERS_JSON`: Optional dispatcher-specific headers.
+
+## Deploy
+
+1) Copy `env.example.yaml` to `env.yaml` and fill in real values.
+
+2) Deploy the job:
 
 ```bash
-cp .env.example .env
-# edit .env with your URLs and payload settings
+gcloud run jobs deploy loadgen-job \
+  --source evaluation/loadgen \
+  --region us-east1 \
+  --tasks 1 \
+  --max-retries 0 \
+  --task-timeout 3600 \
+  --env-vars-file evaluation/loadgen/env.yaml
 ```
 
-3) Run the load generator:
+3) Test a manual run:
 
 ```bash
-python loadgen.py
+gcloud run jobs execute loadgen-job --region us-east1 --wait
 ```
 
-### Run and output
+## Hourly scheduling
 
-- `RUN_ID`: Run identifier used in output filenames.
-- `OUT_DIR`: Directory for results and summary files.
+Use Cloud Scheduler to trigger the job each hour:
 
-### Load settings
+```bash
+gcloud scheduler jobs create http loadgen-hourly \
+  --schedule "0 * * * *" \
+  --uri "https://REGION-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/PROJECT_ID/jobs/loadgen-job:run" \
+  --http-method POST \
+  --oauth-service-account-email SCHEDULER_SA@PROJECT_ID.iam.gserviceaccount.com
+```
 
-- `TOTAL_REQUESTS_PER_URL`: Number of measured requests per URL.
-- `WARMUP_REQUESTS_PER_URL`: Warmup requests per URL (set to 0 to skip).
-- `CONCURRENCY`: Worker threads for concurrent requests.
-- `TIMEOUT_S`: Per-request timeout in seconds.
-- `VERIFY_TLS`: Set to `false` for local/self-signed HTTPS.
-- `SLEEP_BETWEEN_REQUESTS_S`: Fixed delay before each request.
-- `JITTER_S`: Random delay added per request (0..JITTER_S seconds).
+## Notes for scenario C
 
-### Auth and headers
-
-- `AUTH_BEARER_TOKEN`: Adds `Authorization: Bearer <token>`.
-- `EXTRA_HEADERS_JSON`: JSON object of additional headers.
-
-### Target URLs
-
-Comma-separated base URLs per function. Each request is sent to
-`<base_url>/<REQUEST_PATH>`.
-
-- `API_HEALTH_CHECK_URLS`
-- `IMAGE_FORMAT_CONVERTER_URLS`
-- `CRYPTO_KEY_GEN_URLS`
-- `VIDEO_TRANSCODER_URLS`
-- `REQUEST_PATH` (default `/`)
-
-### Payload configuration
-
-These map directly to the sample function schemas (JSON only).
-
-**Image converter**
-- `IMAGE_MODE`: `gcs` or `inline`.
-- `IMAGE_GCS_URI`: `gs://bucket/object` when `IMAGE_MODE=gcs`.
-- `IMAGE_INLINE_KB`: Size of inline payload (KB) when `IMAGE_MODE=inline`.
-- `IMAGE_RETURN_INLINE`: Set to `true` to request inline output.
-
-**Crypto key generator**
-- `CRYPTO_KEY_SIZE`: Maps to `bits` in the handler.
-- `CRYPTO_PUBLIC_EXPONENT`
-- `CRYPTO_TARGET_MS`
-- `CRYPTO_ITERATIONS`
-
-**Video transcoder**
-- `VIDEO_MODE`: `gcs` or `inline`.
-- `VIDEO_GCS_URI`: `gs://bucket/object` when `VIDEO_MODE=gcs`.
-- `VIDEO_INLINE_KB`: Size of inline payload (KB) when `VIDEO_MODE=inline`.
-- `VIDEO_PASSES`
-- `VIDEO_TARGET_MS`
-- `VIDEO_RETURN_INLINE`: Set to `true` to request inline output.
-
-## Payload behavior
-
-- All requests are JSON, with `Content-Type: application/json`.
-- Inline payloads are base64 in the `data` field.
-- GCS payloads use `gcs_uri` (or `bucket`/`object` if you customize loadgen).
-- Inline output may be rejected by handlers if it exceeds `MAX_INLINE_MB`.
-
-## Outputs
-
-### results_<run_id>.jsonl
-
-One JSON object per request, including:
-
-- `phase`: `warmup` or `measured`
-- `function_id`, `base_url`, `url`
-- `latency_ms`, `status_code`
-- `request_bytes`, `response_bytes`
-- `error` (if any)
-- `response_json` (parsed JSON when possible) or `response_snippet`
-
-### summary_<run_id>.json
-
-Aggregated stats by function and base URL, computed from `phase=="measured"`:
-
-- `latency_ms`: p50, p95, p99, min, max, mean
-- `bytes`: request_mean, response_mean
-- `ok_count`, `error_count`
-- `http_status_counts`
-
-## Mapping results to metadata
-
-The sample handlers return `input_bytes` and `output_bytes` in their JSON
-responses. Use those values (when present) or the `request_bytes` and
-`response_bytes` from the results to estimate:
-
-- `runtime_ms`: use `latency_ms` or the handler-reported timing.
-- `data_input_gb` / `data_output_gb`: derive from bytes in/out.
-- `invocations_per_day`: map from your trace plan or loadgen run size.
-
-This aligns with the `function_metadata.json` schema used by the agent.
-
-## Tips and troubleshooting
-
-- If you see `413` responses, reduce inline payload sizes or set
-  `IMAGE_RETURN_INLINE=false` and `VIDEO_RETURN_INLINE=false` to use GCS.
-- If requests time out, increase `TIMEOUT_S` to exceed the longest `target_ms`.
-- If a function should be skipped, leave its URL list empty.
-
-## Notes for Cloud Run
-
-- Ensure the function service account has read access to GCS inputs and write
-  access for outputs when using `gcs` modes.
-- Use separate URLs per region to compare performance across deployments.
+The current dispatcher returns a recommended region/time. By default,
+`DISPATCHER_EXECUTION_MODE=client` keeps the dispatcher advisory and lets this
+job invoke the function with the correct payload. If you enable dispatcher-side
+scheduling, set `DISPATCHER_EXECUTION_MODE=dispatcher_only` to avoid double
+invocations and ensure the dispatcher forwards payloads correctly.
