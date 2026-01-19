@@ -14,7 +14,7 @@ import os
 import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 import requests
 
@@ -45,7 +45,6 @@ class Config:
     dry_run: bool
     fixed_region: Optional[str]
     dispatcher_url: Optional[str]
-    dispatcher_execution_mode: str
     function_urls: Dict[str, Dict[str, str]]
     hourly_region_map: Dict[int, str]
     image_gcs_uri: str
@@ -278,7 +277,6 @@ def load_config() -> Config:
 
     fixed_region = os.getenv("FIXED_REGION")
     dispatcher_url = os.getenv("DISPATCHER_URL")
-    dispatcher_execution_mode = os.getenv("DISPATCHER_EXECUTION_MODE", "client").strip().lower()
 
     function_urls = validate_function_urls(
         load_json_from_env_or_path("FUNCTION_URLS_JSON", "FUNCTION_URLS_PATH")
@@ -297,7 +295,7 @@ def load_config() -> Config:
     image_quality = max(1, min(image_quality, 100))
 
     crypto_bits = parse_int(os.getenv("CRYPTO_BITS"), 4096)
-    video_passes = parse_int(os.getenv("VIDEO_PASSES"), 4)
+    video_passes = parse_int(os.getenv("VIDEO_PASSES"), 2)
     video_passes = max(1, min(video_passes, 10))
 
     auth_bearer_token = os.getenv("AUTH_BEARER_TOKEN", "").strip() or None
@@ -320,7 +318,6 @@ def load_config() -> Config:
         dry_run=dry_run,
         fixed_region=fixed_region,
         dispatcher_url=dispatcher_url,
-        dispatcher_execution_mode=dispatcher_execution_mode,
         function_urls=function_urls,
         hourly_region_map=hourly_region_map,
         image_gcs_uri=image_gcs_uri,
@@ -485,173 +482,78 @@ def run_scenario_a_b(cfg: Config, invocations: List[Invocation]) -> None:
 def run_scenario_c(cfg: Config, invocations: List[Invocation]) -> None:
     if not cfg.dispatcher_url:
         raise ValueError("DISPATCHER_URL is required for scenario C.")
-    if not cfg.function_urls and cfg.dispatcher_execution_mode != "dispatcher_only":
-        raise ValueError("FUNCTION_URLS_JSON or FUNCTION_URLS_PATH is required for scenario C client mode.")
 
     dispatch_headers = build_headers(
         cfg.dispatcher_auth_bearer_token or cfg.auth_bearer_token,
         cfg.dispatcher_extra_headers if cfg.dispatcher_extra_headers is not None else cfg.extra_headers,
     )
-    invoke_headers = build_headers(cfg.auth_bearer_token, cfg.extra_headers)
-
     trace_hour_str = format_dt(cfg.trace_hour)
     deadline = cfg.trace_hour + timedelta(hours=1)
     deadline_str = format_dt(deadline)
 
-    queue: List[Tuple[datetime, str, Invocation]] = []
     for inv in invocations:
-        queue.append((inv.scheduled_time, "dispatch", inv))
-    queue.sort(key=lambda x: x[0])
+        sleep_until(inv.scheduled_time)
+        dispatch_payload = {
+            "function_name": inv.function_id,
+            "deadline": deadline_str,
+            "experiment_id": cfg.experiment_id,
+            "scenario": cfg.scenario,
+            "event_id": inv.event_id,
+            "trace_hour": trace_hour_str,
+            "invocation_index": inv.index,
+            "function_payload": inv.payload,
+        }
+        dispatch_sent = now_utc()
+        dispatch_result = post_json(
+            url=cfg.dispatcher_url,
+            payload=dispatch_payload,
+            headers=dispatch_headers,
+            timeout_s=cfg.request_timeout_s,
+            verify_tls=cfg.verify_tls,
+            dry_run=cfg.dry_run,
+        )
+        response_json = dispatch_result.get("response_json") or {}
 
-    while queue:
-        scheduled_time, action, inv = queue.pop(0)
-        sleep_until(scheduled_time)
+        target_time = parse_datetime(response_json.get("target_time") or response_json.get("datetime"))
+        target_region = response_json.get("target_region") or response_json.get("region")
+        target_url = response_json.get("url")
+        lookup_error = None
+        if not target_url and target_region and cfg.function_urls.get(inv.function_id):
+            try:
+                target_url = lookup_function_url(cfg, inv.function_id, str(target_region))
+            except Exception as exc:
+                lookup_error = str(exc)
 
-        if action == "dispatch":
-            dispatch_payload = {
-                "function_name": inv.function_id,
-                "deadline": deadline_str,
+        log_record(
+            {
+                "ts_utc": format_dt(now_utc()),
                 "experiment_id": cfg.experiment_id,
                 "scenario": cfg.scenario,
                 "event_id": inv.event_id,
                 "trace_hour": trace_hour_str,
+                "function_id": inv.function_id,
                 "invocation_index": inv.index,
+                "scheduled_time_utc": format_dt(inv.scheduled_time),
+                "deadline_utc": deadline_str,
+                "dispatcher_url": cfg.dispatcher_url,
+                "dispatcher_sent_time_utc": format_dt(dispatch_sent),
+                "dispatch": dispatch_result,
+                "target_region": target_region,
+                "target_url": target_url,
+                "target_time_utc": format_dt(target_time) if target_time else None,
+                "lookup_error": lookup_error,
+                "invoke": None,
             }
-            dispatch_sent = now_utc()
-            dispatch_result = post_json(
-                url=cfg.dispatcher_url,
-                payload=dispatch_payload,
-                headers=dispatch_headers,
-                timeout_s=cfg.request_timeout_s,
-                verify_tls=cfg.verify_tls,
-                dry_run=cfg.dry_run,
-            )
-            response_json = dispatch_result.get("response_json") or {}
-
-            target_time = parse_datetime(
-                response_json.get("target_time") or response_json.get("datetime")
-            )
-            if target_time is None:
-                target_time = dispatch_sent
-            target_region = response_json.get("target_region") or response_json.get("region")
-            target_url = response_json.get("url")
-            lookup_error = None
-            if not target_url and target_region:
-                try:
-                    target_url = lookup_function_url(cfg, inv.function_id, str(target_region))
-                except Exception as exc:
-                    lookup_error = str(exc)
-
-            inv.dispatch_result = dispatch_result
-            inv.dispatch_sent_time = dispatch_sent
-            inv.target_time = target_time
-            inv.target_region = str(target_region) if target_region is not None else None
-            inv.target_url = target_url
-
-            if cfg.dispatcher_execution_mode == "dispatcher_only":
-                log_record(
-                    {
-                        "ts_utc": format_dt(now_utc()),
-                        "experiment_id": cfg.experiment_id,
-                        "scenario": cfg.scenario,
-                        "event_id": inv.event_id,
-                        "trace_hour": trace_hour_str,
-                        "function_id": inv.function_id,
-                        "invocation_index": inv.index,
-                        "scheduled_time_utc": format_dt(inv.scheduled_time),
-                        "deadline_utc": deadline_str,
-                        "dispatcher_url": cfg.dispatcher_url,
-                        "dispatcher_sent_time_utc": format_dt(dispatch_sent),
-                        "dispatch": dispatch_result,
-                        "target_region": target_region,
-                        "target_url": target_url,
-                        "target_time_utc": format_dt(target_time),
-                        "lookup_error": lookup_error,
-                        "invoke": None,
-                    }
-                )
-                continue
-
-            if target_url is None:
-                log_record(
-                    {
-                        "ts_utc": format_dt(now_utc()),
-                        "experiment_id": cfg.experiment_id,
-                        "scenario": cfg.scenario,
-                        "event_id": inv.event_id,
-                        "trace_hour": trace_hour_str,
-                        "function_id": inv.function_id,
-                        "invocation_index": inv.index,
-                        "scheduled_time_utc": format_dt(inv.scheduled_time),
-                        "deadline_utc": deadline_str,
-                        "dispatcher_url": cfg.dispatcher_url,
-                        "dispatcher_sent_time_utc": format_dt(dispatch_sent),
-                        "dispatch": dispatch_result,
-                        "error": lookup_error or "Dispatcher response missing target URL or region.",
-                        "invoke": None,
-                    }
-                )
-                continue
-
-            queue.append((target_time, "invoke", inv))
-            queue.sort(key=lambda x: x[0])
-            inv.payload["dispatcher_target_time"] = format_dt(target_time)
-            inv.payload["dispatcher_target_region"] = target_region
-            inv.payload["dispatcher_target_url"] = target_url
-            inv.payload["dispatcher_response_status"] = dispatch_result.get("status_code")
-            inv.payload["dispatcher_response_latency_ms"] = dispatch_result.get("latency_ms")
-            inv.payload["dispatcher_response_error"] = dispatch_result.get("error")
-            continue
-
-        if action == "invoke":
-            invoke_sent = now_utc()
-            target_region = inv.target_region
-            target_url = inv.target_url
-
-            result = post_json(
-                url=str(target_url),
-                payload=inv.payload,
-                headers=invoke_headers,
-                timeout_s=cfg.request_timeout_s,
-                verify_tls=cfg.verify_tls,
-                dry_run=cfg.dry_run,
-            )
-
-            log_record(
-                {
-                    "ts_utc": format_dt(now_utc()),
-                    "experiment_id": cfg.experiment_id,
-                    "scenario": cfg.scenario,
-                    "event_id": inv.event_id,
-                    "trace_hour": trace_hour_str,
-                    "function_id": inv.function_id,
-                    "invocation_index": inv.index,
-                    "scheduled_time_utc": format_dt(inv.scheduled_time),
-                    "deadline_utc": deadline_str,
-                    "dispatcher_url": cfg.dispatcher_url,
-                    "dispatcher_sent_time_utc": format_dt(inv.dispatch_sent_time) if inv.dispatch_sent_time else None,
-                    "dispatch": inv.dispatch_result,
-                    "target_region": target_region,
-                    "target_url": target_url,
-                    "target_time_utc": format_dt(inv.target_time) if inv.target_time else None,
-                    "sent_time_utc": format_dt(invoke_sent),
-                    "invoke": result,
-                }
-            )
+        )
 
 
 def validate_config(cfg: Config) -> None:
     if cfg.scenario == "B" and not cfg.hourly_region_map:
         raise ValueError("HOURLY_REGION_MAP_JSON or HOURLY_REGION_MAP_PATH is required for scenario B.")
-    if cfg.scenario == "C" and cfg.dispatcher_execution_mode not in ("client", "dispatcher_only"):
-        raise ValueError("DISPATCHER_EXECUTION_MODE must be 'client' or 'dispatcher_only'.")
 
     for fn in FUNCTION_INVOCATIONS_PER_HOUR.keys():
         if fn not in cfg.function_urls and cfg.scenario in ("A", "B"):
             raise ValueError(f"Missing function URL mapping for {fn}.")
-        if cfg.scenario == "C" and cfg.dispatcher_execution_mode != "dispatcher_only":
-            if fn not in cfg.function_urls:
-                raise ValueError(f"Missing function URL mapping for {fn}.")
 
 
 def main() -> None:

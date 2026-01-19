@@ -118,7 +118,7 @@ The following payloads are used for *all* invocations:
 **Video Transcoding**
 
 ```json
-{"gcs_uri":"<VIDEO_URI>","passes":4}
+{"gcs_uri":"<VIDEO_URI>","passes":2}
 ```
 
 Inline return (`return_inline`) is disabled for all experiments.

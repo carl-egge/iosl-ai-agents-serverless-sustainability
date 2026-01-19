@@ -15,7 +15,6 @@ scenario A/B/C experiments.
 ## Files
 
 - `loadgen_job.py`: Cloud Run Job entrypoint.
-- `Dockerfile`: container image for the job.
 - `requirements.txt`: Python dependencies.
 - `env.example.yaml`: example env vars for `gcloud run jobs deploy`.
 - `function_urls.example.json`: sample mapping of function -> region -> URL.
@@ -26,7 +25,7 @@ scenario A/B/C experiments.
 - Health check: `{"check":"ping"}`
 - Image converter: `{"gcs_uri":"<IMAGE_URI>","format":"WEBP","quality":85}`
 - Crypto key gen: `{"bits":4096}`
-- Video transcoder: `{"gcs_uri":"<VIDEO_URI>","passes":4}`
+- Video transcoder: `{"gcs_uri":"<VIDEO_URI>","passes":2}`
 
 The runner injects `experiment_id`, `scenario`, `event_id`, and `trace_hour` into
 every payload for correlation.
@@ -47,7 +46,7 @@ Required for all scenarios:
 - `IMAGE_GCS_URI`: GCS URI for the image input.
 - `VIDEO_GCS_URI`: GCS URI for the video-like input.
 
-Function URL mapping (required for scenario A/B, and scenario C client mode):
+Function URL mapping (required for scenario A/B, optional for scenario C logging):
 
 - `FUNCTION_URLS_JSON`: JSON mapping of function -> region -> URL.
 - or `FUNCTION_URLS_PATH`: Path to a JSON file (for example `/app/function_urls.json`).
@@ -64,10 +63,6 @@ Scenario B (hourly lowest-carbon):
 Scenario C (AI dispatcher):
 
 - `DISPATCHER_URL`: Dispatcher endpoint.
-- `DISPATCHER_EXECUTION_MODE`: `client` (default) or `dispatcher_only`.
-  - `client` calls the dispatcher, then invokes the function at the target time.
-  - `dispatcher_only` only calls the dispatcher (use only if your dispatcher
-    schedules and forwards payloads on its own).
 
 Optional:
 
@@ -81,7 +76,7 @@ Optional:
 - `DISPATCHER_AUTH_BEARER_TOKEN`: Optional dispatcher-specific token override.
 - `DISPATCHER_EXTRA_HEADERS_JSON`: Optional dispatcher-specific headers.
 
-## Deploy
+## Deploy (no Dockerfile required)
 
 1) Copy `env.example.yaml` to `env.yaml` and fill in real values.
 
@@ -94,6 +89,8 @@ gcloud run jobs deploy loadgen-job \
   --tasks 1 \
   --max-retries 0 \
   --task-timeout 3600 \
+  --command python \
+  --args loadgen_job.py \
   --env-vars-file evaluation/loadgen/env.yaml
 ```
 
@@ -117,8 +114,6 @@ gcloud scheduler jobs create http loadgen-hourly \
 
 ## Notes for scenario C
 
-The current dispatcher returns a recommended region/time. By default,
-`DISPATCHER_EXECUTION_MODE=client` keeps the dispatcher advisory and lets this
-job invoke the function with the correct payload. If you enable dispatcher-side
-scheduling, set `DISPATCHER_EXECUTION_MODE=dispatcher_only` to avoid double
-invocations and ensure the dispatcher forwards payloads correctly.
+The load generator sends the full function payload to the dispatcher and does
+not invoke the target functions directly. The dispatcher is expected to forward
+the payload to the chosen region/time.
