@@ -3,7 +3,7 @@ variable "project_id" {
   default = "iosl-faas-scheduling"
 }
 
-variable "agent_region" {
+variable "region" {
   type = string
   default = "us-east1"
 }
@@ -13,8 +13,20 @@ variable "gemini_api_key" {
   sensitive = true
 }
 
-
 variable "electricitymaps_api_key" {
   type = string
   sensitive = true
+}
+
+variable "mcp_api_key" {
+  type = string
+  sensitive = true
+}
+
+variable "schedule_mode" {
+  type = string
+}
+
+variable "schedule_location" {
+  type = string
 }
