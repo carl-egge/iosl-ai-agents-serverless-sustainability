@@ -7,10 +7,10 @@ for calculating energy consumption, costs, and emissions.
 
 Usage:
   # Using config file
-  python fetch_metrics.py --config experiment_config.json
+  python fetch_gcp_metrics.py --config experiment_config.json
 
   # Using CLI arguments
-  python fetch_metrics.py \
+  python fetch_gcp_metrics.py \
     --project-id project-123 \
     --url https://service-name-xyz.run.app \
     --start "2024-01-10T00:00:00Z" \
@@ -88,11 +88,12 @@ def extract_service_info_from_url(url: str, project_id: str) -> Dict[str, str]:
     # Try to find service by listing all services in project
     run_client = init_run_client(project_id)
 
-    # List all locations
+    # Regions used in this project (from function_metadata.json allowed_regions)
     locations = [
-        "us-central1", "us-east1", "us-east4", "us-west1",
-        "europe-north1", "europe-west1", "europe-west4",
-        "asia-east1", "asia-northeast1", "asia-southeast1",
+        "us-east1",
+        "us-central1",
+        "europe-west1",
+        "europe-north2",
         "northamerica-northeast1"
     ]
 
@@ -566,7 +567,7 @@ def parse_args():
     parser.add_argument(
         '--output',
         default=None,
-        help='Output JSON file path (default: auto-generated in evaluation/data/)'
+        help='Output JSON file path (default: auto-generated in evaluation/results/{project_id}/)'
     )
 
     return parser.parse_args()
@@ -652,16 +653,16 @@ def main():
         if args.output:
             output_path = args.output
         else:
-            # Create evaluation/data directory if it doesn't exist
+            # Create evaluation/results/{project_id}/ directory if it doesn't exist
             script_dir = os.path.dirname(os.path.abspath(__file__))
             project_root = os.path.dirname(os.path.dirname(script_dir))
-            data_dir = os.path.join(project_root, 'evaluation', 'data')
-            os.makedirs(data_dir, exist_ok=True)
+            results_dir = os.path.join(project_root, 'evaluation', 'results', project_id)
+            os.makedirs(results_dir, exist_ok=True)
 
-            # Generate filename: gcp_metrics_experimentname_timestamp.json
+            # Generate filename: gcp_metrics_projectid_experimentname_timestamp.json
             timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
-            filename = f"gcp_metrics_{experiment_name}_{timestamp}.json"
-            output_path = os.path.join(data_dir, filename)
+            filename = f"gcp_metrics_{project_id}_{experiment_name}_{timestamp}.json"
+            output_path = os.path.join(results_dir, filename)
 
     else:
         # CLI mode
@@ -704,6 +705,7 @@ def main():
 
         output = {
             'experiment_id': 'single_query',
+            'project_id': args.project_id,
             'generated_at': datetime.now(timezone.utc).isoformat(),
             'time_window': {
                 'start': args.start,
@@ -721,16 +723,16 @@ def main():
         if args.output:
             output_path = args.output
         else:
-            # Create evaluation/data directory if it doesn't exist
+            # Create evaluation/results/{project_id}/ directory if it doesn't exist
             script_dir = os.path.dirname(os.path.abspath(__file__))
             project_root = os.path.dirname(os.path.dirname(script_dir))
-            data_dir = os.path.join(project_root, 'evaluation', 'data')
-            os.makedirs(data_dir, exist_ok=True)
+            results_dir = os.path.join(project_root, 'evaluation', 'results', args.project_id)
+            os.makedirs(results_dir, exist_ok=True)
 
-            # Generate filename: gcp_metrics_servicename_timestamp.json
+            # Generate filename: gcp_metrics_projectid_servicename_timestamp.json
             timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
-            filename = f"gcp_metrics_{service_name}_{timestamp}.json"
-            output_path = os.path.join(data_dir, filename)
+            filename = f"gcp_metrics_{args.project_id}_{service_name}_{timestamp}.json"
+            output_path = os.path.join(results_dir, filename)
 
     # Write output
     with open(output_path, 'w') as f:

@@ -1,0 +1,38 @@
+{
+  "experiment_id": "single_query",
+  "project_id": "iosl-faas-scheduling",
+  "generated_at": "2026-01-19T12:01:24.940400+00:00",
+  "time_window": {
+    "start": null,
+    "end": null
+  },
+  "function": {
+    "service_name": "dispatcher",
+    "region": "us-east1",
+    "url": "https://dispatcher-rtwa6zd2ma-ue.a.run.app/",
+    "gcp_metrics": {
+      "request_count": 9,
+      "request_latencies_ms": {
+        "p50": 1454.3554272549727,
+        "p95": 4099.032103500001,
+        "p99": 4369.4108191000005,
+        "mean": 1726.3876275637433
+      },
+      "cpu_utilization": {
+        "mean": 0.007785415927970497,
+        "p95": 0.024465087696247736
+      },
+      "memory_utilization": {
+        "mean": 0.2327265093552246,
+        "p95": 0.29614000000000007
+      },
+      "billable_instance_time_s": 35.637025798536136,
+      "network": {
+        "received_bytes_total": 29205,
+        "sent_bytes_total": 10637,
+        "received_gb": 2.719927579164505e-05,
+        "sent_gb": 9.906478226184845e-06
+      }
+    }
+  }
+}
