@@ -1,61 +1,56 @@
-# Evaluation Protocol — Serverless Load‑Shifting FaaS Setup
+# Evaluation Protocol — Serverless Load-Shifting Experiment
 
 ## 1. Purpose and Scope
 
-This document defines a **complete, reproducible evaluation protocol** for assessing a serverless load‑shifting system with an AI‑based scheduler. It is written to be *operational*: a new group member should be able to prepare infrastructure, execute the experiments, and collect metrics **without additional design decisions**.
+This document defines the **experiment protocol** for evaluating a serverless load-shifting system with an AI-based scheduler. It covers experiment design, infrastructure setup, and execution procedures.
 
-The evaluation is a **feasibility study**, not a production benchmark. The goals are:
+**Goals:**
+- Demonstrate that spatio-temporal scheduling is technically viable in a FaaS context
+- Compare the AI-based approach against two meaningful baselines
+- Collect sufficient real Cloud Run metrics to support conclusions
 
-* Demonstrate that spatio‑temporal scheduling is technically viable in a FaaS context
-* Compare the AI‑based approach against two meaningful baselines
-* Collect sufficient real Cloud Run metrics to support relative conclusions
+This is a **feasibility study**, not a production benchmark. The protocol prioritizes **simplicity, determinism, and low cost** while retaining scientific credibility.
 
-The protocol intentionally prioritizes **simplicity, determinism, and low cost** while retaining scientific credibility.
-
----
-
-## 2. Experimental Design Overview
-
-### 2.1 Independent Variable
-
-**Scheduling policy**, realized as three isolated scenarios:
-
-| Scenario                                       | Description                                                                                 |
-| ---------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| **A — Fixed Region**                           | All functions execute immediately in one pre‑selected region                                |
-| **B — Lowest‑Carbon Region (Hourly Baseline)** | Functions execute immediately in the region with lowest carbon intensity for that hour      |
-| **C — AI Agent**                               | Dispatcher routes execution to region and time selected by the AI agent (may include delay) |
-
-Each scenario runs in its **own GCP project** to avoid interference and simplify metric attribution.
+**For calculation methodology, formulas, and constants, see [METRICS.md](METRICS.md).**
 
 ---
 
-### 2.2 Controlled Variables
+## 2. Experimental Design
 
-The following must be **identical across all scenarios**:
+### 2.1 Scheduling Approaches
 
-* Function source code and container images
-* CPU / memory limits
-* Concurrency limits
-* Timeout configuration
-* Input payloads and dataset
-* Invocation frequency and mix ("workload trace")
-* Cold‑start behavior (min instances = 0 everywhere)
+Each GCP project represents a different scheduling approach. All approaches use **instant execution** except Agent, which may delay execution.
 
----
+| Approach | GCP Project | Execution Region | Description |
+|----------|-------------|------------------|-------------|
+| **Baseline** | `project-baseline` | us-east1 (home) | All functions execute immediately in home region |
+| **Static Green** | `project-static-green` | europe-north2 (GPU: europe-west1) | All functions execute immediately in greenest region |
+| **Agent** | `project-ai-agent` | Dynamic | Dispatcher routes to region/time based on AI scheduling |
 
-### 2.3 Dependent Measurements
+**Home region:** us-east1 — where GCS bucket is stored and all requests originate from. This ensures comparable network conditions across scenarios.
 
-The evaluation relies on **real Cloud Run metrics**, collected via Google Cloud Monitoring and logs:
+All approaches use identical workload traces, function configurations, and code. No resources are shared between projects.
 
-* Request count
-* Request latency distribution
-* CPU utilization
-* Memory utilization
-* Billable instance time
-* Network bytes sent / received
+### 2.2 Candidate Regions
 
-No direct power or energy measurements are performed.
+Functions are deployed to **5 regions** (GCP quota limit):
+
+| Region | Location | GPU | Carbon Profile | Notes |
+|--------|----------|-----|----------------|-------|
+| **us-east1** | South Carolina | No | Medium-high | Home region (bucket location) |
+| **us-central1** | Iowa | Yes | Medium | GPU-capable US region |
+| **northamerica-northeast1** | Montreal | No | Very low | Green region (hydro power) |
+| **europe-north2** | Stockholm | No | Very low | Green region (Nordic grid) |
+| **europe-west1** | Belgium | Yes | Medium | GPU-capable EU region |
+
+**Rationale:**
+- **Geographic diversity** — North America and Europe coverage
+- **GPU availability** — One GPU region per continent (us-central1, europe-west1)
+- **Carbon diversity** — Mix of green (Montreal, Stockholm) and medium-carbon regions
+- **Home region baseline** — us-east1 is intentionally not the greenest, demonstrating the benefit of region shifting
+- **Quota compliance** — 5 regions stays within GCP deployment limits
+
+This setup enables the Agent to make diverse scheduling decisions across regions, showcasing the potential of spatio-temporal load shifting.
 
 ---
 
@@ -65,362 +60,200 @@ No direct power or energy measurements are performed.
 
 Exactly **four functions** constitute the entire workload:
 
-| Function                 | Characteristics                        |
-| ------------------------ | -------------------------------------- |
-| `api-health-check`       | Low compute, low data, high throughput |
-| `crypto-key-gen`         | High compute, low data                 |
-| `image-format-converter` | Moderate compute, moderate data        |
-| `video-transcoder`       | High compute, high data                |
+| Function | Characteristics |
+|----------|-----------------|
+| `api-health-check` | Low compute, low data, high throughput |
+| `crypto-key-gen` | High compute, low data |
+| `image-format-converter` | Moderate compute, moderate data |
+| `video-transcoder` | High compute, high data (GPU-capable) |
 
 No additional workloads may be introduced.
 
----
-
 ### 3.2 Fixed Input Dataset
 
-All data‑intensive functions use **the same immutable dataset**:
-
-* One image file (e.g. PNG)
-* One video‑like binary file
+All data-intensive functions use **the same immutable dataset**:
+- One image file (e.g., PNG)
+- One video-like binary file
 
 These objects:
-
-* Are stored in **one GCS bucket**
-* Located in **one fixed region**
-* Are referenced **by GCS URI only** (no inline base64 during experiments)
-
-The dataset must never change between scenarios.
-
----
+- Are stored in **GCS bucket in us-east1** (home region)
+- Are referenced **by GCS URI only** (no inline base64 during experiments)
+- Must never change between scenarios
 
 ### 3.3 Standardized Request Payloads
 
-The following payloads are used for *all* invocations:
-
 **Health Check**
-
 ```json
-{"check":"ping"}
-```
-
-**Image Conversion**
-
-```json
-{"gcs_uri":"<IMAGE_URI>","format":"WEBP","quality":85}
+{"check": "ping"}
 ```
 
 **Crypto Key Generation**
-
 ```json
-{"bits":4096}
+{"bits": 4096}
+```
+
+**Image Conversion**
+```json
+{"gcs_uri": "<IMAGE_URI>", "format": "WEBP", "quality": 85}
 ```
 
 **Video Transcoding**
-
 ```json
-{"gcs_uri":"<VIDEO_URI>","passes":2}
+{"gcs_uri": "<VIDEO_URI>", "passes": 2}
 ```
 
 Inline return (`return_inline`) is disabled for all experiments.
 
 ---
 
-## 4. Invocation Schedule (Workload Trace)
+## 4. Invocation Schedule
 
 ### 4.1 Design Principles
 
 The workload trace is:
+- **Constant daily load** — same invocations every day for consistent per-invocation metrics
+- **Long-running** — 7 days captures day/night and weekday effects
+- **Deterministic** — identical across scenarios
 
-* **Low‑throughput** (cost‑efficient)
-* **Long‑running** (captures day/night and weekday effects)
-* **Deterministic** (identical across scenarios)
+We use a reduced invocation count for cost efficiency. Mean values (CPU utilization, latency, etc.) over these runs should not change significantly with more invocations per day, making this approach suitable for estimating per-invocation metrics.
 
-Rather than a complex per‑request trace file, the experiment uses a **fixed hourly schedule**.
+### 4.2 Hourly Schedule
 
----
+Each function is invoked **once per working hour** (08:00–18:00 UTC):
 
-### 4.2 Hourly Invocation Mix
+| Function | Invocations/hour | Invocations/day |
+|----------|------------------|-----------------|
+| api-health-check | 1 | 10 |
+| crypto-key-gen | 1 | 10 |
+| image-format-converter | 1 | 10 |
+| video-transcoder | 1 | 10 |
 
-Each hour, the runner submits exactly:
+**Total:** 4 invocations per hour, **40 invocations per day**, **280 invocations per week**
 
-| Function          | Invocations per hour |
-| ----------------- | -------------------- |
-| Health Check      | 20                   |
-| Crypto Key Gen    | 3                    |
-| Image Conversion  | 2                    |
-| Video Transcoding | 1                    |
+### 4.3 Special Functions (Agent Scenario Only)
 
-**Total:** 26 invocations per hour
-
-This yields:
-
-* 624 invocations per day
-* 4,368 invocations per week
+- **Dispatcher**: Called for every function invocation (40 calls/day)
+- **Agent**: Runs once daily to generate the scheduling plan
 
 ---
 
-### 4.3 Intra‑Hour Timing
+## 5. Infrastructure Setup
 
-Within each hour:
-
-* Invocations are distributed across fixed minute slots
-* A small deterministic jitter (seconds) is added per invocation
-* Jitter is derived from a stable hash of the invocation ID
-
-This avoids synchronization artifacts while remaining fully reproducible.
-
----
-
-## 5. Execution Infrastructure
-
-### 5.1 Project Isolation
-
-Each scenario runs in its **own GCP project**:
-
-| Scenario | Project                 |
-| -------- | ----------------------- |
-| A        | `project-fixed-region`  |
-| B        | `project-lowest-carbon` |
-| C        | `project-ai-agent`      |
-
-No resources are shared between projects.
-
----
-
-### 5.2 Function Deployment
+### 5.1 Function Deployment
 
 For **each project**:
+- Deploy all four workload functions to all 5 candidate regions
+- Use identical service names in all regions
+- Set `min-instances = 0`
 
-* Deploy all four workload functions
-* Deploy to all candidate regions
-* Use identical service names in all regions
-* Set `min-instances = 0`
+Agent scenario additionally deploys:
+- The **dispatcher service**
+- The **agent function** (triggered daily)
 
-Scenario C additionally deploys:
-
-* The **dispatcher service**
-
----
-
-### 5.3 Runner Architecture
+### 5.2 Runner Architecture
 
 Each project contains its **own runner**, implemented as:
-
-* One **Cloud Run Job** (`loadgen-job`)
-* Triggered **hourly** by Cloud Scheduler
+- One **Cloud Run Job** (`loadgen-job`)
+- Triggered **hourly** by Cloud Scheduler (08:00–18:00 UTC)
 
 The job:
-
 1. Determines the current UTC hour
-2. Generates the fixed hourly invocation mix
-3. Sends requests according to the active scenario policy
-4. Logs one structured line per invocation
+2. Invokes each function once according to scenario policy
+3. Terminates after completing the hourly batch
 
-The job terminates after completing the hourly batch.
+### 5.3 Scenario-Specific Execution Logic
 
----
+**Baseline:**
+- All requests sent directly to workload services in **us-east1**
+- No dispatcher involved
+- Immediate execution
 
-## 6. Scenario‑Specific Execution Logic
+**Static Green:**
+- All requests sent directly to workload services in **europe-north2**
+- GPU functions (video-transcoder) use **europe-west1**
+- No dispatcher involved
+- Immediate execution
 
-### 6.1 Scenario A — Fixed Region
-
-* All requests are sent directly to workload services in **one chosen region**
-* No dispatcher is involved
-* No execution delay is applied
-
----
-
-### 6.2 Scenario B — Lowest‑Carbon Region (Hourly Baseline)
-
-* A precomputed mapping exists: `hour → region`
-* Mapping is derived from carbon‑intensity data **offline**
-* For each hour, all requests go directly to the mapped region
-
-Carbon data is **not queried live** during the experiment.
+**Agent:**
+- Runner sends requests only to the **dispatcher**
+- Dispatcher applies AI scheduling policy
+- May route to different regions or delay execution based on carbon forecasts
 
 ---
 
-### 6.3 Scenario C — AI Agent
+## 6. Experiment Assumptions
 
-* The runner sends requests only to the **dispatcher**
-* Payload includes:
+| Assumption | Description | Effect |
+|------------|-------------|--------|
+| Agent Scheduling Frequency | Agent runs once per day | Agent costs scale × 365 yearly |
+| Agent API Call Frequency | Gemini/ElectricityMaps APIs called once per week | API costs scale × 52 yearly |
+| Dispatcher Call Frequency | Dispatcher called per invocation | Dispatcher costs scale × annual_invocations |
+| Stable Function Metadata | No config changes during experiment | Fair comparison across scenarios |
+| No User Priority Changes | Fixed priority weights | Consistent agent behavior |
+| Constant Load Pattern | Same schedule every day | Simple yearly scaling |
+| Cold Starts Included | No warmup exclusion | Reflects real system behavior |
 
-  * function name
-  * deadline (end of scheduling horizon)
-  * invocation metadata
-
-The dispatcher:
-
-* Applies the AI scheduling policy
-* Chooses execution region and time
-* May enqueue delayed execution
-
----
-
-## 7. Logging and Correlation
-
-### 7.1 Invocation Identity
-
-Every invocation carries:
-
-* `experiment_id`
-* `scenario`
-* `event_id`
-* `trace_hour`
-
-These fields must appear in:
-
-* Runner logs
-* Dispatcher logs (scenario C)
-* Function logs
+**For calculation-related assumptions (power models, carbon intensity, etc.), see [METRICS.md](METRICS.md).**
 
 ---
 
-### 7.2 Cold Starts
+## 7. Execution Procedure
 
-Cold starts are **intentionally included**:
-
-* No pre‑warming
-* No min instances
-* Cold‑start effects are treated as part of system behavior
-
-No attempt is made to isolate or remove them.
-
----
-
-## 8. Metric Collection
-
-### 8.1 Source of Metrics
-
-Metrics are collected exclusively from:
-
-* Google Cloud Monitoring (Cloud Run metrics)
-* Cloud Run request logs
-
-No client‑side latency measurements are required.
-
----
-
-### 8.2 Metric Extraction Tool
-
-The existing metrics tool:
-
-* Takes service URLs and time windows as input
-* Automatically extracts service name and region
-* Outputs structured JSON with raw metrics
-
-Each scenario produces **one metrics JSON file** covering the full experiment window.
-
----
-
-### 8.3 Services Included per Scenario
-
-* **Scenario A:** workload services in the fixed region
-* **Scenario B:** workload services in all regions
-* **Scenario C:** dispatcher + workload services in all regions
-
----
-
-## 9. Evaluation Metrics
-
-### 9.1 Time Metric (Speedup)
-
-End‑to‑end execution time is approximated by:
-
-* Request latency as reported by Cloud Run
-
-For each scenario and function:
-
-* Mean latency
-* p95 latency
-
-Speedup is computed **relatively** between scenarios.
-
----
-
-### 9.2 Energy and Power Assumptions
-
-Direct power measurement is infeasible. Therefore:
-
-* Power per function is assumed **constant** across scenarios
-* Resource configuration does not change
-
-As a result:
-
-* **Powerup ≈ 1** by design
-
----
-
-### 9.3 Carbon‑Adjusted Energy (Greenup)
-
-A carbon‑aware energy proxy is defined:
-
-```
-E* = T × CI(region, hour)
-```
-
-Where:
-
-* `T` = execution time proxy
-* `CI` = carbon intensity for the execution region and hour
-
-Greenup is computed as the ratio of summed `E*` values between scenarios.
-
----
-
-## 10. Execution Procedure
-
-### 10.1 Preparation
+### 7.1 Preparation
 
 1. Create three GCP projects
-2. Deploy functions and dispatcher
-3. Upload dataset to GCS
-4. Deploy runner job and scheduler
-5. Verify one dry‑run hour
+2. Deploy functions to all 5 regions (and dispatcher for Agent scenario)
+3. Upload dataset to GCS in us-east1
+4. Deploy runner job and Cloud Scheduler
+5. Verify one dry-run hour
 
----
-
-### 10.2 Experiment Run
+### 7.2 Experiment Run
 
 For each scenario:
-
 1. Enable hourly scheduler
-2. Run for the full experiment window (≥ 3 days, ideally 7)
+2. Run for **7 days** (full experiment window)
 3. Do not modify infrastructure during the run
 
-Scenarios must not overlap in time.
+Scenarios **may run in parallel** (separate projects) or sequentially.
 
----
+### 7.3 Data Collection
 
-### 10.3 Data Collection
+> **Status:** Work in Progress
 
 After each scenario:
+1. xxx
 
-1. Export Cloud Run metrics for the full window
-2. Store metrics JSON with scenario label
-3. Optionally export request logs filtered by `experiment_id`
+**Tools:**
+- GCP metrics extraction: `evaluation/gcp_metrics/fetch_gcp_metrics.py`
+- Final metrics calculation: `evaluation/final_metrics/calculate.py`
+- xxx
+
+For detailed methodology, see [METRICS.md](METRICS.md).
 
 ---
 
-## 11. Validity and Limitations
+## 8. Limitations
 
-* Results are **relative**, not absolute
-* Network energy is not modeled explicitly
-* Cold starts are included but not isolated
-* Throughput is intentionally low
+- **Assumptions constrain generalizability** — see Section 6 and [METRICS.md](METRICS.md) for full list
+- **Power cannot be directly measured** — we use Cloud Carbon Footprint methodology with constant values; costs are calculated by our own framework. Absolute values may not be 100% accurate, but since we use the same logic for all approaches, results are comparable across projects — sufficient for the scope of this feasibility study.
+- **Limited experiment duration** — 7 days of data scaled to yearly projections
+- **Constant daily load** — we use a fixed invocation count per day to estimate per-invocation values, rather than actual production traffic. This is cost-efficient and adequate because mean metric values (CPU utilization, latency, etc.) should remain rather stable with larger invocation volume.
 
 These limitations are acceptable for a feasibility study and must be stated explicitly in any report.
 
 ---
 
-## 12. Expected Outcome
+## 9. Expected Outcome
 
-The evaluation should demonstrate:
-
-* That scenario C can reduce carbon‑adjusted energy relative to A and/or B
-* The latency trade‑offs introduced by delayed execution
-* That real Cloud Run metrics are sufficient to support these conclusions
+*[PLACEHOLDER — to be filled after experiments]*
 
 ---
 
-**End of Evaluation Protocol**
+## References
+
+- [METRICS.md](METRICS.md) — Calculation methodology, formulas, constants, and tools
+
+---
+
+**Document Status:** Work in Progress
+**Last Updated:** 2026-01-20
