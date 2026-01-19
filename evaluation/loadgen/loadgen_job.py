@@ -13,7 +13,7 @@ import json
 import os
 import time
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 
 import requests
@@ -47,6 +47,7 @@ class Config:
     dispatcher_url: Optional[str]
     function_urls: Dict[str, Dict[str, str]]
     hourly_region_map: Dict[int, str]
+    hourly_region_map_source: str
     image_gcs_uri: str
     video_gcs_uri: str
     image_format: str
@@ -259,6 +260,60 @@ def validate_function_urls(raw: Optional[dict]) -> Dict[str, Dict[str, str]]:
     return out
 
 
+def load_carbon_forecast() -> Optional[dict]:
+    raw = os.getenv("CARBON_FORECAST_JSON")
+    if raw:
+        return json.loads(raw)
+
+    path = os.getenv("CARBON_FORECAST_PATH")
+    if path:
+        with open(resolve_path(path), "r", encoding="utf-8") as handle:
+            return json.load(handle)
+
+    bucket_name = os.getenv("CARBON_FORECAST_GCS_BUCKET")
+    if bucket_name:
+        object_name = os.getenv("CARBON_FORECAST_GCS_OBJECT", "carbon_forecasts.json")
+        from google.cloud import storage
+
+        client = storage.Client()
+        bucket = client.bucket(bucket_name)
+        blob = bucket.blob(object_name)
+        return json.loads(blob.download_as_bytes().decode("utf-8"))
+
+    return None
+
+
+def build_hourly_region_map_from_forecast(forecast: dict, target_date: date) -> Dict[int, str]:
+    regions = forecast.get("regions", {})
+    best_by_hour: Dict[int, Dict[str, Any]] = {}
+
+    for region_id, region in regions.items():
+        region_name = region.get("gcloud_region") or region_id
+        entries = region.get("forecast", [])
+        if not isinstance(entries, list):
+            continue
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            intensity = entry.get("carbonIntensity")
+            try:
+                intensity_val = float(intensity)
+            except Exception:
+                continue
+            dt = parse_datetime(entry.get("datetime"))
+            if dt is None or dt.date() != target_date:
+                continue
+            hour = dt.hour
+            best = best_by_hour.get(hour)
+            if best is None or intensity_val < best["carbon_intensity"]:
+                best_by_hour[hour] = {
+                    "region": str(region_name),
+                    "carbon_intensity": intensity_val,
+                }
+
+    return {hour: info["region"] for hour, info in best_by_hour.items()}
+
+
 def load_config() -> Config:
     scenario = os.getenv("SCENARIO", "").strip().upper()
     if scenario not in ("A", "B", "C"):
@@ -284,6 +339,15 @@ def load_config() -> Config:
     hourly_region_map = parse_hourly_region_map(
         load_json_from_env_or_path("HOURLY_REGION_MAP_JSON", "HOURLY_REGION_MAP_PATH")
     )
+    hourly_region_map_source = "hourly_region_map"
+
+    if scenario == "B":
+        forecast = load_carbon_forecast()
+        if forecast:
+            derived_map = build_hourly_region_map_from_forecast(forecast, trace_hour.date())
+            if derived_map:
+                hourly_region_map = derived_map
+                hourly_region_map_source = "carbon_forecast"
 
     image_gcs_uri = os.getenv("IMAGE_GCS_URI", "").strip()
     video_gcs_uri = os.getenv("VIDEO_GCS_URI", "").strip()
@@ -320,6 +384,7 @@ def load_config() -> Config:
         dispatcher_url=dispatcher_url,
         function_urls=function_urls,
         hourly_region_map=hourly_region_map,
+        hourly_region_map_source=hourly_region_map_source,
         image_gcs_uri=image_gcs_uri,
         video_gcs_uri=video_gcs_uri,
         image_format=image_format,
@@ -470,7 +535,7 @@ def run_scenario_a_b(cfg: Config, invocations: List[Invocation]) -> None:
                 "invocation_index": inv.index,
                 "scheduled_time_utc": format_dt(inv.scheduled_time),
                 "policy_region": region,
-                "policy_region_source": "fixed_region" if cfg.scenario == "A" else "hourly_region_map",
+                "policy_region_source": "fixed_region" if cfg.scenario == "A" else cfg.hourly_region_map_source,
                 "target_region": region,
                 "target_url": url,
                 "sent_time_utc": format_dt(sent_time),
@@ -549,7 +614,10 @@ def run_scenario_c(cfg: Config, invocations: List[Invocation]) -> None:
 
 def validate_config(cfg: Config) -> None:
     if cfg.scenario == "B" and not cfg.hourly_region_map:
-        raise ValueError("HOURLY_REGION_MAP_JSON or HOURLY_REGION_MAP_PATH is required for scenario B.")
+        raise ValueError(
+            "Scenario B requires a carbon forecast (CARBON_FORECAST_*) "
+            "or an hourly region map (HOURLY_REGION_MAP_*)."
+        )
 
     for fn in FUNCTION_INVOCATIONS_PER_HOUR.keys():
         if fn not in cfg.function_urls and cfg.scenario in ("A", "B"):

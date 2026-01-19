@@ -18,7 +18,7 @@ scenario A/B/C experiments.
 - `requirements.txt`: Python dependencies.
 - `env.example.yaml`: example env vars for `gcloud run jobs deploy`.
 - `function_urls.example.json`: sample mapping of function -> region -> URL.
-- `hourly_region_map.example.json`: sample hourly region mapping for scenario B.
+- `hourly_region_map.example.json`: optional fallback mapping for scenario B.
 
 ## Payloads (aligned to the protocol)
 
@@ -55,10 +55,12 @@ Scenario A (fixed region):
 
 - `FIXED_REGION`: Region name used for all functions (for example `us-east1`).
 
-Scenario B (hourly lowest-carbon):
+Scenario B (hourly lowest-carbon via carbon forecast):
 
-- `HOURLY_REGION_MAP_JSON`: JSON mapping of hour (0-23) to region.
-- or `HOURLY_REGION_MAP_PATH`: Path to the mapping file.
+- `CARBON_FORECAST_JSON`: Raw JSON string for the daily carbon forecast.
+- or `CARBON_FORECAST_PATH`: Path to the forecast file (for local runs).
+- or `CARBON_FORECAST_GCS_BUCKET`: GCS bucket that stores the forecast.
+  - Optional `CARBON_FORECAST_GCS_OBJECT` (default: `carbon_forecasts.json`).
 
 Scenario C (AI dispatcher):
 
@@ -111,6 +113,12 @@ gcloud scheduler jobs create http loadgen-hourly \
   --http-method POST \
   --oauth-service-account-email SCHEDULER_SA@PROJECT_ID.iam.gserviceaccount.com
 ```
+
+## Notes for scenario B
+
+The runner selects the lowest carbon-intensity region per hour from the daily
+forecast. The expected local file is `local_bucket/carbon_forecasts.json` unless
+you provide a different path via `CARBON_FORECAST_PATH`.
 
 ## Notes for scenario C
 
