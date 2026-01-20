@@ -155,7 +155,6 @@ resource "google_cloud_run_v2_service" "agent" {
 
   invoker_iam_disabled = true
 
-
   deletion_protection = false
 
   template {
@@ -186,7 +185,7 @@ resource "google_cloud_run_v2_service" "agent" {
 
       env {
         name  = "GCS_BUCKET_NAME"
-        value = "faas-scheduling-us-east1"
+        value = google_storage_bucket.scheduler_bucket.name
       }
 
       # Secret Mappings
@@ -260,7 +259,7 @@ resource "google_cloud_run_v2_service" "mcp_server" {
 
       env {
         name  = "GCS_BUCKET"
-        value = "faas-scheduling-us-east1" #TODO make variable
+        value = google_storage_bucket.scheduler_bucket.name
       }
 
       env {
@@ -284,7 +283,7 @@ resource "google_cloud_tasks_queue" "delayedtasks_queue" {
 }
 
 resource "google_storage_bucket" "scheduler_bucket" {
-  name                        = "iosl-scheduler-bucket"
+  name                        = var.gcs_bucket
   location                    = var.region
   uniform_bucket_level_access = true
 }
