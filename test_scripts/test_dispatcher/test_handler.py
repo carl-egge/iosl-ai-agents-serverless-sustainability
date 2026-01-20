@@ -84,7 +84,7 @@ def test_when_delayTrueAndValidDeadline_then_scheduleFunction(mocker):
         "target_region": optimal_slot["region"],
         "target_time": optimal_slot["datetime"],
         "priority": optimal_slot["priority"],
-        "url": "function.test",
+        "function_url": "function.test",
     }
 
     response = dispatcher.handler(event)
@@ -107,7 +107,7 @@ def test_when_delayTrueAndValidDeadline_then_scheduleFunction():
         "target_region": "REGION-1",
         "target_time": datetime.fromisoformat("2025-12-10T22:00:00+00:00"),
         "priority": 1,
-        "url": "function.test",
+        "function_url": "function.test",
     }
 
     response = dispatcher.handler(event)
@@ -130,7 +130,7 @@ def test_when_delayFalse_then_scheduleDirectly():
         "target_region": "REGION-6",
         "target_time": datetime.fromisoformat("2025-12-10T17:00:00+00:00"),
         "priority": 6,
-        "url": "function.test",
+        "function_url": "function.test",
     }
 
     response = dispatcher.handler(event)
