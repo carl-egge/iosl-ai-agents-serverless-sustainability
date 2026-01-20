@@ -114,11 +114,28 @@ resource "google_storage_bucket_object" "mcp_object" {
   source = data.archive_file.mcp_archiver.output_path
 }
 
+resource "google_storage_bucket" "scheduler_bucket" {
+  name                        = var.gcs_bucket
+  location                    = var.region
+  uniform_bucket_level_access = true
+  force_destroy               = true
+}
+
+resource "google_storage_bucket_object" "function_metadata" {
+  name = "function_metadata.json"
+  bucket = google_storage_bucket.scheduler_bucket.name
+  source = var.function_metadata_path
+}
+
+resource "google_storage_bucket_object" "static_config" {
+  name = "static_config.json"
+  bucket = google_storage_bucket.scheduler_bucket.name
+  source = var.static_config_path
+}
+
 resource "google_cloudfunctions2_function" "dispatcher_function" {
   name     = "dispatcher-function"
   location = var.region
-
-  
 
   build_config {
     runtime     = "python314"
@@ -132,7 +149,7 @@ resource "google_cloudfunctions2_function" "dispatcher_function" {
   }
 
   service_config {
-    ingress_settings = "ALLOW_ALL"
+    ingress_settings   = "ALLOW_ALL"
     max_instance_count = 1
     available_memory   = "256M"
     timeout_seconds    = 60
@@ -144,6 +161,21 @@ resource "google_cloudfunctions2_function" "dispatcher_function" {
       SCHEDULE_LOCATION = var.schedule_location
     }
   }
+}
+
+resource "google_cloudfunctions2_function_iam_member" "public_invoker" {
+  project        = google_cloudfunctions2_function.dispatcher_function.project
+  location       = google_cloudfunctions2_function.dispatcher_function.location
+  cloud_function = google_cloudfunctions2_function.dispatcher_function.name
+  role           = "roles/cloudfunctions.invoker"
+  member         = "allUsers"
+}
+
+resource "google_cloud_run_service_iam_member" "public_invoker_run" {
+  location = google_cloudfunctions2_function.dispatcher_function.location
+  service  = google_cloudfunctions2_function.dispatcher_function.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
 }
 
 resource "google_cloud_run_v2_service" "agent" {
@@ -282,12 +314,6 @@ resource "google_cloud_tasks_queue" "delayedtasks_queue" {
   location = var.region
 }
 
-resource "google_storage_bucket" "scheduler_bucket" {
-  name                        = var.gcs_bucket
-  location                    = var.region
-  uniform_bucket_level_access = true
-}
-
 data "archive_file" "dispatcher_archiver" {
   type        = "zip"
   output_path = "out/dispatcher.zip"
@@ -310,17 +336,17 @@ data "archive_file" "mcp_archiver" {
 }
 
 output "dispatcher_url" {
-  value = google_cloudfunctions2_function.dispatcher_function.url
+  value       = google_cloudfunctions2_function.dispatcher_function.url
   description = "Dispatcher URL"
 }
 
 output "agent_url" {
-  value = google_cloud_run_v2_service.agent.uri
+  value       = google_cloud_run_v2_service.agent.uri
   description = "Agent URL"
 }
 
 output "mcp_url" {
-  value = google_cloud_run_v2_service.mcp_server.uri
+  value       = google_cloud_run_v2_service.mcp_server.uri
   description = "MCP URL"
 }
 

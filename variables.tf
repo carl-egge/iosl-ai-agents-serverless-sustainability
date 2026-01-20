@@ -34,3 +34,11 @@ variable "schedule_mode" {
 variable "schedule_location" {
   type = string
 }
+
+variable "function_metadata_path" {
+  type = string
+}
+
+variable "static_config_path" {
+  type = string
+}
