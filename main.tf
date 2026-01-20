@@ -235,7 +235,7 @@ resource "google_cloud_run_v2_service" "mcp_server" {
       command        = ["/bin/sh"]
       args = [
         "-c",
-        "pip install -r requirements.txt && python -m gunicorn --bind :8080 --workers 1 --threads 8 --timeout 300 main:app"
+        "pip install -r requirements.txt && python -m gunicorn --bind :8080 --workers 1 --threads 8 --timeout 300 server:app"
       ]
       source_code {
         cloud_storage_source {
