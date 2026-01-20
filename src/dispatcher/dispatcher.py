@@ -67,7 +67,7 @@ def add_to_task_queue(function_url: str, target_time: datetime):
     task = {
         "http_request": {
             "http_method": tasks_v2.HttpMethod.GET,
-            "url": function_url,
+            "function_url": function_url,
         }
     }
 
@@ -200,7 +200,7 @@ def schedule_function(slot: dict, function_name: str) -> dict:
         logging.info(f"Dispatching to {(slot['region'])} at {slot['datetime']}")
         if os.environ.get("SCHEDULE_MODE", "NONE") == "CLOUD":
             add_to_task_queue(
-                slot["url"],
+                slot["function_url"],
                 slot["datetime"].replace(tzinfo=timezone.utc),
             )
         return {
@@ -211,7 +211,7 @@ def schedule_function(slot: dict, function_name: str) -> dict:
             "target_region": slot["region"],
             "target_time": slot["datetime"],
             "priority": slot["priority"],
-            "url": slot["url"],
+            "function_url": slot["function_url"],
         }
     else:
         return {

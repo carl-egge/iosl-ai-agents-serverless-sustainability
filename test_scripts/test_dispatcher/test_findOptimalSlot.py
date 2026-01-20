@@ -69,7 +69,7 @@ def test_timeBeforeSchedule(
     assert result["delay"] == expected_delay
     assert result["datetime"] == expected_datetime
     assert result["region"] == expected_region
-    assert result["url"] == "function.test"
+    assert result["function_url"] == "function.test"
 
 
 
@@ -121,7 +121,7 @@ def test_timeDuringSchedule(
     assert result["delay"] == expected_delay
     assert result["datetime"] == expected_datetime
     assert result["region"] == expected_region
-    assert result["url"] == "function.test"
+    assert result["function_url"] == "function.test"
 
 
 @freeze_time("2025-12-13T16:35:00+00:00")
@@ -171,4 +171,4 @@ def test_timeAfterSchedule(
     assert result["delay"] == expected_delay
     assert result["datetime"] == expected_datetime
     assert result["region"] == expected_region
-    assert result["url"] == "function.test"
+    assert result["function_url"] == "function.test"
