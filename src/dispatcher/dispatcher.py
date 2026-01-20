@@ -55,7 +55,7 @@ def get_loader() -> ScheduleLoader:
         )
         return LocalFileScheduleLoader(path)
 
-def add_to_task_queue(function_url: str, target_time: datetime):
+def add_to_task_queue(function_url: str, function_param: dict, target_time: datetime):
     client = tasks_v2.CloudTasksClient()
 
     PROJECT_ID = os.environ.get("PROJECT_ID")
@@ -67,7 +67,9 @@ def add_to_task_queue(function_url: str, target_time: datetime):
     task = {
         "http_request": {
             "http_method": tasks_v2.HttpMethod.GET,
-            "function_url": function_url,
+            "url": function_url,
+            "headers": {"Content-Type": "application/json"},
+            "body": json.dumps(function_param).encode("utf-8"),
         }
     }
 
@@ -142,8 +144,9 @@ def handler(event: dict) -> dict:
     Expected Event JSON:
     {
         "function_name": "image_processor",
-        "delay": "false"
-        "deadline": "2023-10-27T12:00:00Z"
+        "function_param": {...},
+        "delay": "false",
+        "deadline": "2023-10-27T12:00:00Z",
     }
 
     Delay takes precedence over the deadline.
@@ -161,7 +164,7 @@ def handler(event: dict) -> dict:
     if delay is not None:
         if str.lower(delay) == "false":
             result = find_optimal_slot(function_name, None)
-            return schedule_function(result, function_name)
+            return schedule_function(result, function_name, event.get("function_param"))
         if str.lower(delay) == "true":
             pass
         else:
@@ -192,15 +195,16 @@ def handler(event: dict) -> dict:
 
     result = find_optimal_slot(function_name, deadline_dt)
 
-    return schedule_function(result, function_name)
+    return schedule_function(result, function_name, event.get("function_param"))
 
-def schedule_function(slot: dict, function_name: str) -> dict:
+def schedule_function(slot: dict, function_name: str, function_param: dict) -> dict:
     logging.info("done")
     if slot:
         logging.info(f"Dispatching to {(slot['region'])} at {slot['datetime']}")
         if os.environ.get("SCHEDULE_MODE", "NONE") == "CLOUD":
             add_to_task_queue(
                 slot["function_url"],
+                function_param,
                 slot["datetime"].replace(tzinfo=timezone.utc),
             )
         return {
@@ -211,6 +215,7 @@ def schedule_function(slot: dict, function_name: str) -> dict:
             "target_region": slot["region"],
             "target_time": slot["datetime"],
             "priority": slot["priority"],
+            "carbon_intensity": slot["carbon_intensity"],
             "function_url": slot["function_url"],
         }
     else:
@@ -225,6 +230,6 @@ if __name__ == "__main__":
     from dotenv import load_dotenv
 
     load_dotenv()
-    event = {"function_name": "write_to_bucket", "deadline": "2025-12-01T20:01:00"}
+    event = {"function_name": "write_to_bucket", "deadline": "2025-12-01T20:01:00", "function_param": {"param1": "value1"}}
 
     logging.info(handler(event))

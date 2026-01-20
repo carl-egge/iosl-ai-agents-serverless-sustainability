@@ -24,7 +24,7 @@ def test_when_noFunctionName_then_return400():
 
 
 def test_when_delayFalse_then_executeDirectly():
-    event = {"function_name": "dummy", "delay": "False"}
+    event = {"function_name": "dummy", "function_param": {"param": "value"}, "delay": "False"}
 
     response = dispatcher.handler(event)
 
@@ -63,6 +63,7 @@ def test_when_delayTrueAndValidDeadline_then_scheduleFunction(mocker):
         "region": "se",
         "datetime": "2025-12-10T22:12:12",
         "priority": 3,
+        "carbon_intensity": 12,
         "delay": "true",
     }
 
@@ -84,6 +85,7 @@ def test_when_delayTrueAndValidDeadline_then_scheduleFunction(mocker):
         "target_region": optimal_slot["region"],
         "target_time": optimal_slot["datetime"],
         "priority": optimal_slot["priority"],
+        "carbon_intensity": optimal_slot("carbon_intensity"),
         "function_url": "function.test",
     }
 
@@ -107,6 +109,7 @@ def test_when_delayTrueAndValidDeadline_then_scheduleFunction():
         "target_region": "REGION-1",
         "target_time": datetime.fromisoformat("2025-12-10T22:00:00+00:00"),
         "priority": 1,
+        "carbon_intensity": 13,
         "function_url": "function.test",
     }
 
@@ -118,6 +121,7 @@ def test_when_delayTrueAndValidDeadline_then_scheduleFunction():
 def test_when_delayFalse_then_scheduleDirectly():
     event = {
         "function_name": "dummy",
+        "function_param": {"param1": "value1"},
         "delay": "false",
         "deadline": "2025-12-10T22:12:12",
     }
@@ -130,6 +134,7 @@ def test_when_delayFalse_then_scheduleDirectly():
         "target_region": "REGION-6",
         "target_time": datetime.fromisoformat("2025-12-10T17:00:00+00:00"),
         "priority": 6,
+        "carbon_intensity": 13,
         "function_url": "function.test",
     }
 
