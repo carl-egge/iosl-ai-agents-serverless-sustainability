@@ -14,10 +14,9 @@ scenario A/B/C experiments.
 
 ## Files
 
-- `loadgen_job.py`: Cloud Run Job entrypoint.
+- `main.py`: Cloud Run Job entrypoint.
 - `requirements.txt`: Python dependencies.
 - `env.example.yaml`: example env vars for `gcloud run jobs deploy`.
-- `function_urls.example.json`: sample mapping of function -> region -> URL.
 - `hourly_region_map.example.json`: optional fallback mapping for scenario B.
 
 ## Payloads (aligned to the protocol)
@@ -48,8 +47,7 @@ Required for all scenarios:
 
 Function URL mapping (required for scenario A/B, optional for scenario C logging):
 
-- `FUNCTION_URLS_JSON`: JSON mapping of function -> region -> URL.
-- or `FUNCTION_URLS_PATH`: Path to a JSON file (for example `/app/function_urls.json`).
+- `FUNCTION_URLS_JSON`: JSON mapping of function -> region -> URL (inline JSON string).
 
 Scenario A (fixed region):
 
@@ -78,41 +76,180 @@ Optional:
 - `DISPATCHER_AUTH_BEARER_TOKEN`: Optional dispatcher-specific token override.
 - `DISPATCHER_EXTRA_HEADERS_JSON`: Optional dispatcher-specific headers.
 
-## Deploy (no Dockerfile required)
+## Deploy
 
-1) Copy `env.example.yaml` to `env.yaml` and fill in real values.
+> Always deploy Cloud Run Jobs from an explicit container image (Dockerfile + Artifact Registry).
+> Avoid `--source` / buildpacks for Jobs. They are optimized for services and can lead to silent execution failures.
 
-2) Deploy the job:
+## Prerequisites (one-time)
+
+```bash
+gcloud services enable \
+  run.googleapis.com \
+  cloudbuild.googleapis.com \
+  artifactregistry.googleapis.com
+```
+
+Ensure Docker auth is configured:
+
+```bash
+gcloud auth configure-docker us-east1-docker.pkg.dev
+```
+
+
+## Dockerfile (required)
+
+```dockerfile
+FROM python:3.13-slim
+
+ENV PYTHONUNBUFFERED=1
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+ENTRYPOINT ["python", "-u", "main.py"]
+```
+
+**Notes**
+
+* `PYTHONUNBUFFERED=1` guarantees logs are flushed immediately
+* No buildpacks, no implicit web server, no hidden entrypoints
+
+---
+
+## Environment configuration
+
+1. Copy the example file:
+
+```bash
+cp env.example.yaml env.A.yaml
+```
+
+2. Fill in real values.
+
+## Build the container image
+
+Images are stored in Artifact Registry.
+
+Create the repository once (if not already present):
+
+```bash
+gcloud artifacts repositories create loadgen \
+  --repository-format=docker \
+  --location=us-east1 \
+  --description="Images for load generator jobs" || true
+```
+
+Build and push the image:
+
+```bash
+gcloud builds submit \
+  --tag us-east1-docker.pkg.dev/PROJECT_ID/loadgen/loadgen-job:latest \
+  .
+```
+
+---
+
+## Deploy the Cloud Run Job (image-based)
 
 ```bash
 gcloud run jobs deploy loadgen-job \
-  --source evaluation/loadgen \
+  --image us-east1-docker.pkg.dev/PROJECT_ID/loadgen/loadgen-job:latest \
   --region us-east1 \
   --tasks 1 \
   --max-retries 0 \
   --task-timeout 3600 \
-  --command python \
-  --args loadgen_job.py \
-  --env-vars-file evaluation/loadgen/env.yaml
+  --env-vars-file env.A.yaml
 ```
 
-3) Test a manual run:
+### Verify the job points to the correct image
+
+```bash
+gcloud run jobs describe loadgen-job \
+  --region us-east1 \
+  --format="value(spec.template.spec.template.spec.containers[0].image)"
+```
+
+---
+
+## Manual execution (required test)
+
+Always validate manually before scheduling:
 
 ```bash
 gcloud run jobs execute loadgen-job --region us-east1 --wait
 ```
 
-## Hourly scheduling
+View logs:
 
-Use Cloud Scheduler to trigger the job each hour:
+```bash
+gcloud run jobs logs read loadgen-job --region us-east1 --limit 2000
+```
+
+You should see:
+
+* A clear startup log
+* Load generation progress
+* A clean exit
+
+---
+
+## Hourly scheduling (Cloud Scheduler)
+
+Once the job runs successfully, schedule it hourly.
+
+### Create a scheduler service account (once)
+
+```bash
+gcloud iam service-accounts create scheduler-sa
+```
+
+Grant permissions:
+
+```bash
+gcloud run jobs add-iam-policy-binding loadgen-job \
+  --member="serviceAccount:scheduler-sa@PROJECT_ID.iam.gserviceaccount.com" \
+  --role="roles/run.invoker" \
+  --region us-east1
+```
+
+### Create the scheduler job
 
 ```bash
 gcloud scheduler jobs create http loadgen-hourly \
   --schedule "0 * * * *" \
-  --uri "https://REGION-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/PROJECT_ID/jobs/loadgen-job:run" \
+  --uri "https://us-east1-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/PROJECT_ID/jobs/loadgen-job:run" \
   --http-method POST \
-  --oauth-service-account-email SCHEDULER_SA@PROJECT_ID.iam.gserviceaccount.com
+  --oauth-service-account-email scheduler-sa@PROJECT_ID.iam.gserviceaccount.com
 ```
+
+---
+
+## Debugging checklist
+
+If a job fails:
+
+1. **Check logs first**
+
+   ```bash
+   gcloud run jobs logs read loadgen-job --region us-east1 --limit 2000
+   ```
+
+2. **Confirm image**
+
+   ```bash
+   gcloud run jobs describe loadgen-job --region us-east1
+   ```
+
+3. **Run DRY_RUN=true** to isolate startup vs runtime failures
+
+4. **If stdout/stderr are empty**, the process did not start → check Dockerfile and ENTRYPOINT
+
+5. **Avoid `--source` for jobs**
+
 
 ## Notes for scenario B
 

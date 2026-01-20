@@ -48,7 +48,7 @@ gcloud run deploy bucket-writer \
 ```
 
 ```
-gcloud run deploy image-converter \
+gcloud run deploy image-format-converter \
   --source . \
   --region us-east1 \
   --allow-unauthenticated \

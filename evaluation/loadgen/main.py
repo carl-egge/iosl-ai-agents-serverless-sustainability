@@ -120,6 +120,13 @@ def resolve_path(path: str) -> str:
     return os.path.join(os.path.dirname(__file__), path)
 
 
+def load_json_from_env(env_key: str) -> Optional[dict]:
+    raw = os.getenv(env_key)
+    if raw:
+        return json.loads(raw)
+    return None
+
+
 def load_json_from_env_or_path(env_key: str, path_key: str) -> Optional[dict]:
     raw = os.getenv(env_key)
     if raw:
@@ -333,9 +340,7 @@ def load_config() -> Config:
     fixed_region = os.getenv("FIXED_REGION")
     dispatcher_url = os.getenv("DISPATCHER_URL")
 
-    function_urls = validate_function_urls(
-        load_json_from_env_or_path("FUNCTION_URLS_JSON", "FUNCTION_URLS_PATH")
-    )
+    function_urls = validate_function_urls(load_json_from_env("FUNCTION_URLS_JSON"))
     hourly_region_map = parse_hourly_region_map(
         load_json_from_env_or_path("HOURLY_REGION_MAP_JSON", "HOURLY_REGION_MAP_PATH")
     )
@@ -613,6 +618,9 @@ def run_scenario_c(cfg: Config, invocations: List[Invocation]) -> None:
 
 
 def validate_config(cfg: Config) -> None:
+    if cfg.scenario in ("A", "B") and not cfg.function_urls:
+        raise ValueError("FUNCTION_URLS_JSON is required for scenario A/B.")
+
     if cfg.scenario == "B" and not cfg.hourly_region_map:
         raise ValueError(
             "Scenario B requires a carbon forecast (CARBON_FORECAST_*) "
@@ -625,6 +633,7 @@ def validate_config(cfg: Config) -> None:
 
 
 def main() -> None:
+    print("BOOT SCENARIO=", os.getenv("SCENARIO"), flush=True)
     cfg = load_config()
     validate_config(cfg)
 
@@ -660,4 +669,10 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception:
+        import traceback
+
+        traceback.print_exc()
+        raise
