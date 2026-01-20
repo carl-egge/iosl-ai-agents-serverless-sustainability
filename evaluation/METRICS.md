@@ -165,6 +165,11 @@ All constants stored in `local_bucket/static_config.json`.
 | **Emissions** | GCP carbon data may not be available in time; doesn't include API emissions |
 | **Costs** | Free tier complicates scaling; doesn't include API costs |
 
+
+**Loadgen Latency measurement source:** The loadgen job logs `end_to_end_latency_ms` for
+each direct invocation (scenario A/B). For scenario C, `end_to_end_latency_ms`
+is `null` when the dispatcher schedules execution for a later time (time-shift).
+
 ---
 
 ## 7. Tools

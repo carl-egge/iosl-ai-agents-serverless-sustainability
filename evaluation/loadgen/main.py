@@ -101,6 +101,28 @@ def parse_float(val: Optional[str], default: float) -> float:
     except Exception:
         return default
 
+def parse_optional_bool(value: Any) -> Optional[bool]:
+    if value is None:
+        return None
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        text = value.strip().lower()
+        if text in ("1", "true", "yes", "y"):
+            return True
+        if text in ("0", "false", "no", "n"):
+            return False
+    return None
+
+
+def parse_optional_float(value: Any) -> Optional[float]:
+    if value is None:
+        return None
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
 
 def parse_trace_hour(value: Optional[str]) -> datetime:
     if value:
@@ -510,6 +532,14 @@ def log_record(record: Dict[str, Any]) -> None:
     print(json.dumps(record, ensure_ascii=True))
 
 
+def extract_dispatch_latency_ms(response_json: Dict[str, Any]) -> Optional[float]:
+    for key in ("end_to_end_latency_ms", "execution_latency_ms", "execution_time_ms", "latency_ms"):
+        val = parse_optional_float(response_json.get(key))
+        if val is not None:
+            return val
+    return None
+
+
 def run_scenario_a_b(cfg: Config, invocations: List[Invocation]) -> None:
     headers = build_headers(cfg.auth_bearer_token, cfg.extra_headers)
     trace_hour_str = format_dt(cfg.trace_hour)
@@ -519,15 +549,21 @@ def run_scenario_a_b(cfg: Config, invocations: List[Invocation]) -> None:
         region = select_region(cfg, cfg.trace_hour.hour)
         url = lookup_function_url(cfg, inv.function_id, region)
         sent_time = now_utc()
+        payload = dict(inv.payload)
+        payload["dispatch_sent_time_utc"] = format_dt(sent_time)
 
         result = post_json(
             url=url,
-            payload=inv.payload,
+            payload=payload,
             headers=headers,
             timeout_s=cfg.request_timeout_s,
             verify_tls=cfg.verify_tls,
             dry_run=cfg.dry_run,
         )
+
+        end_to_end_latency_ms = None if cfg.dry_run else result.get("latency_ms")
+        end_to_end_latency_source = "direct_invoke" if end_to_end_latency_ms is not None else "not_measured"
+        end_to_end_latency_note = "dry_run" if cfg.dry_run else None
 
         log_record(
             {
@@ -544,6 +580,9 @@ def run_scenario_a_b(cfg: Config, invocations: List[Invocation]) -> None:
                 "target_region": region,
                 "target_url": url,
                 "sent_time_utc": format_dt(sent_time),
+                "end_to_end_latency_ms": end_to_end_latency_ms,
+                "end_to_end_latency_source": end_to_end_latency_source,
+                "end_to_end_latency_note": end_to_end_latency_note,
                 "invoke": result,
             }
         )
@@ -563,6 +602,7 @@ def run_scenario_c(cfg: Config, invocations: List[Invocation]) -> None:
 
     for inv in invocations:
         sleep_until(inv.scheduled_time)
+        function_payload = dict(inv.payload)
         dispatch_payload = {
             "function_name": inv.function_id,
             "deadline": deadline_str,
@@ -571,9 +611,10 @@ def run_scenario_c(cfg: Config, invocations: List[Invocation]) -> None:
             "event_id": inv.event_id,
             "trace_hour": trace_hour_str,
             "invocation_index": inv.index,
-            "function_payload": inv.payload,
+            "function_payload": function_payload,
         }
         dispatch_sent = now_utc()
+        function_payload["dispatch_sent_time_utc"] = format_dt(dispatch_sent)
         dispatch_result = post_json(
             url=cfg.dispatcher_url,
             payload=dispatch_payload,
@@ -587,12 +628,36 @@ def run_scenario_c(cfg: Config, invocations: List[Invocation]) -> None:
         target_time = parse_datetime(response_json.get("target_time") or response_json.get("datetime"))
         target_region = response_json.get("target_region") or response_json.get("region")
         target_url = response_json.get("url")
+        delay_flag = parse_optional_bool(response_json.get("delay"))
         lookup_error = None
         if not target_url and target_region and cfg.function_urls.get(inv.function_id):
             try:
                 target_url = lookup_function_url(cfg, inv.function_id, str(target_region))
             except Exception as exc:
                 lookup_error = str(exc)
+
+        time_shifted = None
+        if delay_flag is not None:
+            time_shifted = delay_flag
+        elif target_time:
+            time_shifted = target_time > (dispatch_sent + timedelta(seconds=1))
+
+        end_to_end_latency_ms = None
+        end_to_end_latency_source = "not_available"
+        end_to_end_latency_note = None
+
+        if cfg.dry_run:
+            end_to_end_latency_note = "dry_run"
+        else:
+            end_to_end_latency_ms = extract_dispatch_latency_ms(response_json)
+            if end_to_end_latency_ms is not None:
+                end_to_end_latency_source = "dispatcher_response"
+            elif time_shifted:
+                end_to_end_latency_source = "scheduled"
+                end_to_end_latency_note = "time_shifted"
+            else:
+                end_to_end_latency_note = "not_returned_by_dispatcher"
+
 
         log_record(
             {
@@ -611,6 +676,11 @@ def run_scenario_c(cfg: Config, invocations: List[Invocation]) -> None:
                 "target_region": target_region,
                 "target_url": target_url,
                 "target_time_utc": format_dt(target_time) if target_time else None,
+                "dispatcher_delay": delay_flag,
+                "time_shifted": time_shifted,
+                "end_to_end_latency_ms": end_to_end_latency_ms,
+                "end_to_end_latency_source": end_to_end_latency_source,
+                "end_to_end_latency_note": end_to_end_latency_note,
                 "lookup_error": lookup_error,
                 "invoke": None,
             }

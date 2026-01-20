@@ -11,6 +11,8 @@ scenario A/B/C experiments.
 - Supports scenario A (fixed region), B (hourly lowest-carbon), C (AI dispatcher).
 - Logs one JSON line per invocation with `experiment_id`, `scenario`, `event_id`,
   and `trace_hour` so you can correlate runner, dispatcher, and function logs.
+- Logs `end_to_end_latency_ms` for direct invocations (scenario A/B) and leaves it
+  `null` when time-shifting makes end-to-end latency irrelevant (scenario C).
 
 ## Files
 
@@ -26,8 +28,20 @@ scenario A/B/C experiments.
 - Crypto key gen: `{"bits":4096}`
 - Video transcoder: `{"gcs_uri":"<VIDEO_URI>","passes":2}`
 
-The runner injects `experiment_id`, `scenario`, `event_id`, and `trace_hour` into
+The runner injects `experiment_id`, `scenario`, `event_id`, `dispatch_sent_time_utc` and `trace_hour` into
 every payload for correlation.
+
+## Latency logging
+
+Every invocation log line includes:
+
+- `end_to_end_latency_ms`: HTTP round-trip time from the loadgen client to the
+  function when it is invoked directly (scenario A/B).
+- `time_shifted`: `true` when the dispatcher schedules execution for a later time
+  (scenario C). In this case `end_to_end_latency_ms` is `null`.
+- `end_to_end_latency_source` and `end_to_end_latency_note` to clarify whether
+  latency was measured, deferred, or unavailable.
+
 
 Function IDs used in the runner and dispatcher payloads:
 
