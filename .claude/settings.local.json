@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(ls -la \"c:\\\\Users\\\\Agando\\\\Documents\\\\Projects\\\\iosl-ai-agents-serverless-sustainability\\\\evaluation\\\\data\"\" 2>&1 || echo \"Directory may not exist \")"
-    ]
-  }
-}
