@@ -6,7 +6,7 @@ scenario A/B/C experiments.
 
 ## What it does
 
-- Generates the fixed hourly invocation mix: 20 health, 3 crypto, 2 image, 1 video.
+- Generates the fixed hourly invocation mix: 1 health, 1 crypto, 1 image, 1 video.
 - Uses fixed minute slots and deterministic jitter derived from each event ID.
 - Supports scenario A (fixed region), B (hourly lowest-carbon), C (AI dispatcher).
 - Logs one JSON line per invocation with `experiment_id`, `scenario`, `event_id`,
@@ -89,6 +89,9 @@ Optional:
 - `EXTRA_HEADERS_JSON`: Extra headers as JSON (for example `{"X-Experiment":"A"}`).
 - `DISPATCHER_AUTH_BEARER_TOKEN`: Optional dispatcher-specific token override.
 - `DISPATCHER_EXTRA_HEADERS_JSON`: Optional dispatcher-specific headers.
+- `LOG_GCS_BUCKET`: GCS bucket to write JSONL logs (one object per job run).
+- `LOG_GCS_PREFIX`: GCS object prefix (default `loadgen-logs`).
+- `LOG_GCS_OBJECT`: Full object name override for the log file.
 
 ## Deploy
 
@@ -234,7 +237,8 @@ gcloud run jobs add-iam-policy-binding loadgen-job \
 
 ```bash
 gcloud scheduler jobs create http loadgen-hourly \
-  --schedule "0 * * * *" \
+  --schedule "0 8-18 * * *" \
+  --time-zone "America/New_York" \
   --uri "https://us-east1-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/PROJECT_ID/jobs/loadgen-job:run" \
   --http-method POST \
   --oauth-service-account-email scheduler-sa@PROJECT_ID.iam.gserviceaccount.com

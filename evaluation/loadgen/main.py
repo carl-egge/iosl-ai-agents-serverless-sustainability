@@ -20,9 +20,9 @@ import requests
 
 
 FUNCTION_INVOCATIONS_PER_HOUR: Dict[str, int] = {
-    "api_health_check": 20,
-    "crypto_key_gen": 3,
-    "image_format_converter": 2,
+    "api_health_check": 1,
+    "crypto_key_gen": 1,
+    "image_format_converter": 1,
     "video_transcoder": 1,
 }
 
@@ -74,12 +74,40 @@ class Invocation:
     target_url: Optional[str] = None
 
 
+@dataclass
+class LogCollector:
+    bucket: str
+    object_name: str
+    lines: List[str]
+
+    def add(self, record: Dict[str, Any]) -> None:
+        self.lines.append(json.dumps(record, ensure_ascii=True))
+
+    def flush(self) -> None:
+        if not self.lines:
+            return
+        from google.cloud import storage
+
+        client = storage.Client()
+        bucket = client.bucket(self.bucket)
+        blob = bucket.blob(self.object_name)
+        payload = "\n".join(self.lines) + "\n"
+        blob.upload_from_string(payload, content_type="application/json")
+
+
+_log_collector: Optional[LogCollector] = None
+
+
 def now_utc() -> datetime:
     return datetime.now(timezone.utc)
 
 
 def format_dt(dt: datetime) -> str:
     return dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def format_dt_compact(dt: datetime) -> str:
+    return dt.astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
 
 def parse_bool(val: Optional[str], default: bool) -> bool:
@@ -425,6 +453,19 @@ def load_config() -> Config:
     )
 
 
+def init_log_collector(cfg: Config) -> Optional[LogCollector]:
+    bucket = os.getenv("LOG_GCS_BUCKET", "").strip()
+    if not bucket:
+        return None
+    object_name = os.getenv("LOG_GCS_OBJECT", "").strip()
+    if not object_name:
+        prefix = os.getenv("LOG_GCS_PREFIX", "loadgen-logs").strip().strip("/")
+        trace = format_dt_compact(cfg.trace_hour)
+        run_id = format_dt_compact(now_utc())
+        object_name = f"{prefix}/{cfg.experiment_id}/{cfg.scenario}/{trace}-{run_id}.jsonl"
+    return LogCollector(bucket=bucket, object_name=object_name, lines=[])
+
+
 def select_region(cfg: Config, hour: int) -> str:
     if cfg.scenario == "A":
         if not cfg.fixed_region:
@@ -530,6 +571,8 @@ def parse_datetime(value: Any) -> Optional[datetime]:
 
 def log_record(record: Dict[str, Any]) -> None:
     print(json.dumps(record, ensure_ascii=True))
+    if _log_collector is not None:
+        _log_collector.add(record)
 
 
 def extract_dispatch_latency_ms(response_json: Dict[str, Any]) -> Optional[float]:
@@ -602,19 +645,15 @@ def run_scenario_c(cfg: Config, invocations: List[Invocation]) -> None:
 
     for inv in invocations:
         sleep_until(inv.scheduled_time)
-        function_payload = dict(inv.payload)
+        function_param = dict(inv.payload)
         dispatch_payload = {
             "function_name": inv.function_id,
+            "function_param": function_param,
+            "delay": "true",
             "deadline": deadline_str,
-            "experiment_id": cfg.experiment_id,
-            "scenario": cfg.scenario,
-            "event_id": inv.event_id,
-            "trace_hour": trace_hour_str,
-            "invocation_index": inv.index,
-            "function_payload": function_payload,
         }
         dispatch_sent = now_utc()
-        function_payload["dispatch_sent_time_utc"] = format_dt(dispatch_sent)
+        function_param["dispatch_sent_time_utc"] = format_dt(dispatch_sent)
         dispatch_result = post_json(
             url=cfg.dispatcher_url,
             payload=dispatch_payload,
@@ -627,7 +666,10 @@ def run_scenario_c(cfg: Config, invocations: List[Invocation]) -> None:
 
         target_time = parse_datetime(response_json.get("target_time") or response_json.get("datetime"))
         target_region = response_json.get("target_region") or response_json.get("region")
-        target_url = response_json.get("url")
+        target_url = response_json.get("function_url") or response_json.get("url")
+        priority = response_json.get("priority")
+        carbon_intensity = parse_optional_float(response_json.get("carbon_intensity"))
+        dispatch_status = response_json.get("status")
         delay_flag = parse_optional_bool(response_json.get("delay"))
         lookup_error = None
         if not target_url and target_region and cfg.function_urls.get(inv.function_id):
@@ -673,6 +715,10 @@ def run_scenario_c(cfg: Config, invocations: List[Invocation]) -> None:
                 "dispatcher_url": cfg.dispatcher_url,
                 "dispatcher_sent_time_utc": format_dt(dispatch_sent),
                 "dispatch": dispatch_result,
+                "dispatcher_status": dispatch_status,
+                "dispatcher_priority": priority,
+                "dispatcher_carbon_intensity": carbon_intensity,
+                "dispatcher_function_url": response_json.get("function_url"),
                 "target_region": target_region,
                 "target_url": target_url,
                 "target_time_utc": format_dt(target_time) if target_time else None,
@@ -706,36 +752,58 @@ def main() -> None:
     print("BOOT SCENARIO=", os.getenv("SCENARIO"), flush=True)
     cfg = load_config()
     validate_config(cfg)
+    global _log_collector
+    _log_collector = init_log_collector(cfg)
 
-    invocations = generate_invocations(cfg)
+    try:
+        invocations = generate_invocations(cfg)
 
-    log_record(
-        {
-            "ts_utc": format_dt(now_utc()),
-            "message": "loadgen_start",
-            "experiment_id": cfg.experiment_id,
-            "scenario": cfg.scenario,
-            "trace_hour": format_dt(cfg.trace_hour),
-            "invocations": len(invocations),
-            "dry_run": cfg.dry_run,
-        }
-    )
+        log_record(
+            {
+                "ts_utc": format_dt(now_utc()),
+                "message": "loadgen_start",
+                "experiment_id": cfg.experiment_id,
+                "scenario": cfg.scenario,
+                "trace_hour": format_dt(cfg.trace_hour),
+                "invocations": len(invocations),
+                "dry_run": cfg.dry_run,
+                "log_gcs_bucket": _log_collector.bucket if _log_collector else None,
+                "log_gcs_object": _log_collector.object_name if _log_collector else None,
+            }
+        )
 
-    if cfg.scenario in ("A", "B"):
-        run_scenario_a_b(cfg, invocations)
-    else:
-        run_scenario_c(cfg, invocations)
+        if cfg.scenario in ("A", "B"):
+            run_scenario_a_b(cfg, invocations)
+        else:
+            run_scenario_c(cfg, invocations)
 
-    log_record(
-        {
-            "ts_utc": format_dt(now_utc()),
-            "message": "loadgen_complete",
-            "experiment_id": cfg.experiment_id,
-            "scenario": cfg.scenario,
-            "trace_hour": format_dt(cfg.trace_hour),
-            "invocations": len(invocations),
-        }
-    )
+        log_record(
+            {
+                "ts_utc": format_dt(now_utc()),
+                "message": "loadgen_complete",
+                "experiment_id": cfg.experiment_id,
+                "scenario": cfg.scenario,
+                "trace_hour": format_dt(cfg.trace_hour),
+                "invocations": len(invocations),
+            }
+        )
+    finally:
+        if _log_collector is not None:
+            try:
+                _log_collector.flush()
+            except Exception as exc:
+                print(
+                    json.dumps(
+                        {
+                            "ts_utc": format_dt(now_utc()),
+                            "message": "log_export_failed",
+                            "bucket": _log_collector.bucket,
+                            "object": _log_collector.object_name,
+                            "error": f"{type(exc).__name__}: {exc}",
+                        },
+                        ensure_ascii=True,
+                    )
+                )
 
 
 if __name__ == "__main__":
