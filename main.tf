@@ -90,6 +90,12 @@ resource "google_secret_manager_secret_iam_member" "mcp_accessor" {
   member    = "serviceAccount:${google_service_account.mcp_deployer.email}"
 }
 
+resource "google_secret_manager_secret_iam_member" "mcp_accessor_agent" {
+  secret_id = google_secret_manager_secret.mcp_secret.id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${data.google_project.current.number}-compute@developer.gserviceaccount.com"
+}
+
 resource "google_storage_bucket" "source_bucket" {
   name                        = "iosl-source-bucket"
   location                    = var.region
@@ -240,10 +246,25 @@ resource "google_cloud_run_v2_service" "agent" {
           }
         }
       }
+
+      env {
+        name = "MCP_API_KEY"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.mcp_secret.secret_id
+            version = "latest"
+          }
+        }
+      }
+
+      env {
+        name  = "MCP_SERVER_URL"
+        value = google_cloud_run_v2_service.mcp_server.uri
+      }
     }
   }
 
-  depends_on = [google_storage_bucket_object.agent_object]
+  depends_on = [google_storage_bucket_object.agent_object, google_cloud_run_v2_service.mcp_server]
 }
 
 resource "google_cloud_run_v2_service" "mcp_server" {
