@@ -223,6 +223,23 @@ def save_deployment_state(state: dict) -> str:
     return write_to_storage(state, "deployment_state.json")
 
 
+
+def inject_function_url_into_recommendations(schedule: dict, function_url: str) -> None:
+    """
+    Inject function_url into each recommendation in the schedule.
+
+    The dispatcher expects each recommendation slot to have a function_url field.
+    This function adds it to all recommendations after deployment.
+
+    Args:
+        schedule: Schedule dict with recommendations list
+        function_url: The deployed function's URL
+    """
+    recommendations = schedule.get("recommendations", [])
+    for rec in recommendations:
+        rec["function_url"] = function_url
+
+
 def deploy_functions_to_optimal_regions(
     schedules: dict,
     functions_metadata: dict
@@ -336,13 +353,15 @@ def deploy_functions_to_optimal_regions(
                     print(f"    Function already deployed and active, skipping")
                     function_url = existing_deployment.get("function_url")
 
-                    # Ensure schedule has deployment info
+                    # Ensure schedule has deployment info and function_url in recommendations
                     if "deployment" not in schedule or schedule["deployment"].get("function_url") != function_url:
                         schedule["deployment"] = {
                             "function_url": function_url,
                             "region": existing_region,
                             "deployed_at": existing_deployment.get("deployed_at")
                         }
+                        # Inject function_url into each recommendation for dispatcher compatibility
+                        inject_function_url_into_recommendations(schedule, function_url)
                         schedule_filename = f"schedule_{func_name}.json"
                         write_to_storage(schedule, schedule_filename)
                         print(f"    Schedule updated with deployment info")
@@ -410,6 +429,8 @@ def deploy_functions_to_optimal_regions(
                         "region": optimal_region,
                         "deployed_at": datetime.now().isoformat()
                     }
+                    # Inject function_url into each recommendation for dispatcher compatibility
+                    inject_function_url_into_recommendations(schedule, function_url)
                     schedule_filename = f"schedule_{func_name}.json"
                     write_to_storage(schedule, schedule_filename)
                     print(f"    Schedule updated with deployment info")
