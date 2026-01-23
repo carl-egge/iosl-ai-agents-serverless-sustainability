@@ -1,224 +1,224 @@
 {
   "recommendations": [
     {
-      "datetime": "2026-01-14 00:00",
+      "datetime": "2026-01-23 11:00",
       "region": "europe-west1",
-      "carbon_intensity": 185,
+      "carbon_intensity": 168,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
       "priority": 1,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 185 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 434 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 168 gCO2eq/kWh within europe-west1, which is ranked 1 out of 24 best times."
     },
     {
-      "datetime": "2026-01-13 23:00",
+      "datetime": "2026-01-23 10:00",
       "region": "europe-west1",
-      "carbon_intensity": 188,
+      "carbon_intensity": 172,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
       "priority": 2,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 188 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 428 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 172 gCO2eq/kWh within europe-west1, which is ranked 2 out of 24 best times."
     },
     {
-      "datetime": "2026-01-14 01:00",
+      "datetime": "2026-01-23 12:00",
       "region": "europe-west1",
-      "carbon_intensity": 189,
+      "carbon_intensity": 174,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
       "priority": 3,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 189 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 436 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 174 gCO2eq/kWh within europe-west1, which is ranked 3 out of 24 best times."
     },
     {
-      "datetime": "2026-01-13 13:00",
+      "datetime": "2026-01-23 09:00",
       "region": "europe-west1",
-      "carbon_intensity": 193,
+      "carbon_intensity": 175,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
       "priority": 4,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 193 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 436 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 175 gCO2eq/kWh within europe-west1, which is ranked 4 out of 24 best times."
     },
     {
-      "datetime": "2026-01-13 16:00",
+      "datetime": "2026-01-23 13:00",
       "region": "europe-west1",
-      "carbon_intensity": 193,
+      "carbon_intensity": 180,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
       "priority": 5,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 193 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 388 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 180 gCO2eq/kWh within europe-west1, which is ranked 5 out of 24 best times."
     },
     {
-      "datetime": "2026-01-13 15:00",
+      "datetime": "2026-01-23 14:00",
       "region": "europe-west1",
-      "carbon_intensity": 194,
+      "carbon_intensity": 184,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
       "priority": 6,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 194 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 401 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 184 gCO2eq/kWh within europe-west1, which is ranked 6 out of 24 best times."
     },
     {
-      "datetime": "2026-01-13 22:00",
-      "region": "europe-west1",
-      "carbon_intensity": 194,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
-      "priority": 7,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 194 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 408 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
-    },
-    {
-      "datetime": "2026-01-13 14:00",
+      "datetime": "2026-01-23 02:00",
       "region": "europe-west1",
       "carbon_intensity": 195,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
-      "priority": 8,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 195 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 419 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "emissions_grams": 42.55,
+      "priority": 7,
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 195 gCO2eq/kWh within europe-west1, which is ranked 7 out of 24 best times."
     },
     {
-      "datetime": "2026-01-14 02:00",
+      "datetime": "2026-01-23 03:00",
       "region": "europe-west1",
       "carbon_intensity": 197,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
+      "priority": 8,
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 197 gCO2eq/kWh within europe-west1, which is ranked 8 out of 24 best times."
+    },
+    {
+      "datetime": "2026-01-23 15:00",
+      "region": "europe-west1",
+      "carbon_intensity": 200,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 42.55,
       "priority": 9,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 197 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 435 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 200 gCO2eq/kWh within europe-west1, which is ranked 9 out of 24 best times."
     },
     {
-      "datetime": "2026-01-13 11:00",
-      "region": "europe-west1",
-      "carbon_intensity": 199,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
-      "priority": 10,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 199 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 428 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
-    },
-    {
-      "datetime": "2026-01-13 12:00",
-      "region": "europe-west1",
-      "carbon_intensity": 199,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
-      "priority": 11,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 199 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 436 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
-    },
-    {
-      "datetime": "2026-01-13 18:00",
-      "region": "europe-west1",
-      "carbon_intensity": 199,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
-      "priority": 12,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 199 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 375 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
-    },
-    {
-      "datetime": "2026-01-13 21:00",
-      "region": "europe-west1",
-      "carbon_intensity": 199,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
-      "priority": 13,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 199 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 387 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
-    },
-    {
-      "datetime": "2026-01-13 20:00",
-      "region": "europe-west1",
-      "carbon_intensity": 201,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
-      "priority": 14,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 201 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 377 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
-    },
-    {
-      "datetime": "2026-01-13 17:00",
+      "datetime": "2026-01-23 08:00",
       "region": "europe-west1",
       "carbon_intensity": 202,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
+      "priority": 10,
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 202 gCO2eq/kWh within europe-west1, which is ranked 10 out of 24 best times."
+    },
+    {
+      "datetime": "2026-01-23 04:00",
+      "region": "europe-west1",
+      "carbon_intensity": 207,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 42.55,
+      "priority": 11,
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 207 gCO2eq/kWh within europe-west1, which is ranked 11 out of 24 best times."
+    },
+    {
+      "datetime": "2026-01-23 16:00",
+      "region": "europe-west1",
+      "carbon_intensity": 209,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 42.55,
+      "priority": 12,
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 209 gCO2eq/kWh within europe-west1, which is ranked 12 out of 24 best times."
+    },
+    {
+      "datetime": "2026-01-23 07:00",
+      "region": "europe-west1",
+      "carbon_intensity": 211,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 42.55,
+      "priority": 13,
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 211 gCO2eq/kWh within europe-west1, which is ranked 13 out of 24 best times."
+    },
+    {
+      "datetime": "2026-01-23 23:00",
+      "region": "europe-west1",
+      "carbon_intensity": 214,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 42.55,
+      "priority": 14,
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 214 gCO2eq/kWh within europe-west1, which is ranked 14 out of 24 best times."
+    },
+    {
+      "datetime": "2026-01-23 06:00",
+      "region": "europe-west1",
+      "carbon_intensity": 216,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 42.55,
       "priority": 15,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 202 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 377 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 216 gCO2eq/kWh within europe-west1, which is ranked 15 out of 24 best times."
     },
     {
-      "datetime": "2026-01-13 19:00",
+      "datetime": "2026-01-23 01:00",
       "region": "europe-west1",
-      "carbon_intensity": 203,
+      "carbon_intensity": 218,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
       "priority": 16,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 203 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 372 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 218 gCO2eq/kWh within europe-west1, which is ranked 16 out of 24 best times."
     },
     {
-      "datetime": "2026-01-14 03:00",
+      "datetime": "2026-01-23 05:00",
       "region": "europe-west1",
-      "carbon_intensity": 205,
+      "carbon_intensity": 218,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
       "priority": 17,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 205 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 434 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 218 gCO2eq/kWh within europe-west1, which is ranked 17 out of 24 best times."
     },
     {
-      "datetime": "2026-01-13 10:00",
+      "datetime": "2026-01-23 20:00",
       "region": "europe-west1",
-      "carbon_intensity": 208,
+      "carbon_intensity": 220,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
       "priority": 18,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 208 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 417 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 220 gCO2eq/kWh within europe-west1, which is ranked 18 out of 24 best times."
     },
     {
-      "datetime": "2026-01-13 09:00",
+      "datetime": "2026-01-23 17:00",
       "region": "europe-west1",
       "carbon_intensity": 223,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
       "priority": 19,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 223 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 410 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 223 gCO2eq/kWh within europe-west1, which is ranked 19 out of 24 best times."
     },
     {
-      "datetime": "2026-01-14 04:00",
+      "datetime": "2026-01-23 00:00",
+      "region": "europe-west1",
+      "carbon_intensity": 223,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 42.55,
+      "priority": 20,
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 223 gCO2eq/kWh within europe-west1, which is ranked 20 out of 24 best times."
+    },
+    {
+      "datetime": "2026-01-23 22:00",
       "region": "europe-west1",
       "carbon_intensity": 225,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
-      "priority": 20,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 225 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 428 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
-    },
-    {
-      "datetime": "2026-01-14 05:00",
-      "region": "europe-west1",
-      "carbon_intensity": 245,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
       "priority": 21,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 245 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 423 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 225 gCO2eq/kWh within europe-west1, which is ranked 21 out of 24 best times."
     },
     {
-      "datetime": "2026-01-14 06:00",
+      "datetime": "2026-01-23 19:00",
       "region": "europe-west1",
-      "carbon_intensity": 265,
+      "carbon_intensity": 226,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
       "priority": 22,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 265 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 412 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 226 gCO2eq/kWh within europe-west1, which is ranked 22 out of 24 best times."
     },
     {
-      "datetime": "2026-01-14 07:00",
+      "datetime": "2026-01-23 21:00",
       "region": "europe-west1",
-      "carbon_intensity": 273,
+      "carbon_intensity": 230,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
       "priority": 23,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 273 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 406 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 230 gCO2eq/kWh within europe-west1, which is ranked 23 out of 24 best times."
     },
     {
-      "datetime": "2026-01-14 08:00",
+      "datetime": "2026-01-23 18:00",
       "region": "europe-west1",
-      "carbon_intensity": 276,
+      "carbon_intensity": 237,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 44.13,
+      "emissions_grams": 42.55,
       "priority": 24,
-      "reasoning": "For this hour, europe-west1 (Belgium) has a forecasted carbon intensity of 276 gCO2eq/kWh, which is significantly lower than us-central1 (Iowa)'s 403 gCO2eq/kWh. Both regions incur $0/year in transfer costs. Under an EMISSIONS priority, europe-west1 is the optimal choice due to its lower carbon intensity, leading to substantial overall emissions reduction (approximately 449.0 kg CO2/year based on average figures) at no additional transfer cost."
+      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 237 gCO2eq/kWh within europe-west1, which is ranked 24 out of 24 best times."
     }
   ],
   "metadata": {
-    "generated_at": "2026-01-13T10:33:27.701702",
+    "generated_at": "2026-01-23T17:10:24.218709",
     "function_metadata": {
       "runtime_ms": 10000,
       "memory_mb": 512,
@@ -243,6 +243,6 @@
       "us-central1"
     ],
     "metadata_hash": "6242960433ef2af7a513a9de9aba912955c82ebedecbbfe9eab516de8b6426f0",
-    "created_at": "2026-01-13T10:33:27.701702"
+    "created_at": "2026-01-22T17:19:01.573815"
   }
 }

@@ -1,224 +1,224 @@
 {
   "recommendations": [
     {
-      "datetime": "2026-01-13 11:00",
+      "datetime": "2026-01-23 04:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 34,
+      "carbon_intensity": 31,
       "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
+      "emissions_grams": 0.0871875,
       "priority": 1,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.32kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has the lowest forecasted carbon intensity (31 gCO2eq/kWh) for northamerica-northeast1, making it the absolute best time for execution."
     },
     {
-      "datetime": "2026-01-13 12:00",
+      "datetime": "2026-01-23 11:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 34,
+      "carbon_intensity": 31,
       "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
+      "emissions_grams": 0.0871875,
       "priority": 2,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.32kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has the lowest forecasted carbon intensity (31 gCO2eq/kWh) for northamerica-northeast1, making it an optimal time for execution."
     },
     {
-      "datetime": "2026-01-13 13:00",
+      "datetime": "2026-01-23 12:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 31,
+      "transfer_cost_usd": 0.0008,
+      "emissions_grams": 0.0871875,
+      "priority": 3,
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.32kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has the lowest forecasted carbon intensity (31 gCO2eq/kWh) for northamerica-northeast1, making it an optimal time for execution."
+    },
+    {
+      "datetime": "2026-01-23 13:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 31,
+      "transfer_cost_usd": 0.0008,
+      "emissions_grams": 0.0871875,
+      "priority": 4,
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.32kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has the lowest forecasted carbon intensity (31 gCO2eq/kWh) for northamerica-northeast1, making it an optimal time for execution."
+    },
+    {
+      "datetime": "2026-01-23 14:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 31,
+      "transfer_cost_usd": 0.0008,
+      "emissions_grams": 0.0871875,
+      "priority": 5,
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.32kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has the lowest forecasted carbon intensity (31 gCO2eq/kWh) for northamerica-northeast1, making it an optimal time for execution."
+    },
+    {
+      "datetime": "2026-01-23 15:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 31,
+      "transfer_cost_usd": 0.0008,
+      "emissions_grams": 0.0871875,
+      "priority": 6,
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.32kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has the lowest forecasted carbon intensity (31 gCO2eq/kWh) for northamerica-northeast1, making it an optimal time for execution."
+    },
+    {
+      "datetime": "2026-01-23 23:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0008,
+      "emissions_grams": 0.09,
+      "priority": 7,
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.33kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a low forecasted carbon intensity (32 gCO2eq/kWh) for northamerica-northeast1."
+    },
+    {
+      "datetime": "2026-01-23 00:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0008,
+      "emissions_grams": 0.09,
+      "priority": 8,
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.33kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a low forecasted carbon intensity (32 gCO2eq/kWh) for northamerica-northeast1."
+    },
+    {
+      "datetime": "2026-01-23 01:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0008,
+      "emissions_grams": 0.09,
+      "priority": 9,
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.33kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a low forecasted carbon intensity (32 gCO2eq/kWh) for northamerica-northeast1."
+    },
+    {
+      "datetime": "2026-01-23 02:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0008,
+      "emissions_grams": 0.09,
+      "priority": 10,
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.33kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a low forecasted carbon intensity (32 gCO2eq/kWh) for northamerica-northeast1."
+    },
+    {
+      "datetime": "2026-01-23 03:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0008,
+      "emissions_grams": 0.09,
+      "priority": 11,
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.33kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a low forecasted carbon intensity (32 gCO2eq/kWh) for northamerica-northeast1."
+    },
+    {
+      "datetime": "2026-01-23 05:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0008,
+      "emissions_grams": 0.09,
+      "priority": 12,
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.33kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a low forecasted carbon intensity (32 gCO2eq/kWh) for northamerica-northeast1."
+    },
+    {
+      "datetime": "2026-01-23 06:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0008,
+      "emissions_grams": 0.09,
+      "priority": 13,
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.33kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a low forecasted carbon intensity (32 gCO2eq/kWh) for northamerica-northeast1."
+    },
+    {
+      "datetime": "2026-01-23 07:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0008,
+      "emissions_grams": 0.09,
+      "priority": 14,
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.33kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a low forecasted carbon intensity (32 gCO2eq/kWh) for northamerica-northeast1."
+    },
+    {
+      "datetime": "2026-01-23 08:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0008,
+      "emissions_grams": 0.09,
+      "priority": 15,
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.33kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a low forecasted carbon intensity (32 gCO2eq/kWh) for northamerica-northeast1."
+    },
+    {
+      "datetime": "2026-01-23 09:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0008,
+      "emissions_grams": 0.09,
+      "priority": 16,
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.33kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a low forecasted carbon intensity (32 gCO2eq/kWh) for northamerica-northeast1."
+    },
+    {
+      "datetime": "2026-01-23 10:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0008,
+      "emissions_grams": 0.09,
+      "priority": 17,
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.33kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a low forecasted carbon intensity (32 gCO2eq/kWh) for northamerica-northeast1."
+    },
+    {
+      "datetime": "2026-01-23 16:00",
       "region": "northamerica-northeast1",
       "carbon_intensity": 34,
       "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
-      "priority": 3,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
-    },
-    {
-      "datetime": "2026-01-13 14:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 35,
-      "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
-      "priority": 4,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
-    },
-    {
-      "datetime": "2026-01-14 00:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 35,
-      "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
-      "priority": 5,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
-    },
-    {
-      "datetime": "2026-01-14 01:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 35,
-      "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
-      "priority": 6,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
-    },
-    {
-      "datetime": "2026-01-13 09:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
-      "priority": 7,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
-    },
-    {
-      "datetime": "2026-01-13 10:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
-      "priority": 8,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
-    },
-    {
-      "datetime": "2026-01-13 15:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
-      "priority": 9,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
-    },
-    {
-      "datetime": "2026-01-13 16:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
-      "priority": 10,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
-    },
-    {
-      "datetime": "2026-01-13 17:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
-      "priority": 11,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
-    },
-    {
-      "datetime": "2026-01-13 18:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
-      "priority": 12,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
-    },
-    {
-      "datetime": "2026-01-13 21:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
-      "priority": 13,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
-    },
-    {
-      "datetime": "2026-01-13 22:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
-      "priority": 14,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
-    },
-    {
-      "datetime": "2026-01-13 23:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
-      "priority": 15,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
-    },
-    {
-      "datetime": "2026-01-14 02:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
-      "priority": 16,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
-    },
-    {
-      "datetime": "2026-01-14 03:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
-      "priority": 17,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
-    },
-    {
-      "datetime": "2026-01-14 04:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
+      "emissions_grams": 0.095625,
       "priority": 18,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.35kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a higher forecasted carbon intensity (34 gCO2eq/kWh) for northamerica-northeast1 compared to other hours, but remains significantly cleaner than us-east1."
     },
     {
-      "datetime": "2026-01-14 05:00",
+      "datetime": "2026-01-23 17:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
+      "carbon_intensity": 34,
       "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
+      "emissions_grams": 0.095625,
       "priority": 19,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.35kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a higher forecasted carbon intensity (34 gCO2eq/kWh) for northamerica-northeast1 compared to other hours, but remains significantly cleaner than us-east1."
     },
     {
-      "datetime": "2026-01-13 19:00",
+      "datetime": "2026-01-23 18:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 37,
+      "carbon_intensity": 34,
       "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
+      "emissions_grams": 0.095625,
       "priority": 20,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.35kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a higher forecasted carbon intensity (34 gCO2eq/kWh) for northamerica-northeast1 compared to other hours, but remains significantly cleaner than us-east1."
     },
     {
-      "datetime": "2026-01-13 20:00",
+      "datetime": "2026-01-23 19:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 37,
+      "carbon_intensity": 34,
       "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
+      "emissions_grams": 0.095625,
       "priority": 21,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.35kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a higher forecasted carbon intensity (34 gCO2eq/kWh) for northamerica-northeast1 compared to other hours, but remains significantly cleaner than us-east1."
     },
     {
-      "datetime": "2026-01-14 06:00",
+      "datetime": "2026-01-23 20:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 37,
+      "carbon_intensity": 34,
       "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
+      "emissions_grams": 0.095625,
       "priority": 22,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.35kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a higher forecasted carbon intensity (34 gCO2eq/kWh) for northamerica-northeast1 compared to other hours, but remains significantly cleaner than us-east1."
     },
     {
-      "datetime": "2026-01-14 07:00",
+      "datetime": "2026-01-23 21:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 37,
+      "carbon_intensity": 34,
       "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
+      "emissions_grams": 0.095625,
       "priority": 23,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.35kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has a higher forecasted carbon intensity (34 gCO2eq/kWh) for northamerica-northeast1 compared to other hours, but remains significantly cleaner than us-east1."
     },
     {
-      "datetime": "2026-01-14 08:00",
+      "datetime": "2026-01-23 22:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 37,
+      "carbon_intensity": 34,
       "transfer_cost_usd": 0.0008,
-      "emissions_grams": 0.1,
+      "emissions_grams": 0.095625,
       "priority": 24,
-      "reasoning": "Under COSTS priority, us-east1 offers $0/year but emits 7.1kg CO2/year. northamerica-northeast1 costs $3/year (+$3/year) but dramatically reduces emissions to 0.4kg CO2/year (-6.7kg CO2/year). This represents a cost of ~$0.45/kg CO2 avoided, which is an exceptional environmental return for a minimal cost increase, aligning with the 'extreme emissions reduction for negligible cost increase' guideline from the decision framework. This makes northamerica-northeast1 the optimal choice for cost-conscious scheduling where significant carbon benefits are available for minimal additional cost."
+      "reasoning": "northamerica-northeast1 costs $3/year more than us-east1 ($0 vs $3), but saves ~6.8kg CO2/year (from 7.1kg to ~0.35kg). This represents an extreme emissions reduction (over 95%) for a negligible cost increase ($0.44/kg CO2 avoided), which is explicitly justified under the COST priority's exception for extreme carbon benefits. This hour has the highest forecasted carbon intensity (34 gCO2eq/kWh) for northamerica-northeast1 among all 24 hours, but remains significantly cleaner than us-east1, making it the least optimal time within this chosen region."
     }
   ],
   "metadata": {
-    "generated_at": "2026-01-13T10:31:53.503444",
+    "generated_at": "2026-01-23T17:10:24.216709",
     "function_metadata": {
       "runtime_ms": 5600,
       "memory_mb": 1024,
@@ -242,13 +242,13 @@
       "description": "Transforms uploaded images from PNG (or any byte stream) into WebP/alternative formats, creating tens of megabytes of transfer."
     },
     "regions_used": [
-      "northamerica-northeast1",
-      "europe-north2",
       "europe-west1",
-      "us-east1",
-      "us-central1"
+      "northamerica-northeast1",
+      "us-central1",
+      "europe-north2",
+      "us-east1"
     ],
     "metadata_hash": "3d163ecca193d6524f32f53286c4fb7a6883ed17d75974bee2678060a149424a",
-    "created_at": "2026-01-13T10:31:53.503444"
+    "created_at": "2026-01-22T17:17:49.276986"
   }
 }

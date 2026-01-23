@@ -1,224 +1,224 @@
 {
   "recommendations": [
     {
-      "datetime": "2026-01-13 11:00",
+      "datetime": "2026-01-23 04:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 34,
+      "carbon_intensity": 31,
       "transfer_cost_usd": 0.0,
       "emissions_grams": 0.0,
       "priority": 1,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (34 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 734 gCO2eq/kWh and us-central1 at 428 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
+      "reasoning": "[BALANCED] At 2026-01-23 04:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 31 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 469 gCO2eq/kWh, 0.137 kg CO2/year) and us-east1 (forecasted 705 gCO2eq/kWh, 0.207 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.198 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
     },
     {
-      "datetime": "2026-01-13 12:00",
+      "datetime": "2026-01-23 11:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 34,
+      "carbon_intensity": 31,
       "transfer_cost_usd": 0.0,
       "emissions_grams": 0.0,
       "priority": 2,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (34 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 724 gCO2eq/kWh and us-central1 at 436 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
+      "reasoning": "[BALANCED] At 2026-01-23 11:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 31 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 492 gCO2eq/kWh, 0.144 kg CO2/year) and us-east1 (forecasted 697 gCO2eq/kWh, 0.204 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.195 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
     },
     {
-      "datetime": "2026-01-13 13:00",
+      "datetime": "2026-01-23 12:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 31,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 3,
+      "reasoning": "[BALANCED] At 2026-01-23 12:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 31 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 510 gCO2eq/kWh, 0.149 kg CO2/year) and us-east1 (forecasted 694 gCO2eq/kWh, 0.203 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.194 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+    },
+    {
+      "datetime": "2026-01-23 13:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 31,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 4,
+      "reasoning": "[BALANCED] At 2026-01-23 13:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 31 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 522 gCO2eq/kWh, 0.153 kg CO2/year) and us-east1 (forecasted 683 gCO2eq/kWh, 0.200 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.191 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+    },
+    {
+      "datetime": "2026-01-23 14:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 31,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 5,
+      "reasoning": "[BALANCED] At 2026-01-23 14:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 31 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 525 gCO2eq/kWh, 0.154 kg CO2/year) and us-east1 (forecasted 673 gCO2eq/kWh, 0.197 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.188 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+    },
+    {
+      "datetime": "2026-01-23 15:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 31,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 6,
+      "reasoning": "[BALANCED] At 2026-01-23 15:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 31 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 514 gCO2eq/kWh, 0.150 kg CO2/year) and us-east1 (forecasted 662 gCO2eq/kWh, 0.194 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.185 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+    },
+    {
+      "datetime": "2026-01-23 23:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 7,
+      "reasoning": "[BALANCED] At 2026-01-22 23:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 484 gCO2eq/kWh, 0.142 kg CO2/year) and us-east1 (forecasted 697 gCO2eq/kWh, 0.204 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.195 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+    },
+    {
+      "datetime": "2026-01-23 00:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 8,
+      "reasoning": "[BALANCED] At 2026-01-23 00:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 487 gCO2eq/kWh, 0.143 kg CO2/year) and us-east1 (forecasted 698 gCO2eq/kWh, 0.205 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.196 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+    },
+    {
+      "datetime": "2026-01-23 01:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 9,
+      "reasoning": "[BALANCED] At 2026-01-23 01:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 488 gCO2eq/kWh, 0.143 kg CO2/year) and us-east1 (forecasted 702 gCO2eq/kWh, 0.206 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.197 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+    },
+    {
+      "datetime": "2026-01-23 02:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 10,
+      "reasoning": "[BALANCED] At 2026-01-23 02:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 489 gCO2eq/kWh, 0.143 kg CO2/year) and us-east1 (forecasted 702 gCO2eq/kWh, 0.206 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.197 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+    },
+    {
+      "datetime": "2026-01-23 03:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 11,
+      "reasoning": "[BALANCED] At 2026-01-23 03:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 486 gCO2eq/kWh, 0.142 kg CO2/year) and us-east1 (forecasted 703 gCO2eq/kWh, 0.206 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.197 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+    },
+    {
+      "datetime": "2026-01-23 05:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 12,
+      "reasoning": "[BALANCED] At 2026-01-23 05:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 478 gCO2eq/kWh, 0.140 kg CO2/year) and us-east1 (forecasted 708 gCO2eq/kWh, 0.208 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.199 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+    },
+    {
+      "datetime": "2026-01-23 06:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 13,
+      "reasoning": "[BALANCED] At 2026-01-23 06:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 471 gCO2eq/kWh, 0.138 kg CO2/year) and us-east1 (forecasted 713 gCO2eq/kWh, 0.209 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.200 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+    },
+    {
+      "datetime": "2026-01-23 07:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 14,
+      "reasoning": "[BALANCED] At 2026-01-23 07:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 469 gCO2eq/kWh, 0.137 kg CO2/year) and us-east1 (forecasted 711 gCO2eq/kWh, 0.208 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.199 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+    },
+    {
+      "datetime": "2026-01-23 08:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 15,
+      "reasoning": "[BALANCED] At 2026-01-23 08:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 465 gCO2eq/kWh, 0.136 kg CO2/year) and us-east1 (forecasted 713 gCO2eq/kWh, 0.209 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.200 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+    },
+    {
+      "datetime": "2026-01-23 09:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 16,
+      "reasoning": "[BALANCED] At 2026-01-23 09:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 470 gCO2eq/kWh, 0.138 kg CO2/year) and us-east1 (forecasted 713 gCO2eq/kWh, 0.209 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.200 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+    },
+    {
+      "datetime": "2026-01-23 10:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 32,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 17,
+      "reasoning": "[BALANCED] At 2026-01-23 10:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 481 gCO2eq/kWh, 0.141 kg CO2/year) and us-east1 (forecasted 709 gCO2eq/kWh, 0.208 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.199 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+    },
+    {
+      "datetime": "2026-01-23 16:00",
       "region": "northamerica-northeast1",
       "carbon_intensity": 34,
       "transfer_cost_usd": 0.0,
       "emissions_grams": 0.0,
-      "priority": 3,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (34 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 698 gCO2eq/kWh and us-central1 at 436 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
-    },
-    {
-      "datetime": "2026-01-13 14:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 35,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
-      "priority": 4,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (35 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 675 gCO2eq/kWh and us-central1 at 419 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
-    },
-    {
-      "datetime": "2026-01-14 00:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 35,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
-      "priority": 5,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (35 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 676 gCO2eq/kWh and us-central1 at 434 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
-    },
-    {
-      "datetime": "2026-01-14 01:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 35,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
-      "priority": 6,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (35 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 685 gCO2eq/kWh and us-central1 at 436 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
-    },
-    {
-      "datetime": "2026-01-13 09:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
-      "priority": 7,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (36 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 758 gCO2eq/kWh and us-central1 at 410 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
-    },
-    {
-      "datetime": "2026-01-13 10:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
-      "priority": 8,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (36 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 746 gCO2eq/kWh and us-central1 at 417 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
-    },
-    {
-      "datetime": "2026-01-13 15:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
-      "priority": 9,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (36 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 626 gCO2eq/kWh and us-central1 at 401 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
-    },
-    {
-      "datetime": "2026-01-13 16:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
-      "priority": 10,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (36 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 598 gCO2eq/kWh and us-central1 at 388 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
-    },
-    {
-      "datetime": "2026-01-13 17:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
-      "priority": 11,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (36 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 580 gCO2eq/kWh and us-central1 at 377 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
-    },
-    {
-      "datetime": "2026-01-13 18:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
-      "priority": 12,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (36 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 565 gCO2eq/kWh and us-central1 at 375 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
-    },
-    {
-      "datetime": "2026-01-13 21:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
-      "priority": 13,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (36 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 615 gCO2eq/kWh and us-central1 at 387 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
-    },
-    {
-      "datetime": "2026-01-13 22:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
-      "priority": 14,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (36 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 654 gCO2eq/kWh and us-central1 at 408 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
-    },
-    {
-      "datetime": "2026-01-13 23:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
-      "priority": 15,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (36 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 679 gCO2eq/kWh and us-central1 at 428 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
-    },
-    {
-      "datetime": "2026-01-14 02:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
-      "priority": 16,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (36 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 702 gCO2eq/kWh and us-central1 at 435 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
-    },
-    {
-      "datetime": "2026-01-14 03:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
-      "priority": 17,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (36 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 697 gCO2eq/kWh and us-central1 at 434 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
-    },
-    {
-      "datetime": "2026-01-14 04:00",
-      "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
       "priority": 18,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (36 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 692 gCO2eq/kWh and us-central1 at 428 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
+      "reasoning": "[BALANCED] At 2026-01-22 16:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 34 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 453 gCO2eq/kWh, 0.133 kg CO2/year) and us-east1 (forecasted 622 gCO2eq/kWh, 0.183 kg CO2/year), executing in northamerica-northeast1 (0.010 kg CO2/year) saves up to 0.173 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
     },
     {
-      "datetime": "2026-01-14 05:00",
+      "datetime": "2026-01-23 17:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 36,
+      "carbon_intensity": 34,
       "transfer_cost_usd": 0.0,
       "emissions_grams": 0.0,
       "priority": 19,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (36 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 698 gCO2eq/kWh and us-central1 at 423 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
+      "reasoning": "[BALANCED] At 2026-01-22 17:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 34 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 436 gCO2eq/kWh, 0.128 kg CO2/year) and us-east1 (forecasted 617 gCO2eq/kWh, 0.181 kg CO2/year), executing in northamerica-northeast1 (0.010 kg CO2/year) saves up to 0.171 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
     },
     {
-      "datetime": "2026-01-13 19:00",
+      "datetime": "2026-01-23 18:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 37,
+      "carbon_intensity": 34,
       "transfer_cost_usd": 0.0,
       "emissions_grams": 0.0,
       "priority": 20,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (37 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 564 gCO2eq/kWh and us-central1 at 372 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
+      "reasoning": "[BALANCED] At 2026-01-22 18:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 34 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 426 gCO2eq/kWh, 0.125 kg CO2/year) and us-east1 (forecasted 617 gCO2eq/kWh, 0.181 kg CO2/year), executing in northamerica-northeast1 (0.010 kg CO2/year) saves up to 0.171 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
     },
     {
-      "datetime": "2026-01-13 20:00",
+      "datetime": "2026-01-23 19:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 37,
+      "carbon_intensity": 34,
       "transfer_cost_usd": 0.0,
       "emissions_grams": 0.0,
       "priority": 21,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (37 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 570 gCO2eq/kWh and us-central1 at 377 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
+      "reasoning": "[BALANCED] At 2026-01-22 19:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 34 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 422 gCO2eq/kWh, 0.123 kg CO2/year) and us-east1 (forecasted 621 gCO2eq/kWh, 0.182 kg CO2/year), executing in northamerica-northeast1 (0.010 kg CO2/year) saves up to 0.172 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
     },
     {
-      "datetime": "2026-01-14 06:00",
+      "datetime": "2026-01-23 20:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 37,
+      "carbon_intensity": 34,
       "transfer_cost_usd": 0.0,
       "emissions_grams": 0.0,
       "priority": 22,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (37 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 700 gCO2eq/kWh and us-central1 at 412 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
+      "reasoning": "[BALANCED] At 2026-01-22 20:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 34 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 424 gCO2eq/kWh, 0.124 kg CO2/year) and us-east1 (forecasted 634 gCO2eq/kWh, 0.186 kg CO2/year), executing in northamerica-northeast1 (0.010 kg CO2/year) saves up to 0.176 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
     },
     {
-      "datetime": "2026-01-14 07:00",
+      "datetime": "2026-01-23 21:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 37,
+      "carbon_intensity": 34,
       "transfer_cost_usd": 0.0,
       "emissions_grams": 0.0,
       "priority": 23,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (37 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 699 gCO2eq/kWh and us-central1 at 406 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
+      "reasoning": "[BALANCED] At 2026-01-22 21:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 34 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 444 gCO2eq/kWh, 0.130 kg CO2/year) and us-east1 (forecasted 663 gCO2eq/kWh, 0.194 kg CO2/year), executing in northamerica-northeast1 (0.010 kg CO2/year) saves up to 0.184 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
     },
     {
-      "datetime": "2026-01-14 08:00",
+      "datetime": "2026-01-23 22:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 37,
+      "carbon_intensity": 34,
       "transfer_cost_usd": 0.0,
       "emissions_grams": 0.0,
       "priority": 24,
-      "reasoning": "[BALANCED] Executing in northamerica-northeast1 offers the lowest carbon intensity (37 gCO2eq/kWh) for this time slot. All competing North American regions (us-east1 and us-central1) have significantly higher carbon intensities (us-east1 at 705 gCO2eq/kWh and us-central1 at 403 gCO2eq/kWh for this hour). All regions have $0/year transfer costs ($0/year total cost difference), so there is no financial cost difference to balance. This choice minimizes annual emissions to 0.0kg CO2/year, compared to us-central1's 0.1kg/year and us-east1's 0.2kg/year. Given the balanced priority and no cost variance, selecting the cleanest option is optimal, resulting in the lowest environmental impact without financial compromise."
+      "reasoning": "[BALANCED] At 2026-01-22 22:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 34 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 466 gCO2eq/kWh, 0.137 kg CO2/year) and us-east1 (forecasted 691 gCO2eq/kWh, 0.202 kg CO2/year), executing in northamerica-northeast1 (0.010 kg CO2/year) saves up to 0.192 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
     }
   ],
   "metadata": {
-    "generated_at": "2026-01-13T10:30:58.233526",
+    "generated_at": "2026-01-23T17:10:24.212643",
     "function_metadata": {
       "runtime_ms": 0.073,
       "memory_mb": 512,
@@ -241,10 +241,10 @@
     },
     "regions_used": [
       "northamerica-northeast1",
-      "us-east1",
-      "us-central1"
+      "us-central1",
+      "us-east1"
     ],
     "metadata_hash": "20df4b42b5205468e53af16e7a5c49f741872a04fb53564ec4b377bfadb07171",
-    "created_at": "2026-01-13T10:30:58.233526"
+    "created_at": "2026-01-22T17:16:29.608837"
   }
 }

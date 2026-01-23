@@ -1,231 +1,231 @@
 {
   "recommendations": [
     {
-      "datetime": "2026-01-05 14:00",
+      "datetime": "2026-01-23 17:00",
       "region": "us-east1",
-      "carbon_intensity": 611,
+      "carbon_intensity": 617,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 1,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-05 15:00",
+      "datetime": "2026-01-23 18:00",
       "region": "us-east1",
-      "carbon_intensity": 592,
+      "carbon_intensity": 617,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 2,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-05 16:00",
+      "datetime": "2026-01-23 19:00",
       "region": "us-east1",
-      "carbon_intensity": 572,
+      "carbon_intensity": 621,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 3,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-05 17:00",
+      "datetime": "2026-01-23 16:00",
       "region": "us-east1",
-      "carbon_intensity": 567,
+      "carbon_intensity": 622,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 4,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-05 18:00",
+      "datetime": "2026-01-23 20:00",
       "region": "us-east1",
-      "carbon_intensity": 562,
+      "carbon_intensity": 634,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 5,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-05 19:00",
-      "region": "us-east1",
-      "carbon_intensity": 565,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
-      "priority": 6,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
-    },
-    {
-      "datetime": "2026-01-05 20:00",
-      "region": "us-east1",
-      "carbon_intensity": 580,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
-      "priority": 7,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
-    },
-    {
-      "datetime": "2026-01-05 21:00",
-      "region": "us-east1",
-      "carbon_intensity": 630,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
-      "priority": 8,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
-    },
-    {
-      "datetime": "2026-01-05 22:00",
-      "region": "us-east1",
-      "carbon_intensity": 663,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
-      "priority": 9,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
-    },
-    {
-      "datetime": "2026-01-05 23:00",
-      "region": "us-east1",
-      "carbon_intensity": 663,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
-      "priority": 10,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
-    },
-    {
-      "datetime": "2026-01-06 00:00",
-      "region": "us-east1",
-      "carbon_intensity": 661,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
-      "priority": 11,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
-    },
-    {
-      "datetime": "2026-01-06 01:00",
-      "region": "us-east1",
-      "carbon_intensity": 660,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
-      "priority": 12,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
-    },
-    {
-      "datetime": "2026-01-06 02:00",
+      "datetime": "2026-01-23 15:00",
       "region": "us-east1",
       "carbon_intensity": 662,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
+      "priority": 6,
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
+    },
+    {
+      "datetime": "2026-01-23 21:00",
+      "region": "us-east1",
+      "carbon_intensity": 663,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 13.42,
+      "priority": 7,
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
+    },
+    {
+      "datetime": "2026-01-23 14:00",
+      "region": "us-east1",
+      "carbon_intensity": 673,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 13.42,
+      "priority": 8,
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
+    },
+    {
+      "datetime": "2026-01-23 13:00",
+      "region": "us-east1",
+      "carbon_intensity": 683,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 13.42,
+      "priority": 9,
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
+    },
+    {
+      "datetime": "2026-01-23 22:00",
+      "region": "us-east1",
+      "carbon_intensity": 691,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 13.42,
+      "priority": 10,
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
+    },
+    {
+      "datetime": "2026-01-23 12:00",
+      "region": "us-east1",
+      "carbon_intensity": 694,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 13.42,
+      "priority": 11,
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
+    },
+    {
+      "datetime": "2026-01-23 23:00",
+      "region": "us-east1",
+      "carbon_intensity": 697,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 13.42,
+      "priority": 12,
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
+    },
+    {
+      "datetime": "2026-01-23 11:00",
+      "region": "us-east1",
+      "carbon_intensity": 697,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 13.42,
       "priority": 13,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-06 03:00",
+      "datetime": "2026-01-23 00:00",
       "region": "us-east1",
-      "carbon_intensity": 659,
+      "carbon_intensity": 698,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 14,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-06 04:00",
+      "datetime": "2026-01-23 01:00",
       "region": "us-east1",
-      "carbon_intensity": 651,
+      "carbon_intensity": 702,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 15,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-06 05:00",
+      "datetime": "2026-01-23 02:00",
       "region": "us-east1",
-      "carbon_intensity": 648,
+      "carbon_intensity": 702,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 16,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-06 06:00",
+      "datetime": "2026-01-23 03:00",
       "region": "us-east1",
-      "carbon_intensity": 646,
+      "carbon_intensity": 703,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 17,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-06 07:00",
+      "datetime": "2026-01-23 04:00",
       "region": "us-east1",
-      "carbon_intensity": 647,
+      "carbon_intensity": 705,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 18,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-06 08:00",
+      "datetime": "2026-01-23 05:00",
       "region": "us-east1",
-      "carbon_intensity": 648,
+      "carbon_intensity": 708,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 19,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-06 09:00",
+      "datetime": "2026-01-23 10:00",
       "region": "us-east1",
-      "carbon_intensity": 647,
+      "carbon_intensity": 709,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 20,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-06 10:00",
+      "datetime": "2026-01-23 07:00",
       "region": "us-east1",
-      "carbon_intensity": 656,
+      "carbon_intensity": 711,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 21,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-06 11:00",
+      "datetime": "2026-01-23 06:00",
       "region": "us-east1",
-      "carbon_intensity": 659,
+      "carbon_intensity": 713,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 22,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-06 12:00",
+      "datetime": "2026-01-23 08:00",
       "region": "us-east1",
-      "carbon_intensity": 660,
+      "carbon_intensity": 713,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 23,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     },
     {
-      "datetime": "2026-01-06 13:00",
+      "datetime": "2026-01-23 09:00",
       "region": "us-east1",
-      "carbon_intensity": 628,
+      "carbon_intensity": 713,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 104.36,
+      "emissions_grams": 13.42,
       "priority": 24,
-      "reasoning": "us-east1 has zero transfer cost ($0/year), making it the cheapest option annually. While other regions like northamerica-northeast1 offer significantly lower emissions (2882.7kg CO2/year less than us-east1), the associated annual cost increase of $759 is not considered negligible under a strict 'COSTS' optimization priority. This substantial cost premium is not justified for emissions reduction when the primary goal is cost minimization."
+      "reasoning": "[COSTS] us-east1 is the only region with zero transfer cost ($0/year). Other regions incur significant transfer costs: $69/year for northamerica-northeast1 and us-central1, and $173/year for europe-west1 and europe-north2. Under a strict cost optimization priority, these non-trivial cost increases are not justified, even for substantial carbon emissions reductions. For example, switching to northamerica-northeast1 would save 46.7kg CO2/year but cost an additional $69/year, equating to $1.48/kg CO2 avoided, which is considered too expensive given the zero-cost alternative. Therefore, us-east1 is chosen for all executions, and this time slot represents one of the lowest carbon intensity periods within us-east1."
     }
   ],
   "metadata": {
-    "generated_at": "2026-01-05T16:06:56.038618",
+    "generated_at": "2026-01-23T17:10:24.220708",
     "function_metadata": {
-      "runtime_ms": 120000,
-      "memory_mb": 8192,
-      "data_input_gb": 1.0,
-      "data_output_gb": 0.3,
+      "runtime_ms": 30000,
+      "memory_mb": 2048,
+      "data_input_gb": 0.5,
+      "data_output_gb": 0.45,
       "source_location": "us-east1",
-      "invocations_per_day": 80,
+      "invocations_per_day": 10,
       "priority": "costs",
       "latency_important": false,
       "gpu_required": false,
@@ -239,16 +239,16 @@
       ],
       "allow_schedule_caching": true,
       "function_id": "video_transcoder",
-      "description": "Consumes large binary payloads and compresses them in multiple passes to mimic heavy transcoding jobs."
+      "description": "Consumes large binary payloads and compresses them in multiple passes to mimic heavy transcoding jobs. Streams data from GCS Bucket in home region."
     },
     "regions_used": [
-      "europe-north2",
-      "us-east1",
       "europe-west1",
+      "northamerica-northeast1",
       "us-central1",
-      "northamerica-northeast1"
+      "europe-north2",
+      "us-east1"
     ],
-    "metadata_hash": "ed7d570b12edf81ea8032d58b1d2a89a30bed4c55f94fe7b5eaaf3f50e3e1bd3",
-    "created_at": "2026-01-05T16:06:56.038618"
+    "metadata_hash": "c1441ec57fe759a2f8e2ed9963d861765e3b04552be89b5aca7d6135c51fb37c",
+    "created_at": "2026-01-22T17:20:02.945188"
   }
 }
