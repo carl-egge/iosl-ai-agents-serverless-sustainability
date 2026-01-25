@@ -25,7 +25,7 @@ class LocalFileScheduleLoader(ScheduleLoader):
 
     def load_schedule(self, function_name: str) -> Dict[str, List[Dict[str, Any]]]:
         try:
-            with open(self.filepath, "r") as f:
+            with open(self.filepath + "schedule_" + function_name + ".json", "r") as f:
                 return json.load(f)
         except FileNotFoundError:
             logging.error(f"Schedule file not found at {self.filepath}")
@@ -51,7 +51,7 @@ def get_loader() -> ScheduleLoader:
         return GoogleCloudStorageScheduleLoader(bucket_name)
     else:
         path = os.environ.get(
-            "SCHEDULE_FILE_PATH", "./data/sample/execution_schedule.json"
+            "SCHEDULE_FILE_PATH", "./local_bucket/"
         )
         return LocalFileScheduleLoader(path)
 
@@ -66,7 +66,7 @@ def add_to_task_queue(function_url: str, function_param: dict, target_time: date
 
     task = {
         "http_request": {
-            "http_method": tasks_v2.HttpMethod.GET,
+            "http_method": tasks_v2.HttpMethod.POST,
             "url": function_url,
             "headers": {"Content-Type": "application/json"},
             "body": json.dumps(function_param).encode("utf-8"),
@@ -230,6 +230,6 @@ if __name__ == "__main__":
     from dotenv import load_dotenv
 
     load_dotenv()
-    event = {"function_name": "write_to_bucket", "deadline": "2025-12-01T20:01:00", "function_param": {"param1": "value1"}}
+    event = {"function_name": "crypto_key_gen", "deadline": "2027-01-26T14:01:00", "function_param": {"bits": 4096}}
 
     logging.info(handler(event))
