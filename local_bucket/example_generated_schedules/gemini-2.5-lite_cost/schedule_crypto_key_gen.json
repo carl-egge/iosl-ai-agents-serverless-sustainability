@@ -1,0 +1,250 @@
+{
+  "recommendations": [
+    {
+      "datetime": "2026-01-26 11:00",
+      "region": "europe-west1",
+      "carbon_intensity": 194,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 1,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 11:00) in europe-west1 offers the lowest forecasted carbon intensity (194 gCO2eq/kWh) among all available hours, making it the most environmentally optimal choice among cost-equivalent options."
+    },
+    {
+      "datetime": "2026-01-26 16:00",
+      "region": "europe-west1",
+      "carbon_intensity": 215,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 2,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 16:00) in europe-west1, with a carbon intensity of 215 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 14:00",
+      "region": "europe-west1",
+      "carbon_intensity": 218,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 3,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 14:00) in europe-west1, with a carbon intensity of 218 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 03:00",
+      "region": "europe-west1",
+      "carbon_intensity": 224,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 4,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 03:00) in europe-west1, with a carbon intensity of 224 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 05:00",
+      "region": "europe-west1",
+      "carbon_intensity": 227,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 5,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 05:00) in europe-west1, with a carbon intensity of 227 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 17:00",
+      "region": "europe-west1",
+      "carbon_intensity": 230,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 6,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 17:00) in europe-west1, with a carbon intensity of 230 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 02:00",
+      "region": "europe-west1",
+      "carbon_intensity": 231,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 7,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 02:00) in europe-west1, with a carbon intensity of 231 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 15:00",
+      "region": "europe-west1",
+      "carbon_intensity": 260,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 8,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 15:00) in europe-west1, with a carbon intensity of 260 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 20:00",
+      "region": "europe-west1",
+      "carbon_intensity": 267,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 9,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 20:00) in europe-west1, with a carbon intensity of 267 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 10:00",
+      "region": "europe-west1",
+      "carbon_intensity": 270,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 10,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 10:00) in europe-west1, with a carbon intensity of 270 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 12:00",
+      "region": "europe-west1",
+      "carbon_intensity": 271,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 11,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 12:00) in europe-west1, with a carbon intensity of 271 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 22:00",
+      "region": "europe-west1",
+      "carbon_intensity": 271,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 12,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 22:00) in europe-west1, with a carbon intensity of 271 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 00:00",
+      "region": "europe-west1",
+      "carbon_intensity": 273,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 13,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-27 00:00) in europe-west1, with a carbon intensity of 273 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 13:00",
+      "region": "europe-west1",
+      "carbon_intensity": 280,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 14,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 13:00) in europe-west1, with a carbon intensity of 280 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 09:00",
+      "region": "europe-west1",
+      "carbon_intensity": 287,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 15,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 09:00) in europe-west1, with a carbon intensity of 287 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 23:00",
+      "region": "europe-west1",
+      "carbon_intensity": 290,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 16,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 23:00) in europe-west1, with a carbon intensity of 290 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 04:00",
+      "region": "europe-west1",
+      "carbon_intensity": 294,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 17,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 04:00) in europe-west1, with a carbon intensity of 294 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 06:00",
+      "region": "europe-west1",
+      "carbon_intensity": 294,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 18,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 06:00) in europe-west1, with a carbon intensity of 294 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 18:00",
+      "region": "europe-west1",
+      "carbon_intensity": 300,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 19,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 18:00) in europe-west1, with a carbon intensity of 300 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 19:00",
+      "region": "europe-west1",
+      "carbon_intensity": 304,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 20,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 19:00) in europe-west1, with a carbon intensity of 304 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 01:00",
+      "region": "europe-west1",
+      "carbon_intensity": 312,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 21,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 01:00) in europe-west1, with a carbon intensity of 312 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 21:00",
+      "region": "europe-west1",
+      "carbon_intensity": 321,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 22,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 21:00) in europe-west1, with a carbon intensity of 321 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 08:00",
+      "region": "europe-west1",
+      "carbon_intensity": 330,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 23,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 08:00) in europe-west1, with a carbon intensity of 330 gCO2eq/kWh, is chosen due to europe-west1's inherent carbon advantage when cost is not a differentiator."
+    },
+    {
+      "datetime": "2026-01-26 07:00",
+      "region": "europe-west1",
+      "carbon_intensity": 346,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 56.03,
+      "priority": 24,
+      "reasoning": "Both us-central1 and europe-west1 incur $0/year in transfer costs, making them cost-equivalent for this function. Under the 'COSTS' priority, when costs are identical, the decision framework allows considering emissions. europe-west1 consistently offers significantly lower emissions (613.5kg CO2/year) compared to us-central1 (1181.3kg CO2/year), resulting in an annual saving of 567.8kg CO2 for $0 additional cost. This specific time slot (2026-01-26 07:00) in europe-west1 has the highest forecasted carbon intensity (346 gCO2eq/kWh) among the chosen region's options. However, europe-west1 is still preferred over us-central1 due to its overall lower emissions and cost equivalency."
+    }
+  ],
+  "metadata": {
+    "generated_at": "2026-01-26T03:10:25.637691",
+    "function_metadata": {
+      "runtime_ms": 10000,
+      "memory_mb": 4096,
+      "data_input_gb": 1e-05,
+      "data_output_gb": 1e-05,
+      "source_location": "us-east1",
+      "invocations_per_day": 30,
+      "priority": "costs",
+      "latency_important": false,
+      "gpu_required": true,
+      "vcpus": null,
+      "allowed_regions": [
+        "us-central1",
+        "europe-west1"
+      ],
+      "allow_schedule_caching": true,
+      "function_id": "crypto_key_gen",
+      "requirements": "cryptography>=41.0.0",
+      "description": "Generate RSA key pairs to exercise sustained CPU work while keeping the input/output payloads minuscule.",
+      "code": "#!/usr/bin/env python3\n\"\"\"Autogenerated MCP bundle for crypto_key_gen (includes metrics wrapper).\"\"\"\nfrom __future__ import annotations\n\nimport json\nimport os\nimport time\nfrom typing import Any, Callable, Dict, Optional, Tuple\n\n# --- Metrics wrapper (from main.py) ---\nFunctionCallable = Callable[..., Any]\n\n_PROCESS_START_UNIX = time.time()\n\n_FIRST_INVOKE: dict[str, bool] = {}\n\ndef _safe_get_max_rss_kb() -> Optional[int]:\n    \"\"\"Best-effort max RSS in KB (Linux: ru_maxrss is KB).\"\"\"\n    try:\n        import resource  # stdlib on Linux\n\n        return int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)\n    except Exception:\n        return None\n\ndef _estimate_request_bytes(request: Any) -> Optional[int]:\n    \"\"\"Estimate incoming request bytes without breaking downstream handlers.\"\"\"\n    try:\n        cl = getattr(request, \"content_length\", None)\n        if isinstance(cl, int) and cl >= 0:\n            return cl\n    except Exception:\n        pass\n\n    # Fall back to reading request body with caching enabled, so handlers can still read it.\n    try:\n        if hasattr(request, \"get_data\"):\n            data = request.get_data(cache=True)  # important: cache=True\n            if data is not None:\n                return int(len(data))\n    except Exception:\n        pass\n\n    return None\n\ndef _normalize_handler_return(rv: Any) -> Tuple[bytes, int, Dict[str, str]]:\n    \"\"\"\n    Normalize common Functions Framework return shapes:\n      - (body, status, headers)\n      - (body, status)\n      - body\n      - flask.Response-like object\n    \"\"\"\n    body: Any = rv\n    status: int = 200\n    headers: Dict[str, str] = {}\n\n    # Tuple/list return\n    if isinstance(rv, (tuple, list)):\n        if len(rv) >= 1:\n            body = rv[0]\n        if len(rv) >= 2 and rv[1] is not None:\n            try:\n                status = int(rv[1])\n            except Exception:\n                status = 200\n        if len(rv) >= 3 and isinstance(rv[2], dict):\n            headers = {str(k): str(v) for k, v in rv[2].items()}\n\n    # flask.Response-like\n    if hasattr(body, \"get_data\") and callable(getattr(body, \"get_data\")):\n        try:\n            data = body.get_data()  # bytes\n            st = getattr(body, \"status_code\", None)\n            if isinstance(st, int):\n                status = st\n            hdrs = getattr(body, \"headers\", None)\n            if hdrs is not None:\n                try:\n                    headers = {str(k): str(v) for k, v in dict(hdrs).items()}\n                except Exception:\n                    pass\n            return bytes(data), status, headers\n        except Exception:\n            pass\n\n    # Body encoding\n    if body is None:\n        body_bytes = b\"\"\n    elif isinstance(body, (bytes, bytearray)):\n        body_bytes = bytes(body)\n    elif isinstance(body, str):\n        body_bytes = body.encode(\"utf-8\", errors=\"replace\")\n    elif isinstance(body, (dict, list)):\n        body_bytes = json.dumps(body, ensure_ascii=False).encode(\"utf-8\")\n    else:\n        body_bytes = str(body).encode(\"utf-8\", errors=\"replace\")\n\n    return body_bytes, status, headers\n\ndef _sanitize_response_json_for_logs(parsed: Any) -> Optional[dict]:\n    \"\"\"\n    If response is JSON, keep small metadata fields but avoid logging huge blobs (base64, etc.).\n    \"\"\"\n    if not isinstance(parsed, dict):\n        return None\n\n    drop_keys = {\n        \"converted_image\",\n        \"processed_data\",\n        \"converted_image_base64\",\n        \"processed_data_base64\",\n    }  # large base64 fields in your samples\n    out: dict[str, Any] = {}\n\n    for k, v in parsed.items():\n        if k in drop_keys:\n            continue\n        # Avoid very large strings in logs\n        if isinstance(v, str) and len(v) > 512:\n            out[k] = v[:512] + \"...(truncated)\"\n        else:\n            out[k] = v\n    return out\n\ndef _emit_metrics_log(line: dict) -> None:\n    \"\"\"\n    Emit one structured JSON log line to stdout.\n    Cloud Run/Cloud Logging will ingest it as a structured payload.\n    \"\"\"\n    try:\n        print(json.dumps(line, ensure_ascii=False))\n    except Exception:\n        # Best-effort fallback\n        print(str(line))\n\ndef _with_metrics(function_id: str, handler: FunctionCallable) -> FunctionCallable:\n    \"\"\"Wrap a Functions Framework handler with timing/size/memory instrumentation.\"\"\"\n\n    def _wrapped(*args: Any, **kwargs: Any) -> Any:\n        request = args[0] if args else kwargs.get(\"request\")\n\n        cold_start = not _FIRST_INVOKE.get(function_id, False)\n        _FIRST_INVOKE[function_id] = True\n\n        req_bytes = _estimate_request_bytes(request)\n\n        wall_t0 = time.perf_counter()\n        cpu_t0 = time.process_time()\n\n        error: Optional[str] = None\n        error_type: Optional[str] = None\n        rv: Any = None\n\n        try:\n            rv = handler(*args, **kwargs)\n        except Exception as exc:\n            error_type = type(exc).__name__\n            error = str(exc)\n            raise\n        finally:\n            wall_t1 = time.perf_counter()\n            cpu_t1 = time.process_time()\n\n            body_bytes: bytes = b\"\"\n            status_code: Optional[int] = None\n            resp_bytes: Optional[int] = None\n            resp_meta: Optional[dict] = None\n\n            try:\n                body_bytes, status_code, _headers = _normalize_handler_return(rv)\n                resp_bytes = len(body_bytes)\n\n                # If body looks like JSON, parse and keep a sanitized subset for logs\n                try:\n                    parsed = json.loads(body_bytes.decode(\"utf-8\", errors=\"replace\"))\n                    resp_meta = _sanitize_response_json_for_logs(parsed)\n                except Exception:\n                    resp_meta = None\n            except Exception:\n                # Never let metrics break the request path.\n                pass\n\n            log_line = {\n                \"type\": \"invocation_metrics\",\n                \"function_id\": function_id,\n                \"cold_start\": cold_start,\n                \"process_uptime_s\": round(time.time() - _PROCESS_START_UNIX, 3),\n                \"wall_ms\": round((wall_t1 - wall_t0) * 1000.0, 3),\n                \"cpu_ms\": round((cpu_t1 - cpu_t0) * 1000.0, 3),\n                \"max_rss_kb\": _safe_get_max_rss_kb(),\n                \"request_bytes\": req_bytes,\n                \"response_bytes\": resp_bytes,\n                \"status_code\": status_code,\n                \"error_type\": error_type,\n                \"error\": error,\n                # Helpful Cloud Run env metadata (if present)\n                \"k_service\": os.getenv(\"K_SERVICE\"),\n                \"k_revision\": os.getenv(\"K_REVISION\"),\n                \"k_configuration\": os.getenv(\"K_CONFIGURATION\"),\n                # Optional: request metadata (best-effort)\n                \"http_method\": getattr(request, \"method\", None),\n                \"http_path\": getattr(request, \"path\", None),\n            }\n            if resp_meta is not None:\n                log_line[\"response_meta\"] = resp_meta\n\n            _emit_metrics_log(log_line)\n\n        return rv\n\n    _wrapped.__name__ = getattr(handler, \"__name__\", function_id)\n    _wrapped.__doc__ = getattr(handler, \"__doc__\", None)\n    return _wrapped\n\n# --- Handler module code ---\n\"\"\"Generate RSA key pairs to exercise sustained CPU work (tunable).\n\nEvaluation-oriented behavior:\n- Keeps response small (no private key material).\n- Allows tuning runtime via `iterations` and/or `target_ms`.\n\nRequest JSON (all optional):\n- bits / key_bits: one of {2048, 3072, 4096, 8192} (default: 3072)\n- public_exponent: RSA public exponent (default: 65537)\n- iterations: number of RSA keypairs to generate (default: 1)\n- target_ms: minimum wall time to spend (default: 0 => no minimum)\n- burn_chunk_kb: chunk size for CPU-burn hashing (default: 256)\n- return_public_key_pem: whether to return full public key PEM (default: false)\n\nNotes:\n- If `target_ms` exceeds the time needed for RSA generation, we burn CPU time by hashing\n  a rolling buffer until the minimum wall time is reached. This produces more stable\n  runtimes across regions/CPU allocations than relying purely on RSA generation loops.\n\"\"\"\n\n\nimport hashlib\nimport json\nimport os\nimport time\nfrom typing import Dict, Tuple\n\nimport functions_framework\nfrom cryptography.hazmat.primitives import serialization\nfrom cryptography.hazmat.primitives.asymmetric import rsa\n\n_ALLOWED_BITS = (2048, 3072, 4096, 8192)\n\n\ndef _parse_bits(payload: dict) -> int:\n    bits = payload.get(\"bits\", payload.get(\"key_bits\", 3072))\n    try:\n        bits = int(bits)\n    except Exception:\n        bits = 3072\n    if bits not in _ALLOWED_BITS:\n        bits = 3072\n    return bits\n\n\ndef _parse_int(payload: dict, key: str, default: int, minimum: int | None = None, maximum: int | None = None) -> int:\n    try:\n        val = int(payload.get(key, default))\n    except Exception:\n        val = default\n    if minimum is not None:\n        val = max(minimum, val)\n    if maximum is not None:\n        val = min(maximum, val)\n    return val\n\n\ndef _burn_cpu_until(deadline_s: float, chunk_kb: int) -> Tuple[int, str]:\n    \"\"\"Burn CPU by hashing a rolling buffer; returns (hash_iterations, final_digest).\"\"\"\n    data = bytearray(os.urandom(max(1, chunk_kb) * 1024))\n    digest = b\"\"\n    iters = 0\n    while time.perf_counter() < deadline_s:\n        digest = hashlib.sha256(data).digest()\n        # mutate buffer to prevent trivial caching\n        for i in range(min(32, len(data))):\n            data[i] ^= digest[i % len(digest)]\n        iters += 1\n    return iters, digest.hex() if digest else \"\"\n\n\n@functions_framework.http\ndef crypto_key_gen(request) -> tuple[str, int, Dict[str, str]]:\n    \"\"\"Generate RSA public keys and optionally burn CPU until a target duration is met.\"\"\"\n    payload = request.get_json(silent=True) or {}\n\n    bits = _parse_bits(payload)\n    public_exponent = _parse_int(payload, \"public_exponent\", 65537, minimum=3, maximum=2**31 - 1)\n\n    iterations = _parse_int(payload, \"iterations\", 1, minimum=1, maximum=50)\n    target_ms = _parse_int(payload, \"target_ms\", 0, minimum=0, maximum=15 * 60 * 1000)  # cap 15 min\n    burn_chunk_kb = _parse_int(payload, \"burn_chunk_kb\", 256, minimum=1, maximum=4096)\n    return_public_key_pem = bool(payload.get(\"return_public_key_pem\", False))\n\n    wall_start = time.perf_counter()\n    cpu_start = time.process_time()\n\n    public_keys: list[bytes] = []\n\n    # Step 1: deterministic crypto work\n    for _ in range(iterations):\n        private_key = rsa.generate_private_key(public_exponent=public_exponent, key_size=bits)\n        pub = private_key.public_key()\n        public_bytes = pub.public_bytes(\n            encoding=serialization.Encoding.PEM,\n            format=serialization.PublicFormat.SubjectPublicKeyInfo,\n        )\n        public_keys.append(public_bytes)\n\n    # Step 2: optional CPU burn to reach target_ms\n    burn_iters = 0\n    burn_digest = \"\"\n    if target_ms > 0:\n        deadline_s = wall_start + (target_ms / 1000.0)\n        if time.perf_counter() < deadline_s:\n            burn_iters, burn_digest = _burn_cpu_until(deadline_s, burn_chunk_kb)\n\n    wall_ms = round((time.perf_counter() - wall_start) * 1000.0, 3)\n    cpu_ms = round((time.process_time() - cpu_start) * 1000.0, 3)\n\n    response: dict = {\n        \"scenario\": \"Long runtime + Little data\",\n        \"key_bits\": bits,\n        \"public_exponent\": public_exponent,\n        \"iterations\": iterations,\n        \"target_ms\": target_ms,\n        \"burn_hash_iterations\": burn_iters,\n        \"burn_final_digest\": burn_digest or None,\n        # Optional internal timings (your main wrapper logs the authoritative ones)\n        \"wall_ms_internal\": wall_ms,\n        \"cpu_ms_internal\": cpu_ms,\n    }\n\n    if return_public_key_pem:\n        # Keep response bounded: if multiple keys were generated, return only the last one.\n        response[\"public_key_pem\"] = public_keys[-1].decode(\"utf-8\", errors=\"ignore\") if public_keys else None\n\n    return json.dumps(response), 200, {\"Content-Type\": \"application/json\"}\n\n# --- Wrapped entrypoints ---\n_raw_handler = crypto_key_gen\ncrypto_key_gen = _with_metrics(\"crypto_key_gen\", _raw_handler)\n\ndef main(request):\n    return crypto_key_gen(request)\n"
+    },
+    "regions_used": [
+      "us-central1",
+      "europe-west1"
+    ],
+    "metadata_hash": "3b953145db98fd39a217c236eeff870285526e45aa490b42829644363a982093",
+    "created_at": "2026-01-26T02:43:47.770805"
+  }
+}

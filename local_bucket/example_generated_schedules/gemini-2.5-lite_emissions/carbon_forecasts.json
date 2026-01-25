@@ -1,0 +1,541 @@
+{
+  "timestamp": "2026-01-26T05:05:41.786510",
+  "regions": {
+    "europe-west1": {
+      "name": "Belgium",
+      "gcloud_region": "europe-west1",
+      "emaps_zone": "BE",
+      "forecast": [
+        {
+          "carbonIntensity": 297,
+          "datetime": "2026-01-26T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 237,
+          "datetime": "2026-01-26T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 250,
+          "datetime": "2026-01-26T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 288,
+          "datetime": "2026-01-26T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 215,
+          "datetime": "2026-01-26T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 256,
+          "datetime": "2026-01-26T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 307,
+          "datetime": "2026-01-26T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 284,
+          "datetime": "2026-01-26T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 267,
+          "datetime": "2026-01-26T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 265,
+          "datetime": "2026-01-26T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 211,
+          "datetime": "2026-01-26T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 308,
+          "datetime": "2026-01-26T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 314,
+          "datetime": "2026-01-26T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 247,
+          "datetime": "2026-01-26T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 279,
+          "datetime": "2026-01-26T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 226,
+          "datetime": "2026-01-26T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 240,
+          "datetime": "2026-01-26T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 293,
+          "datetime": "2026-01-26T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 288,
+          "datetime": "2026-01-26T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 247,
+          "datetime": "2026-01-26T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 299,
+          "datetime": "2026-01-27T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 242,
+          "datetime": "2026-01-27T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 270,
+          "datetime": "2026-01-27T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 240,
+          "datetime": "2026-01-27T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 151,
+          "datetime": "2026-01-27T04:00:00.000Z"
+        }
+      ]
+    },
+    "europe-north2": {
+      "name": "Stockholm, Sweden",
+      "gcloud_region": "europe-north2",
+      "emaps_zone": "SE-SE3",
+      "forecast": [
+        {
+          "carbonIntensity": 21,
+          "datetime": "2026-01-26T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 17,
+          "datetime": "2026-01-26T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 18,
+          "datetime": "2026-01-26T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2026-01-26T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 17,
+          "datetime": "2026-01-26T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2026-01-26T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2026-01-26T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 27,
+          "datetime": "2026-01-26T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2026-01-26T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 23,
+          "datetime": "2026-01-26T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 18,
+          "datetime": "2026-01-26T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2026-01-26T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2026-01-26T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 19,
+          "datetime": "2026-01-26T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 20,
+          "datetime": "2026-01-26T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 16,
+          "datetime": "2026-01-26T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 18,
+          "datetime": "2026-01-26T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2026-01-26T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2026-01-26T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 18,
+          "datetime": "2026-01-26T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2026-01-27T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 19,
+          "datetime": "2026-01-27T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2026-01-27T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 22,
+          "datetime": "2026-01-27T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 15,
+          "datetime": "2026-01-27T04:00:00.000Z"
+        }
+      ]
+    },
+    "us-east1": {
+      "name": "South Carolina",
+      "gcloud_region": "us-east1",
+      "emaps_zone": "US-CAR-SC",
+      "forecast": [
+        {
+          "carbonIntensity": 741,
+          "datetime": "2026-01-26T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 580,
+          "datetime": "2026-01-26T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 591,
+          "datetime": "2026-01-26T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 733,
+          "datetime": "2026-01-26T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 557,
+          "datetime": "2026-01-26T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 695,
+          "datetime": "2026-01-26T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 876,
+          "datetime": "2026-01-26T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 836,
+          "datetime": "2026-01-26T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 759,
+          "datetime": "2026-01-26T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 729,
+          "datetime": "2026-01-26T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 561,
+          "datetime": "2026-01-26T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 781,
+          "datetime": "2026-01-26T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 784,
+          "datetime": "2026-01-26T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 594,
+          "datetime": "2026-01-26T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 660,
+          "datetime": "2026-01-26T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 532,
+          "datetime": "2026-01-26T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 569,
+          "datetime": "2026-01-26T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 756,
+          "datetime": "2026-01-26T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 817,
+          "datetime": "2026-01-26T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 731,
+          "datetime": "2026-01-26T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 911,
+          "datetime": "2026-01-27T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 801,
+          "datetime": "2026-01-27T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 928,
+          "datetime": "2026-01-27T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 927,
+          "datetime": "2026-01-27T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 626,
+          "datetime": "2026-01-27T04:00:00.000Z"
+        }
+      ]
+    },
+    "northamerica-northeast1": {
+      "name": "Montreal",
+      "gcloud_region": "northamerica-northeast1",
+      "emaps_zone": "CA-QC",
+      "forecast": [
+        {
+          "carbonIntensity": 34,
+          "datetime": "2026-01-26T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 27,
+          "datetime": "2026-01-26T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2026-01-26T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 34,
+          "datetime": "2026-01-26T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 26,
+          "datetime": "2026-01-26T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 32,
+          "datetime": "2026-01-26T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 40,
+          "datetime": "2026-01-26T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 39,
+          "datetime": "2026-01-26T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 35,
+          "datetime": "2026-01-26T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 35,
+          "datetime": "2026-01-26T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 27,
+          "datetime": "2026-01-26T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 37,
+          "datetime": "2026-01-26T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 37,
+          "datetime": "2026-01-26T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 28,
+          "datetime": "2026-01-26T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 31,
+          "datetime": "2026-01-26T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 25,
+          "datetime": "2026-01-26T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 26,
+          "datetime": "2026-01-26T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 34,
+          "datetime": "2026-01-26T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 35,
+          "datetime": "2026-01-26T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 30,
+          "datetime": "2026-01-26T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 38,
+          "datetime": "2026-01-27T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 33,
+          "datetime": "2026-01-27T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 39,
+          "datetime": "2026-01-27T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 38,
+          "datetime": "2026-01-27T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 26,
+          "datetime": "2026-01-27T04:00:00.000Z"
+        }
+      ]
+    },
+    "us-central1": {
+      "name": "Iowa",
+      "gcloud_region": "us-central1",
+      "emaps_zone": "US-MIDW-MISO",
+      "forecast": [
+        {
+          "carbonIntensity": 552,
+          "datetime": "2026-01-26T04:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 435,
+          "datetime": "2026-01-26T05:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 445,
+          "datetime": "2026-01-26T06:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 551,
+          "datetime": "2026-01-26T07:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 420,
+          "datetime": "2026-01-26T08:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 531,
+          "datetime": "2026-01-26T09:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 660,
+          "datetime": "2026-01-26T10:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 645,
+          "datetime": "2026-01-26T11:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 589,
+          "datetime": "2026-01-26T12:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 572,
+          "datetime": "2026-01-26T13:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 429,
+          "datetime": "2026-01-26T14:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 572,
+          "datetime": "2026-01-26T15:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 565,
+          "datetime": "2026-01-26T16:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 415,
+          "datetime": "2026-01-26T17:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 450,
+          "datetime": "2026-01-26T18:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 359,
+          "datetime": "2026-01-26T19:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 379,
+          "datetime": "2026-01-26T20:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 497,
+          "datetime": "2026-01-26T21:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 529,
+          "datetime": "2026-01-26T22:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 477,
+          "datetime": "2026-01-26T23:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 603,
+          "datetime": "2026-01-27T00:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 529,
+          "datetime": "2026-01-27T01:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 605,
+          "datetime": "2026-01-27T02:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 591,
+          "datetime": "2026-01-27T03:00:00.000Z"
+        },
+        {
+          "carbonIntensity": 395,
+          "datetime": "2026-01-27T04:00:00.000Z"
+        }
+      ]
+    }
+  },
+  "failed_regions": []
+}

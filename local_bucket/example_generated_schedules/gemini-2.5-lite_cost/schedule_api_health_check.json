@@ -1,0 +1,251 @@
+{
+  "recommendations": [
+    {
+      "datetime": "2026-01-26 16:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 25,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 1,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (25 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 05:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 26,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 2,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (26 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 02:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 27,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 3,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (27 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 03:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 27,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 4,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (27 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 11:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 27,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 5,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (27 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 17:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 27,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 6,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (27 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 14:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 28,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 7,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (28 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 15:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 31,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 8,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (31 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 20:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 31,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 9,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (31 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 01:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 33,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 10,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (33 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 06:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 33,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 11,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (33 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 04:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 34,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 12,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (34 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 18:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 34,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 13,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (34 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 22:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 34,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 14,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (34 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 19:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 35,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 15,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (35 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 10:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 36,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 16,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (36 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 09:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 37,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 17,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (37 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 12:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 37,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 18,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (37 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 13:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 37,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 19,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (37 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 23:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 38,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 20,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (38 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 00:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 38,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 21,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (38 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 21:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 39,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 22,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (39 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 08:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 40,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 23,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (40 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    },
+    {
+      "datetime": "2026-01-26 07:00",
+      "region": "northamerica-northeast1",
+      "carbon_intensity": 41,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 0.0,
+      "priority": 24,
+      "reasoning": "[COSTS] All eligible regions (us-east1, us-central1, northamerica-northeast1) have $0/year transfer costs, and no other cost differences are provided in the comparison data. Therefore, all regions are equally cost-effective ($0/year total cost based on available data). Given this, and the goal of carbon-awareness, northamerica-northeast1 (Montreal) is chosen for this hour as it offers the lowest carbon intensity (41 gCO2eq/kWh) among the low-latency North American options. This decision prioritizes environmental benefit when the primary cost objective is met identically across regions."
+    }
+  ],
+  "metadata": {
+    "generated_at": "2026-01-26T03:10:25.635643",
+    "function_metadata": {
+      "runtime_ms": 0.073,
+      "memory_mb": 256,
+      "data_input_gb": 0.0,
+      "data_output_gb": 1.23e-06,
+      "source_location": "us-east1",
+      "invocations_per_day": 20000,
+      "priority": "costs",
+      "latency_important": true,
+      "gpu_required": false,
+      "vcpus": null,
+      "allowed_regions": [
+        "us-east1",
+        "northamerica-northeast1",
+        "us-central1"
+      ],
+      "allow_schedule_caching": true,
+      "function_id": "api_health_check",
+      "description": "Minimal REST health snapshot designed for extremely high throughput and very little payload.",
+      "code": "#!/usr/bin/env python3\n\"\"\"Autogenerated MCP bundle for api_health_check (includes metrics wrapper).\"\"\"\nfrom __future__ import annotations\n\nimport json\nimport os\nimport time\nfrom typing import Any, Callable, Dict, Optional, Tuple\n\n# --- Metrics wrapper (from main.py) ---\nFunctionCallable = Callable[..., Any]\n\n_PROCESS_START_UNIX = time.time()\n\n_FIRST_INVOKE: dict[str, bool] = {}\n\ndef _safe_get_max_rss_kb() -> Optional[int]:\n    \"\"\"Best-effort max RSS in KB (Linux: ru_maxrss is KB).\"\"\"\n    try:\n        import resource  # stdlib on Linux\n\n        return int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)\n    except Exception:\n        return None\n\ndef _estimate_request_bytes(request: Any) -> Optional[int]:\n    \"\"\"Estimate incoming request bytes without breaking downstream handlers.\"\"\"\n    try:\n        cl = getattr(request, \"content_length\", None)\n        if isinstance(cl, int) and cl >= 0:\n            return cl\n    except Exception:\n        pass\n\n    # Fall back to reading request body with caching enabled, so handlers can still read it.\n    try:\n        if hasattr(request, \"get_data\"):\n            data = request.get_data(cache=True)  # important: cache=True\n            if data is not None:\n                return int(len(data))\n    except Exception:\n        pass\n\n    return None\n\ndef _normalize_handler_return(rv: Any) -> Tuple[bytes, int, Dict[str, str]]:\n    \"\"\"\n    Normalize common Functions Framework return shapes:\n      - (body, status, headers)\n      - (body, status)\n      - body\n      - flask.Response-like object\n    \"\"\"\n    body: Any = rv\n    status: int = 200\n    headers: Dict[str, str] = {}\n\n    # Tuple/list return\n    if isinstance(rv, (tuple, list)):\n        if len(rv) >= 1:\n            body = rv[0]\n        if len(rv) >= 2 and rv[1] is not None:\n            try:\n                status = int(rv[1])\n            except Exception:\n                status = 200\n        if len(rv) >= 3 and isinstance(rv[2], dict):\n            headers = {str(k): str(v) for k, v in rv[2].items()}\n\n    # flask.Response-like\n    if hasattr(body, \"get_data\") and callable(getattr(body, \"get_data\")):\n        try:\n            data = body.get_data()  # bytes\n            st = getattr(body, \"status_code\", None)\n            if isinstance(st, int):\n                status = st\n            hdrs = getattr(body, \"headers\", None)\n            if hdrs is not None:\n                try:\n                    headers = {str(k): str(v) for k, v in dict(hdrs).items()}\n                except Exception:\n                    pass\n            return bytes(data), status, headers\n        except Exception:\n            pass\n\n    # Body encoding\n    if body is None:\n        body_bytes = b\"\"\n    elif isinstance(body, (bytes, bytearray)):\n        body_bytes = bytes(body)\n    elif isinstance(body, str):\n        body_bytes = body.encode(\"utf-8\", errors=\"replace\")\n    elif isinstance(body, (dict, list)):\n        body_bytes = json.dumps(body, ensure_ascii=False).encode(\"utf-8\")\n    else:\n        body_bytes = str(body).encode(\"utf-8\", errors=\"replace\")\n\n    return body_bytes, status, headers\n\ndef _sanitize_response_json_for_logs(parsed: Any) -> Optional[dict]:\n    \"\"\"\n    If response is JSON, keep small metadata fields but avoid logging huge blobs (base64, etc.).\n    \"\"\"\n    if not isinstance(parsed, dict):\n        return None\n\n    drop_keys = {\n        \"converted_image\",\n        \"processed_data\",\n        \"converted_image_base64\",\n        \"processed_data_base64\",\n    }  # large base64 fields in your samples\n    out: dict[str, Any] = {}\n\n    for k, v in parsed.items():\n        if k in drop_keys:\n            continue\n        # Avoid very large strings in logs\n        if isinstance(v, str) and len(v) > 512:\n            out[k] = v[:512] + \"...(truncated)\"\n        else:\n            out[k] = v\n    return out\n\ndef _emit_metrics_log(line: dict) -> None:\n    \"\"\"\n    Emit one structured JSON log line to stdout.\n    Cloud Run/Cloud Logging will ingest it as a structured payload.\n    \"\"\"\n    try:\n        print(json.dumps(line, ensure_ascii=False))\n    except Exception:\n        # Best-effort fallback\n        print(str(line))\n\ndef _with_metrics(function_id: str, handler: FunctionCallable) -> FunctionCallable:\n    \"\"\"Wrap a Functions Framework handler with timing/size/memory instrumentation.\"\"\"\n\n    def _wrapped(*args: Any, **kwargs: Any) -> Any:\n        request = args[0] if args else kwargs.get(\"request\")\n\n        cold_start = not _FIRST_INVOKE.get(function_id, False)\n        _FIRST_INVOKE[function_id] = True\n\n        req_bytes = _estimate_request_bytes(request)\n\n        wall_t0 = time.perf_counter()\n        cpu_t0 = time.process_time()\n\n        error: Optional[str] = None\n        error_type: Optional[str] = None\n        rv: Any = None\n\n        try:\n            rv = handler(*args, **kwargs)\n        except Exception as exc:\n            error_type = type(exc).__name__\n            error = str(exc)\n            raise\n        finally:\n            wall_t1 = time.perf_counter()\n            cpu_t1 = time.process_time()\n\n            body_bytes: bytes = b\"\"\n            status_code: Optional[int] = None\n            resp_bytes: Optional[int] = None\n            resp_meta: Optional[dict] = None\n\n            try:\n                body_bytes, status_code, _headers = _normalize_handler_return(rv)\n                resp_bytes = len(body_bytes)\n\n                # If body looks like JSON, parse and keep a sanitized subset for logs\n                try:\n                    parsed = json.loads(body_bytes.decode(\"utf-8\", errors=\"replace\"))\n                    resp_meta = _sanitize_response_json_for_logs(parsed)\n                except Exception:\n                    resp_meta = None\n            except Exception:\n                # Never let metrics break the request path.\n                pass\n\n            log_line = {\n                \"type\": \"invocation_metrics\",\n                \"function_id\": function_id,\n                \"cold_start\": cold_start,\n                \"process_uptime_s\": round(time.time() - _PROCESS_START_UNIX, 3),\n                \"wall_ms\": round((wall_t1 - wall_t0) * 1000.0, 3),\n                \"cpu_ms\": round((cpu_t1 - cpu_t0) * 1000.0, 3),\n                \"max_rss_kb\": _safe_get_max_rss_kb(),\n                \"request_bytes\": req_bytes,\n                \"response_bytes\": resp_bytes,\n                \"status_code\": status_code,\n                \"error_type\": error_type,\n                \"error\": error,\n                # Helpful Cloud Run env metadata (if present)\n                \"k_service\": os.getenv(\"K_SERVICE\"),\n                \"k_revision\": os.getenv(\"K_REVISION\"),\n                \"k_configuration\": os.getenv(\"K_CONFIGURATION\"),\n                # Optional: request metadata (best-effort)\n                \"http_method\": getattr(request, \"method\", None),\n                \"http_path\": getattr(request, \"path\", None),\n            }\n            if resp_meta is not None:\n                log_line[\"response_meta\"] = resp_meta\n\n            _emit_metrics_log(log_line)\n\n        return rv\n\n    _wrapped.__name__ = getattr(handler, \"__name__\", function_id)\n    _wrapped.__doc__ = getattr(handler, \"__doc__\", None)\n    return _wrapped\n\n# --- Handler module code ---\n\"\"\"Minimal health-check endpoint mimicking high-volume lightweight traffic.\"\"\"\n\nimport json\nfrom datetime import datetime, timezone\nfrom typing import Dict\n\nimport functions_framework\n\n\n@functions_framework.http\n\ndef api_health_check(request) -> tuple[str, int, Dict[str, str]]:\n    \"\"\"Return a compact health snapshot that shows the invocation scenario.\"\"\"\n\n    payload = request.get_json(silent=True) or {}\n    now = datetime.now(timezone.utc).isoformat()\n    result = {\n        \"status\": \"ok\",\n        \"timestamp\": now,\n        \"scenario\": \"Short runtime + Little data\",\n        \"payload\": payload,\n    }\n    return json.dumps(result), 200, {\"Content-Type\": \"application/json\"}\n\n# --- Wrapped entrypoints ---\n_raw_handler = api_health_check\napi_health_check = _with_metrics(\"api_health_check\", _raw_handler)\n\ndef main(request):\n    return api_health_check(request)\n"
+    },
+    "regions_used": [
+      "us-central1",
+      "northamerica-northeast1",
+      "us-east1"
+    ],
+    "metadata_hash": "5dbc1159ad990bb23802bf89ce4d903e743394bcc42a5fd976ee285af36d874a",
+    "created_at": "2026-01-26T02:30:56.889225"
+  }
+}
