@@ -19,15 +19,22 @@ This is a **feasibility study**, not a production benchmark. The protocol priori
 
 ### 2.1 Scheduling Approaches
 
-Each GCP project represents a different scheduling approach. All approaches use **instant execution** except Agent, which may delay execution.
+Each GCP project represents a different scheduling approach. All approaches use **instant execution** except Agent variants, which may delay execution.
 
 | Approach | GCP Project | Execution Region | Description |
 |----------|-------------|------------------|-------------|
-| **Baseline** | `project-baseline` | us-east1 (home) | All functions execute immediately in home region |
-| **Static Green** | `project-static-green` | europe-north2 (GPU: europe-west1) | All functions execute immediately in greenest region |
-| **Agent** | `project-ai-agent` | Dynamic | Dispatcher routes to region/time based on AI scheduling |
+| **Baseline** | `iosl-project-baseline` | us-east1 (home) | All functions execute immediately in home region |
+| **Static Green** | `iosl-project-static-green` | europe-north2 (GPU: europe-west1) | All functions execute immediately in greenest region |
+| **Agent (Emissions)** | `iosl-project-agent-emissions` | Dynamic | Dispatcher routes based on AI scheduling with emissions priority |
+| **Agent (Balanced)** | `iosl-project-agent-balanced` | Dynamic | Dispatcher routes based on AI scheduling with balanced priority |
+| **Agent (Cost)** | `iosl-project-agent-cost` | Dynamic | Dispatcher routes based on AI scheduling with cost priority |
 
 **Home region:** us-east1 — where GCS bucket is stored and all requests originate from. This ensures comparable network conditions across scenarios.
+
+**Agent priority modes:**
+- **Emissions** — Prioritizes lowest carbon intensity regions/times, except when extra emissions for much cheaper execution are negligable
+- **Balanced** — Weighs emissions & costs equally
+- **Cost** — Prioritizes lowest execution and transfer costs, except when extra costs for much "greener" execution are negligable
 
 All approaches use identical workload traces, function configurations, and code. No resources are shared between projects.
 
@@ -39,8 +46,8 @@ Functions are deployed to **5 regions** (GCP quota limit):
 |--------|----------|-----|----------------|-------|
 | **us-east1** | South Carolina | No | Medium-high | Home region (bucket location) |
 | **us-central1** | Iowa | Yes | Medium | GPU-capable US region |
-| **northamerica-northeast1** | Montreal | No | Very low | Green region (hydro power) |
-| **europe-north2** | Stockholm | No | Very low | Green region (Nordic grid) |
+| **northamerica-northeast1** | Montreal | No | Very low | Green region |
+| **europe-north2** | Stockholm | No | Very low | Green region |
 | **europe-west1** | Belgium | Yes | Medium | GPU-capable EU region |
 
 **Rationale:**

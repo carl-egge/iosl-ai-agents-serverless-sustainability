@@ -12,10 +12,12 @@ This document defines **how metrics are calculated** for the serverless load-shi
 
 | Metric | Unit | Method |
 |--------|------|--------|
-| **Latency** | ms | Measured (Cloud Run request latency) |
+| **Latency*** | ms | Measured (End-to-End by Loadgen) |
 | **Energy** | kWh | Calculated (CCF methodology) |
 | **Emissions** | gCO2 | Calculated (energy × carbon intensity) |
 | **Cost Overhead** | USD | Calculated (transfer + agent costs) |
+
+*\*Latency is not measured for now. Comparing latency between approaches would not be meaningful when one approach (Agent) performs temporal shifting — scheduling executions for later hours rather than executing immediately.*
 
 ---
 
@@ -29,7 +31,7 @@ Reference: [Cloud Carbon Footprint methodology](https://www.cloudcarbonfootprint
 ```
 cpu_power_w      = vcpus × (0.71 + cpu_utilization × 3.55) W    # CCF min/max model
 memory_power_w   = memory_gib × 0.4 W/GiB                       # allocation-based
-gpu_power_w      = gpu_count × 72W × 0.8                        # if GPU required
+gpu_power_w      = gpu_count × (8 + gpu_utilization × 64) W     # CCF min/max model (if GPU required)
 total_power_w    = cpu_power_w + memory_power_w + gpu_power_w
 ```
 
@@ -46,7 +48,25 @@ total_energy_kwh   = compute_energy_kwh + network_energy_kwh
   - GCP values from SPECPower: min=0.71W, max=4.26W per vCPU (delta=3.55W)
   - At 50% utilization: 0.71 + 0.5 × 3.55 = 2.485 W/vCPU
 - Memory power uses **allocated capacity** (allocation-based, not utilization-based) — DRAM refresh power is independent of access patterns
-- PUE (Power Usage Effectiveness) = 1.1 (Google datacenter efficiency)
+- GPU power uses CCF **min/max model** (same as CPU)
+  - Formula: `gpu_count × (min_watts + gpu_util × (max_watts - min_watts))`
+  - NVIDIA L4 values: min=8W (idle), max=72W (TDP)
+  - L4 idle power estimated from T4 ratio (CCF T4: 8W/71W ≈ 11% idle → L4: 72W × 0.11 ≈ 8W)
+  - GCP doesn't expose GPU utilization, so we assume 50% for compute workloads
+  - At 50% utilization: 8 + 0.5 × 64 = 40W
+- PUE (Power Usage Effectiveness) = 1.09 (Google datacenter efficiency)
+
+**Runtime calculation:**
+```
+runtime_s = billable_instance_time_s / request_count
+```
+- We use `billable_instance_time` divided by `request_count` from GCP Cloud Monitoring
+- GCP allocates CPU during billable time, which includes container initialization
+- It is likely (though not explicitly documented by GCP) that CPU utilization is measured over this same period
+- Using billable time ensures consistency between runtime and utilization in the energy formula
+- Reference: [GCP Cloud Run billing settings](https://cloud.google.com/run/docs/configuring/billing-settings)
+
+*Note: Even if this assumption is imperfect, using the same methodology across all scenarios ensures results remain comparable.*
 
 ---
 
@@ -96,9 +116,23 @@ annual_transfer_cost = per_invocation_transfer × annual_invocations
 **Agent architecture scaling (different frequencies):**
 - Dispatcher costs: per invocation → × annual_invocations
 - Agent execution: daily → × 365
-- Agent API calls (Gemini + ElectricityMaps): weekly → × 52
+- Agent API calls: weekly → × 52 (inputs stable, forecasts constant over week)
 
-**Latency:** Mean from measurements (NOT scaled)
+**Agent API overhead (only for Agent approaches):**
+
+See [AGENT_API_OVERHEAD.md](AGENT_API_OVERHEAD.md) for full methodology.
+
+| Metric | Per API Call | Per Year (52 calls) |
+|--------|--------------|---------------------|
+| Energy | 0.010 kWh | 0.52 kWh |
+| Carbon | 1.0 gCO2 | 52 gCO2 (0.052 kg) |
+| Cost | $0.0054 | $0.28 |
+
+*Note: Values are for Gemini API only. Electricity Maps API overhead is negligible (~0.0001 kWh/request) and excluded.*
+
+These values are added to the `agent` function's metrics in Agent approach projects only.
+
+**Latency*:** Mean from measurements (NOT scaled)
 
 ---
 
@@ -109,7 +143,7 @@ Project_Total = Σ(Function_Annual_Values)
 ```
 
 - **Energy, emissions, costs:** Sum across all functions
-- **Latency:** Mean across all functions
+- **Latency*:** Mean across all functions
 
 ---
 
@@ -119,7 +153,7 @@ Reference: Abdulsalam et al. (2015) IEEE IGSC — "Using the Greenup, Powerup, a
 
 | Metric | Formula | Interpretation |
 |--------|---------|----------------|
-| **Speedup** | `Latency_baseline / Latency_approach` | >1 = faster than baseline |
+| **Speedup*** | `Latency_baseline / Latency_approach` | >1 = faster than baseline |
 | **Powerup** | `Energy_baseline / Energy_approach` | >1 = less energy than baseline |
 | **Greenup** | `Emissions_baseline / Emissions_approach` | >1 = lower carbon than baseline |
 | **Cost Overhead** | Absolute $ value | Baseline = $0 by definition |
@@ -135,9 +169,11 @@ Reference: [Cloud Carbon Footprint methodology](https://www.cloudcarbonfootprint
 | CPU power (min) | 0.71 W/vCPU | CCF/SPECPower (GCP idle) |
 | CPU power (max) | 4.26 W/vCPU | CCF/SPECPower (GCP 100% load) |
 | Memory power | 0.4 W/GiB | Cloud Carbon Footprint (~0.392 W/GB industry standard) |
-| GPU power (L4) | 72W TDP × 0.8 utilization | NVIDIA spec |
+| GPU power (L4 idle) | 8W | Estimated from CCF T4 ratio ([T4: 8W/71W](https://github.com/cloud-carbon-footprint/cloud-carbon-footprint/blob/trunk/packages/gcp/src/domain/GcpFootprintEstimationConstants.ts)) |
+| GPU power (L4 max) | 72W | [NVIDIA L4 datasheet](https://www.nvidia.com/en-us/data-center/l4/) |
+| GPU utilization (assumed) | 0.5 (50%) | Assumption for compute workloads (GCP doesn't expose GPU utilization) |
 | Network energy | 0.001 kWh/GB | Cloud Carbon Footprint (hyperscale optical fiber) |
-| Datacenter PUE | 1.1 | Google reported efficiency |
+| Datacenter PUE | 1.09 | [Google Data Centers](https://datacenters.google/efficiency/) (2024) |
 
 All constants stored in `local_bucket/static_config.json`.
 
@@ -151,8 +187,11 @@ All constants stored in `local_bucket/static_config.json`.
 | Hourly Carbon Intensity Resolution | CI piecewise constant within each hour | One CI lookup per invocation |
 | Forecasted Carbon Intensity Accuracy | Forecasts assumed correct | Real-world forecast error not modeled |
 | Network Energy Proportional to Transfer | Linear model (bytes × 0.001 kWh/GB) | Excludes complex routing effects |
-| Free Tier Exhaustion | All executions incur costs at standard rates | May overestimate costs for small projects |
+| Free Tier Exhaustion | All executions incur costs at standard rates | May overestimate costs (especially for small projects) |
 | MCP Deployment Costs Not Measured | Deployment overhead not explicitly tracked | Negligible impact on yearly totals |
+| Runtime from Billable Instance Time | CPU utilization assumed measured during billable time | Consistent approach across all scenarios |
+| Stable Inputs Throughout Year | Function metadata and priorities unchanged | Agent APIs called weekly (52×/year) not daily |
+| Carbon Forecasts Stable Over Week | Forecasts constant over week timeframes | Justifies weekly API refresh frequency |
 
 ---
 
@@ -160,13 +199,13 @@ All constants stored in `local_bucket/static_config.json`.
 
 | Metric | Reason |
 |--------|--------|
-| **Latency** | End-to-end latency needs client-side measurement; GCP only has server-side |
+| **Latency*** | End-to-end latency needs client-side measurement; GCP only has server-side |
 | **Energy** | Not provided by GCP |
 | **Emissions** | GCP carbon data may not be available in time; doesn't include API emissions |
 | **Costs** | Free tier complicates scaling; doesn't include API costs |
 
 
-**Loadgen Latency measurement source:** The loadgen job logs `end_to_end_latency_ms` for
+**Loadgen Latency* measurement source:** The loadgen job logs `end_to_end_latency_ms` for
 each direct invocation (scenario A/B). For scenario C, `end_to_end_latency_ms`
 is `null` when the dispatcher schedules execution for a later time (time-shift).
 
@@ -180,7 +219,7 @@ is `null` when the dispatcher schedules execution for a later time (time-shift).
 
 Collects from GCP Cloud Monitoring:
 - Request count
-- Request latency (mean, p50, p95, p99)
+- Request latency
 - CPU utilization
 - Memory utilization
 - Billable instance time
@@ -248,4 +287,4 @@ Output structure:
 ---
 
 **Document Status:** Work in Progress
-**Last Updated:** 2026-01-19
+**Last Updated:** 2026-01-22

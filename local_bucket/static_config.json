@@ -266,12 +266,14 @@
     "cpu_min_watts_per_vcpu": 0.71,
     "cpu_max_watts_per_vcpu": 4.26,
     "memory_watts_per_gib": 0.4,
-    "datacenter_pue": 1.1,
+    "datacenter_pue": 1.09,
     "network_kwh_per_gb": 0.001,
-    "gpu_tdp_watts": {
+    "gpu_min_watts": {
+      "nvidia-l4": 8
+    },
+    "gpu_max_watts": {
       "nvidia-l4": 72
     },
-    "gpu_utilization_factor": 0.8,
     "notes": {
       "cpu_power_model": "CCF min/max model: cpu_power_w = vcpus × (min_watts + cpu_utilization × (max_watts - min_watts)). GCP values: min=0.71W, max=4.26W per vCPU. At 50% utilization this equals ~2.5W/vCPU.",
       "memory_utilization": "NO memory_utilization_factor is defined. Memory power is calculated based on ALLOCATED capacity (allocation-based) rather than utilization. This follows standard Cloud Carbon Footprint methodology (~0.392 W/GB industry standard) where DRAM refresh power is independent of access patterns. Even if full memory isn't used, it still consumes power.",
@@ -297,10 +299,10 @@
       "cpu_min_watts_per_vcpu": "CONSTANT: 0.71W (GCP idle)",
       "cpu_max_watts_per_vcpu": "CONSTANT: 4.26W (GCP 100% load)",
       "memory_watts_per_gib": "CONSTANT: 0.4W",
-      "datacenter_pue": "CONSTANT: 1.1",
+      "datacenter_pue": "CONSTANT: 1.09 (Google reported)",
       "network_kwh_per_gb": "CONSTANT: 0.001",
-      "gpu_tdp_watts": "CONSTANT: 72W (nvidia-l4)",
-      "gpu_utilization_factor": "CONSTANT: 0.8 (80%)"
+      "gpu_min_watts": "CONSTANT: 8W (nvidia-l4 idle, estimated from T4 ratio)",
+      "gpu_max_watts": "CONSTANT: 72W (nvidia-l4 TDP)"
     },
     "cost_per_invocation": {
       "total_cost_usd": "invocation_cost + compute_cost + gpu_cost + transfer_cost",
@@ -316,7 +318,8 @@
       "cpu_power_w_note": "CCF min/max model using actual CPU utilization from GCP Cloud Monitoring. Formula: vcpus × (0.71 + cpu_util × 3.55) W",
       "memory_power_w": "memory_gib * power_constants[memory_watts_per_gib]",
       "memory_power_w_note": "Allocation-based (always-on assumption). Does NOT use memory_utilization from GCP. Follows Cloud Carbon Footprint methodology: allocated memory always consumes refresh power regardless of access patterns.",
-      "gpu_power_w": "gpu_count * power_constants[gpu_tdp_watts][gpu_type] * power_constants[gpu_utilization_factor]",
+      "gpu_power_w": "gpu_count * (gpu_min_watts + gpu_utilization * (gpu_max_watts - gpu_min_watts))",
+      "gpu_power_w_note": "CCF min/max model. L4 idle (8W) estimated from T4 ratio (8/71≈11%). Since GCP doesn't expose GPU utilization, we assume 50%. Formula: 8 + 0.5 × 64 = 40W",
       "transfer_energy_kwh": "(data_input_gb + data_output_gb) * power_constants[network_kwh_per_gb]"
     },
     "carbon_per_invocation": {

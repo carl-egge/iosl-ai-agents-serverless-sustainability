@@ -50,6 +50,28 @@ AGENT_CONFIG = {
     'gpu_required': False,
 }
 
+# =============================================================================
+# Agent API Overhead Constants (from AGENT_API_OVERHEAD.md)
+# =============================================================================
+# APIs called weekly (52×/year) because inputs stable, forecasts constant over week
+# Values are for Gemini API only - Electricity Maps API overhead is negligible (~0.0001 kWh/request)
+AGENT_API_OVERHEAD = {
+    'per_api_call': {
+        'energy_kwh': 0.010,        # 10 Wh = 0.010 kWh (Gemini inference only)
+        'emissions_g': 1.0,         # 1.0 gCO2 (100 gCO2/kWh × 0.010 kWh)
+        'cost_usd': 0.0054,         # Gemini 1.5 Flash pricing
+    },
+    'per_year': {
+        'api_calls': 52,            # Weekly calls
+        'energy_kwh': 0.52,         # 0.010 × 52
+        'emissions_g': 52.0,        # 1.0 × 52
+        'emissions_kg': 0.052,      # 52g = 0.052 kg
+        'cost_usd': 0.28,           # 0.0054 × 52
+    },
+    'source': 'evaluation/AGENT_API_OVERHEAD.md',
+    'note': 'Gemini API only; Electricity Maps overhead negligible'
+}
+
 
 def load_static_config(file_path: str = None) -> Dict:
     """Load static configuration from local_bucket/static_config.json."""
@@ -162,7 +184,7 @@ def calculate_energy_per_invocation(
     Energy Methodology (Cloud Carbon Footprint standard):
     - CPU: Min/Max model using actual utilization from GCP (0.71-4.26 W/vCPU)
     - Memory: Allocation-based (full allocated capacity, "always on" assumption)
-    - GPU: Utilization-based (uses gpu_utilization_factor from static_config)
+    - GPU: Min/Max model (same as CPU, using assumed 50% utilization since GCP doesn't expose GPU metrics)
     - Network: Transfer volume-based (0.001 kWh/GB)
 
     Memory Utilization Note:
@@ -181,7 +203,7 @@ def calculate_energy_per_invocation(
     Args:
         allocated_vcpus: Number of vCPUs allocated to the function
         allocated_memory_mb: Memory allocation in MB
-        runtime_ms: Mean execution time from GCP metrics
+        runtime_ms: Runtime per invocation (billable_instance_time / request_count)
         cpu_utilization_actual: Actual CPU utilization from GCP (0.0-1.0)
         data_received_gb: Total data received (GB)
         data_sent_gb: Total data sent (GB)
@@ -212,13 +234,16 @@ def calculate_energy_per_invocation(
     NETWORK_KWH_PER_GB = power_constants['network_kwh_per_gb']
 
     # GPU constants (load from static_config.json if GPU required)
+    # GPU uses same CCF min/max model as CPU
+    # GCP doesn't expose GPU utilization, so we assume 50% for compute workloads
+    GPU_UTILIZATION_ASSUMED = 0.5
     if gpu_required:
-        GPU_TDP_WATTS = power_constants['gpu_tdp_watts']['nvidia-l4']
-        GPU_UTILIZATION_FACTOR = power_constants['gpu_utilization_factor']
+        GPU_MIN_WATTS = power_constants['gpu_min_watts']['nvidia-l4']
+        GPU_MAX_WATTS = power_constants['gpu_max_watts']['nvidia-l4']
         GPU_COUNT = static_config['agent_defaults']['gpu_count']
     else:
-        GPU_TDP_WATTS = 0
-        GPU_UTILIZATION_FACTOR = 0
+        GPU_MIN_WATTS = 0
+        GPU_MAX_WATTS = 0
         GPU_COUNT = 0
 
     # Convert units
@@ -266,9 +291,9 @@ def calculate_energy_per_invocation(
     cpu_power_w = allocated_vcpus * (CPU_MIN_WATTS_PER_VCPU + cpu_utilization_actual * (CPU_MAX_WATTS_PER_VCPU - CPU_MIN_WATTS_PER_VCPU))
     memory_power_w = allocated_memory_gib * MEMORY_WATTS_PER_GIB  # Allocation-based
 
-    # GPU power (only if GPU required)
+    # GPU power (only if GPU required) - CCF min/max model
     if gpu_required:
-        gpu_power_w = GPU_COUNT * GPU_TDP_WATTS * GPU_UTILIZATION_FACTOR
+        gpu_power_w = GPU_COUNT * (GPU_MIN_WATTS + GPU_UTILIZATION_ASSUMED * (GPU_MAX_WATTS - GPU_MIN_WATTS))
     else:
         gpu_power_w = 0
 
@@ -360,10 +385,9 @@ def calculate_per_year_metrics(
 
     Scaling logic:
     - Energy, emissions, transfer costs: × annual_invocations (per_day × 365)
-    - Dispatcher costs: × annual_invocations (called per function invocation)
-    - Agent execution/request costs: × 365 (agent runs daily)
-    - Agent API costs (Gemini + ElectricityMaps): × 52 (API calls weekly)
     - Latency: NOT scaled - uses mean from measurements
+
+    Note: API/agent overhead is NOT included here - it's added at project aggregation level only.
 
     Args:
         per_invocation_metrics: Output from calculate_metrics_for_function()
@@ -371,42 +395,30 @@ def calculate_per_year_metrics(
         function_metadata: Loaded function_metadata.json (unused, kept for compatibility)
 
     Returns:
-        Complete per-year metrics dict with placeholders for agent architecture costs
+        Complete per-year metrics dict
     """
     # Get invocations_per_day from inputs (already calculated in calculate_metrics_for_function)
     invocations_per_day = per_invocation_metrics['inputs']['invocations_per_day']
     annual_invocations = invocations_per_day * 365
 
-    # Scale energy
+    # Get per_invocation values
     per_inv_energy = per_invocation_metrics['per_invocation']['energy']
-    annual_energy = {
-        'compute_energy_kwh': per_inv_energy['compute_energy_kwh'] * annual_invocations,
-        'network_energy_kwh': per_inv_energy['network_energy_kwh'] * annual_invocations,
-        'api_energy': {
-            'gemini_energy_kwh': None,
-            'electricity_maps_energy_kwh': None,
-            'total_api_energy_kwh': None,
-            'note': 'Placeholder - scaled weekly×52 when populated'
-        },
-        'total_energy_kwh': per_inv_energy['total_energy_kwh'] * annual_invocations
-    }
+    per_inv_emissions = per_invocation_metrics['per_invocation']['emissions']
+    per_inv_transfer = per_invocation_metrics['per_invocation']['cost_overhead']['transfer_cost_usd']
 
-    # Scale emissions (convert grams to kg)
-    per_inv_carbon_g = per_invocation_metrics['per_invocation']['emissions']['compute_emissions_g']
-    annual_emissions = {
-        'compute_emissions_kg': (per_inv_carbon_g * annual_invocations) / 1000,
-        'api_emissions': {
-            'gemini_emissions_kg': None,
-            'electricity_maps_emissions_kg': None,
-            'total_api_emissions_kg': None,
-            'note': 'Placeholder - scaled weekly×52 when populated'
-        },
-        'total_carbon_kg': (per_inv_carbon_g * annual_invocations) / 1000
-    }
+    # Scale compute energy (per_invocation × annual_invocations)
+    annual_compute_energy_kwh = per_inv_energy['compute_energy_kwh'] * annual_invocations
+    annual_network_energy_kwh = per_inv_energy['network_energy_kwh'] * annual_invocations
+
+    # Scale compute emissions (per_invocation × annual_invocations, convert g to kg)
+    annual_compute_emissions_kg = (per_inv_emissions['compute_emissions_g'] * annual_invocations) / 1000
 
     # Scale transfer costs
-    per_inv_transfer = per_invocation_metrics['per_invocation']['cost_overhead']['transfer_cost_usd']
     annual_transfer_cost = per_inv_transfer * annual_invocations
+
+    # Total = compute + network (no API at function level)
+    annual_total_energy_kwh = annual_compute_energy_kwh + annual_network_energy_kwh
+    annual_total_emissions_kg = annual_compute_emissions_kg
 
     return {
         'latency': {
@@ -414,21 +426,17 @@ def calculate_per_year_metrics(
             'note': 'Mean latency from load testing; not scaled yearly'
         },
         'annual_invocations': annual_invocations,
-        'energy': annual_energy,
-        'emissions': annual_emissions,
+        'energy': {
+            'compute_energy_kwh': annual_compute_energy_kwh,
+            'network_energy_kwh': annual_network_energy_kwh,
+            'total_energy_kwh': annual_total_energy_kwh
+        },
+        'emissions': {
+            'compute_emissions_kg': annual_compute_emissions_kg,
+            'total_carbon_kg': annual_total_emissions_kg
+        },
         'cost_overhead': {
             'annual_transfer_cost_usd': annual_transfer_cost,
-            'agent_architecture_costs': {
-                'annual_execution_cost_usd': None,
-                'annual_request_cost_usd': None,
-                'api_costs': {
-                    'annual_gemini_cost_usd': None,
-                    'annual_electricity_maps_cost_usd': None,
-                    'total_annual_api_cost_usd': None
-                },
-                'total_annual_usd': None,
-                'scaling_note': 'Dispatcher: per_inv×annual, Agent exec: daily×365, Agent API: weekly×52'
-            },
             'total_annual_cost_overhead_usd': annual_transfer_cost
         }
     }
@@ -449,13 +457,26 @@ def resolve_function_config(function_name: str, gcp_metrics: Dict) -> Dict:
     allocation = get_function_allocation(function_name)
 
     # 2. Extract from GCP metrics
+    request_count = gcp_metrics['gcp_metrics']['request_count']
+    billable_instance_time_s = gcp_metrics['gcp_metrics'].get('billable_instance_time_s')
+
+    # Runtime calculation: use billable_instance_time / request_count
+    # GCP allocates CPU during billable time, which includes container startup.
+    # It is likely (though not explicitly documented) that CPU utilization is
+    # measured over this same period. Using billable_time ensures consistency
+    # between runtime and utilization in the energy formula.
+    # Reference: https://docs.cloud.google.com/run/docs/configuring/billing-settings
+    # Note: Even if this assumption is imperfect, using the same approach across
+    # all scenarios ensures results remain comparable.
+    runtime_ms = (billable_instance_time_s / request_count) * 1000
+
     from_gcp = {
         'region': gcp_metrics['region'],
-        'request_count': gcp_metrics['gcp_metrics']['request_count'],
-        'runtime_ms': gcp_metrics['gcp_metrics']['request_latencies_ms']['mean'],
+        'request_count': request_count,
+        'runtime_ms': runtime_ms,
         'cpu_utilization_actual': gcp_metrics['gcp_metrics']['cpu_utilization']['mean'],
         'memory_utilization_actual': gcp_metrics['gcp_metrics']['memory_utilization']['mean'],
-        'billable_instance_time_s': gcp_metrics['gcp_metrics'].get('billable_instance_time_s'),
+        'billable_instance_time_s': billable_instance_time_s,
         'data_received_gb': gcp_metrics['gcp_metrics']['network']['received_gb'],
         'data_sent_gb': gcp_metrics['gcp_metrics']['network']['sent_gb']
     }
@@ -477,6 +498,13 @@ def calculate_metrics_for_function(
     """
     Complete calculation pipeline for one function.
 
+    Args:
+        function_name: Name of the function
+        gcp_metrics: GCP metrics dict for this function
+        carbon_intensity_g_per_kwh: Carbon intensity for emissions calculation
+        static_config: Loaded static_config.json
+        function_metadata: Loaded function_metadata.json (for per_year calculations)
+
     Returns:
         {
             'function_name': str,
@@ -484,7 +512,7 @@ def calculate_metrics_for_function(
             'per_invocation': {
                 'energy': {...},
                 'emissions': {...},
-                'transfer_costs': {...}
+                'cost_overhead': {...}
             },
             'per_year': {...}  # Only if function_metadata provided
         }
@@ -559,14 +587,9 @@ def calculate_metrics_for_function(
                 'data_received_gb': config['data_received_gb'],
                 'data_sent_gb': config['data_sent_gb']
             },
-            'from_loadgen': {
+            'latency': {
                 'mean_latency_ms': None,
                 'note': 'Placeholder - to be measured by loadgen tool'
-            },
-            'api_usage': {
-                'gemini_calls_per_invocation': None,
-                'electricity_maps_calls_per_invocation': None,
-                'note': 'Placeholder - only applicable to agent function'
             }
         },
         'per_invocation': {
@@ -577,45 +600,22 @@ def calculate_metrics_for_function(
             'energy': {
                 'compute_energy_kwh': energy['compute_energy_kwh'],
                 'network_energy_kwh': energy['network_energy_kwh'],
-                'api_energy': {
-                    'gemini_energy_kwh': None,
-                    'electricity_maps_energy_kwh': None,
-                    'total_api_energy_kwh': None,
-                    'note': 'Placeholder - only agent function has API energy'
-                },
                 'total_energy_kwh': energy['total_energy_kwh'],
                 'breakdown': energy['breakdown']
             },
             'emissions': {
                 'compute_emissions_g': emissions_g,
-                'api_emissions': {
-                    'gemini_emissions_g': None,
-                    'electricity_maps_emissions_g': None,
-                    'total_api_emissions_g': None,
-                    'note': 'Placeholder - only agent function has API emissions'
-                },
                 'total_carbon_g': emissions_g
             },
             'cost_overhead': {
                 'transfer_cost_usd': transfer_costs['transfer_cost_usd'],
-                'agent_architecture_costs': {
-                    'execution_cost_usd': None,
-                    'request_cost_usd': None,
-                    'api_costs': {
-                        'gemini_cost_usd': None,
-                        'electricity_maps_cost_usd': None,
-                        'total_api_cost_usd': None
-                    },
-                    'total_usd': None,
-                    'note': 'Placeholder - dispatcher: per call, agent: daily exec + weekly API'
-                },
                 'total_cost_overhead_usd': transfer_costs['transfer_cost_usd'],
                 'transfer_breakdown': transfer_costs['breakdown']
             }
         }
     }
 
-    # 6. Calculate per-year metrics (if function_metadata provided)
+    # 8. Calculate per-year metrics (if function_metadata provided)
     if function_metadata:
         result['per_year'] = calculate_per_year_metrics(
             per_invocation_metrics=result,
@@ -630,7 +630,7 @@ def build_calculation_constants(static_config: Dict) -> Dict:
     """
     Extract calculation constants from static_config for output.
 
-    Returns a dict with power constants and API placeholders.
+    Returns a dict with power constants and API overhead constants.
     """
     power_constants = static_config['power_constants']
 
@@ -642,34 +642,32 @@ def build_calculation_constants(static_config: Dict) -> Dict:
             'memory_watts_per_gib': power_constants['memory_watts_per_gib'],
             'datacenter_pue': power_constants['datacenter_pue'],
             'network_kwh_per_gb': power_constants['network_kwh_per_gb'],
-            'gpu_tdp_watts_nvidia_l4': power_constants['gpu_tdp_watts']['nvidia-l4'],
-            'gpu_utilization_factor': power_constants['gpu_utilization_factor']
+            'gpu_min_watts_nvidia_l4': power_constants['gpu_min_watts']['nvidia-l4'],
+            'gpu_max_watts_nvidia_l4': power_constants['gpu_max_watts']['nvidia-l4'],
+            'gpu_formula': 'gpu_count × (min_watts + gpu_utilization × (max_watts - min_watts))',
+            'gpu_utilization_assumed': 0.5
         },
-        'api': {
-            'gemini': {
-                'energy_per_call_kwh': None,
-                'cost_per_call_usd': None,
-                'note': 'Placeholder - no logic implemented yet'
-            },
-            'electricity_maps': {
-                'energy_per_call_kwh': None,
-                'cost_per_call_usd': None,
-                'note': 'Placeholder - no logic implemented yet'
-            }
+        'agent_api_overhead': {
+            'per_api_call': AGENT_API_OVERHEAD['per_api_call'],
+            'per_year': AGENT_API_OVERHEAD['per_year'],
+            'source': AGENT_API_OVERHEAD['source'],
+            'note': 'API overhead applies only to agent function in Agent approach projects'
         }
     }
 
 
-def calculate_project_aggregation(function_results: list) -> Dict:
+def calculate_project_aggregation(function_results: list, project_id: str = None) -> Dict:
     """
     Aggregate per-year metrics across all functions in the project.
 
     Aggregation rules:
     - Energy, emissions, costs: SUM across all functions
     - Latency: MEAN across all functions (when available)
+    - API/agent overhead: Added only at this level for Agent approach projects
 
     Args:
         function_results: List of function result dicts from calculate_metrics_for_function()
+        project_id: GCP project ID (used to detect Agent approach from name)
 
     Returns:
         Aggregated metrics dict for the entire project
@@ -680,14 +678,14 @@ def calculate_project_aggregation(function_results: list) -> Dict:
     if not functions_with_yearly:
         return None
 
+    # Detect if this is an Agent approach project
+    is_agent_approach = project_id is not None and 'agent' in project_id.lower()
+
     # Initialize aggregation
     total_compute_energy_kwh = 0.0
     total_network_energy_kwh = 0.0
-    total_energy_kwh = 0.0
     total_compute_emissions_kg = 0.0
-    total_carbon_kg = 0.0
     total_transfer_cost_usd = 0.0
-    total_cost_overhead_usd = 0.0
 
     # Collect latencies for mean calculation (only non-null values)
     latencies = []
@@ -699,17 +697,14 @@ def calculate_project_aggregation(function_results: list) -> Dict:
         energy = per_year.get('energy', {})
         total_compute_energy_kwh += energy.get('compute_energy_kwh', 0) or 0
         total_network_energy_kwh += energy.get('network_energy_kwh', 0) or 0
-        total_energy_kwh += energy.get('total_energy_kwh', 0) or 0
 
         # Sum emissions
         emissions = per_year.get('emissions', {})
         total_compute_emissions_kg += emissions.get('compute_emissions_kg', 0) or 0
-        total_carbon_kg += emissions.get('total_carbon_kg', 0) or 0
 
         # Sum costs
         cost_overhead = per_year.get('cost_overhead', {})
         total_transfer_cost_usd += cost_overhead.get('annual_transfer_cost_usd', 0) or 0
-        total_cost_overhead_usd += cost_overhead.get('total_annual_cost_overhead_usd', 0) or 0
 
         # Collect latency (if available)
         latency = per_year.get('latency', {})
@@ -721,9 +716,25 @@ def calculate_project_aggregation(function_results: list) -> Dict:
     if latencies:
         mean_latency_ms = sum(latencies) / len(latencies)
 
+    # API/agent overhead (only for Agent approach projects)
+    if is_agent_approach:
+        api_overhead_energy_kwh = AGENT_API_OVERHEAD['per_year']['energy_kwh']
+        api_overhead_emissions_kg = AGENT_API_OVERHEAD['per_year']['emissions_kg']
+        api_overhead_cost_usd = AGENT_API_OVERHEAD['per_year']['cost_usd']
+    else:
+        api_overhead_energy_kwh = 0.0
+        api_overhead_emissions_kg = 0.0
+        api_overhead_cost_usd = 0.0
+
+    # Calculate totals including API overhead
+    total_energy_kwh = total_compute_energy_kwh + total_network_energy_kwh + api_overhead_energy_kwh
+    total_emissions_kg = total_compute_emissions_kg + api_overhead_emissions_kg
+    total_cost_overhead_usd = total_transfer_cost_usd + api_overhead_cost_usd
+
     return {
         'description': 'Aggregated yearly metrics across all functions in this project',
         'function_count': len(functions_with_yearly),
+        'is_agent_approach': is_agent_approach,
         'latency': {
             'mean_ms': mean_latency_ms,
             'note': 'Mean of per-function latencies (null if no latency data available)'
@@ -731,14 +742,21 @@ def calculate_project_aggregation(function_results: list) -> Dict:
         'energy': {
             'compute_energy_kwh': total_compute_energy_kwh,
             'network_energy_kwh': total_network_energy_kwh,
+            'api_overhead_kwh': api_overhead_energy_kwh,
             'total_energy_kwh': total_energy_kwh
         },
         'emissions': {
             'compute_emissions_kg': total_compute_emissions_kg,
-            'total_carbon_kg': total_carbon_kg
+            'api_overhead_kg': api_overhead_emissions_kg,
+            'total_carbon_kg': total_emissions_kg
         },
         'cost_overhead': {
             'annual_transfer_cost_usd': total_transfer_cost_usd,
+            'agent_overhead': {
+                'api_overhead_usd': api_overhead_cost_usd,
+                'execution_cost_overhead_usd': None,
+                'note': 'Placeholder for execution_cost_overhead until defined'
+            },
             'total_annual_cost_overhead_usd': total_cost_overhead_usd
         }
     }
@@ -799,6 +817,9 @@ def main():
     # Load GCP metrics
     print(f"Loading GCP metrics from {args.gcp_metrics}...")
     gcp_data = load_gcp_metrics(args.gcp_metrics)
+
+    # Extract project_id from GCP metrics (needed for folder organization and API overhead detection)
+    project_id = gcp_data.get('project_id', 'unknown_project')
 
     # Determine mode (single function vs batch)
     results = []
@@ -870,11 +891,9 @@ def main():
             print("Error: Unrecognized GCP metrics file format")
             sys.exit(1)
 
-    # Extract project_id from GCP metrics for folder organization
-    project_id = gcp_data.get('project_id', 'unknown_project')
-
     # Calculate project-wide aggregation (only for yearly metrics)
-    project_aggregation = calculate_project_aggregation(results)
+    # API/agent overhead is added here based on project_id
+    project_aggregation = calculate_project_aggregation(results, project_id=project_id)
 
     # Build calculation constants for output
     calculation_constants = build_calculation_constants(static_config)
