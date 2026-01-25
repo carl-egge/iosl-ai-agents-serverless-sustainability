@@ -1,227 +1,251 @@
 {
   "recommendations": [
     {
-      "datetime": "2026-01-23 11:00",
+      "datetime": "2026-01-25 16:00",
       "region": "europe-west1",
-      "carbon_intensity": 168,
+      "carbon_intensity": 169,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
+      "emissions_grams": 57.99,
       "priority": 1,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 168 gCO2eq/kWh within europe-west1, which is ranked 1 out of 24 best times."
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 169 gCO2/kWh this hour, compared to `us-central1`'s 451 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
     },
     {
-      "datetime": "2026-01-23 10:00",
+      "datetime": "2026-01-25 15:00",
       "region": "europe-west1",
-      "carbon_intensity": 172,
+      "carbon_intensity": 171,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
+      "emissions_grams": 57.99,
       "priority": 2,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 172 gCO2eq/kWh within europe-west1, which is ranked 2 out of 24 best times."
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 171 gCO2/kWh this hour, compared to `us-central1`'s 476 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
     },
     {
-      "datetime": "2026-01-23 12:00",
+      "datetime": "2026-01-26 13:00",
       "region": "europe-west1",
-      "carbon_intensity": 174,
+      "carbon_intensity": 190,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
+      "emissions_grams": 57.99,
       "priority": 3,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 174 gCO2eq/kWh within europe-west1, which is ranked 3 out of 24 best times."
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 190 gCO2/kWh this hour, compared to `us-central1`'s 424 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
     },
     {
-      "datetime": "2026-01-23 09:00",
+      "datetime": "2026-01-25 21:00",
       "region": "europe-west1",
-      "carbon_intensity": 175,
+      "carbon_intensity": 206,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
+      "emissions_grams": 57.99,
       "priority": 4,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 175 gCO2eq/kWh within europe-west1, which is ranked 4 out of 24 best times."
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 206 gCO2/kWh this hour, compared to `us-central1`'s 407 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
     },
     {
-      "datetime": "2026-01-23 13:00",
-      "region": "europe-west1",
-      "carbon_intensity": 180,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 5,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 180 gCO2eq/kWh within europe-west1, which is ranked 5 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 14:00",
-      "region": "europe-west1",
-      "carbon_intensity": 184,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 6,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 184 gCO2eq/kWh within europe-west1, which is ranked 6 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 02:00",
-      "region": "europe-west1",
-      "carbon_intensity": 195,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 7,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 195 gCO2eq/kWh within europe-west1, which is ranked 7 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 03:00",
-      "region": "europe-west1",
-      "carbon_intensity": 197,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 8,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 197 gCO2eq/kWh within europe-west1, which is ranked 8 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 15:00",
-      "region": "europe-west1",
-      "carbon_intensity": 200,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 9,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 200 gCO2eq/kWh within europe-west1, which is ranked 9 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 08:00",
-      "region": "europe-west1",
-      "carbon_intensity": 202,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 10,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 202 gCO2eq/kWh within europe-west1, which is ranked 10 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 04:00",
-      "region": "europe-west1",
-      "carbon_intensity": 207,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 11,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 207 gCO2eq/kWh within europe-west1, which is ranked 11 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 16:00",
-      "region": "europe-west1",
-      "carbon_intensity": 209,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 12,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 209 gCO2eq/kWh within europe-west1, which is ranked 12 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 07:00",
-      "region": "europe-west1",
-      "carbon_intensity": 211,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 13,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 211 gCO2eq/kWh within europe-west1, which is ranked 13 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 23:00",
-      "region": "europe-west1",
-      "carbon_intensity": 214,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 14,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 214 gCO2eq/kWh within europe-west1, which is ranked 14 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 06:00",
-      "region": "europe-west1",
-      "carbon_intensity": 216,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 15,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 216 gCO2eq/kWh within europe-west1, which is ranked 15 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 01:00",
-      "region": "europe-west1",
-      "carbon_intensity": 218,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 16,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 218 gCO2eq/kWh within europe-west1, which is ranked 16 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 05:00",
-      "region": "europe-west1",
-      "carbon_intensity": 218,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 17,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 218 gCO2eq/kWh within europe-west1, which is ranked 17 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 20:00",
-      "region": "europe-west1",
-      "carbon_intensity": 220,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 18,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 220 gCO2eq/kWh within europe-west1, which is ranked 18 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 17:00",
-      "region": "europe-west1",
-      "carbon_intensity": 223,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 19,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 223 gCO2eq/kWh within europe-west1, which is ranked 19 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 00:00",
-      "region": "europe-west1",
-      "carbon_intensity": 223,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 20,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 223 gCO2eq/kWh within europe-west1, which is ranked 20 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 22:00",
-      "region": "europe-west1",
-      "carbon_intensity": 225,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 21,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 225 gCO2eq/kWh within europe-west1, which is ranked 21 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 19:00",
-      "region": "europe-west1",
-      "carbon_intensity": 226,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 22,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 226 gCO2eq/kWh within europe-west1, which is ranked 22 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 21:00",
-      "region": "europe-west1",
-      "carbon_intensity": 230,
-      "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
-      "priority": 23,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 230 gCO2eq/kWh within europe-west1, which is ranked 23 out of 24 best times."
-    },
-    {
-      "datetime": "2026-01-23 18:00",
+      "datetime": "2026-01-26 09:00",
       "region": "europe-west1",
       "carbon_intensity": 237,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 42.55,
+      "emissions_grams": 57.99,
+      "priority": 5,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 237 gCO2/kWh this hour, compared to `us-central1`'s 477 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-26 04:00",
+      "region": "europe-west1",
+      "carbon_intensity": 239,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 6,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 239 gCO2/kWh this hour, compared to `us-central1`'s 440 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-26 12:00",
+      "region": "europe-west1",
+      "carbon_intensity": 239,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 7,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 239 gCO2/kWh this hour, compared to `us-central1`'s 551 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-26 14:00",
+      "region": "europe-west1",
+      "carbon_intensity": 248,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 8,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 248 gCO2/kWh this hour, compared to `us-central1`'s 513 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-25 20:00",
+      "region": "europe-west1",
+      "carbon_intensity": 255,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 9,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 255 gCO2/kWh this hour, compared to `us-central1`'s 537 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-26 07:00",
+      "region": "europe-west1",
+      "carbon_intensity": 259,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 10,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 259 gCO2/kWh this hour, compared to `us-central1`'s 465 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-25 17:00",
+      "region": "europe-west1",
+      "carbon_intensity": 260,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 11,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 260 gCO2/kWh this hour, compared to `us-central1`'s 619 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-26 10:00",
+      "region": "europe-west1",
+      "carbon_intensity": 281,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 12,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 281 gCO2/kWh this hour, compared to `us-central1`'s 605 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-26 11:00",
+      "region": "europe-west1",
+      "carbon_intensity": 288,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 13,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 288 gCO2/kWh this hour, compared to `us-central1`'s 665 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-25 22:00",
+      "region": "europe-west1",
+      "carbon_intensity": 292,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 14,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 292 gCO2/kWh this hour, compared to `us-central1`'s 564 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-25 18:00",
+      "region": "europe-west1",
+      "carbon_intensity": 298,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 15,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 298 gCO2/kWh this hour, compared to `us-central1`'s 650 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-26 02:00",
+      "region": "europe-west1",
+      "carbon_intensity": 301,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 16,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 301 gCO2/kWh this hour, compared to `us-central1`'s 548 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-26 01:00",
+      "region": "europe-west1",
+      "carbon_intensity": 302,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 17,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 302 gCO2/kWh this hour, compared to `us-central1`'s 538 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-26 05:00",
+      "region": "europe-west1",
+      "carbon_intensity": 305,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 18,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 305 gCO2/kWh this hour, compared to `us-central1`'s 558 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-25 23:00",
+      "region": "europe-west1",
+      "carbon_intensity": 309,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 19,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 309 gCO2/kWh this hour, compared to `us-central1`'s 596 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-25 19:00",
+      "region": "europe-west1",
+      "carbon_intensity": 314,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 20,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 314 gCO2/kWh this hour, compared to `us-central1`'s 672 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-26 00:00",
+      "region": "europe-west1",
+      "carbon_intensity": 324,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 21,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 324 gCO2/kWh this hour, compared to `us-central1`'s 572 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-26 06:00",
+      "region": "europe-west1",
+      "carbon_intensity": 349,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 22,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 349 gCO2/kWh this hour, compared to `us-central1`'s 622 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-26 08:00",
+      "region": "europe-west1",
+      "carbon_intensity": 352,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
+      "priority": 23,
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 352 gCO2/kWh this hour, compared to `us-central1`'s 659 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
+    },
+    {
+      "datetime": "2026-01-26 03:00",
+      "region": "europe-west1",
+      "carbon_intensity": 358,
+      "transfer_cost_usd": 0.0,
+      "emissions_grams": 57.99,
       "priority": 24,
-      "reasoning": "europe-west1 is chosen over us-central1 because it offers significantly lower carbon emissions with identical (zero) transfer costs. Annually, europe-west1 saves approximately 612.7 kg CO2 compared to us-central1 (465.9 kg vs 1078.6 kg). There is no cost difference for transfer ($0/year for both regions). This aligns perfectly with the EMISSIONS optimization priority, making europe-west1 the preferred region for all executions. This specific time slot offers a carbon intensity of 237 gCO2eq/kWh within europe-west1, which is ranked 24 out of 24 best times."
+      "reasoning": "[EMISSIONS] `europe-west1` is chosen for its significantly lower carbon intensity, at 358 gCO2/kWh this hour, compared to `us-central1`'s 660 gCO2/kWh. Both regions incur $0.00/year in transfer costs. Annually, executing this function in `europe-west1` (average 635.0kg CO2/year) instead of `us-central1` (average 1283.0kg CO2/year) saves 648 kg CO2, without any associated cost increase. This fully aligns with the emissions optimization priority.",
+      "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app"
     }
   ],
   "metadata": {
-    "generated_at": "2026-01-23T17:10:24.218709",
+    "generated_at": "2026-01-25T15:46:15.563697",
     "function_metadata": {
       "runtime_ms": 10000,
-      "memory_mb": 512,
+      "memory_mb": 4096,
       "data_input_gb": 1e-05,
       "data_output_gb": 1e-05,
       "source_location": "us-east1",
@@ -236,13 +260,20 @@
       ],
       "allow_schedule_caching": true,
       "function_id": "crypto_key_gen",
-      "description": "Generate RSA key pairs to exercise sustained CPU work while keeping the input/output payloads minuscule."
+      "requirements": "cryptography>=41.0.0",
+      "description": "Generate RSA key pairs to exercise sustained CPU work while keeping the input/output payloads minuscule.",
+      "code": "#!/usr/bin/env python3\n\"\"\"Autogenerated MCP bundle for crypto_key_gen (includes metrics wrapper).\"\"\"\nfrom __future__ import annotations\n\nimport json\nimport os\nimport time\nfrom typing import Any, Callable, Dict, Optional, Tuple\n\n# --- Metrics wrapper (from main.py) ---\nFunctionCallable = Callable[..., Any]\n\n_PROCESS_START_UNIX = time.time()\n\n_FIRST_INVOKE: dict[str, bool] = {}\n\ndef _safe_get_max_rss_kb() -> Optional[int]:\n    \"\"\"Best-effort max RSS in KB (Linux: ru_maxrss is KB).\"\"\"\n    try:\n        import resource  # stdlib on Linux\n\n        return int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)\n    except Exception:\n        return None\n\ndef _estimate_request_bytes(request: Any) -> Optional[int]:\n    \"\"\"Estimate incoming request bytes without breaking downstream handlers.\"\"\"\n    try:\n        cl = getattr(request, \"content_length\", None)\n        if isinstance(cl, int) and cl >= 0:\n            return cl\n    except Exception:\n        pass\n\n    # Fall back to reading request body with caching enabled, so handlers can still read it.\n    try:\n        if hasattr(request, \"get_data\"):\n            data = request.get_data(cache=True)  # important: cache=True\n            if data is not None:\n                return int(len(data))\n    except Exception:\n        pass\n\n    return None\n\ndef _normalize_handler_return(rv: Any) -> Tuple[bytes, int, Dict[str, str]]:\n    \"\"\"\n    Normalize common Functions Framework return shapes:\n      - (body, status, headers)\n      - (body, status)\n      - body\n      - flask.Response-like object\n    \"\"\"\n    body: Any = rv\n    status: int = 200\n    headers: Dict[str, str] = {}\n\n    # Tuple/list return\n    if isinstance(rv, (tuple, list)):\n        if len(rv) >= 1:\n            body = rv[0]\n        if len(rv) >= 2 and rv[1] is not None:\n            try:\n                status = int(rv[1])\n            except Exception:\n                status = 200\n        if len(rv) >= 3 and isinstance(rv[2], dict):\n            headers = {str(k): str(v) for k, v in rv[2].items()}\n\n    # flask.Response-like\n    if hasattr(body, \"get_data\") and callable(getattr(body, \"get_data\")):\n        try:\n            data = body.get_data()  # bytes\n            st = getattr(body, \"status_code\", None)\n            if isinstance(st, int):\n                status = st\n            hdrs = getattr(body, \"headers\", None)\n            if hdrs is not None:\n                try:\n                    headers = {str(k): str(v) for k, v in dict(hdrs).items()}\n                except Exception:\n                    pass\n            return bytes(data), status, headers\n        except Exception:\n            pass\n\n    # Body encoding\n    if body is None:\n        body_bytes = b\"\"\n    elif isinstance(body, (bytes, bytearray)):\n        body_bytes = bytes(body)\n    elif isinstance(body, str):\n        body_bytes = body.encode(\"utf-8\", errors=\"replace\")\n    elif isinstance(body, (dict, list)):\n        body_bytes = json.dumps(body, ensure_ascii=False).encode(\"utf-8\")\n    else:\n        body_bytes = str(body).encode(\"utf-8\", errors=\"replace\")\n\n    return body_bytes, status, headers\n\ndef _sanitize_response_json_for_logs(parsed: Any) -> Optional[dict]:\n    \"\"\"\n    If response is JSON, keep small metadata fields but avoid logging huge blobs (base64, etc.).\n    \"\"\"\n    if not isinstance(parsed, dict):\n        return None\n\n    drop_keys = {\n        \"converted_image\",\n        \"processed_data\",\n        \"converted_image_base64\",\n        \"processed_data_base64\",\n    }  # large base64 fields in your samples\n    out: dict[str, Any] = {}\n\n    for k, v in parsed.items():\n        if k in drop_keys:\n            continue\n        # Avoid very large strings in logs\n        if isinstance(v, str) and len(v) > 512:\n            out[k] = v[:512] + \"...(truncated)\"\n        else:\n            out[k] = v\n    return out\n\ndef _emit_metrics_log(line: dict) -> None:\n    \"\"\"\n    Emit one structured JSON log line to stdout.\n    Cloud Run/Cloud Logging will ingest it as a structured payload.\n    \"\"\"\n    try:\n        print(json.dumps(line, ensure_ascii=False))\n    except Exception:\n        # Best-effort fallback\n        print(str(line))\n\ndef _with_metrics(function_id: str, handler: FunctionCallable) -> FunctionCallable:\n    \"\"\"Wrap a Functions Framework handler with timing/size/memory instrumentation.\"\"\"\n\n    def _wrapped(*args: Any, **kwargs: Any) -> Any:\n        request = args[0] if args else kwargs.get(\"request\")\n\n        cold_start = not _FIRST_INVOKE.get(function_id, False)\n        _FIRST_INVOKE[function_id] = True\n\n        req_bytes = _estimate_request_bytes(request)\n\n        wall_t0 = time.perf_counter()\n        cpu_t0 = time.process_time()\n\n        error: Optional[str] = None\n        error_type: Optional[str] = None\n        rv: Any = None\n\n        try:\n            rv = handler(*args, **kwargs)\n        except Exception as exc:\n            error_type = type(exc).__name__\n            error = str(exc)\n            raise\n        finally:\n            wall_t1 = time.perf_counter()\n            cpu_t1 = time.process_time()\n\n            body_bytes: bytes = b\"\"\n            status_code: Optional[int] = None\n            resp_bytes: Optional[int] = None\n            resp_meta: Optional[dict] = None\n\n            try:\n                body_bytes, status_code, _headers = _normalize_handler_return(rv)\n                resp_bytes = len(body_bytes)\n\n                # If body looks like JSON, parse and keep a sanitized subset for logs\n                try:\n                    parsed = json.loads(body_bytes.decode(\"utf-8\", errors=\"replace\"))\n                    resp_meta = _sanitize_response_json_for_logs(parsed)\n                except Exception:\n                    resp_meta = None\n            except Exception:\n                # Never let metrics break the request path.\n                pass\n\n            log_line = {\n                \"type\": \"invocation_metrics\",\n                \"function_id\": function_id,\n                \"cold_start\": cold_start,\n                \"process_uptime_s\": round(time.time() - _PROCESS_START_UNIX, 3),\n                \"wall_ms\": round((wall_t1 - wall_t0) * 1000.0, 3),\n                \"cpu_ms\": round((cpu_t1 - cpu_t0) * 1000.0, 3),\n                \"max_rss_kb\": _safe_get_max_rss_kb(),\n                \"request_bytes\": req_bytes,\n                \"response_bytes\": resp_bytes,\n                \"status_code\": status_code,\n                \"error_type\": error_type,\n                \"error\": error,\n                # Helpful Cloud Run env metadata (if present)\n                \"k_service\": os.getenv(\"K_SERVICE\"),\n                \"k_revision\": os.getenv(\"K_REVISION\"),\n                \"k_configuration\": os.getenv(\"K_CONFIGURATION\"),\n                # Optional: request metadata (best-effort)\n                \"http_method\": getattr(request, \"method\", None),\n                \"http_path\": getattr(request, \"path\", None),\n            }\n            if resp_meta is not None:\n                log_line[\"response_meta\"] = resp_meta\n\n            _emit_metrics_log(log_line)\n\n        return rv\n\n    _wrapped.__name__ = getattr(handler, \"__name__\", function_id)\n    _wrapped.__doc__ = getattr(handler, \"__doc__\", None)\n    return _wrapped\n\n# --- Handler module code ---\n\"\"\"Generate RSA key pairs to exercise sustained CPU work (tunable).\n\nEvaluation-oriented behavior:\n- Keeps response small (no private key material).\n- Allows tuning runtime via `iterations` and/or `target_ms`.\n\nRequest JSON (all optional):\n- bits / key_bits: one of {2048, 3072, 4096, 8192} (default: 3072)\n- public_exponent: RSA public exponent (default: 65537)\n- iterations: number of RSA keypairs to generate (default: 1)\n- target_ms: minimum wall time to spend (default: 0 => no minimum)\n- burn_chunk_kb: chunk size for CPU-burn hashing (default: 256)\n- return_public_key_pem: whether to return full public key PEM (default: false)\n\nNotes:\n- If `target_ms` exceeds the time needed for RSA generation, we burn CPU time by hashing\n  a rolling buffer until the minimum wall time is reached. This produces more stable\n  runtimes across regions/CPU allocations than relying purely on RSA generation loops.\n\"\"\"\n\n\nimport hashlib\nimport json\nimport os\nimport time\nfrom typing import Dict, Tuple\n\nimport functions_framework\nfrom cryptography.hazmat.primitives import serialization\nfrom cryptography.hazmat.primitives.asymmetric import rsa\n\n_ALLOWED_BITS = (2048, 3072, 4096, 8192)\n\n\ndef _parse_bits(payload: dict) -> int:\n    bits = payload.get(\"bits\", payload.get(\"key_bits\", 3072))\n    try:\n        bits = int(bits)\n    except Exception:\n        bits = 3072\n    if bits not in _ALLOWED_BITS:\n        bits = 3072\n    return bits\n\n\ndef _parse_int(payload: dict, key: str, default: int, minimum: int | None = None, maximum: int | None = None) -> int:\n    try:\n        val = int(payload.get(key, default))\n    except Exception:\n        val = default\n    if minimum is not None:\n        val = max(minimum, val)\n    if maximum is not None:\n        val = min(maximum, val)\n    return val\n\n\ndef _burn_cpu_until(deadline_s: float, chunk_kb: int) -> Tuple[int, str]:\n    \"\"\"Burn CPU by hashing a rolling buffer; returns (hash_iterations, final_digest).\"\"\"\n    data = bytearray(os.urandom(max(1, chunk_kb) * 1024))\n    digest = b\"\"\n    iters = 0\n    while time.perf_counter() < deadline_s:\n        digest = hashlib.sha256(data).digest()\n        # mutate buffer to prevent trivial caching\n        for i in range(min(32, len(data))):\n            data[i] ^= digest[i % len(digest)]\n        iters += 1\n    return iters, digest.hex() if digest else \"\"\n\n\n@functions_framework.http\ndef crypto_key_gen(request) -> tuple[str, int, Dict[str, str]]:\n    \"\"\"Generate RSA public keys and optionally burn CPU until a target duration is met.\"\"\"\n    payload = request.get_json(silent=True) or {}\n\n    bits = _parse_bits(payload)\n    public_exponent = _parse_int(payload, \"public_exponent\", 65537, minimum=3, maximum=2**31 - 1)\n\n    iterations = _parse_int(payload, \"iterations\", 1, minimum=1, maximum=50)\n    target_ms = _parse_int(payload, \"target_ms\", 0, minimum=0, maximum=15 * 60 * 1000)  # cap 15 min\n    burn_chunk_kb = _parse_int(payload, \"burn_chunk_kb\", 256, minimum=1, maximum=4096)\n    return_public_key_pem = bool(payload.get(\"return_public_key_pem\", False))\n\n    wall_start = time.perf_counter()\n    cpu_start = time.process_time()\n\n    public_keys: list[bytes] = []\n\n    # Step 1: deterministic crypto work\n    for _ in range(iterations):\n        private_key = rsa.generate_private_key(public_exponent=public_exponent, key_size=bits)\n        pub = private_key.public_key()\n        public_bytes = pub.public_bytes(\n            encoding=serialization.Encoding.PEM,\n            format=serialization.PublicFormat.SubjectPublicKeyInfo,\n        )\n        public_keys.append(public_bytes)\n\n    # Step 2: optional CPU burn to reach target_ms\n    burn_iters = 0\n    burn_digest = \"\"\n    if target_ms > 0:\n        deadline_s = wall_start + (target_ms / 1000.0)\n        if time.perf_counter() < deadline_s:\n            burn_iters, burn_digest = _burn_cpu_until(deadline_s, burn_chunk_kb)\n\n    wall_ms = round((time.perf_counter() - wall_start) * 1000.0, 3)\n    cpu_ms = round((time.process_time() - cpu_start) * 1000.0, 3)\n\n    response: dict = {\n        \"scenario\": \"Long runtime + Little data\",\n        \"key_bits\": bits,\n        \"public_exponent\": public_exponent,\n        \"iterations\": iterations,\n        \"target_ms\": target_ms,\n        \"burn_hash_iterations\": burn_iters,\n        \"burn_final_digest\": burn_digest or None,\n        # Optional internal timings (your main wrapper logs the authoritative ones)\n        \"wall_ms_internal\": wall_ms,\n        \"cpu_ms_internal\": cpu_ms,\n    }\n\n    if return_public_key_pem:\n        # Keep response bounded: if multiple keys were generated, return only the last one.\n        response[\"public_key_pem\"] = public_keys[-1].decode(\"utf-8\", errors=\"ignore\") if public_keys else None\n\n    return json.dumps(response), 200, {\"Content-Type\": \"application/json\"}\n\n# --- Wrapped entrypoints ---\n_raw_handler = crypto_key_gen\ncrypto_key_gen = _with_metrics(\"crypto_key_gen\", _raw_handler)\n\ndef main(request):\n    return crypto_key_gen(request)\n"
     },
     "regions_used": [
       "europe-west1",
       "us-central1"
     ],
-    "metadata_hash": "6242960433ef2af7a513a9de9aba912955c82ebedecbbfe9eab516de8b6426f0",
-    "created_at": "2026-01-22T17:19:01.573815"
+    "metadata_hash": "6708daeb244184687e81947f046dc05bb3e516c6f9810e8604c69d41c4c8db0f",
+    "created_at": "2026-01-25T15:46:15.563716"
+  },
+  "deployment": {
+    "function_url": "https://crypto-key-gen-kg6rhqcboa-ew.a.run.app",
+    "region": "europe-west1",
+    "deployed_at": "2026-01-25T15:50:57.758324"
   }
 }

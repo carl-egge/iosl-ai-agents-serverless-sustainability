@@ -1,227 +1,253 @@
 {
   "recommendations": [
     {
-      "datetime": "2026-01-23 04:00",
+      "datetime": "2026-01-25 21:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 31,
+      "carbon_intensity": 24,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 9.0445e-07,
       "priority": 1,
-      "reasoning": "[BALANCED] At 2026-01-23 04:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 31 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 469 gCO2eq/kWh, 0.137 kg CO2/year) and us-east1 (forecasted 705 gCO2eq/kWh, 0.207 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.198 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (24 gCO2eq/kWh), resulting in the lowest annual emissions of 0.006 kg CO2.\nThis is significantly lower than us-central1's 0.297 kg CO2 and us-east1's 0.396 kg CO2 annually. It represents a carbon saving of 0.39 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 11:00",
+      "datetime": "2026-01-26 13:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 31,
+      "carbon_intensity": 26,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 9.7982e-07,
       "priority": 2,
-      "reasoning": "[BALANCED] At 2026-01-23 11:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 31 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 492 gCO2eq/kWh, 0.144 kg CO2/year) and us-east1 (forecasted 697 gCO2eq/kWh, 0.204 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.195 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (26 gCO2eq/kWh), resulting in the lowest annual emissions of 0.007 kg CO2.\nThis is significantly lower than us-central1's 0.155 kg CO2 and us-east1's 0.203 kg CO2 annually. It represents a carbon saving of 0.196 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 12:00",
+      "datetime": "2026-01-25 16:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 31,
+      "carbon_intensity": 26,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 9.7982e-07,
       "priority": 3,
-      "reasoning": "[BALANCED] At 2026-01-23 12:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 31 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 510 gCO2eq/kWh, 0.149 kg CO2/year) and us-east1 (forecasted 694 gCO2eq/kWh, 0.203 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.194 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (26 gCO2eq/kWh), resulting in the lowest annual emissions of 0.007 kg CO2.\nThis is significantly lower than us-central1's 0.165 kg CO2 and us-east1's 0.21 kg CO2 annually. It represents a carbon saving of 0.203 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 13:00",
+      "datetime": "2026-01-25 15:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 31,
+      "carbon_intensity": 27,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.0175e-06,
       "priority": 4,
-      "reasoning": "[BALANCED] At 2026-01-23 13:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 31 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 522 gCO2eq/kWh, 0.153 kg CO2/year) and us-east1 (forecasted 683 gCO2eq/kWh, 0.200 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.191 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (27 gCO2eq/kWh), resulting in the lowest annual emissions of 0.007 kg CO2.\nThis is significantly lower than us-central1's 0.131 kg CO2 and us-east1's 0.167 kg CO2 annually. It represents a carbon saving of 0.159 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 14:00",
+      "datetime": "2026-01-26 04:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 31,
+      "carbon_intensity": 27,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.0175e-06,
       "priority": 5,
-      "reasoning": "[BALANCED] At 2026-01-23 14:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 31 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 525 gCO2eq/kWh, 0.154 kg CO2/year) and us-east1 (forecasted 673 gCO2eq/kWh, 0.197 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.188 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (27 gCO2eq/kWh), resulting in the lowest annual emissions of 0.007 kg CO2.\nThis is significantly lower than us-central1's 0.161 kg CO2 and us-east1's 0.212 kg CO2 annually. It represents a carbon saving of 0.204 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 15:00",
+      "datetime": "2026-01-26 07:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 31,
+      "carbon_intensity": 29,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.09287e-06,
       "priority": 6,
-      "reasoning": "[BALANCED] At 2026-01-23 15:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 31 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 514 gCO2eq/kWh, 0.150 kg CO2/year) and us-east1 (forecasted 662 gCO2eq/kWh, 0.194 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.185 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (29 gCO2eq/kWh), resulting in the lowest annual emissions of 0.008 kg CO2.\nThis is significantly lower than us-central1's 0.17 kg CO2 and us-east1's 0.226 kg CO2 annually. It represents a carbon saving of 0.218 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 23:00",
+      "datetime": "2026-01-26 09:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 32,
+      "carbon_intensity": 29,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.09287e-06,
       "priority": 7,
-      "reasoning": "[BALANCED] At 2026-01-22 23:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 484 gCO2eq/kWh, 0.142 kg CO2/year) and us-east1 (forecasted 697 gCO2eq/kWh, 0.204 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.195 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (29 gCO2eq/kWh), resulting in the lowest annual emissions of 0.008 kg CO2.\nThis is significantly lower than us-central1's 0.175 kg CO2 and us-east1's 0.231 kg CO2 annually. It represents a carbon saving of 0.223 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 00:00",
+      "datetime": "2026-01-26 14:00",
       "region": "northamerica-northeast1",
       "carbon_intensity": 32,
+      "carbon_intensity": 32,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.20641e-06,
       "priority": 8,
-      "reasoning": "[BALANCED] At 2026-01-23 00:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 487 gCO2eq/kWh, 0.143 kg CO2/year) and us-east1 (forecasted 698 gCO2eq/kWh, 0.205 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.196 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (32 gCO2eq/kWh), resulting in the lowest annual emissions of 0.009 kg CO2.\nThis is significantly lower than us-central1's 0.188 kg CO2 and us-east1's 0.25 kg CO2 annually. It represents a carbon saving of 0.241 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 01:00",
+      "datetime": "2026-01-25 20:00",
       "region": "northamerica-northeast1",
       "carbon_intensity": 32,
+      "carbon_intensity": 32,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.20641e-06,
       "priority": 9,
-      "reasoning": "[BALANCED] At 2026-01-23 01:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 488 gCO2eq/kWh, 0.143 kg CO2/year) and us-east1 (forecasted 702 gCO2eq/kWh, 0.206 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.197 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (32 gCO2eq/kWh), resulting in the lowest annual emissions of 0.009 kg CO2.\nThis is significantly lower than us-central1's 0.197 kg CO2 and us-east1's 0.254 kg CO2 annually. It represents a carbon saving of 0.245 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 02:00",
+      "datetime": "2026-01-26 01:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 32,
+      "carbon_intensity": 33,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.24409e-06,
       "priority": 10,
-      "reasoning": "[BALANCED] At 2026-01-23 02:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 489 gCO2eq/kWh, 0.143 kg CO2/year) and us-east1 (forecasted 702 gCO2eq/kWh, 0.206 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.197 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (33 gCO2eq/kWh), resulting in the lowest annual emissions of 0.009 kg CO2.\nThis is significantly lower than us-central1's 0.197 kg CO2 and us-east1's 0.266 kg CO2 annually. It represents a carbon saving of 0.257 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 03:00",
+      "datetime": "2026-01-26 12:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 32,
+      "carbon_intensity": 33,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.24409e-06,
       "priority": 11,
-      "reasoning": "[BALANCED] At 2026-01-23 03:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 486 gCO2eq/kWh, 0.142 kg CO2/year) and us-east1 (forecasted 703 gCO2eq/kWh, 0.206 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.197 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (33 gCO2eq/kWh), resulting in the lowest annual emissions of 0.009 kg CO2.\nThis is significantly lower than us-central1's 0.202 kg CO2 and us-east1's 0.263 kg CO2 annually. It represents a carbon saving of 0.254 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 05:00",
+      "datetime": "2026-01-25 22:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 32,
+      "carbon_intensity": 34,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.28178e-06,
       "priority": 12,
-      "reasoning": "[BALANCED] At 2026-01-23 05:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 478 gCO2eq/kWh, 0.140 kg CO2/year) and us-east1 (forecasted 708 gCO2eq/kWh, 0.208 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.199 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (34 gCO2eq/kWh), resulting in the lowest annual emissions of 0.009 kg CO2.\nThis is significantly lower than us-central1's 0.206 kg CO2 and us-east1's 0.276 kg CO2 annually. It represents a carbon saving of 0.267 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 06:00",
+      "datetime": "2026-01-26 02:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 32,
+      "carbon_intensity": 34,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.28178e-06,
       "priority": 13,
-      "reasoning": "[BALANCED] At 2026-01-23 06:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 471 gCO2eq/kWh, 0.138 kg CO2/year) and us-east1 (forecasted 713 gCO2eq/kWh, 0.209 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.200 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (34 gCO2eq/kWh), resulting in the lowest annual emissions of 0.009 kg CO2.\nThis is significantly lower than us-central1's 0.201 kg CO2 and us-east1's 0.27 kg CO2 annually. It represents a carbon saving of 0.261 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 07:00",
+      "datetime": "2026-01-25 23:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 32,
+      "carbon_intensity": 35,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.31946e-06,
       "priority": 14,
-      "reasoning": "[BALANCED] At 2026-01-23 07:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 469 gCO2eq/kWh, 0.137 kg CO2/year) and us-east1 (forecasted 711 gCO2eq/kWh, 0.208 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.199 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (35 gCO2eq/kWh), resulting in the lowest annual emissions of 0.01 kg CO2.\nThis is significantly lower than us-central1's 0.218 kg CO2 and us-east1's 0.289 kg CO2 annually. It represents a carbon saving of 0.279 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 08:00",
+      "datetime": "2026-01-26 00:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 32,
+      "carbon_intensity": 35,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.31946e-06,
       "priority": 15,
-      "reasoning": "[BALANCED] At 2026-01-23 08:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 465 gCO2eq/kWh, 0.136 kg CO2/year) and us-east1 (forecasted 713 gCO2eq/kWh, 0.209 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.200 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (35 gCO2eq/kWh), resulting in the lowest annual emissions of 0.01 kg CO2.\nThis is significantly lower than us-central1's 0.209 kg CO2 and us-east1's 0.279 kg CO2 annually. It represents a carbon saving of 0.269 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 09:00",
+      "datetime": "2026-01-26 05:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 32,
+      "carbon_intensity": 35,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.31946e-06,
       "priority": 16,
-      "reasoning": "[BALANCED] At 2026-01-23 09:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 470 gCO2eq/kWh, 0.138 kg CO2/year) and us-east1 (forecasted 713 gCO2eq/kWh, 0.209 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.200 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (35 gCO2eq/kWh), resulting in the lowest annual emissions of 0.01 kg CO2.\nThis is significantly lower than us-central1's 0.204 kg CO2 and us-east1's 0.268 kg CO2 annually. It represents a carbon saving of 0.258 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 10:00",
+      "datetime": "2026-01-25 17:00",
       "region": "northamerica-northeast1",
       "carbon_intensity": 32,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.35715e-06,
       "priority": 17,
-      "reasoning": "[BALANCED] At 2026-01-23 10:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 32 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 481 gCO2eq/kWh, 0.141 kg CO2/year) and us-east1 (forecasted 709 gCO2eq/kWh, 0.208 kg CO2/year), executing in northamerica-northeast1 (0.009 kg CO2/year) saves up to 0.199 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (36 gCO2eq/kWh), resulting in the lowest annual emissions of 0.01 kg CO2.\nThis is significantly lower than us-central1's 0.227 kg CO2 and us-east1's 0.285 kg CO2 annually. It represents a carbon saving of 0.276 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 16:00",
+      "datetime": "2026-01-26 10:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 34,
+      "carbon_intensity": 37,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.39483e-06,
       "priority": 18,
-      "reasoning": "[BALANCED] At 2026-01-22 16:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 34 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 453 gCO2eq/kWh, 0.133 kg CO2/year) and us-east1 (forecasted 622 gCO2eq/kWh, 0.183 kg CO2/year), executing in northamerica-northeast1 (0.010 kg CO2/year) saves up to 0.173 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (37 gCO2eq/kWh), resulting in the lowest annual emissions of 0.01 kg CO2.\nThis is significantly lower than us-central1's 0.222 kg CO2 and us-east1's 0.296 kg CO2 annually. It represents a carbon saving of 0.286 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 17:00",
+      "datetime": "2026-01-25 18:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 34,
+      "carbon_intensity": 38,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.43252e-06,
       "priority": 19,
-      "reasoning": "[BALANCED] At 2026-01-22 17:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 34 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 436 gCO2eq/kWh, 0.128 kg CO2/year) and us-east1 (forecasted 617 gCO2eq/kWh, 0.181 kg CO2/year), executing in northamerica-northeast1 (0.010 kg CO2/year) saves up to 0.171 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (38 gCO2eq/kWh), resulting in the lowest annual emissions of 0.01 kg CO2.\nThis is significantly lower than us-central1's 0.238 kg CO2 and us-east1's 0.298 kg CO2 annually. It represents a carbon saving of 0.288 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 18:00",
+      "datetime": "2026-01-25 19:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 34,
+      "carbon_intensity": 39,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.4702e-06,
       "priority": 20,
-      "reasoning": "[BALANCED] At 2026-01-22 18:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 34 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 426 gCO2eq/kWh, 0.125 kg CO2/year) and us-east1 (forecasted 617 gCO2eq/kWh, 0.181 kg CO2/year), executing in northamerica-northeast1 (0.010 kg CO2/year) saves up to 0.171 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (39 gCO2eq/kWh), resulting in the lowest annual emissions of 0.011 kg CO2.\nThis is significantly lower than us-central1's 0.246 kg CO2 and us-east1's 0.312 kg CO2 annually. It represents a carbon saving of 0.301 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 19:00",
+      "datetime": "2026-01-26 06:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 34,
+      "carbon_intensity": 39,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.4702e-06,
       "priority": 21,
-      "reasoning": "[BALANCED] At 2026-01-22 19:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 34 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 422 gCO2eq/kWh, 0.123 kg CO2/year) and us-east1 (forecasted 621 gCO2eq/kWh, 0.182 kg CO2/year), executing in northamerica-northeast1 (0.010 kg CO2/year) saves up to 0.172 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (39 gCO2eq/kWh), resulting in the lowest annual emissions of 0.011 kg CO2.\nThis is significantly lower than us-central1's 0.228 kg CO2 and us-east1's 0.299 kg CO2 annually. It represents a carbon saving of 0.288 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 20:00",
+      "datetime": "2026-01-26 11:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 34,
+      "carbon_intensity": 40,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.50789e-06,
       "priority": 22,
-      "reasoning": "[BALANCED] At 2026-01-22 20:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 34 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 424 gCO2eq/kWh, 0.124 kg CO2/year) and us-east1 (forecasted 634 gCO2eq/kWh, 0.186 kg CO2/year), executing in northamerica-northeast1 (0.010 kg CO2/year) saves up to 0.176 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (40 gCO2eq/kWh), resulting in the lowest annual emissions of 0.011 kg CO2.\nThis is significantly lower than us-central1's 0.244 kg CO2 and us-east1's 0.316 kg CO2 annually. It represents a carbon saving of 0.305 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 21:00",
+      "datetime": "2026-01-26 03:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 34,
+      "carbon_intensity": 41,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.54557e-06,
       "priority": 23,
-      "reasoning": "[BALANCED] At 2026-01-22 21:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 34 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 444 gCO2eq/kWh, 0.130 kg CO2/year) and us-east1 (forecasted 663 gCO2eq/kWh, 0.194 kg CO2/year), executing in northamerica-northeast1 (0.010 kg CO2/year) saves up to 0.184 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (41 gCO2eq/kWh), resulting in the lowest annual emissions of 0.011 kg CO2.\nThis is significantly lower than us-central1's 0.242 kg CO2 and us-east1's 0.319 kg CO2 annually. It represents a carbon saving of 0.308 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     },
     {
-      "datetime": "2026-01-23 22:00",
+      "datetime": "2026-01-26 08:00",
       "region": "northamerica-northeast1",
-      "carbon_intensity": 34,
+      "carbon_intensity": 41,
       "transfer_cost_usd": 0.0,
-      "emissions_grams": 0.0,
+      "emissions_grams": 1.54557e-06,
       "priority": 24,
-      "reasoning": "[BALANCED] At 2026-01-22 22:00, northamerica-northeast1 (Montreal) has the lowest forecasted carbon intensity at 34 gCO2eq/kWh. All available North American regions have zero transfer cost ($0/year), meaning there is no monetary cost difference. Compared to us-central1 (forecasted 466 gCO2eq/kWh, 0.137 kg CO2/year) and us-east1 (forecasted 691 gCO2eq/kWh, 0.202 kg CO2/year), executing in northamerica-northeast1 (0.010 kg CO2/year) saves up to 0.192 kg CO2 annually for no additional cost. This provides the maximum carbon reduction for $0/kg CO2 avoided, making it the optimal choice for a balanced priority."
+      "reasoning": "[BALANCED] All regions have zero transfer cost ($0/year), and no other execution cost differences are provided for regional comparison (implying cost neutrality across regions). Therefore, for 'BALANCED' priority, the optimization defaults to minimizing carbon emissions, as cost is not a differentiating factor.\nThe chosen region, northamerica-northeast1, has the lowest forecasted carbon intensity (41 gCO2eq/kWh), resulting in the lowest annual emissions of 0.011 kg CO2.\nThis is significantly lower than us-central1's 0.241 kg CO2 and us-east1's 0.32 kg CO2 annually. It represents a carbon saving of 0.309 kg CO2/year compared to the highest-emitting option for this hour, with no additional cost. It is the clear choice for minimizing environmental impact.",
+      "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app"
     }
   ],
   "metadata": {
-    "generated_at": "2026-01-23T17:10:24.212643",
+    "generated_at": "2026-01-25T15:44:26.312900",
     "function_metadata": {
       "runtime_ms": 0.073,
-      "memory_mb": 512,
+      "memory_mb": 256,
       "data_input_gb": 0.0,
       "data_output_gb": 1.23e-06,
       "source_location": "us-east1",
@@ -237,14 +263,20 @@
       ],
       "allow_schedule_caching": true,
       "function_id": "api_health_check",
-      "description": "Minimal REST health snapshot designed for extremely high throughput and very little payload."
+      "description": "Minimal REST health snapshot designed for extremely high throughput and very little payload.",
+      "code": "#!/usr/bin/env python3\n\"\"\"Autogenerated MCP bundle for api_health_check (includes metrics wrapper).\"\"\"\nfrom __future__ import annotations\n\nimport json\nimport os\nimport time\nfrom typing import Any, Callable, Dict, Optional, Tuple\n\n# --- Metrics wrapper (from main.py) ---\nFunctionCallable = Callable[..., Any]\n\n_PROCESS_START_UNIX = time.time()\n\n_FIRST_INVOKE: dict[str, bool] = {}\n\ndef _safe_get_max_rss_kb() -> Optional[int]:\n    \"\"\"Best-effort max RSS in KB (Linux: ru_maxrss is KB).\"\"\"\n    try:\n        import resource  # stdlib on Linux\n\n        return int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)\n    except Exception:\n        return None\n\ndef _estimate_request_bytes(request: Any) -> Optional[int]:\n    \"\"\"Estimate incoming request bytes without breaking downstream handlers.\"\"\"\n    try:\n        cl = getattr(request, \"content_length\", None)\n        if isinstance(cl, int) and cl >= 0:\n            return cl\n    except Exception:\n        pass\n\n    # Fall back to reading request body with caching enabled, so handlers can still read it.\n    try:\n        if hasattr(request, \"get_data\"):\n            data = request.get_data(cache=True)  # important: cache=True\n            if data is not None:\n                return int(len(data))\n    except Exception:\n        pass\n\n    return None\n\ndef _normalize_handler_return(rv: Any) -> Tuple[bytes, int, Dict[str, str]]:\n    \"\"\"\n    Normalize common Functions Framework return shapes:\n      - (body, status, headers)\n      - (body, status)\n      - body\n      - flask.Response-like object\n    \"\"\"\n    body: Any = rv\n    status: int = 200\n    headers: Dict[str, str] = {}\n\n    # Tuple/list return\n    if isinstance(rv, (tuple, list)):\n        if len(rv) >= 1:\n            body = rv[0]\n        if len(rv) >= 2 and rv[1] is not None:\n            try:\n                status = int(rv[1])\n            except Exception:\n                status = 200\n        if len(rv) >= 3 and isinstance(rv[2], dict):\n            headers = {str(k): str(v) for k, v in rv[2].items()}\n\n    # flask.Response-like\n    if hasattr(body, \"get_data\") and callable(getattr(body, \"get_data\")):\n        try:\n            data = body.get_data()  # bytes\n            st = getattr(body, \"status_code\", None)\n            if isinstance(st, int):\n                status = st\n            hdrs = getattr(body, \"headers\", None)\n            if hdrs is not None:\n                try:\n                    headers = {str(k): str(v) for k, v in dict(hdrs).items()}\n                except Exception:\n                    pass\n            return bytes(data), status, headers\n        except Exception:\n            pass\n\n    # Body encoding\n    if body is None:\n        body_bytes = b\"\"\n    elif isinstance(body, (bytes, bytearray)):\n        body_bytes = bytes(body)\n    elif isinstance(body, str):\n        body_bytes = body.encode(\"utf-8\", errors=\"replace\")\n    elif isinstance(body, (dict, list)):\n        body_bytes = json.dumps(body, ensure_ascii=False).encode(\"utf-8\")\n    else:\n        body_bytes = str(body).encode(\"utf-8\", errors=\"replace\")\n\n    return body_bytes, status, headers\n\ndef _sanitize_response_json_for_logs(parsed: Any) -> Optional[dict]:\n    \"\"\"\n    If response is JSON, keep small metadata fields but avoid logging huge blobs (base64, etc.).\n    \"\"\"\n    if not isinstance(parsed, dict):\n        return None\n\n    drop_keys = {\n        \"converted_image\",\n        \"processed_data\",\n        \"converted_image_base64\",\n        \"processed_data_base64\",\n    }  # large base64 fields in your samples\n    out: dict[str, Any] = {}\n\n    for k, v in parsed.items():\n        if k in drop_keys:\n            continue\n        # Avoid very large strings in logs\n        if isinstance(v, str) and len(v) > 512:\n            out[k] = v[:512] + \"...(truncated)\"\n        else:\n            out[k] = v\n    return out\n\ndef _emit_metrics_log(line: dict) -> None:\n    \"\"\"\n    Emit one structured JSON log line to stdout.\n    Cloud Run/Cloud Logging will ingest it as a structured payload.\n    \"\"\"\n    try:\n        print(json.dumps(line, ensure_ascii=False))\n    except Exception:\n        # Best-effort fallback\n        print(str(line))\n\ndef _with_metrics(function_id: str, handler: FunctionCallable) -> FunctionCallable:\n    \"\"\"Wrap a Functions Framework handler with timing/size/memory instrumentation.\"\"\"\n\n    def _wrapped(*args: Any, **kwargs: Any) -> Any:\n        request = args[0] if args else kwargs.get(\"request\")\n\n        cold_start = not _FIRST_INVOKE.get(function_id, False)\n        _FIRST_INVOKE[function_id] = True\n\n        req_bytes = _estimate_request_bytes(request)\n\n        wall_t0 = time.perf_counter()\n        cpu_t0 = time.process_time()\n\n        error: Optional[str] = None\n        error_type: Optional[str] = None\n        rv: Any = None\n\n        try:\n            rv = handler(*args, **kwargs)\n        except Exception as exc:\n            error_type = type(exc).__name__\n            error = str(exc)\n            raise\n        finally:\n            wall_t1 = time.perf_counter()\n            cpu_t1 = time.process_time()\n\n            body_bytes: bytes = b\"\"\n            status_code: Optional[int] = None\n            resp_bytes: Optional[int] = None\n            resp_meta: Optional[dict] = None\n\n            try:\n                body_bytes, status_code, _headers = _normalize_handler_return(rv)\n                resp_bytes = len(body_bytes)\n\n                # If body looks like JSON, parse and keep a sanitized subset for logs\n                try:\n                    parsed = json.loads(body_bytes.decode(\"utf-8\", errors=\"replace\"))\n                    resp_meta = _sanitize_response_json_for_logs(parsed)\n                except Exception:\n                    resp_meta = None\n            except Exception:\n                # Never let metrics break the request path.\n                pass\n\n            log_line = {\n                \"type\": \"invocation_metrics\",\n                \"function_id\": function_id,\n                \"cold_start\": cold_start,\n                \"process_uptime_s\": round(time.time() - _PROCESS_START_UNIX, 3),\n                \"wall_ms\": round((wall_t1 - wall_t0) * 1000.0, 3),\n                \"cpu_ms\": round((cpu_t1 - cpu_t0) * 1000.0, 3),\n                \"max_rss_kb\": _safe_get_max_rss_kb(),\n                \"request_bytes\": req_bytes,\n                \"response_bytes\": resp_bytes,\n                \"status_code\": status_code,\n                \"error_type\": error_type,\n                \"error\": error,\n                # Helpful Cloud Run env metadata (if present)\n                \"k_service\": os.getenv(\"K_SERVICE\"),\n                \"k_revision\": os.getenv(\"K_REVISION\"),\n                \"k_configuration\": os.getenv(\"K_CONFIGURATION\"),\n                # Optional: request metadata (best-effort)\n                \"http_method\": getattr(request, \"method\", None),\n                \"http_path\": getattr(request, \"path\", None),\n            }\n            if resp_meta is not None:\n                log_line[\"response_meta\"] = resp_meta\n\n            _emit_metrics_log(log_line)\n\n        return rv\n\n    _wrapped.__name__ = getattr(handler, \"__name__\", function_id)\n    _wrapped.__doc__ = getattr(handler, \"__doc__\", None)\n    return _wrapped\n\n# --- Handler module code ---\n\"\"\"Minimal health-check endpoint mimicking high-volume lightweight traffic.\"\"\"\n\nimport json\nfrom datetime import datetime, timezone\nfrom typing import Dict\n\nimport functions_framework\n\n\n@functions_framework.http\n\ndef api_health_check(request) -> tuple[str, int, Dict[str, str]]:\n    \"\"\"Return a compact health snapshot that shows the invocation scenario.\"\"\"\n\n    payload = request.get_json(silent=True) or {}\n    now = datetime.now(timezone.utc).isoformat()\n    result = {\n        \"status\": \"ok\",\n        \"timestamp\": now,\n        \"scenario\": \"Short runtime + Little data\",\n        \"payload\": payload,\n    }\n    return json.dumps(result), 200, {\"Content-Type\": \"application/json\"}\n\n# --- Wrapped entrypoints ---\n_raw_handler = api_health_check\napi_health_check = _with_metrics(\"api_health_check\", _raw_handler)\n\ndef main(request):\n    return api_health_check(request)\n"
     },
     "regions_used": [
       "northamerica-northeast1",
       "us-central1",
       "us-east1"
     ],
-    "metadata_hash": "20df4b42b5205468e53af16e7a5c49f741872a04fb53564ec4b377bfadb07171",
-    "created_at": "2026-01-22T17:16:29.608837"
+    "metadata_hash": "012a4588f42a921de3efa49a6ebb661777abc1991ef195a926476fd7fa5f6683",
+    "created_at": "2026-01-25T15:44:26.312925"
+  },
+  "deployment": {
+    "function_url": "https://api-health-check-kg6rhqcboa-nn.a.run.app",
+    "region": "northamerica-northeast1",
+    "deployed_at": "2026-01-25T15:48:37.259735"
   }
 }
