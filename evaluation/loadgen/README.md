@@ -8,7 +8,7 @@ scenario A/B/C experiments.
 
 - Generates the fixed hourly invocation mix: 1 health, 1 crypto, 1 image, 1 video.
 - Uses fixed minute slots and deterministic jitter derived from each event ID.
-- Supports scenario A (fixed region), B (hourly lowest-carbon), C (AI dispatcher).
+- Supports scenario A (fixed region), B (fixed per-function regions), C (AI dispatcher).
 - Logs one JSON line per invocation with `experiment_id`, `scenario`, `event_id`,
   and `trace_hour` so you can correlate runner, dispatcher, and function logs.
 - Logs `end_to_end_latency_ms` for direct invocations (scenario A/B) and leaves it
@@ -19,7 +19,7 @@ scenario A/B/C experiments.
 - `main.py`: Cloud Run Job entrypoint.
 - `requirements.txt`: Python dependencies.
 - `env.example.yaml`: example env vars for `gcloud run jobs deploy`.
-- `hourly_region_map.example.json`: optional fallback mapping for scenario B.
+- `hourly_region_map.example.json`: legacy hourly mapping (no longer used by scenario B).
 
 ## Payloads (aligned to the protocol)
 
@@ -67,12 +67,11 @@ Scenario A (fixed region):
 
 - `FIXED_REGION`: Region name used for all functions (for example `us-east1`).
 
-Scenario B (hourly lowest-carbon via carbon forecast):
+Scenario B (fixed per-function regions):
 
-- `CARBON_FORECAST_JSON`: Raw JSON string for the daily carbon forecast.
-- or `CARBON_FORECAST_PATH`: Path to the forecast file (for local runs).
-- or `CARBON_FORECAST_GCS_BUCKET`: GCS bucket that stores the forecast.
-  - Optional `CARBON_FORECAST_GCS_OBJECT` (default: `carbon_forecasts.json`).
+- `FUNCTION_URLS_JSON`: Provide one target region per function (CPU -> `europe-north2`,
+  GPU -> `europe-west1`). If multiple regions are provided for a function, the loader
+  prefers `europe-west1` for GPU functions and `europe-north2` for CPU functions.
 
 Scenario C (AI dispatcher):
 
@@ -271,9 +270,8 @@ If a job fails:
 
 ## Notes for scenario B
 
-The runner selects the lowest carbon-intensity region per hour from the daily
-forecast. The expected local file is `local_bucket/carbon_forecasts.json` unless
-you provide a different path via `CARBON_FORECAST_PATH`.
+Scenario B always invokes functions in fixed regions: CPU functions in
+`europe-north2` and GPU functions in `europe-west1`.
 
 ## Notes for scenario C
 

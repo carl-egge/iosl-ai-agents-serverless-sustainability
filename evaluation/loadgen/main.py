@@ -12,6 +12,7 @@ import hashlib
 import json
 import os
 import time
+from email.utils import parsedate_to_datetime
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
@@ -25,6 +26,10 @@ FUNCTION_INVOCATIONS_PER_HOUR: Dict[str, int] = {
     "image_format_converter": 1,
     "video_transcoder": 1,
 }
+
+DEFAULT_SCENARIO_B_REGION = "europe-north2"
+DEFAULT_SCENARIO_B_GPU_REGION = "europe-west1"
+GPU_FUNCTION_IDS = {"video_transcoder"}
 
 MINUTE_OFFSETS: Dict[str, int] = {
     "api_health_check": 0,
@@ -388,6 +393,7 @@ def load_config() -> Config:
     dry_run = parse_bool(os.getenv("DRY_RUN"), False)
 
     fixed_region = os.getenv("FIXED_REGION")
+    fixed_region_source = "fixed_region"
     dispatcher_url = os.getenv("DISPATCHER_URL")
 
     function_urls = validate_function_urls(load_json_from_env("FUNCTION_URLS_JSON"))
@@ -397,12 +403,11 @@ def load_config() -> Config:
     hourly_region_map_source = "hourly_region_map"
 
     if scenario == "B":
-        forecast = load_carbon_forecast()
-        if forecast:
-            derived_map = build_hourly_region_map_from_forecast(forecast, trace_hour.date())
-            if derived_map:
-                hourly_region_map = derived_map
-                hourly_region_map_source = "carbon_forecast"
+        if not fixed_region:
+            fixed_region = DEFAULT_SCENARIO_B_REGION
+            fixed_region_source = "scenario_b_default"
+        hourly_region_map = {hour: fixed_region for hour in range(24)}
+        hourly_region_map_source = fixed_region_source
 
     image_gcs_uri = os.getenv("IMAGE_GCS_URI", "").strip()
     video_gcs_uri = os.getenv("VIDEO_GCS_URI", "").strip()
@@ -466,15 +471,35 @@ def init_log_collector(cfg: Config) -> Optional[LogCollector]:
     return LogCollector(bucket=bucket, object_name=object_name, lines=[])
 
 
-def select_region(cfg: Config, hour: int) -> str:
+def resolve_scenario_b_region(cfg: Config, function_id: str) -> tuple[str, str]:
+    mapping = cfg.function_urls.get(function_id, {})
+    if not mapping:
+        raise ValueError(f"No URL mapping configured for function {function_id}.")
+
+    if len(mapping) == 1:
+        region = next(iter(mapping.keys()))
+        return region, "function_url_map"
+
+    if function_id in GPU_FUNCTION_IDS and DEFAULT_SCENARIO_B_GPU_REGION in mapping:
+        return DEFAULT_SCENARIO_B_GPU_REGION, "gpu_region"
+
+    if DEFAULT_SCENARIO_B_REGION in mapping:
+        return DEFAULT_SCENARIO_B_REGION, "scenario_b_default"
+
+    available = ", ".join(sorted(mapping.keys()))
+    raise ValueError(
+        f"Unable to resolve scenario B region for {function_id}. "
+        f"Available regions: {available}."
+    )
+
+
+def select_region(cfg: Config, function_id: str, hour: int) -> tuple[str, str]:
     if cfg.scenario == "A":
         if not cfg.fixed_region:
             raise ValueError("FIXED_REGION is required for scenario A.")
-        return cfg.fixed_region
+        return cfg.fixed_region, "fixed_region"
     if cfg.scenario == "B":
-        if hour not in cfg.hourly_region_map:
-            raise ValueError(f"No hourly region mapping for hour {hour}.")
-        return cfg.hourly_region_map[hour]
+        return resolve_scenario_b_region(cfg, function_id)
     raise ValueError("select_region called for scenario C.")
 
 
@@ -561,7 +586,13 @@ def parse_datetime(value: Any) -> Optional[datetime]:
         dt = value
     elif isinstance(value, str):
         text = value.replace("Z", "+00:00")
-        dt = datetime.fromisoformat(text)
+        try:
+            dt = datetime.fromisoformat(text)
+        except ValueError:
+            try:
+                dt = parsedate_to_datetime(value)
+            except (TypeError, ValueError):
+                return None
     else:
         return None
     if dt.tzinfo is None:
@@ -589,7 +620,7 @@ def run_scenario_a_b(cfg: Config, invocations: List[Invocation]) -> None:
 
     for inv in invocations:
         sleep_until(inv.scheduled_time)
-        region = select_region(cfg, cfg.trace_hour.hour)
+        region, policy_source = select_region(cfg, inv.function_id, cfg.trace_hour.hour)
         url = lookup_function_url(cfg, inv.function_id, region)
         sent_time = now_utc()
         payload = dict(inv.payload)
@@ -619,7 +650,7 @@ def run_scenario_a_b(cfg: Config, invocations: List[Invocation]) -> None:
                 "invocation_index": inv.index,
                 "scheduled_time_utc": format_dt(inv.scheduled_time),
                 "policy_region": region,
-                "policy_region_source": "fixed_region" if cfg.scenario == "A" else cfg.hourly_region_map_source,
+                "policy_region_source": policy_source,
                 "target_region": region,
                 "target_url": url,
                 "sent_time_utc": format_dt(sent_time),
@@ -737,15 +768,16 @@ def validate_config(cfg: Config) -> None:
     if cfg.scenario in ("A", "B") and not cfg.function_urls:
         raise ValueError("FUNCTION_URLS_JSON is required for scenario A/B.")
 
-    if cfg.scenario == "B" and not cfg.hourly_region_map:
-        raise ValueError(
-            "Scenario B requires a carbon forecast (CARBON_FORECAST_*) "
-            "or an hourly region map (HOURLY_REGION_MAP_*)."
-        )
+    if cfg.scenario == "A" and not cfg.fixed_region:
+        raise ValueError("FIXED_REGION is required for scenario A.")
 
     for fn in FUNCTION_INVOCATIONS_PER_HOUR.keys():
         if fn not in cfg.function_urls and cfg.scenario in ("A", "B"):
             raise ValueError(f"Missing function URL mapping for {fn}.")
+
+    if cfg.scenario == "B":
+        for fn in FUNCTION_INVOCATIONS_PER_HOUR.keys():
+            resolve_scenario_b_region(cfg, fn)
 
 
 def main() -> None:
