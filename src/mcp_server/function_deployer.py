@@ -12,6 +12,8 @@ import aiohttp
 from datetime import datetime
 from google.cloud import storage
 from google.cloud import functions_v2
+from google.cloud import run_v2
+from google.iam.v1 import iam_policy_pb2, policy_pb2
 from google.api_core import exceptions as gcp_exceptions
 import google.auth.transport.requests
 import google.oauth2.id_token
@@ -41,15 +43,18 @@ class FunctionDeployer:
             logger.info("Running in MOCK mode")
             self.storage_client = None
             self.functions_client = None
+            self.run_client = None
         else:
             try:
                 self.storage_client = storage.Client()
                 self.functions_client = functions_v2.FunctionServiceClient()
+                self.run_client = run_v2.ServicesClient()
             except Exception as e:
                 logger.warning(f"Could not initialize GCP clients: {e}. Falling back to MOCK mode")
                 self.mock_mode = True
                 self.storage_client = None
                 self.functions_client = None
+                self.run_client = None
 
     def generate_function_name(self) -> str:
         """Generate a unique function name using UUID."""
@@ -136,6 +141,59 @@ def {entry_point}(request):
         gcs_uri = f"gs://{self.gcs_bucket}/{blob_name}"
         logger.info(f"Uploaded function source to {gcs_uri}")
         return gcs_uri
+
+    def _set_public_invoker(self, function_name: str, region: str) -> bool:
+        """
+        Set IAM policy to allow unauthenticated access to the function.
+        
+        Cloud Functions v2 are backed by Cloud Run services, so we need to
+        set the IAM policy on the underlying Cloud Run service.
+        
+        Args:
+            function_name: Name of the deployed function
+            region: GCP region where the function is deployed
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        try:
+            service_name = f"projects/{self.project_id}/locations/{region}/services/{function_name}"
+            
+            # Get current IAM policy
+            request = iam_policy_pb2.GetIamPolicyRequest(resource=service_name)
+            policy = self.run_client.get_iam_policy(request=request)
+            
+            # Check if allUsers already has run.invoker role
+            invoker_binding = None
+            for binding in policy.bindings:
+                if binding.role == "roles/run.invoker":
+                    invoker_binding = binding
+                    break
+            
+            # Add allUsers to the invoker role
+            if invoker_binding is None:
+                invoker_binding = policy_pb2.Binding()
+                invoker_binding.role = "roles/run.invoker"
+                invoker_binding.members.append("allUsers")
+                policy.bindings.append(invoker_binding)
+            elif "allUsers" not in invoker_binding.members:
+                invoker_binding.members.append("allUsers")
+            else:
+                logger.info(f"Function {function_name} already has public access")
+                return True
+            
+            # Set the updated policy
+            set_request = iam_policy_pb2.SetIamPolicyRequest(
+                resource=service_name,
+                policy=policy
+            )
+            self.run_client.set_iam_policy(request=set_request)
+            logger.info(f"Set public invoker access for {function_name}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Failed to set public invoker access: {e}")
+            return False
 
     async def deploy(
         self,
@@ -232,13 +290,19 @@ def {entry_point}(request):
 
             logger.info(f"Function deployed successfully: {function_url}")
 
+            # Set public invoker access to allow unauthenticated invocations
+            public_access_set = self._set_public_invoker(function_name, region)
+            if not public_access_set:
+                logger.warning(f"Function deployed but public access could not be set")
+
             return {
                 "success": True,
                 "function_url": function_url,
                 "function_name": function_name,
                 "region": region,
                 "status": "ACTIVE",
-                "gcs_source": gcs_uri
+                "gcs_source": gcs_uri,
+                "public_access": public_access_set
             }
 
         except gcp_exceptions.PermissionDenied as e:

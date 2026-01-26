@@ -4,3 +4,4 @@ aiohttp>=3.9.0
 google-cloud-functions>=1.16.0
 google-cloud-storage>=2.14.0
 google-auth>=2.0.0
+google-cloud-run>=0.10.0
