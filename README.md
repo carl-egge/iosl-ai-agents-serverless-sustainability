@@ -95,6 +95,24 @@ This will:
 - Generate optimized schedules
 - Save results to `local_bucket/schedule_*.json`
 
+## OpenTofu Deployment
+We provide a `main.tf` file to deploy the project to the [Google Cloud Platform](https://cloud.google.com) using [OpenTofu](https://opentofu.org/).
+
+The deployment needs a file containing various environment variables, called terraform.tfvars, in the root directory. It can be set up using the provided [example file](terraform.tfvars.example)
+
+To deploy via OpenTofu you need to set up a GCP project, and the gcloud-cli:
+1. [Install gcloud-cli](https://docs.cloud.google.com/sdk/docs/install-sdk)
+1. `gcloud  init`
+
+To deploy to GCP with OpenTofu follow these steps
+
+1. [Install OpenTofu](https://opentofu.org/docs/intro/install/)
+1. `tofu init`
+1. `tofu plan`
+1. `tofu deploy`
+
+To tear down the infrastructure use `tofu destroy`
+
 ## Google Cloud Run Deployment
 
 See [src/agent/gcp_deploy/README.md](src/agent/gcp_deploy/README.md) for complete deployment instructions.
