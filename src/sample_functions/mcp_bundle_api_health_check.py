@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import os
 import time
+from datetime import datetime, timezone
 from typing import Any, Callable, Dict, Optional, Tuple
 
 # --- Metrics wrapper (from main.py) ---
@@ -134,11 +135,66 @@ def _emit_metrics_log(line: dict) -> None:
         # Best-effort fallback
         print(str(line))
 
+def _parse_utc_timestamp(value: Any) -> Optional[datetime]:
+    if value is None:
+        return None
+    if isinstance(value, datetime):
+        dt = value
+    elif isinstance(value, str):
+        text = value.replace("Z", "+00:00")
+        try:
+            dt = datetime.fromisoformat(text)
+        except ValueError:
+            return None
+    else:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
+
+def _extract_request_metadata(request: Any) -> Dict[str, Optional[str]]:
+    event_id = None
+    dispatch_sent_time_utc = None
+
+    if request is None:
+        return {"event_id": None, "dispatch_sent_time_utc": None}
+
+    payload = None
+    try:
+        if hasattr(request, "get_json"):
+            payload = request.get_json(silent=True)
+    except Exception:
+        payload = None
+
+    if isinstance(payload, dict):
+        event_id = payload.get("event_id")
+        dispatch_sent_time_utc = payload.get("dispatch_sent_time_utc")
+
+    try:
+        args = getattr(request, "args", None)
+        if args is not None:
+            if event_id is None:
+                event_id = args.get("event_id")
+            if dispatch_sent_time_utc is None:
+                dispatch_sent_time_utc = args.get("dispatch_sent_time_utc")
+    except Exception:
+        pass
+
+    return {
+        "event_id": event_id,
+        "dispatch_sent_time_utc": dispatch_sent_time_utc,
+    }
+
 def _with_metrics(function_id: str, handler: FunctionCallable) -> FunctionCallable:
     """Wrap a Functions Framework handler with timing/size/memory instrumentation."""
 
     def _wrapped(*args: Any, **kwargs: Any) -> Any:
         request = args[0] if args else kwargs.get("request")
+        request_received_dt = datetime.now(timezone.utc)
+        request_meta = _extract_request_metadata(request)
+        dispatch_sent_time_utc = request_meta.get("dispatch_sent_time_utc")
+        dispatch_sent_dt = _parse_utc_timestamp(dispatch_sent_time_utc)
+        event_id = request_meta.get("event_id")
 
         cold_start = not _FIRST_INVOKE.get(function_id, False)
         _FIRST_INVOKE[function_id] = True
@@ -161,6 +217,7 @@ def _with_metrics(function_id: str, handler: FunctionCallable) -> FunctionCallab
         finally:
             wall_t1 = time.perf_counter()
             cpu_t1 = time.process_time()
+            response_finished_dt = datetime.now(timezone.utc)
 
             body_bytes: bytes = b""
             status_code: Optional[int] = None
@@ -181,10 +238,26 @@ def _with_metrics(function_id: str, handler: FunctionCallable) -> FunctionCallab
                 # Never let metrics break the request path.
                 pass
 
+            queue_delay_ms = None
+            end_to_end_latency_ms = None
+            if dispatch_sent_dt:
+                queue_delay = (request_received_dt - dispatch_sent_dt).total_seconds() * 1000.0
+                if queue_delay >= 0:
+                    queue_delay_ms = round(queue_delay, 3)
+                end_to_end_latency = (response_finished_dt - dispatch_sent_dt).total_seconds() * 1000.0
+                if end_to_end_latency >= 0:
+                    end_to_end_latency_ms = round(end_to_end_latency, 3)
+
             log_line = {
                 "type": "invocation_metrics",
                 "function_id": function_id,
                 "cold_start": cold_start,
+                "event_id": event_id,
+                "dispatch_sent_time_utc": dispatch_sent_time_utc,
+                "request_received_time_utc": request_received_dt.isoformat().replace("+00:00", "Z"),
+                "response_finished_time_utc": response_finished_dt.isoformat().replace("+00:00", "Z"),
+                "queue_delay_ms": queue_delay_ms,
+                "end_to_end_latency_ms": end_to_end_latency_ms,
                 "process_uptime_s": round(time.time() - _PROCESS_START_UNIX, 3),
                 "wall_ms": round((wall_t1 - wall_t0) * 1000.0, 3),
                 "cpu_ms": round((cpu_t1 - cpu_t0) * 1000.0, 3),

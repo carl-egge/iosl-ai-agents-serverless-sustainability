@@ -19,6 +19,7 @@ from pathlib import Path
 
 DEFAULT_DEADLINE = "2026-01-05T18:00:00Z"
 DEFAULT_MEMORY_MB = 256
+FUNCTION_METADATA_WITH_CODE = "local_bucket/function_metadata_with_code.json"
 
 
 def _find_repo_root(start: Path) -> Path:
@@ -162,6 +163,26 @@ def _strip_dunder_main(text: str) -> str:
     return "\n".join(out)
 
 
+def _update_function_metadata_with_code(repo_root: Path, function_key: str, bundle_text: str) -> None:
+    metadata_path = repo_root / FUNCTION_METADATA_WITH_CODE
+    if not metadata_path.exists():
+        raise FileNotFoundError(f"Missing {FUNCTION_METADATA_WITH_CODE} for code update.")
+    try:
+        data = json.loads(metadata_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError(f"Failed to read {FUNCTION_METADATA_WITH_CODE}: {exc}") from exc
+
+    functions = data.get("functions")
+    if not isinstance(functions, dict):
+        raise RuntimeError(f"{FUNCTION_METADATA_WITH_CODE} missing 'functions' object.")
+    entry = functions.get(function_key)
+    if not isinstance(entry, dict):
+        raise RuntimeError(f"{FUNCTION_METADATA_WITH_CODE} missing entry for '{function_key}'.")
+
+    entry["code"] = bundle_text
+    metadata_path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
 def _extract_wrapper_sources(main_text: str) -> str:
     """
     Extract the metrics wrapper pieces from main.py so bundles stay in sync.
@@ -174,6 +195,8 @@ def _extract_wrapper_sources(main_text: str) -> str:
         "_normalize_handler_return",
         "_sanitize_response_json_for_logs",
         "_emit_metrics_log",
+        "_parse_utc_timestamp",
+        "_extract_request_metadata",
         "_with_metrics",
     }
 
@@ -210,6 +233,8 @@ def _extract_wrapper_sources(main_text: str) -> str:
         funcs["_normalize_handler_return"],
         funcs["_sanitize_response_json_for_logs"],
         funcs["_emit_metrics_log"],
+        funcs["_parse_utc_timestamp"],
+        funcs["_extract_request_metadata"],
         funcs["_with_metrics"],
     ]
     return "\n\n".join(ordered) + "\n"
@@ -267,6 +292,7 @@ def main() -> int:
             "import json",
             "import os",
             "import time",
+            "from datetime import datetime, timezone",
             "from typing import Any, Callable, Dict, Optional, Tuple",
             "",
             "# --- Metrics wrapper (from main.py) ---",
@@ -290,6 +316,11 @@ def main() -> int:
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / f"mcp_bundle_{function_key}.py"
     output_path.write_text(bundle_text, encoding="utf-8")
+
+    try:
+        _update_function_metadata_with_code(repo_root, function_key, bundle_text)
+    except Exception as exc:
+        _exit_with_error(str(exc), valid_keys)
 
     deadline = args.deadline or DEFAULT_DEADLINE
     memory_mb = args.memory_mb
