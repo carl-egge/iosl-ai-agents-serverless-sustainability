@@ -1,6 +1,6 @@
 {
   "config_version": "1.0.0",
-  "last_updated": "2024-12-01",
+  "last_updated": "2026-01-26",
   "bucket_location": "us-east1",
   "agent_defaults": {
     "vcpus_default": 1,
@@ -324,7 +324,7 @@
     },
     "carbon_per_invocation": {
       "total_carbon_grams": "total_energy_kwh * carbon_intensity_g_per_kwh",
-      "carbon_intensity_source": "Fetch from Electricity Maps API using regions[region][electricity_maps_zone]"
+      "carbon_intensity_source": "Fetch from Electricity Maps API using dataCenterRegion=<gcp region> and dataCenterProvider=gcp"
     }
   },
   "metadata": {
@@ -338,7 +338,8 @@
     "important_notes": {
       "data_transfer": "Costs apply for BOTH download AND upload. Total = (input_gb + output_gb) * rate",
       "gpu_availability": "Cloud Run GPU support (nvidia-l4 only) in 4 regions: us-central1, us-east4, europe-west1, europe-west4",
-      "carbon_intensity": "Real-time carbon intensity must be fetched from Electricity Maps API - NOT included in this config",
+      "carbon_intensity": "Real-time carbon intensity must be fetched from Electricity Maps API using dataCenterRegion + dataCenterProvider=gcp - NOT included in this config",
+      "electricity_maps_zone": "Deprecated; kept for backward compatibility but no longer used for carbon-intensity lookups.",
       "free_tier": "Calculations exclude Cloud Run free tier (180k vCPU-seconds, 360k GiB-seconds, 2M requests/month). Actual costs may be lower.",
       "vcpu_allocation": "Cloud Run allows independent CPU and memory configuration. Agent uses defaults: 1 vCPU (non-GPU) or 8 vCPU (GPU)."
     }

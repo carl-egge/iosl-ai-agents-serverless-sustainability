@@ -591,15 +591,16 @@ def calculate_emissions_per_execution(
     return emissions_grams
 
 
-def get_carbon_forecast_electricitymaps(zone: str, horizon_hours: int = 24) -> list:
-    """Fetch carbon intensity forecast from Electricity Maps API."""
+def get_carbon_forecast_electricitymaps(region: str, horizon_hours: int = 24) -> list:
+    """Fetch carbon intensity forecast from Electricity Maps API for a GCP region."""
     if not ELECTRICITYMAPS_TOKEN:
         raise Exception("ELECTRICITYMAPS_TOKEN environment variable not set")
 
     forecast_url = "https://api.electricitymaps.com/v3/carbon-intensity/forecast"
     headers = {"auth-token": ELECTRICITYMAPS_TOKEN}
     params = {
-        "zone": zone,
+        "dataCenterRegion": region,
+        "dataCenterProvider": "gcp",
         "horizonHours": horizon_hours,
     }
 
@@ -610,7 +611,8 @@ def get_carbon_forecast_electricitymaps(zone: str, horizon_hours: int = 24) -> l
         return data.get("forecast", [])
     else:
         raise Exception(
-            f"Electricity Maps API failed for zone {zone}: {response.status_code} - {response.text}"
+            f"Electricity Maps API failed for region {region} (provider gcp): "
+            f"{response.status_code} - {response.text}"
         )
 
 
@@ -636,7 +638,6 @@ def get_carbon_forecasts_all_regions(allowed_regions: Optional[list] = None) -> 
                 region_info = static_config["regions"][region_code]
                 regions[region_code] = {
                     "name": region_info["name"],
-                    "emaps_zone": region_info["electricity_maps_zone"],
                     "gcloud_region": region_code,
                 }
             else:
@@ -647,7 +648,6 @@ def get_carbon_forecasts_all_regions(allowed_regions: Optional[list] = None) -> 
             if region_code.startswith("europe-"):
                 regions[region_code] = {
                     "name": region_info["name"],
-                    "emaps_zone": region_info["electricity_maps_zone"],
                     "gcloud_region": region_code,
                 }
 
@@ -656,11 +656,10 @@ def get_carbon_forecasts_all_regions(allowed_regions: Optional[list] = None) -> 
 
     for region_key, region_info in regions.items():
         try:
-            forecast = get_carbon_forecast_electricitymaps(region_info["emaps_zone"])
+            forecast = get_carbon_forecast_electricitymaps(region_info["gcloud_region"])
             forecasts[region_key] = {
                 "name": region_info["name"],
                 "gcloud_region": region_info["gcloud_region"],
-                "emaps_zone": region_info["emaps_zone"],
                 "forecast": forecast,
             }
             print(
