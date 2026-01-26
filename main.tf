@@ -165,6 +165,7 @@ resource "google_cloudfunctions2_function" "dispatcher_function" {
       QUEUE_NAME        = google_cloud_tasks_queue.delayedtasks_queue.name
       SCHEDULE_MODE     = var.schedule_mode
       SCHEDULE_LOCATION = var.schedule_location
+      GCS_BUCKET_NAME   = google_storage_bucket.scheduler_bucket.name
     }
   }
 }

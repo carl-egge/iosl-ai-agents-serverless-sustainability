@@ -47,7 +47,7 @@ def get_loader() -> ScheduleLoader:
     mode = os.environ.get("SCHEDULE_LOCATION", "CLOUD")
 
     if mode == "CLOUD":
-        bucket_name = os.environ.get("BUCKET_NAME", "faas-scheduling-us-east1")
+        bucket_name = os.environ.get("GCS_BUCKET_NAME", "faas-scheduling-us-east1")
         return GoogleCloudStorageScheduleLoader(bucket_name)
     else:
         path = os.environ.get(
