@@ -126,7 +126,7 @@ We use a reduced invocation count for cost efficiency. Mean values (CPU utilizat
 
 ### 4.2 Hourly Schedule
 
-Each function is invoked **once per working hour** (08:00–18:00 UTC):
+Each function is invoked **once per working hour** (08:00–18:00 US-East1 local time, i.e., 13:00–23:00 UTC / 14:00–00:00 CET):
 
 | Function | Invocations/hour | Invocations/day |
 |----------|------------------|-----------------|

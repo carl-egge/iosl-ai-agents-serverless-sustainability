@@ -53,7 +53,7 @@ AGENT_CONFIG = {
 # =============================================================================
 # Agent API Overhead Constants (from AGENT_API_OVERHEAD.md)
 # =============================================================================
-# APIs called weekly (52×/year) because inputs stable, forecasts constant over week
+# APIs called daily (365×/year) with each agent run
 # Values are for Gemini API only - Electricity Maps API overhead is negligible (~0.0001 kWh/request)
 AGENT_API_OVERHEAD = {
     'per_api_call': {
@@ -62,11 +62,11 @@ AGENT_API_OVERHEAD = {
         'cost_usd': 0.0054,         # Gemini 1.5 Flash pricing
     },
     'per_year': {
-        'api_calls': 52,            # Weekly calls
-        'energy_kwh': 0.52,         # 0.010 × 52
-        'emissions_g': 52.0,        # 1.0 × 52
-        'emissions_kg': 0.052,      # 52g = 0.052 kg
-        'cost_usd': 0.28,           # 0.0054 × 52
+        'api_calls': 365,           # Daily calls
+        'energy_kwh': 3.65,         # 0.010 × 365
+        'emissions_g': 365.0,       # 1.0 × 365
+        'emissions_kg': 0.365,      # 365g = 0.365 kg
+        'cost_usd': 1.97,           # 0.0054 × 365
     },
     'source': 'evaluation/AGENT_API_OVERHEAD.md',
     'note': 'Gemini API only; Electricity Maps overhead negligible'

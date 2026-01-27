@@ -116,17 +116,17 @@ annual_transfer_cost = per_invocation_transfer × annual_invocations
 **Agent architecture scaling (different frequencies):**
 - Dispatcher costs: per invocation → × annual_invocations
 - Agent execution: daily → × 365
-- Agent API calls: weekly → × 52 (inputs stable, forecasts constant over week)
+- Agent API calls: daily → × 365
 
 **Agent API overhead (only for Agent approaches):**
 
 See [AGENT_API_OVERHEAD.md](AGENT_API_OVERHEAD.md) for full methodology.
 
-| Metric | Per API Call | Per Year (52 calls) |
-|--------|--------------|---------------------|
-| Energy | 0.010 kWh | 0.52 kWh |
-| Carbon | 1.0 gCO2 | 52 gCO2 (0.052 kg) |
-| Cost | $0.0054 | $0.28 |
+| Metric | Per API Call | Per Year (365 calls) |
+|--------|--------------|----------------------|
+| Energy | 0.010 kWh | 3.65 kWh |
+| Carbon | 1.0 gCO2 | 365 gCO2 (0.365 kg) |
+| Cost | $0.0054 | $1.97 |
 
 *Note: Values are for Gemini API only. Electricity Maps API overhead is negligible (~0.0001 kWh/request) and excluded.*
 
@@ -190,8 +190,7 @@ All constants stored in `local_bucket/static_config.json`.
 | Free Tier Exhaustion | All executions incur costs at standard rates | May overestimate costs (especially for small projects) |
 | MCP Deployment Costs Not Measured | Deployment overhead not explicitly tracked | Negligible impact on yearly totals |
 | Runtime from Billable Instance Time | CPU utilization assumed measured during billable time | Consistent approach across all scenarios |
-| Stable Inputs Throughout Year | Function metadata and priorities unchanged | Agent APIs called weekly (52×/year) not daily |
-| Carbon Forecasts Stable Over Week | Forecasts constant over week timeframes | Justifies weekly API refresh frequency |
+| Stable Inputs Throughout Year | Function metadata and priorities unchanged | Allows upscaling of our results to a whole year |
 
 ---
 

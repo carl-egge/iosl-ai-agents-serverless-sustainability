@@ -8,7 +8,7 @@ This document describes the methodology and calculations for estimating the ener
 
 ### 1.1 Components Considered
 
-The agent Cloud Run function runs once every 24 hours (365×/year) to generate schedules. However, **external API calls (Gemini, Electricity Maps) are only made when inputs change**. Since function metadata and priorities are assumed stable throughout the year, and carbon forecasts are relatively constant over week-long timeframes, APIs are called at most **once per week (52×/year)**.
+The agent Cloud Run function runs once every 24 hours (365×/year) to generate schedules. External API calls (Gemini, Electricity Maps) are made with each agent run.
 
 We quantify three sources of overhead:
 
@@ -128,14 +128,14 @@ Cost = (17,370 × $0.075/1M) + (13,600 × $0.30/1M)
 
 ### 5.1 Summary
 
-| Metric | Per API Call | Per Year (52 calls) |
-|--------|--------------|---------------------|
-| Tokens | 31,000 | 1.6 M |
-| Energy | 10 Wh (0.010 kWh) | 0.52 kWh |
-| Carbon | 1.0 gCO2 | 52 gCO2 (0.052 kg) |
-| Monetary Cost | $0.0054 | $0.28 |
+| Metric | Per API Call | Per Year (365 calls) |
+|--------|--------------|----------------------|
+| Tokens | 31,000 | 11.3 M |
+| Energy | 10 Wh (0.010 kWh) | 3.65 kWh |
+| Carbon | 1.0 gCO2 | 365 gCO2 (0.365 kg) |
+| Monetary Cost | $0.0054 | $1.97 |
 
-**Note:** The agent Cloud Run function executes daily (365×/year), but external APIs are only called weekly (52×/year) because inputs are stable. The values above represent API overhead only, not the Cloud Run execution overhead (which is captured separately in GCP metrics).
+**Note:** The agent Cloud Run function and external APIs are both called daily (365×/year). The values above represent API overhead only, not the Cloud Run execution overhead (which is captured separately in GCP metrics).
 
 ### 5.2 Sensitivity Analysis
 
@@ -143,11 +143,11 @@ The energy estimate is subject to uncertainty in how LLM energy scales with prom
 
 | Scenario | Energy (Wh) | Carbon (gCO2) | Annual Energy | Annual Carbon |
 |----------|-------------|---------------|---------------|---------------|
-| Optimistic | 5.8 | 0.58 | 0.30 kWh | 30 gCO2 |
-| Middle (adopted) | 10 | 1.0 | 0.52 kWh | 52 gCO2 |
-| Conservative | 15 | 1.5 | 0.78 kWh | 78 gCO2 |
+| Optimistic | 5.8 | 0.58 | 2.12 kWh | 212 gCO2 |
+| Middle (adopted) | 10 | 1.0 | 3.65 kWh | 365 gCO2 |
+| Conservative | 15 | 1.5 | 5.48 kWh | 548 gCO2 |
 
-The range spans approximately 0.03–0.08 kg CO2 per year.
+The range spans approximately 0.21–0.55 kg CO2 per year.
 
 ---
 
