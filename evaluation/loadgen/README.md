@@ -90,7 +90,11 @@ Optional:
 - `DISPATCHER_EXTRA_HEADERS_JSON`: Optional dispatcher-specific headers.
 - `LOG_GCS_BUCKET`: GCS bucket to write JSONL logs (one object per job run).
 - `LOG_GCS_PREFIX`: GCS object prefix (default `loadgen-logs`).
-- `LOG_GCS_OBJECT`: Full object name override for the log file.
+- `LOG_GCS_OBJECT`: Full object name override for the log file. If no template placeholders
+  are present, the runner appends a run timestamp to avoid overwriting prior runs.
+- `LOG_GCS_ALLOW_OVERWRITE`: `true` to keep `LOG_GCS_OBJECT` unchanged (may overwrite).
+- `LOG_GCS_OBJECT` placeholders: `{run_id}`, `{timestamp}`, `{trace_hour}`,
+  `{experiment_id}`, `{scenario}`.
 
 ## Deploy
 

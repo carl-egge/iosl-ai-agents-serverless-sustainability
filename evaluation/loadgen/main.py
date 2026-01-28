@@ -33,9 +33,9 @@ GPU_FUNCTION_IDS = {"video_transcoder"}
 
 MINUTE_OFFSETS: Dict[str, int] = {
     "api_health_check": 0,
-    "crypto_key_gen": 7,
-    "image_format_converter": 13,
-    "video_transcoder": 29,
+    "crypto_key_gen": 1,
+    "image_format_converter": 4,
+    "video_transcoder": 8,
 }
 
 
@@ -462,13 +462,46 @@ def init_log_collector(cfg: Config) -> Optional[LogCollector]:
     bucket = os.getenv("LOG_GCS_BUCKET", "").strip()
     if not bucket:
         return None
+    allow_overwrite = parse_bool(os.getenv("LOG_GCS_ALLOW_OVERWRITE"), False)
     object_name = os.getenv("LOG_GCS_OBJECT", "").strip()
-    if not object_name:
-        prefix = os.getenv("LOG_GCS_PREFIX", "loadgen-logs").strip().strip("/")
-        trace = format_dt_compact(cfg.trace_hour)
-        run_id = format_dt_compact(now_utc())
+    prefix = os.getenv("LOG_GCS_PREFIX", "loadgen-logs").strip().strip("/")
+    trace = format_dt_compact(cfg.trace_hour)
+    run_id = format_dt_compact(now_utc())
+    if object_name:
+        if not allow_overwrite:
+            object_name = build_log_object_name(object_name, cfg, trace, run_id)
+    else:
         object_name = f"{prefix}/{cfg.experiment_id}/{cfg.scenario}/{trace}-{run_id}.jsonl"
     return LogCollector(bucket=bucket, object_name=object_name, lines=[])
+
+
+def build_log_object_name(object_name: str, cfg: Config, trace: str, run_id: str) -> str:
+    text = object_name.strip()
+    if not text:
+        return text
+    if text.endswith("/"):
+        return f"{text}run-{run_id}.jsonl"
+
+    replacements = {
+        "{run_id}": run_id,
+        "{timestamp}": run_id,
+        "{trace_hour}": trace,
+        "{experiment_id}": cfg.experiment_id,
+        "{scenario}": cfg.scenario,
+    }
+    used_template = False
+    for token, value in replacements.items():
+        if token in text:
+            text = text.replace(token, value)
+            used_template = True
+
+    if used_template:
+        return text
+
+    base, ext = os.path.splitext(text)
+    if ext:
+        return f"{base}-{run_id}{ext}"
+    return f"{text}-{run_id}"
 
 
 def resolve_scenario_b_region(cfg: Config, function_id: str) -> tuple[str, str]:
