@@ -39,6 +39,11 @@ MCP_API_KEY = os.environ.get("MCP_API_KEY", "")
 # Forecast caching configuration
 MAX_FORECAST_AGE_HOURS = 23  # Regenerate schedule if older than this many hours
 
+# ElectricityMaps API mode configuration
+# Set to True only if you have premium API access with forecast endpoint
+# When False, uses history endpoint data shifted +24h as mock forecast
+USE_ACTUAL_FORECASTS = False
+
 # GCS paths for configuration files
 STATIC_CONFIG_PATH = "static_config.json"
 FUNCTION_METADATA_PATH = "function_metadata.json"
@@ -591,27 +596,91 @@ def calculate_emissions_per_execution(
     return emissions_grams
 
 
-def get_carbon_forecast_electricitymaps(zone: str, horizon_hours: int = 24) -> list:
-    """Fetch carbon intensity forecast from Electricity Maps API."""
+def get_carbon_history_electricitymaps(zone: str) -> list:
+    """Fetch past 24 hours of carbon intensity data from Electricity Maps API."""
     if not ELECTRICITYMAPS_TOKEN:
         raise Exception("ELECTRICITYMAPS_TOKEN environment variable not set")
 
-    forecast_url = "https://api.electricitymaps.com/v3/carbon-intensity/forecast"
+    history_url = "https://api.electricitymaps.com/v3/carbon-intensity/history"
     headers = {"auth-token": ELECTRICITYMAPS_TOKEN}
-    params = {
-        "zone": zone,
-        "horizonHours": horizon_hours,
-    }
+    params = {"zone": zone}
 
-    response = requests.get(forecast_url, headers=headers, params=params)
+    response = requests.get(history_url, headers=headers, params=params)
 
     if response.status_code == 200:
         data = response.json()
-        return data.get("forecast", [])
+        return data.get("history", [])
     else:
         raise Exception(
-            f"Electricity Maps API failed for zone {zone}: {response.status_code} - {response.text}"
+            f"Electricity Maps History API failed for zone {zone}: "
+            f"{response.status_code} - {response.text}"
         )
+
+
+def transform_history_to_mock_forecast(history: list, shift_hours: int = 24) -> list:
+    """
+    Transform historical data into mock forecast by shifting timestamps.
+
+    History response format (extra fields ignored):
+        {"zone": "BE", "carbonIntensity": 264, "datetime": "2026-01-27T17:00:00.000Z", ...}
+
+    Output format (matches forecast endpoint):
+        {"carbonIntensity": 264, "datetime": "2026-01-28T17:00:00.000Z"}
+    """
+    mock_forecast = []
+    shift_delta = timedelta(hours=shift_hours)
+
+    for point in history:
+        original_dt_str = point["datetime"]
+        if original_dt_str.endswith("Z"):
+            original_dt = datetime.fromisoformat(original_dt_str.replace("Z", "+00:00"))
+        else:
+            original_dt = datetime.fromisoformat(original_dt_str)
+
+        shifted_dt = original_dt + shift_delta
+        shifted_dt_str = shifted_dt.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+
+        # Only include the two fields that the forecast endpoint returns
+        mock_forecast.append({
+            "carbonIntensity": point["carbonIntensity"],
+            "datetime": shifted_dt_str
+        })
+
+    return mock_forecast
+
+
+def get_carbon_forecast_electricitymaps(zone: str, horizon_hours: int = 24) -> list:
+    """
+    Fetch carbon intensity forecast from Electricity Maps API.
+
+    When USE_ACTUAL_FORECASTS is False (default), fetches historical data
+    and transforms it into a mock forecast by shifting timestamps +24 hours.
+    """
+    if not ELECTRICITYMAPS_TOKEN:
+        raise Exception("ELECTRICITYMAPS_TOKEN environment variable not set")
+
+    if USE_ACTUAL_FORECASTS:
+        # Use actual forecast endpoint (requires premium API access)
+        forecast_url = "https://api.electricitymaps.com/v3/carbon-intensity/forecast"
+        headers = {"auth-token": ELECTRICITYMAPS_TOKEN}
+        params = {
+            "zone": zone,
+            "horizonHours": horizon_hours,
+        }
+
+        response = requests.get(forecast_url, headers=headers, params=params)
+
+        if response.status_code == 200:
+            data = response.json()
+            return data.get("forecast", [])
+        else:
+            raise Exception(
+                f"Electricity Maps API failed for zone {zone}: {response.status_code} - {response.text}"
+            )
+    else:
+        # Mock forecast mode: use history data shifted +24 hours
+        history = get_carbon_history_electricitymaps(zone)
+        return transform_history_to_mock_forecast(history, shift_hours=24)
 
 
 def get_carbon_forecasts_all_regions(allowed_regions: Optional[list] = None) -> tuple:
@@ -624,6 +693,12 @@ def get_carbon_forecasts_all_regions(allowed_regions: Optional[list] = None) -> 
     Returns:
         Tuple of (forecasts dict, failed_regions list)
     """
+    # Log forecast mode
+    if USE_ACTUAL_FORECASTS:
+        print("Fetching actual carbon intensity forecasts from Electricity Maps")
+    else:
+        print("Using mock forecasts (historical data shifted +24h) - USE_ACTUAL_FORECASTS=False")
+
     static_config = load_static_config()
 
     # Determine which regions to fetch

@@ -78,6 +78,12 @@ total_emissions_g = total_energy_kwh × carbon_intensity_g_per_kwh
 
 Carbon intensity sourced from [ElectricityMaps API](https://portal.electricitymaps.com/docs) based on region and execution time.
 
+**Limitation: Mock Forecast Mode**
+
+Due to ElectricityMaps ToS changes mid-project restricting forecast endpoint access, the agent uses historical data as a workaround (`USE_ACTUAL_FORECASTS=False`). Past 24h carbon intensity is fetched and timestamps are shifted +24h to simulate forecasts.
+
+This does not affect evaluation validity: all approaches use the same forecast data, so shifting values by one day has no effect on relative comparisons between approaches. It only has a minor effect on absolute emission values.
+
 ---
 
 ### 3.3 Cost Overhead (Per-Invocation)
