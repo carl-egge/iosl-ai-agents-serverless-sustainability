@@ -437,7 +437,7 @@ def calculate_per_year_metrics(
         },
         'cost_overhead': {
             'annual_transfer_cost_usd': annual_transfer_cost,
-            'total_annual_cost_overhead_usd': annual_transfer_cost
+            'total_cost_overhead_usd': annual_transfer_cost
         }
     }
 
@@ -757,7 +757,7 @@ def calculate_project_aggregation(function_results: list, project_id: str = None
                 'execution_cost_overhead_usd': None,
                 'note': 'Placeholder for execution_cost_overhead until defined'
             },
-            'total_annual_cost_overhead_usd': total_cost_overhead_usd
+            'total_cost_overhead_usd': total_cost_overhead_usd
         }
     }
 

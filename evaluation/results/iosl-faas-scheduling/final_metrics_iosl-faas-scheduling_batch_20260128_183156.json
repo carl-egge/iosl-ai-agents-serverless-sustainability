@@ -1,9 +1,9 @@
 {
   "calculation_metadata": {
-    "source_gcp_metrics": "results/iosl-faas-scheduling/gcp_metrics_iosl-faas-scheduling_dispatcher_20260125_172554.json",
+    "source_gcp_metrics": "results/iosl-faas-scheduling/gcp_metrics_iosl-faas-scheduling_dispatcher_20260128_183106.json",
     "project_id": "iosl-faas-scheduling",
     "static_config_version": "1.0.0",
-    "calculation_timestamp": "2026-01-25T17:49:19.675346+00:00",
+    "calculation_timestamp": "2026-01-28T18:31:56.015881+00:00",
     "basis": "per_invocation_and_per_year"
   },
   "calculation_constants": {
@@ -26,11 +26,11 @@
         "cost_usd": 0.0054
       },
       "per_year": {
-        "api_calls": 52,
-        "energy_kwh": 0.52,
-        "emissions_g": 52.0,
-        "emissions_kg": 0.052,
-        "cost_usd": 0.28
+        "api_calls": 365,
+        "energy_kwh": 3.65,
+        "emissions_g": 365.0,
+        "emissions_kg": 0.365,
+        "cost_usd": 1.97
       },
       "source": "evaluation/AGENT_API_OVERHEAD.md",
       "note": "API overhead applies only to agent function in Agent approach projects"
@@ -48,13 +48,13 @@
         "data_transfer_cost_per_gb_usd": 0.0,
         "carbon_intensity_g_per_kwh": 400.0,
         "from_gcp_metrics": {
-          "request_count": 11,
-          "runtime_ms_mean": 4015.4309162626723,
-          "cpu_utilization_mean": 0.007559440473009286,
-          "memory_utilization_mean": 0.2352364085097283,
-          "billable_instance_time_s": 44.16974007888939,
+          "request_count": 13,
+          "runtime_ms_mean": 3731.1468823048963,
+          "cpu_utilization_mean": 0.007642027694585439,
+          "memory_utilization_mean": 0.234810331643109,
+          "billable_instance_time_s": 48.50490946996365,
           "data_received_gb": 2.719927579164505e-05,
-          "data_sent_gb": 1.03069469332695e-05
+          "data_sent_gb": 1.0707415640354156e-05
         },
         "latency": {
           "mean_latency_ms": null,
@@ -67,25 +67,25 @@
           "note": "Placeholder - to be measured by loadgen tool"
         },
         "energy": {
-          "compute_energy_kwh": 0.0005414690000239264,
-          "network_energy_kwh": 3.409656611355868e-09,
-          "total_energy_kwh": 0.0005414724096805377,
+          "compute_energy_kwh": 0.0005032444316134097,
+          "network_energy_kwh": 2.915899340923016e-09,
+          "total_energy_kwh": 0.0005032473475127506,
           "breakdown": {
-            "cpu_power_w": 0.24536639255516793,
+            "cpu_power_w": 0.24546402303915418,
             "memory_power_w": 0.2,
             "gpu_power_w": 0,
-            "runtime_s": 4.015430916262672
+            "runtime_s": 3.731146882304896
           }
         },
         "emissions": {
-          "compute_emissions_g": 0.2165889638722151,
-          "total_carbon_g": 0.2165889638722151
+          "compute_emissions_g": 0.20129893900510026,
+          "total_carbon_g": 0.20129893900510026
         },
         "cost_overhead": {
           "transfer_cost_usd": 0.0,
           "total_cost_overhead_usd": 0.0,
           "transfer_breakdown": {
-            "total_transfer_gb": 3.750622272491455e-05,
+            "total_transfer_gb": 3.7906691431999207e-05,
             "transfer_rate_per_gb": 0.0
           }
         }
@@ -97,17 +97,17 @@
         },
         "annual_invocations": 7318250,
         "energy": {
-          "compute_energy_kwh": 3962.6055094250996,
-          "network_energy_kwh": 0.02495271949605508,
-          "total_energy_kwh": 3962.6304621445956
+          "compute_energy_kwh": 3682.868561654836,
+          "network_energy_kwh": 0.02133928035170986,
+          "total_energy_kwh": 3682.8899009351876
         },
         "emissions": {
-          "compute_emissions_kg": 1585.052184857838,
-          "total_carbon_kg": 1585.052184857838
+          "compute_emissions_kg": 1473.155960374075,
+          "total_carbon_kg": 1473.155960374075
         },
         "cost_overhead": {
           "annual_transfer_cost_usd": 0.0,
-          "total_annual_cost_overhead_usd": 0.0
+          "total_cost_overhead_usd": 0.0
         }
       }
     }
@@ -121,15 +121,15 @@
       "note": "Mean of per-function latencies (null if no latency data available)"
     },
     "energy": {
-      "compute_energy_kwh": 3962.6055094250996,
-      "network_energy_kwh": 0.02495271949605508,
+      "compute_energy_kwh": 3682.868561654836,
+      "network_energy_kwh": 0.02133928035170986,
       "api_overhead_kwh": 0.0,
-      "total_energy_kwh": 3962.6304621445956
+      "total_energy_kwh": 3682.8899009351876
     },
     "emissions": {
-      "compute_emissions_kg": 1585.052184857838,
+      "compute_emissions_kg": 1473.155960374075,
       "api_overhead_kg": 0.0,
-      "total_carbon_kg": 1585.052184857838
+      "total_carbon_kg": 1473.155960374075
     },
     "cost_overhead": {
       "annual_transfer_cost_usd": 0.0,
@@ -138,7 +138,7 @@
         "execution_cost_overhead_usd": null,
         "note": "Placeholder for execution_cost_overhead until defined"
       },
-      "total_annual_cost_overhead_usd": 0.0
+      "total_cost_overhead_usd": 0.0
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "experiment_id": "single_query",
   "project_id": "iosl-faas-scheduling",
-  "generated_at": "2026-01-25T17:25:54.984953+00:00",
+  "generated_at": "2026-01-28T18:31:06.906881+00:00",
   "time_window": {
     "start": null,
     "end": null
@@ -11,27 +11,27 @@
     "region": "us-east1",
     "url": "https://dispatcher-rtwa6zd2ma-ue.a.run.app/",
     "gcp_metrics": {
-      "request_count": 11,
+      "request_count": 13,
       "request_latencies_ms": {
-        "p50": 74.492573,
-        "p95": 4002.468276500001,
-        "p99": 4350.0980537000005,
-        "mean": 1396.0086166509948
+        "p50": 61.323138,
+        "p95": 3954.1863630000007,
+        "p99": 4340.4416710000005,
+        "mean": 1271.8570380009044
       },
       "cpu_utilization": {
-        "mean": 0.007559440473009286,
-        "p95": 0.024675347663735338
+        "mean": 0.007642027694585439,
+        "p95": 0.025698198003708313
       },
       "memory_utilization": {
-        "mean": 0.2352364085097283,
+        "mean": 0.234810331643109,
         "p95": 0.28279200000000015
       },
-      "billable_instance_time_s": 44.16974007888939,
+      "billable_instance_time_s": 48.50490946996365,
       "network": {
         "received_bytes_total": 29205,
-        "sent_bytes_total": 11067,
+        "sent_bytes_total": 11497,
         "received_gb": 2.719927579164505e-05,
-        "sent_gb": 1.03069469332695e-05
+        "sent_gb": 1.0707415640354156e-05
       }
     }
   }
