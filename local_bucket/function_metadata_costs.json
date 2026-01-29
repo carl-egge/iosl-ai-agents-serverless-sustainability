@@ -9,7 +9,7 @@
       "data_input_gb": 0.0,
       "data_output_gb": 1.23e-06,
       "source_location": "us-east1",
-      "invocations_per_day": 20000,
+      "invocations_per_day": 1000,
       "priority": "costs",
       "latency_important": true,
       "allowed_regions": [
