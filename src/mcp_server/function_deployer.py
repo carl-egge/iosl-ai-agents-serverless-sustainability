@@ -265,7 +265,8 @@ if __name__ == '__main__':
             tf.addfile(main_info, io.BytesIO(main_bytes))
 
             # Create requirements.txt
-            base_requirements = "flask>=3.0.0\ngunicorn>=21.2.0\n"
+            # Include functions-framework for backwards compatibility with existing function code
+            base_requirements = "flask>=3.0.0\ngunicorn>=21.2.0\nfunctions-framework>=3.0.0\n"
             if requirements:
                 # Ensure requirements string ends with newline for proper concatenation
                 req_str = requirements.strip()
@@ -455,7 +456,7 @@ if __name__ == '__main__':
         code: str,
         region: str,
         runtime: str = DEFAULT_RUNTIME,
-        memory_mb: int = 256,
+        memory_mb: int = 512,
         cpu: str = None,
         timeout_seconds: int = DEFAULT_TIMEOUT,
         entry_point: str = DEFAULT_ENTRY_POINT,
@@ -469,7 +470,7 @@ if __name__ == '__main__':
             code: Raw Python code to deploy
             region: GCP region (e.g., "us-east1", "europe-north1")
             runtime: Python runtime version (ignored, uses python:3.12-slim)
-            memory_mb: Memory allocation in MB (default: 256)
+            memory_mb: Memory allocation in MB (default: 512, minimum for Cloud Run)
             cpu: Number of vCPUs as string (e.g., "1", "2", "4"). If None, defaults to "1".
             timeout_seconds: Request timeout (default: 60)
             entry_point: Function entry point name (default: "main")
@@ -483,6 +484,11 @@ if __name__ == '__main__':
         function_name = self._sanitize_service_name(function_name)
         if original_name != function_name:
             logger.info(f"Sanitized function name: '{original_name}' -> '{function_name}'")
+
+        # Enforce minimum memory (Cloud Run requires >= 512Mi with default CPU allocation)
+        if memory_mb < 512:
+            logger.info(f"Memory {memory_mb}Mi below minimum, using 512Mi")
+            memory_mb = 512
 
         if self.mock_mode:
             logger.info(f"[MOCK] Would deploy {function_name} to {region}")

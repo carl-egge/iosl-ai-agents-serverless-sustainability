@@ -104,8 +104,8 @@ resource "google_secret_manager_secret_iam_member" "mcp_accessor_agent" {
   member    = "serviceAccount:${data.google_project.current.number}-compute@developer.gserviceaccount.com"
 }
 
-resource "google_storage_bucket" "source_bucket" {
-  name                        = "iosl-source-bucket"
+  resource "google_storage_bucket" "source_bucket" {
+  name = "${var.project_id}-source-bucket"
   location                    = var.region
   uniform_bucket_level_access = true
 }
