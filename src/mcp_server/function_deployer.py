@@ -88,6 +88,34 @@ class FunctionDeployer:
         short_uuid = str(uuid.uuid4())[:8]
         return f"user-func-{short_uuid}"
 
+    def _sanitize_service_name(self, name: str) -> str:
+        """
+        Sanitize a name to comply with Cloud Run service naming rules:
+        - Only lowercase letters, digits, and hyphens
+        - Must begin with a letter
+        - Cannot end with a hyphen
+        - Must be less than 50 characters
+        """
+        import re
+        # Convert to lowercase
+        sanitized = name.lower()
+        # Replace underscores and other invalid chars with hyphens
+        sanitized = re.sub(r'[^a-z0-9-]', '-', sanitized)
+        # Replace multiple consecutive hyphens with single hyphen
+        sanitized = re.sub(r'-+', '-', sanitized)
+        # Ensure it starts with a letter
+        if sanitized and not sanitized[0].isalpha():
+            sanitized = 'fn-' + sanitized
+        # Remove trailing hyphens
+        sanitized = sanitized.rstrip('-')
+        # Truncate to 49 characters (leaving room for potential prefix)
+        if len(sanitized) > 49:
+            sanitized = sanitized[:49].rstrip('-')
+        # If empty after sanitization, generate a new name
+        if not sanitized:
+            sanitized = self.generate_function_name()
+        return sanitized
+
     def _get_artifact_registry_region(self, region: str) -> str:
         """
         Get the appropriate Artifact Registry region.
@@ -418,6 +446,12 @@ if __name__ == '__main__':
         Returns:
             dict with success status, service URL, and deployment info
         """
+        # Sanitize function name to comply with Cloud Run naming rules
+        original_name = function_name
+        function_name = self._sanitize_service_name(function_name)
+        if original_name != function_name:
+            logger.info(f"Sanitized function name: '{original_name}' -> '{function_name}'")
+
         if self.mock_mode:
             logger.info(f"[MOCK] Would deploy {function_name} to {region}")
             mock_url = f"https://{function_name}-{self.project_id[:8]}.{region}.run.app"
