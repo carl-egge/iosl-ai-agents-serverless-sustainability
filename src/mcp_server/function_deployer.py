@@ -467,20 +467,24 @@ if __name__ == '__main__':
                 max_instance_request_concurrency=80,
             )
 
-            service = run_v2.Service(
-                name=service_name,
-                template=revision_template,
-                ingress=run_v2.IngressTraffic.INGRESS_TRAFFIC_ALL,
-            )
-
             # Check if service exists and update or create
             try:
                 existing = self.run_client.get_service(name=service_name)
                 logger.info(f"Updating existing service {function_name}")
-                # For updates, we need to use update_service
+                # For updates, include the full service name
+                service = run_v2.Service(
+                    name=service_name,
+                    template=revision_template,
+                    ingress=run_v2.IngressTraffic.INGRESS_TRAFFIC_ALL,
+                )
                 operation = self.run_client.update_service(service=service)
             except gcp_exceptions.NotFound:
                 logger.info(f"Creating new service {function_name}")
+                # For creates, service.name must be empty - name is passed via service_id
+                service = run_v2.Service(
+                    template=revision_template,
+                    ingress=run_v2.IngressTraffic.INGRESS_TRAFFIC_ALL,
+                )
                 operation = self.run_client.create_service(
                     parent=parent,
                     service=service,
