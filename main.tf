@@ -68,9 +68,11 @@ resource "google_service_account" "mcp_deployer" {
 
 resource "google_project_iam_member" "mcp_sa_roles" {
   for_each = toset([
-    "roles/cloudfunctions.developer",
-    "roles/storage.objectAdmin",
-    "roles/iam.serviceAccountUser"
+    "roles/run.admin",                    # Deploy and manage Cloud Run services
+    "roles/storage.objectAdmin",          # Upload source to GCS
+    "roles/iam.serviceAccountUser",       # Act as service account
+    "roles/cloudbuild.builds.editor",     # Trigger Cloud Build
+    "roles/artifactregistry.admin",       # Create repos and push images
   ])
 
   project = var.project_id
@@ -131,6 +133,67 @@ resource "google_storage_bucket" "scheduler_bucket" {
   location                    = var.region
   uniform_bucket_level_access = true
   force_destroy               = true
+}
+
+# Artifact Registry repositories for function container images
+# Using multi-regional repositories for better availability
+resource "google_artifact_registry_repository" "function_images_us" {
+  location      = "us"
+  repository_id = "function-images"
+  description   = "Container images for dynamically deployed Cloud Run functions (US)"
+  format        = "DOCKER"
+
+  cleanup_policies {
+    id     = "keep-recent"
+    action = "KEEP"
+    most_recent_versions {
+      keep_count = 5
+    }
+  }
+}
+
+resource "google_artifact_registry_repository" "function_images_europe" {
+  location      = "europe"
+  repository_id = "function-images"
+  description   = "Container images for dynamically deployed Cloud Run functions (Europe)"
+  format        = "DOCKER"
+
+  cleanup_policies {
+    id     = "keep-recent"
+    action = "KEEP"
+    most_recent_versions {
+      keep_count = 5
+    }
+  }
+}
+
+resource "google_artifact_registry_repository" "function_images_asia" {
+  location      = "asia"
+  repository_id = "function-images"
+  description   = "Container images for dynamically deployed Cloud Run functions (Asia)"
+  format        = "DOCKER"
+
+  cleanup_policies {
+    id     = "keep-recent"
+    action = "KEEP"
+    most_recent_versions {
+      keep_count = 5
+    }
+  }
+}
+
+# Grant Cloud Build service account permission to deploy to Cloud Run
+resource "google_project_iam_member" "cloudbuild_run_admin" {
+  project = var.project_id
+  role    = "roles/run.admin"
+  member  = "serviceAccount:${data.google_project.current.number}@cloudbuild.gserviceaccount.com"
+}
+
+# Grant Cloud Build service account permission to act as compute service account
+resource "google_project_iam_member" "cloudbuild_sa_user" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountUser"
+  member  = "serviceAccount:${data.google_project.current.number}@cloudbuild.gserviceaccount.com"
 }
 
 resource "google_storage_bucket_object" "function_metadata" {
@@ -323,6 +386,11 @@ resource "google_cloud_run_v2_service" "mcp_server" {
       }
 
       env {
+        name  = "ARTIFACT_REPO"
+        value = "function-images"
+      }
+
+      env {
         name = "MCP_API_KEY"
         value_source {
           secret_key_ref {
@@ -334,7 +402,12 @@ resource "google_cloud_run_v2_service" "mcp_server" {
     }
   }
 
-  depends_on = [google_storage_bucket_object.mcp_object]
+  depends_on = [
+    google_storage_bucket_object.mcp_object,
+    google_artifact_registry_repository.function_images_us,
+    google_artifact_registry_repository.function_images_europe,
+    google_artifact_registry_repository.function_images_asia
+  ]
 }
 
 resource "google_cloud_tasks_queue" "delayedtasks_queue" {

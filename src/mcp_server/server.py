@@ -1,13 +1,13 @@
 """
-MCP Server for Cloud Function deployment and management.
+MCP Server for Cloud Run service deployment and management.
 
 This server exposes tools for:
-- Deploying user-provided Python code as Cloud Functions
-- Invoking deployed functions
-- Checking function status
-- Deleting functions
+- Deploying user-provided Python code as Cloud Run services
+- Invoking deployed services
+- Checking service status
+- Deleting services
 
-The server uses FastMCP and runs with streamable-http transport for Cloud Run deployment.
+The server uses Flask and runs with gunicorn for Cloud Run deployment.
 """
 
 import os
@@ -40,26 +40,27 @@ async def deploy_function(
     requirements: str = ""
 ) -> dict:
     """
-    Deploy Python code as a Cloud Function.
+    Deploy Python code as a Cloud Run service.
 
     Args:
-        function_name: Unique identifier for the function (e.g., "user-func-a1b2c3d4")
-        region: GCP region to deploy to (e.g., "us-east1", "europe-west1")
+        function_name: Unique identifier for the service (e.g., "user-func-a1b2c3d4")
+        region: GCP region to deploy to (e.g., "us-east1", "europe-west1", "europe-north1")
         code: Raw Python code to deploy. Should contain a handler/main/run function.
-        runtime: Python runtime version (default: "python312")
+        runtime: Python runtime version (ignored, uses python:3.12-slim container)
         memory_mb: Memory allocation in MB (default: 256, max: 32768)
-        cpu: Number of vCPUs as string (e.g., "1", "2", "4", "8"). If not specified, GCP calculates from memory.
-        timeout_seconds: Function timeout in seconds (default: 60, max: 3600)
+        cpu: Number of vCPUs as string (e.g., "1", "2", "4", "8"). Defaults to "1".
+        timeout_seconds: Request timeout in seconds (default: 60, max: 3600)
         entry_point: Function entry point name (default: "main")
         requirements: Optional requirements.txt content for additional dependencies
 
     Returns:
         dict with:
             - success: bool indicating if deployment succeeded
-            - function_url: HTTPS URL to invoke the function
-            - function_name: The deployed function name
+            - function_url: HTTPS URL to invoke the service
+            - function_name: The deployed service name
             - region: The deployment region
             - status: ACTIVE, DEPLOYING, or FAILED
+            - image_uri: The container image URI (if successful)
     """
     logger.info(f"deploy_function called: {function_name} -> {region}")
 
@@ -94,19 +95,19 @@ async def invoke_function(
     timeout_seconds: int = 300
 ) -> dict:
     """
-    Invoke a deployed Cloud Function.
+    Invoke a deployed Cloud Run service.
 
     Args:
-        function_url: The HTTPS URL of the deployed function
-        payload: JSON payload to send to the function (default: empty dict)
+        function_url: The HTTPS URL of the deployed service
+        payload: JSON payload to send to the service (default: empty dict)
         timeout_seconds: Request timeout in seconds (default: 300)
 
     Returns:
         dict with:
             - success: bool indicating if invocation succeeded
-            - response: The function's response data
+            - response: The service's response data
             - execution_time_ms: Execution time in milliseconds
-            - status_code: HTTP status code from the function
+            - status_code: HTTP status code from the service
     """
     logger.info(f"invoke_function called: {function_url}")
 
@@ -128,17 +129,17 @@ async def get_function_status(
     region: str
 ) -> dict:
     """
-    Check the deployment status of a Cloud Function.
+    Check the deployment status of a Cloud Run service.
 
     Args:
-        function_name: Name of the function to check
-        region: GCP region where the function is deployed
+        function_name: Name of the service to check
+        region: GCP region where the service is deployed
 
     Returns:
         dict with:
-            - exists: bool indicating if function exists
+            - exists: bool indicating if service exists
             - status: ACTIVE, DEPLOYING, FAILED, or NOT_FOUND
-            - function_url: HTTPS URL if function is active
+            - function_url: HTTPS URL if service is active
             - last_updated: ISO timestamp of last update
     """
     logger.info(f"get_function_status called: {function_name} in {region}")
@@ -157,16 +158,16 @@ async def delete_function(
     region: str
 ) -> dict:
     """
-    Delete a deployed Cloud Function.
+    Delete a deployed Cloud Run service.
 
     Args:
-        function_name: Name of the function to delete
-        region: GCP region where the function is deployed
+        function_name: Name of the service to delete
+        region: GCP region where the service is deployed
 
     Returns:
         dict with:
             - success: bool indicating if deletion succeeded
-            - function_name: The deleted function name
+            - function_name: The deleted service name
             - region: The region
     """
     logger.info(f"delete_function called: {function_name} in {region}")
@@ -197,9 +198,11 @@ def get_server_config() -> dict:
     """Get MCP server configuration."""
     return {
         "name": "function-deployer",
-        "version": "1.0.0",
+        "version": "2.0.0",
+        "backend": "cloud-run",
         "project_id": deployer.project_id,
         "gcs_bucket": deployer.gcs_bucket,
+        "artifact_repo": deployer.artifact_repo,
         "available_tools": [
             "deploy_function",
             "invoke_function",
@@ -234,6 +237,7 @@ def create_http_app():
         return jsonify({
             "status": "healthy",
             "service": "mcp-function-deployer",
+            "backend": "cloud-run",
             "project_id": deployer.project_id
         })
 
@@ -292,19 +296,19 @@ def create_http_app():
                         "tools": [
                             {
                                 "name": "deploy_function",
-                                "description": "Deploy Python code as a Cloud Function"
+                                "description": "Deploy Python code as a Cloud Run service"
                             },
                             {
                                 "name": "invoke_function",
-                                "description": "Invoke a deployed Cloud Function"
+                                "description": "Invoke a deployed Cloud Run service"
                             },
                             {
                                 "name": "get_function_status",
-                                "description": "Check the deployment status of a function"
+                                "description": "Check the deployment status of a service"
                             },
                             {
                                 "name": "delete_function",
-                                "description": "Delete a deployed Cloud Function"
+                                "description": "Delete a deployed Cloud Run service"
                             },
                             {
                                 "name": "generate_function_name",
@@ -336,7 +340,9 @@ app = create_http_app()
 
 if __name__ == "__main__":
     logger.info(f"Starting MCP Function Deployer server on port {PORT}")
+    logger.info(f"Backend: Cloud Run")
     logger.info(f"Project ID: {deployer.project_id}")
     logger.info(f"GCS Bucket: {deployer.gcs_bucket}")
+    logger.info(f"Artifact Registry: {deployer.artifact_repo}")
     logger.info(f"API Key configured: {'Yes' if API_KEY else 'No'}")
     app.run(host="0.0.0.0", port=PORT, debug=False)
