@@ -54,6 +54,12 @@ resource "google_secret_manager_secret_iam_member" "electricitymaps_accessor" {
   member    = "serviceAccount:${data.google_project.current.number}-compute@developer.gserviceaccount.com"
 }
 
+resource "google_project_iam_member" "compute_run_admin" {
+  project = var.project_id
+  role    = "roles/run.admin"
+  member  = "serviceAccount:${data.google_project.current.number}-compute@developer.gserviceaccount.com"
+}
+
 resource "google_service_account" "mcp_deployer" {
   account_id   = "mcp-deployer-iac"
   display_name = "MCP Function Deployer"
