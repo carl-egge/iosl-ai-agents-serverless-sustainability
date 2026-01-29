@@ -185,6 +185,9 @@ class FunctionDeployer:
         import re
         tar_buffer = io.BytesIO()
 
+        # Sanitize entry_point to be a valid Python identifier
+        entry_point = self._sanitize_entry_point(entry_point)
+
         with tarfile.open(fileobj=tar_buffer, mode='w:gz') as tf:
             # Extract __future__ imports from user code - they must be at the top
             future_imports = []
@@ -250,28 +253,42 @@ if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
 '''
+            # Set common tarinfo attributes
+            current_time = time.time()
+
             # Add main.py
             main_info = tarfile.TarInfo(name="main.py")
             main_bytes = wrapped_code.encode('utf-8')
             main_info.size = len(main_bytes)
+            main_info.mtime = current_time
+            main_info.mode = 0o644
             tf.addfile(main_info, io.BytesIO(main_bytes))
 
             # Create requirements.txt
             base_requirements = "flask>=3.0.0\ngunicorn>=21.2.0\n"
             if requirements:
-                full_requirements = base_requirements + requirements
+                # Ensure requirements string ends with newline for proper concatenation
+                req_str = requirements.strip()
+                if req_str:
+                    full_requirements = base_requirements + req_str + "\n"
+                else:
+                    full_requirements = base_requirements
             else:
                 full_requirements = base_requirements
 
             req_info = tarfile.TarInfo(name="requirements.txt")
             req_bytes = full_requirements.encode('utf-8')
             req_info.size = len(req_bytes)
+            req_info.mtime = current_time
+            req_info.mode = 0o644
             tf.addfile(req_info, io.BytesIO(req_bytes))
 
             # Add Dockerfile
             dockerfile_info = tarfile.TarInfo(name="Dockerfile")
             dockerfile_bytes = DOCKERFILE_TEMPLATE.encode('utf-8')
             dockerfile_info.size = len(dockerfile_bytes)
+            dockerfile_info.mtime = current_time
+            dockerfile_info.mode = 0o644
             tf.addfile(dockerfile_info, io.BytesIO(dockerfile_bytes))
 
         tar_buffer.seek(0)
@@ -390,6 +407,21 @@ if __name__ == '__main__':
             logger.error(f"Failed to set public invoker access: {e}")
             return False
 
+    def _sanitize_entry_point(self, entry_point: str) -> str:
+        """
+        Sanitize entry point to be a valid Python identifier.
+        """
+        import re
+        # Replace invalid chars with underscores
+        sanitized = re.sub(r'[^a-zA-Z0-9_]', '_', entry_point)
+        # Ensure it starts with a letter or underscore
+        if sanitized and sanitized[0].isdigit():
+            sanitized = '_' + sanitized
+        # Default to 'main' if empty
+        if not sanitized:
+            sanitized = 'main'
+        return sanitized
+
     def _ensure_artifact_registry_repo(self, region: str) -> None:
         """
         Ensure the Artifact Registry repository exists for storing container images.
@@ -404,8 +436,8 @@ if __name__ == '__main__':
         except gcp_exceptions.NotFound:
             logger.info(f"Creating Artifact Registry repository: {repo_name}")
             parent = f"projects/{self.project_id}/locations/{ar_region}"
+            # Don't set 'name' in constructor - it's computed from parent + repository_id
             repository = artifactregistry_v1.Repository(
-                name=repo_name,
                 format_=artifactregistry_v1.Repository.Format.DOCKER,
                 description="Container images for dynamically deployed functions"
             )
@@ -674,6 +706,9 @@ if __name__ == '__main__':
         Returns:
             dict with exists flag, status, URL, and last update time
         """
+        # Sanitize function name to match deployed service name
+        function_name = self._sanitize_service_name(function_name)
+
         if self.mock_mode:
             logger.info(f"[MOCK] Would check status of {function_name} in {region}")
             mock_url = f"https://{function_name}-{self.project_id[:8]}.{region}.run.app"
@@ -736,6 +771,9 @@ if __name__ == '__main__':
         Returns:
             dict with success status
         """
+        # Sanitize function name to match deployed service name
+        function_name = self._sanitize_service_name(function_name)
+
         if self.mock_mode:
             logger.info(f"[MOCK] Would delete {function_name} in {region}")
             return {
