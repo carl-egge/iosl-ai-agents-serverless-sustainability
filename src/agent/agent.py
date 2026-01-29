@@ -779,8 +779,8 @@ def format_forecast_for_llm(forecasts: dict) -> str:
     return formatted
 
 
-def _generate_with_gemini(prompt: str, log_message: Optional[str] = None) -> dict:
-    """Shared Gemini invocation and JSON parsing."""
+def _generate_with_gemini(prompt: str, log_message: Optional[str] = None, max_retries: int = 3) -> dict:
+    """Shared Gemini invocation and JSON parsing with retry logic."""
     if not GEMINI_API_KEY:
         raise Exception("GEMINI_API_KEY environment variable not set")
 
@@ -790,25 +790,62 @@ def _generate_with_gemini(prompt: str, log_message: Optional[str] = None) -> dic
     genai.configure(api_key=GEMINI_API_KEY)
     model = genai.GenerativeModel("gemini-2.5-flash")
 
-    response = model.generate_content(prompt)
-    response_text = response.text.strip()
+    last_error = None
+    for attempt in range(max_retries):
+        try:
+            response = model.generate_content(prompt)
+            
+            # Check if response was blocked by safety filters
+            if not response.candidates:
+                print(f"Gemini response blocked (no candidates). Attempt {attempt + 1}/{max_retries}")
+                if hasattr(response, 'prompt_feedback'):
+                    print(f"Prompt feedback: {response.prompt_feedback}")
+                last_error = Exception("Gemini response blocked - no candidates returned")
+                continue
+            
+            candidate = response.candidates[0]
+            if candidate.finish_reason and candidate.finish_reason.name == "SAFETY":
+                print(f"Gemini response blocked by safety filter. Attempt {attempt + 1}/{max_retries}")
+                last_error = Exception(f"Gemini response blocked by safety filter")
+                continue
+            
+            # Get response text
+            try:
+                response_text = response.text.strip()
+            except ValueError as e:
+                print(f"Could not get response text: {e}. Attempt {attempt + 1}/{max_retries}")
+                last_error = e
+                continue
+            
+            if not response_text:
+                print(f"Gemini returned empty response. Attempt {attempt + 1}/{max_retries}")
+                last_error = Exception("Gemini returned empty response")
+                continue
 
-    # Remove markdown code blocks if present
-    if response_text.startswith("```json"):
-        response_text = response_text[7:]
-    if response_text.startswith("```"):
-        response_text = response_text[3:]
-    if response_text.endswith("```"):
-        response_text = response_text[:-3]
+            # Remove markdown code blocks if present
+            if response_text.startswith("```json"):
+                response_text = response_text[7:]
+            if response_text.startswith("```"):
+                response_text = response_text[3:]
+            if response_text.endswith("```"):
+                response_text = response_text[:-3]
 
-    response_text = response_text.strip()
+            response_text = response_text.strip()
 
-    try:
-        return json.loads(response_text)
-    except json.JSONDecodeError as exc:
-        print(f"Error parsing Gemini response as JSON: {exc}")
-        print(f"Raw response:\n{response_text}")
-        raise
+            return json.loads(response_text)
+            
+        except json.JSONDecodeError as exc:
+            print(f"Error parsing Gemini response as JSON: {exc}. Attempt {attempt + 1}/{max_retries}")
+            print(f"Raw response:\n{response_text if 'response_text' in dir() else 'N/A'}")
+            last_error = exc
+            continue
+        except Exception as exc:
+            print(f"Gemini API error: {exc}. Attempt {attempt + 1}/{max_retries}")
+            last_error = exc
+            continue
+    
+    # All retries exhausted
+    raise Exception(f"Failed to get valid Gemini response after {max_retries} attempts. Last error: {last_error}")
 
 
 def parse_natural_language_request(user_description: str) -> dict:
