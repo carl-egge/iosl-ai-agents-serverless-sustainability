@@ -144,6 +144,7 @@ class FunctionDeployer:
             "europe-west10": "europe",
             "europe-west12": "europe",
             "europe-north1": "europe",
+            "europe-north2": "europe",
             "europe-central2": "europe",
             "europe-southwest1": "europe",
             # Asia regions -> asia (multi-regional)
