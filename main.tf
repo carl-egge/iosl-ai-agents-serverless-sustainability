@@ -4,6 +4,10 @@ terraform {
       source  = "opentofu/google"
       version = "7.15.0"
     }
+    google-beta = {
+      source  = "opentofu/google-beta"
+      version = "7.15.0"
+    }
     archive = {
       source  = "opentofu/archive"
       version = "2.7.1"
@@ -15,6 +19,10 @@ data "google_project" "current" {}
 
 
 provider "google" {
+  project = var.project_id
+}
+
+provider "google-beta" {
   project = var.project_id
 }
 
@@ -450,4 +458,3 @@ output "mcp_url" {
   value       = google_cloud_run_v2_service.mcp_server.uri
   description = "MCP URL"
 }
-

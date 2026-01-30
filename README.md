@@ -109,9 +109,25 @@ To deploy to GCP with OpenTofu follow these steps
 1. [Install OpenTofu](https://opentofu.org/docs/intro/install/)
 1. `tofu init`
 1. `tofu plan`
-1. `tofu deploy`
+1. `tofu apply`
 
 To tear down the infrastructure use `tofu destroy`
+
+### Multiple projects (important)
+OpenTofu state is per workspace. If you reuse the same state file and just switch `project_id`, OpenTofu will plan to destroy the old project's resources. This repo includes a project guard that blocks changing `project_id` in the same workspace. Use a separate workspace (or a separate directory/state backend) per project.
+
+Example workflow:
+```bash
+# Project A
+tofu workspace new iosl-project-a
+tofu workspace select iosl-project-a
+tofu apply -var-file=terraform.project-a.tfvars
+
+# Project B
+tofu workspace new iosl-project-b
+tofu workspace select iosl-project-b
+tofu apply -var-file=terraform.project-b.tfvars
+```
 
 ## Google Cloud Run Deployment
 
