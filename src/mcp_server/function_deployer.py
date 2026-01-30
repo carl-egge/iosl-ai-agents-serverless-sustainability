@@ -13,6 +13,7 @@ import time
 import logging
 import aiohttp
 from datetime import datetime
+from pathlib import Path
 from google.cloud import storage
 from google.cloud.devtools import cloudbuild_v1
 from google.cloud import run_v2
@@ -32,6 +33,10 @@ ARTIFACT_REPO = os.environ.get("ARTIFACT_REPO", "function-images")
 DEFAULT_RUNTIME = "python312"
 DEFAULT_TIMEOUT = 360
 DEFAULT_ENTRY_POINT = "main"
+DEFAULT_CONCURRENCY = 80
+DEFAULT_MIN_INSTANCES = 0
+DEFAULT_MAX_INSTANCES = 20
+DEFAULT_CPU_THROTTLING = False  # False => CPU always allocated
 
 # Dockerfile template for user functions
 DOCKERFILE_TEMPLATE = """FROM python:3.12-slim
@@ -48,6 +53,18 @@ EXPOSE 8080
 
 CMD ["python", "-m", "gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1", "--threads", "4", "--timeout", "300", "main:app"]
 """
+
+DOCKERFILE_TEMPLATE_PATH = (
+    Path(__file__).resolve().parent / "templates" / "function.Dockerfile"
+)
+
+
+def _load_dockerfile_template() -> str:
+    """Load Dockerfile template from disk; fall back to inline template."""
+    try:
+        return DOCKERFILE_TEMPLATE_PATH.read_text(encoding="utf-8")
+    except Exception:
+        return DOCKERFILE_TEMPLATE
 
 
 class FunctionDeployer:
@@ -287,7 +304,7 @@ if __name__ == '__main__':
 
             # Add Dockerfile
             dockerfile_info = tarfile.TarInfo(name="Dockerfile")
-            dockerfile_bytes = DOCKERFILE_TEMPLATE.encode('utf-8')
+            dockerfile_bytes = _load_dockerfile_template().encode('utf-8')
             dockerfile_info.size = len(dockerfile_bytes)
             dockerfile_info.mtime = current_time
             dockerfile_info.mode = 0o644
@@ -538,8 +555,22 @@ if __name__ == '__main__':
             revision_template = run_v2.RevisionTemplate(
                 containers=[container],
                 timeout=duration_pb2.Duration(seconds=timeout_seconds),
-                max_instance_request_concurrency=80,
+                max_instance_request_concurrency=DEFAULT_CONCURRENCY,
             )
+
+            # Align scaling and CPU allocation with MCP runtime defaults.
+            if hasattr(run_v2, "RevisionScaling"):
+                revision_template.scaling = run_v2.RevisionScaling(
+                    min_instance_count=DEFAULT_MIN_INSTANCES,
+                    max_instance_count=DEFAULT_MAX_INSTANCES,
+                )
+
+            if hasattr(revision_template, "annotations"):
+                revision_template.annotations = {
+                    "autoscaling.knative.dev/minScale": str(DEFAULT_MIN_INSTANCES),
+                    "run.googleapis.com/cpu-throttling": "false" if not DEFAULT_CPU_THROTTLING else "true",
+                    "run.googleapis.com/sessionAffinity": "false",
+                }
 
             # Check if service exists and update or create
             try:
@@ -551,6 +582,10 @@ if __name__ == '__main__':
                     template=revision_template,
                     ingress=run_v2.IngressTraffic.INGRESS_TRAFFIC_ALL,
                 )
+                if hasattr(service, "annotations"):
+                    service.annotations = {
+                        "run.googleapis.com/maxScale": str(DEFAULT_MAX_INSTANCES)
+                    }
                 operation = self.run_client.update_service(service=service)
             except gcp_exceptions.NotFound:
                 logger.info(f"Creating new service {function_name}")
@@ -559,6 +594,10 @@ if __name__ == '__main__':
                     template=revision_template,
                     ingress=run_v2.IngressTraffic.INGRESS_TRAFFIC_ALL,
                 )
+                if hasattr(service, "annotations"):
+                    service.annotations = {
+                        "run.googleapis.com/maxScale": str(DEFAULT_MAX_INSTANCES)
+                    }
                 operation = self.run_client.create_service(
                     parent=parent,
                     service=service,
