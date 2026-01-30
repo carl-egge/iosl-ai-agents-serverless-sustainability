@@ -35,7 +35,7 @@ async def deploy_function(
     runtime: str = "python312",
     memory_mb: int = 256,
     cpu: str = None,
-    timeout_seconds: int = 60,
+    timeout_seconds: int = 360,
     entry_point: str = "main",
     requirements: str = ""
 ) -> dict:
@@ -49,7 +49,7 @@ async def deploy_function(
         runtime: Python runtime version (ignored, uses python:3.12-slim container)
         memory_mb: Memory allocation in MB (default: 256, max: 32768)
         cpu: Number of vCPUs as string (e.g., "1", "2", "4", "8"). Defaults to "1".
-        timeout_seconds: Request timeout in seconds (default: 60, max: 3600)
+        timeout_seconds: Request timeout in seconds (default: 360, max: 3600)
         entry_point: Function entry point name (default: "main")
         requirements: Optional requirements.txt content for additional dependencies
 

@@ -95,7 +95,7 @@ class MCPClient:
         runtime: str = "python312",
         memory_mb: int = 256,
         cpu: str = None,
-        timeout_seconds: int = 60,
+        timeout_seconds: int = 360,
         entry_point: str = "main",
         requirements: str = ""
     ) -> dict:

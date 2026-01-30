@@ -392,7 +392,7 @@ def deploy_functions_to_optimal_regions(
             try:
                 # Get optional fields from metadata
                 memory_mb = func_metadata.get("memory_mb", 256)
-                timeout_seconds = func_metadata.get("timeout_seconds", 60)
+                timeout_seconds = func_metadata.get("timeout_seconds", 360)
                 requirements = func_metadata.get("requirements", "")
 
                 # Calculate vCPUs: use specified value or defaults based on gpu_required
@@ -779,8 +779,85 @@ def format_forecast_for_llm(forecasts: dict) -> str:
     return formatted
 
 
+
+def _backoff_with_jitter(attempt: int, base_delay: float = 1.0, max_delay: float = 30.0) -> None:
+    """Exponential backoff with jitter for retry logic."""
+    import time
+    import random
+    delay = min(base_delay * (2 ** attempt) + random.uniform(0, 1), max_delay)
+    print(f"Waiting {delay:.1f}s before retry...")
+    time.sleep(delay)
+
+
+def _extract_json_from_response(text: str) -> Optional[dict]:
+    """
+    Extract JSON from a response that may contain markdown or other text.
+    
+    Tries multiple strategies:
+    1. Direct parse (already clean JSON)
+    2. Strip markdown code blocks
+    3. Regex extraction of JSON object
+    """
+    import re
+    
+    if not text:
+        return None
+    
+    # Strategy 1: Try direct parse
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+    
+    # Strategy 2: Strip markdown code blocks (various formats)
+    cleaned = text.strip()
+    
+    # Handle ```json ... ``` or ``` ... ```
+    code_block_pattern = r'^```(?:json)?\s*\n?(.*?)\n?```$'
+    match = re.match(code_block_pattern, cleaned, re.DOTALL | re.IGNORECASE)
+    if match:
+        try:
+            return json.loads(match.group(1).strip())
+        except json.JSONDecodeError:
+            pass
+    
+    # Strategy 3: Find JSON object using regex (handles text before/after JSON)
+    # Look for outermost { ... } that forms valid JSON
+    json_pattern = r'\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}'
+    
+    # Try to find the largest JSON-like structure
+    potential_jsons = re.findall(r'\{.*\}', cleaned, re.DOTALL)
+    for potential in potential_jsons:
+        try:
+            return json.loads(potential)
+        except json.JSONDecodeError:
+            continue
+    
+    # Strategy 4: Try to fix common JSON issues
+    # Remove trailing commas before } or ]
+    fixed = re.sub(r',(\s*[}\]])', r'\1', cleaned)
+    try:
+        return json.loads(fixed)
+    except json.JSONDecodeError:
+        pass
+    
+    return None
+
 def _generate_with_gemini(prompt: str, log_message: Optional[str] = None, max_retries: int = 3) -> dict:
-    """Shared Gemini invocation and JSON parsing with retry logic."""
+    """
+    Shared Gemini invocation and JSON parsing with robust retry logic.
+    
+    Features:
+    - Exponential backoff with jitter between retries
+    - Uses Gemini's native JSON mode for reliable JSON output
+    - No retry on safety blocks (fails fast)
+    - Regex-based JSON extraction as fallback
+    - Rate limit detection with longer backoff
+    """
+    import time
+    import random
+    import re
+    
     if not GEMINI_API_KEY:
         raise Exception("GEMINI_API_KEY environment variable not set")
 
@@ -788,26 +865,30 @@ def _generate_with_gemini(prompt: str, log_message: Optional[str] = None, max_re
         print(log_message)
 
     genai.configure(api_key=GEMINI_API_KEY)
-    model = genai.GenerativeModel("gemini-2.5-flash")
+    
+    # Configure model with JSON response mode
+    generation_config = genai.GenerationConfig(
+        response_mime_type="application/json",
+    )
+    model = genai.GenerativeModel("gemini-2.5-flash", generation_config=generation_config)
 
     last_error = None
+    response_text = None  # Initialize for error reporting
+    
     for attempt in range(max_retries):
         try:
             response = model.generate_content(prompt)
             
-            # Check if response was blocked by safety filters
+            # Check if response was blocked by safety filters - DON'T RETRY
             if not response.candidates:
-                print(f"Gemini response blocked (no candidates). Attempt {attempt + 1}/{max_retries}")
+                feedback = ""
                 if hasattr(response, 'prompt_feedback'):
-                    print(f"Prompt feedback: {response.prompt_feedback}")
-                last_error = Exception("Gemini response blocked - no candidates returned")
-                continue
+                    feedback = f" Feedback: {response.prompt_feedback}"
+                raise Exception(f"Gemini response blocked - no candidates returned.{feedback}")
             
             candidate = response.candidates[0]
             if candidate.finish_reason and candidate.finish_reason.name == "SAFETY":
-                print(f"Gemini response blocked by safety filter. Attempt {attempt + 1}/{max_retries}")
-                last_error = Exception(f"Gemini response blocked by safety filter")
-                continue
+                raise Exception(f"Gemini response blocked by safety filter: {candidate.finish_reason}")
             
             # Get response text
             try:
@@ -815,33 +896,51 @@ def _generate_with_gemini(prompt: str, log_message: Optional[str] = None, max_re
             except ValueError as e:
                 print(f"Could not get response text: {e}. Attempt {attempt + 1}/{max_retries}")
                 last_error = e
+                _backoff_with_jitter(attempt)
                 continue
             
             if not response_text:
                 print(f"Gemini returned empty response. Attempt {attempt + 1}/{max_retries}")
                 last_error = Exception("Gemini returned empty response")
+                _backoff_with_jitter(attempt)
                 continue
 
-            # Remove markdown code blocks if present
-            if response_text.startswith("```json"):
-                response_text = response_text[7:]
-            if response_text.startswith("```"):
-                response_text = response_text[3:]
-            if response_text.endswith("```"):
-                response_text = response_text[:-3]
-
-            response_text = response_text.strip()
-
-            return json.loads(response_text)
+            # Try to parse JSON directly first (should work with response_mime_type)
+            try:
+                return json.loads(response_text)
+            except json.JSONDecodeError:
+                pass  # Fall through to extraction attempts
             
-        except json.JSONDecodeError as exc:
-            print(f"Error parsing Gemini response as JSON: {exc}. Attempt {attempt + 1}/{max_retries}")
-            print(f"Raw response:\n{response_text if 'response_text' in dir() else 'N/A'}")
-            last_error = exc
+            # Fallback: Try to extract JSON from markdown or mixed content
+            extracted_json = _extract_json_from_response(response_text)
+            if extracted_json is not None:
+                return extracted_json
+            
+            # If we get here, JSON parsing failed
+            print(f"Failed to parse JSON from response. Attempt {attempt + 1}/{max_retries}")
+            print(f"Raw response (first 500 chars): {response_text[:500]}")
+            last_error = Exception(f"Could not extract valid JSON from response")
+            _backoff_with_jitter(attempt)
             continue
+            
         except Exception as exc:
+            error_str = str(exc).lower()
+            
+            # Check for rate limiting (429) - use longer backoff
+            if "429" in str(exc) or "resource exhausted" in error_str or "quota" in error_str:
+                wait_time = (2 ** attempt) * 5 + random.uniform(1, 3)  # Longer backoff for rate limits
+                print(f"Rate limited. Waiting {wait_time:.1f}s before retry. Attempt {attempt + 1}/{max_retries}")
+                time.sleep(wait_time)
+                last_error = exc
+                continue
+            
+            # Safety blocks should not be retried
+            if "safety" in error_str or "blocked" in error_str:
+                raise  # Re-raise immediately, don't retry
+            
             print(f"Gemini API error: {exc}. Attempt {attempt + 1}/{max_retries}")
             last_error = exc
+            _backoff_with_jitter(attempt)
             continue
     
     # All retries exhausted
@@ -1692,7 +1791,7 @@ def create_flask_app():
             memory_mb = data.get("memory_mb", 256)
             vcpus = data.get("vcpus")  # None means use default based on gpu_required
             gpu_required = data.get("gpu_required", False)
-            timeout_seconds = data.get("timeout_seconds", 60)
+            timeout_seconds = data.get("timeout_seconds", 360)
             priority = data.get("priority", "balanced")
 
             # Generate submission ID and function name
