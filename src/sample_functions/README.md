@@ -45,11 +45,11 @@ gcloud run deploy api-health-check \
   --ingress all \
   --cpu 1 \
   --memory 512Mi \
-  --timeout 60 \
+  --timeout 180 \
   --concurrency 80 \
   --min-instances 0 \
   --max-instances 20 \
-  --no-cpu-throttling \
+  --cpu-throttling \
   --port 8080
 ```
 
@@ -62,11 +62,11 @@ gcloud run deploy image-format-converter \
   --ingress all \
   --cpu 1 \
   --memory 2048Mi \
-  --timeout 60 \
+  --timeout 360 \
   --concurrency 80 \
   --min-instances 0 \
   --max-instances 20 \
-  --no-cpu-throttling \
+  --cpu-throttling \
   --port 8080
 ```
 
@@ -79,11 +79,11 @@ gcloud run deploy crypto-key-gen \
   --ingress all \
   --cpu 1 \
   --memory 4096Mi \
-  --timeout 60 \
+  --timeout 360 \
   --concurrency 80 \
   --min-instances 0 \
   --max-instances 20 \
-  --no-cpu-throttling \
+  --cpu-throttling \
   --port 8080
 ```
 
@@ -94,13 +94,13 @@ gcloud run deploy video-transcoder \
   --region <REGION> \
   --allow-unauthenticated \
   --ingress all \
-  --cpu 1 \
+  --cpu 4 \
   --memory 8192Mi \
-  --timeout 60 \
+  --timeout 360 \
   --concurrency 80 \
   --min-instances 0 \
   --max-instances 20 \
-  --no-cpu-throttling \
+  --cpu-throttling \
   --port 8080
 ```
 
