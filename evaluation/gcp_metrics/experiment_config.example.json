@@ -5,19 +5,23 @@
   "functions": [
     {
       "url": "https://dispatcher-hash-uc.a.run.app",
-      "label": "dispatcher"
+      "label": "dispatcher",
+      "region": "us-central1"
     },
     {
       "url": "https://image-converter-hash-uc.a.run.app",
-      "label": "image-converter"
+      "label": "image-converter",
+      "region": "us-central1"
     },
     {
       "url": "https://video-transcoder-hash-uc.a.run.app",
-      "label": "video-transcoder"
+      "label": "video-transcoder",
+      "region": "us-central1"
     },
     {
       "url": "https://crypto-key-gen-hash-uc.a.run.app",
-      "label": "crypto-key-gen"
+      "label": "crypto-key-gen",
+      "region": "us-central1"
     }
   ],
   "time_window": {

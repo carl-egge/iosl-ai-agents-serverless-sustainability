@@ -78,6 +78,11 @@ total_emissions_g = total_energy_kwh × carbon_intensity_g_per_kwh
 
 Carbon intensity sourced from [ElectricityMaps API](https://portal.electricitymaps.com/docs) based on region and execution time.
 
+**Weighted Average Calculation:** Each function invocation is mapped to the carbon intensity of its execution hour (from GCP Cloud Monitoring hourly request counts). The weighted average across all hours is used as the carbon intensity value for the function:
+```
+weighted_avg = Σ(requests_hour × intensity_hour) / total_requests
+```
+
 **Limitation: Mock Forecast Mode**
 
 Due to ElectricityMaps ToS changes mid-project restricting forecast endpoint access, the agent uses historical data as a workaround (`USE_ACTUAL_FORECASTS=False`). Past 24h carbon intensity is fetched and timestamps are shifted +24h to simulate forecasts.

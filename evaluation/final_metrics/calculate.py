@@ -117,6 +117,37 @@ def load_gcp_metrics(file_path: str) -> Dict:
         return json.load(f)
 
 
+def get_carbon_intensity(gcp_metrics: Dict, cli_override: float = None) -> tuple:
+    """
+    Get carbon intensity for a function.
+
+    Priority:
+    1. CLI override (--carbon-intensity)
+    2. gcp_metrics['gcp_metrics']['carbon_intensity']['weighted_average_gco2_kwh']
+    3. Fallback: 400.0
+
+    Args:
+        gcp_metrics: GCP metrics dict for a single function
+        cli_override: Optional CLI argument value
+
+    Returns:
+        Tuple of (intensity: float, source: str)
+        Source is one of: "cli_argument", "gcp_metrics", "fallback"
+    """
+    if cli_override is not None:
+        return (cli_override, "cli_argument")
+
+    # Try to get from gcp_metrics
+    carbon_info = gcp_metrics.get('gcp_metrics', {}).get('carbon_intensity', {})
+    weighted_avg = carbon_info.get('weighted_average_gco2_kwh')
+
+    if weighted_avg is not None:
+        return (weighted_avg, "gcp_metrics")
+
+    # Fallback
+    return (400.0, "fallback")
+
+
 def get_function_allocation(function_name: str) -> Dict:
     """
     Get allocated memory, vCPUs, and GPU requirement for a function.
@@ -782,8 +813,8 @@ def main():
     parser.add_argument(
         '--carbon-intensity',
         type=float,
-        required=True,
-        help='Average carbon intensity in gCO2/kWh (e.g., 400)'
+        default=None,
+        help='Carbon intensity override in gCO2/kWh. If omitted, reads from GCP metrics JSON or uses 400 as fallback.'
     )
 
     parser.add_argument(
@@ -832,25 +863,31 @@ def main():
         if 'function' in gcp_data:
             # CLI mode output (single function)
             function_metrics = gcp_data['function']
+            carbon_intensity, carbon_source = get_carbon_intensity(function_metrics, args.carbon_intensity)
+            print(f"  Carbon intensity: {carbon_intensity} gCO2/kWh (source: {carbon_source})")
             result = calculate_metrics_for_function(
                 function_name=args.function_name,
                 gcp_metrics=function_metrics,
-                carbon_intensity_g_per_kwh=args.carbon_intensity,
+                carbon_intensity_g_per_kwh=carbon_intensity,
                 static_config=static_config,
                 function_metadata=function_metadata
             )
+            result['carbon_intensity_source'] = carbon_source
             results.append(result)
         elif 'functions' in gcp_data:
             # Config mode output (multiple functions)
             if args.function_name in gcp_data['functions']:
                 function_metrics = gcp_data['functions'][args.function_name]
+                carbon_intensity, carbon_source = get_carbon_intensity(function_metrics, args.carbon_intensity)
+                print(f"  Carbon intensity: {carbon_intensity} gCO2/kWh (source: {carbon_source})")
                 result = calculate_metrics_for_function(
                     function_name=args.function_name,
                     gcp_metrics=function_metrics,
-                    carbon_intensity_g_per_kwh=args.carbon_intensity,
+                    carbon_intensity_g_per_kwh=carbon_intensity,
                     static_config=static_config,
                     function_metadata=function_metadata
                 )
+                result['carbon_intensity_source'] = carbon_source
                 results.append(result)
             else:
                 print(f"Error: Function '{args.function_name}' not found in GCP metrics file")
@@ -865,27 +902,31 @@ def main():
 
         if 'functions' in gcp_data:
             for func_name, function_metrics in gcp_data['functions'].items():
-                print(f"  Processing: {func_name}")
+                carbon_intensity, carbon_source = get_carbon_intensity(function_metrics, args.carbon_intensity)
+                print(f"  Processing: {func_name} (carbon: {carbon_intensity} gCO2/kWh, source: {carbon_source})")
                 result = calculate_metrics_for_function(
                     function_name=func_name,
                     gcp_metrics=function_metrics,
-                    carbon_intensity_g_per_kwh=args.carbon_intensity,
+                    carbon_intensity_g_per_kwh=carbon_intensity,
                     static_config=static_config,
                     function_metadata=function_metadata
                 )
+                result['carbon_intensity_source'] = carbon_source
                 results.append(result)
         elif 'function' in gcp_data:
             # Single function in CLI mode without --function-name specified
             function_metrics = gcp_data['function']
             func_name = function_metrics.get('service_name', 'unknown')
-            print(f"  Processing: {func_name}")
+            carbon_intensity, carbon_source = get_carbon_intensity(function_metrics, args.carbon_intensity)
+            print(f"  Processing: {func_name} (carbon: {carbon_intensity} gCO2/kWh, source: {carbon_source})")
             result = calculate_metrics_for_function(
                 function_name=func_name,
                 gcp_metrics=function_metrics,
-                carbon_intensity_g_per_kwh=args.carbon_intensity,
+                carbon_intensity_g_per_kwh=carbon_intensity,
                 static_config=static_config,
                 function_metadata=function_metadata
             )
+            result['carbon_intensity_source'] = carbon_source
             results.append(result)
         else:
             print("Error: Unrecognized GCP metrics file format")

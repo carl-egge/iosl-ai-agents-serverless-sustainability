@@ -121,6 +121,55 @@ def extract_service_info_from_url(url: str, project_id: str) -> Dict[str, str]:
     raise ValueError(f"Could not find Cloud Run service for URL: {url}")
 
 
+def extract_service_name_from_url(url: str) -> str:
+    """
+    Extract service name from Cloud Run URL without GCP API calls.
+
+    Cloud Run URLs follow patterns:
+    - https://<service>-<hash>-<region>.a.run.app
+    - https://<service>-<hash>.run.app
+
+    This is a heuristic based on URL structure. Use when region is already known.
+
+    Args:
+        url: Cloud Run URL
+
+    Returns:
+        Service name (e.g., "dispatcher", "crypto-key-gen")
+    """
+    parsed = urlparse(url)
+    hostname = parsed.hostname
+
+    if not hostname:
+        raise ValueError(f"Invalid URL: {url}")
+
+    # Remove the .a.run.app or .run.app suffix
+    # Hostname: <service>-<hash>-<region>.a.run.app or <service>-<hash>.run.app
+    parts = hostname.split('.')
+    service_part = parts[0]  # e.g., "dispatcher-rtwa6zd2ma-ue"
+
+    # Split by hyphen and try to identify service name
+    # Pattern: service-name-hash-regioncode
+    # The hash is typically 10-12 random chars, regioncode is 2-3 chars
+    segments = service_part.split('-')
+
+    if len(segments) >= 2:
+        # Try to find where the hash starts (looking for typical hash pattern)
+        # Hashes are lowercase alphanumeric, typically 10+ chars
+        for i in range(1, len(segments)):
+            # If this segment looks like a hash (long alphanumeric), service name is everything before
+            if len(segments[i]) >= 8 and segments[i].isalnum():
+                return '-'.join(segments[:i])
+
+        # Fallback: assume last 1-2 segments are hash/region
+        if len(segments) >= 3:
+            return '-'.join(segments[:-2])
+        else:
+            return segments[0]
+
+    return service_part
+
+
 # -----------------------------------------------------------------------------
 # Metric Fetching Functions
 # -----------------------------------------------------------------------------
@@ -452,6 +501,235 @@ def fetch_request_count(
     return total
 
 
+def fetch_request_count_hourly(
+    client: monitoring_v3.MetricServiceClient,
+    project_id: str,
+    service_name: str,
+    region: str,
+    start_time: datetime,
+    end_time: datetime
+) -> Dict[str, int]:
+    """
+    Fetch request counts broken down by hour.
+
+    Uses GCP Cloud Monitoring aggregation with 1-hour alignment period.
+    Only returns hours with at least 1 request.
+
+    Returns:
+        Dict mapping UTC hour (ISO format) to request count.
+        Example: {"2026-01-29T13:00:00Z": 5, "2026-01-29T14:00:00Z": 3}
+    """
+    metric_type = "run.googleapis.com/request_count"
+
+    interval = monitoring_v3.TimeInterval(
+        {
+            "end_time": {"seconds": int(end_time.timestamp())},
+            "start_time": {"seconds": int(start_time.timestamp())},
+        }
+    )
+
+    # Aggregate by hour
+    aggregation = monitoring_v3.Aggregation(
+        {
+            "alignment_period": {"seconds": 3600},  # 1 hour
+            "per_series_aligner": monitoring_v3.Aggregation.Aligner.ALIGN_SUM,
+        }
+    )
+
+    results = client.list_time_series(
+        request={
+            "name": f"projects/{project_id}",
+            "filter": f'metric.type="{metric_type}" AND resource.labels.service_name="{service_name}" AND resource.labels.location="{region}"',
+            "interval": interval,
+            "aggregation": aggregation,
+        }
+    )
+
+    hourly_counts = {}
+    for result in results:
+        for point in result.points:
+            if point.value.int64_value and point.value.int64_value > 0:
+                # Convert end_time to UTC ISO format (truncated to hour)
+                # GCP returns end_time of the interval
+                ts = datetime.fromtimestamp(
+                    point.interval.end_time.seconds,
+                    tz=timezone.utc
+                )
+                # Truncate to hour start
+                hour_start = ts.replace(minute=0, second=0, microsecond=0)
+                hour_key = hour_start.strftime('%Y-%m-%dT%H:%M:%SZ')
+
+                # Accumulate (in case multiple series)
+                hourly_counts[hour_key] = hourly_counts.get(hour_key, 0) + point.value.int64_value
+
+    return hourly_counts
+
+
+# -----------------------------------------------------------------------------
+# Carbon Intensity Functions
+# -----------------------------------------------------------------------------
+
+def load_carbon_forecast(experiment_date: datetime) -> Optional[Dict[str, Dict[str, int]]]:
+    """
+    Load carbon forecast from results/carbon_forecasts/ matching the experiment date.
+
+    Args:
+        experiment_date: Date of the experiment (used to find matching forecast file)
+
+    Returns:
+        Dict mapping region to {hour_iso: intensity} or None if no forecast found.
+        Example: {"us-east1": {"2026-01-29T13:00:00Z": 632, ...}, ...}
+    """
+    import glob
+
+    # Construct path to carbon_forecasts directory
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(os.path.dirname(script_dir))
+    forecasts_dir = os.path.join(project_root, 'evaluation', 'results', 'carbon_forecasts')
+
+    if not os.path.exists(forecasts_dir):
+        print(f"  Warning: Carbon forecasts directory not found: {forecasts_dir}")
+        return None
+
+    # List all forecast files
+    forecast_files = glob.glob(os.path.join(forecasts_dir, 'carbon_forecasts_*.json'))
+
+    if not forecast_files:
+        print(f"  Warning: No carbon forecast files found in {forecasts_dir}")
+        return None
+
+    # Find file matching experiment date (YYYYMMDD)
+    target_date = experiment_date.strftime('%Y%m%d')
+    matching_file = None
+
+    for filepath in forecast_files:
+        filename = os.path.basename(filepath)
+        # Parse date from filename: carbon_forecasts_YYYYMMDD_HHMMSS.json
+        try:
+            parts = filename.replace('.json', '').split('_')
+            file_date = parts[2]  # YYYYMMDD
+            if file_date == target_date:
+                matching_file = filepath
+                break
+        except (IndexError, ValueError):
+            continue
+
+    if not matching_file:
+        print(f"  Warning: No carbon forecast file found for date {target_date}")
+        return None
+
+    print(f"  Loading carbon forecast from: {os.path.basename(matching_file)}")
+
+    # Load and parse forecast
+    with open(matching_file, 'r') as f:
+        data = json.load(f)
+
+    # Build lookup: {region: {hour_iso: intensity}}
+    result = {}
+    regions = data.get('regions', {})
+
+    for region_name, region_data in regions.items():
+        forecast = region_data.get('forecast', [])
+        hour_lookup = {}
+
+        for entry in forecast:
+            intensity = entry.get('carbonIntensity')
+            dt_str = entry.get('datetime', '')
+
+            if intensity is not None and dt_str:
+                # Normalize datetime format (remove milliseconds)
+                # Input: "2026-01-29T18:00:00.000Z" -> "2026-01-29T18:00:00Z"
+                normalized = dt_str.replace('.000Z', 'Z')
+                hour_lookup[normalized] = intensity
+
+        if hour_lookup:
+            result[region_name] = hour_lookup
+
+    return result if result else None
+
+
+def calculate_weighted_carbon_intensity(
+    hourly_requests: Dict[str, int],
+    region: str,
+    carbon_forecast: Optional[Dict[str, Dict[str, int]]],
+    fallback_intensity: float = 400.0
+) -> Dict:
+    """
+    Calculate weighted average carbon intensity based on execution hours.
+
+    Formula: weighted_avg = Σ(requests_hour × intensity_hour) / total_requests
+
+    Args:
+        hourly_requests: Dict from fetch_request_count_hourly()
+        region: GCP region (e.g., "us-east1")
+        carbon_forecast: Dict from load_carbon_forecast() (can be None)
+        fallback_intensity: Default intensity when no forecast available (gCO2/kWh)
+
+    Returns:
+        {
+            "weighted_average_gco2_kwh": float,
+            "total_requests": int,
+            "hours_matched": int,
+            "hours_with_fallback": int,
+            "source": "forecast" | "fallback",
+            "fallback_value": float
+        }
+    """
+    if not hourly_requests:
+        return {
+            "weighted_average_gco2_kwh": fallback_intensity,
+            "total_requests": 0,
+            "hours_matched": 0,
+            "hours_with_fallback": 0,
+            "source": "fallback",
+            "fallback_value": fallback_intensity,
+            "note": "No hourly request data available"
+        }
+
+    # Check if we have forecast data for this region
+    region_forecast = None
+    if carbon_forecast and region in carbon_forecast:
+        region_forecast = carbon_forecast[region]
+
+    weighted_sum = 0.0
+    total_requests = 0
+    hours_matched = 0
+    hours_with_fallback = 0
+
+    for hour_key, request_count in hourly_requests.items():
+        intensity = None
+
+        # Try to get intensity from forecast
+        if region_forecast and hour_key in region_forecast:
+            intensity = region_forecast[hour_key]
+            hours_matched += 1
+        else:
+            intensity = fallback_intensity
+            hours_with_fallback += 1
+
+        weighted_sum += request_count * intensity
+        total_requests += request_count
+
+    weighted_avg = weighted_sum / total_requests if total_requests > 0 else fallback_intensity
+
+    # Determine source
+    if hours_matched > 0 and hours_with_fallback == 0:
+        source = "forecast"
+    elif hours_matched > 0:
+        source = "mixed"
+    else:
+        source = "fallback"
+
+    return {
+        "weighted_average_gco2_kwh": round(weighted_avg, 2),
+        "total_requests": total_requests,
+        "hours_matched": hours_matched,
+        "hours_with_fallback": hours_with_fallback,
+        "source": source,
+        "fallback_value": fallback_intensity
+    }
+
+
 # -----------------------------------------------------------------------------
 # Aggregation
 # -----------------------------------------------------------------------------
@@ -508,8 +786,15 @@ def fetch_all_metrics(
         print(f"    Warning: Could not fetch request_count: {e}")
         request_count = None
 
+    try:
+        hourly_request_counts = fetch_request_count_hourly(client, project_id, service_name, region, start_time, end_time)
+    except Exception as e:
+        print(f"    Warning: Could not fetch hourly_request_counts: {e}")
+        hourly_request_counts = {}
+
     return {
         'request_count': request_count,
+        'hourly_request_counts': hourly_request_counts,
         'request_latencies_ms': request_latencies,
         'cpu_utilization': cpu_util,
         'memory_utilization': memory_util,
@@ -602,6 +887,14 @@ def main():
         # Initialize client
         client = init_monitoring_client(project_id)
 
+        # Load carbon forecast once for all functions
+        print("\nLoading carbon forecast...")
+        carbon_forecast = load_carbon_forecast(start_time)
+        if carbon_forecast:
+            print(f"  Loaded forecast for {len(carbon_forecast)} region(s)")
+        else:
+            print("  No matching carbon forecast found - will use fallback value (400)")
+
         # Process all functions
         output = {
             'experiment_name': experiment_name,
@@ -620,18 +913,36 @@ def main():
                 print(f"\nProcessing function: {func_label}")
                 print(f"  URL: {func_url}")
 
-                # Extract service info from URL
-                service_info = extract_service_info_from_url(func_url, project_id)
-                service_name = service_info['service_name']
-                region = service_info['region']
-
-                print(f"  Detected: service={service_name}, region={region}")
+                # Check if region is provided in config (faster) or needs URL lookup (slower)
+                if 'region' in func:
+                    region = func['region']
+                    service_name = extract_service_name_from_url(func_url)
+                    print(f"  Using config: service={service_name}, region={region}")
+                else:
+                    # Fall back to slow URL lookup via GCP API
+                    service_info = extract_service_info_from_url(func_url, project_id)
+                    service_name = service_info['service_name']
+                    region = service_info['region']
+                    print(f"  Detected via GCP: service={service_name}, region={region}")
 
                 # Fetch metrics
                 metrics = fetch_all_metrics(
                     client, project_id, service_name, region,
                     start_time, end_time
                 )
+
+                # Calculate weighted carbon intensity
+                hourly_counts = metrics.get('hourly_request_counts', {})
+                carbon_info = calculate_weighted_carbon_intensity(
+                    hourly_requests=hourly_counts,
+                    region=region,
+                    carbon_forecast=carbon_forecast,
+                    fallback_intensity=400.0
+                )
+                metrics['carbon_intensity'] = carbon_info
+
+                if hourly_counts:
+                    print(f"  Carbon intensity: {carbon_info['weighted_average_gco2_kwh']} gCO2/kWh ({carbon_info['source']})")
 
                 output['functions'][func_label] = {
                     'service_name': service_name,
@@ -696,12 +1007,33 @@ def main():
 
         print(f"  Detected: service={service_name}, region={region}")
 
+        # Load carbon forecast
+        print("\nLoading carbon forecast...")
+        carbon_forecast = load_carbon_forecast(start_time)
+        if carbon_forecast:
+            print(f"  Loaded forecast for {len(carbon_forecast)} region(s)")
+        else:
+            print("  No matching carbon forecast found - will use fallback value (400)")
+
         # Fetch metrics
         client = init_monitoring_client(args.project_id)
         metrics = fetch_all_metrics(
             client, args.project_id, service_name, region,
             start_time, end_time
         )
+
+        # Calculate weighted carbon intensity
+        hourly_counts = metrics.get('hourly_request_counts', {})
+        carbon_info = calculate_weighted_carbon_intensity(
+            hourly_requests=hourly_counts,
+            region=region,
+            carbon_forecast=carbon_forecast,
+            fallback_intensity=400.0
+        )
+        metrics['carbon_intensity'] = carbon_info
+
+        if hourly_counts:
+            print(f"  Carbon intensity: {carbon_info['weighted_average_gco2_kwh']} gCO2/kWh ({carbon_info['source']})")
 
         output = {
             'experiment_id': 'single_query',
