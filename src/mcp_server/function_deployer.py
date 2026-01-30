@@ -732,17 +732,30 @@ if __name__ == '__main__':
             service = self.run_client.get_service(name=service_name)
 
             # Map Cloud Run conditions to status
-            # Note: Cloud Run API returns 'status' field ("True"/"False") not 'state' enum
-            status = "UNKNOWN"
+            routes_ready = False
+            configs_ready = False
+            has_failed = False
+            has_reconciling = False
+
             for condition in service.conditions:
-                if condition.type_ == "Ready":
-                    # Check the status string field (not the state enum which may not be populated)
-                    if condition.status == "True":
-                        status = "ACTIVE"
-                    elif condition.status == "False":
-                        # Check reason for more detail if available
-                        status = "FAILED"
-                    break
+                logger.info(f"Condition: type_={condition.type_}, state={condition.state}")
+                if condition.state == run_v2.Condition.State.CONDITION_FAILED:
+                    has_failed = True
+                elif condition.state == run_v2.Condition.State.CONDITION_RECONCILING:
+                    has_reconciling = True
+                elif condition.state == run_v2.Condition.State.CONDITION_SUCCEEDED:
+                    if condition.type_ == "RoutesReady":
+                        routes_ready = True
+                    elif condition.type_ == "ConfigurationsReady":
+                        configs_ready = True
+
+            if has_failed:
+                status = "FAILED"
+            elif has_reconciling:
+                status = "DEPLOYING"
+            elif routes_ready and configs_ready:
+                status = "ACTIVE"
+                logger.info("Service is ACTIVE (RoutesReady + ConfigurationsReady both succeeded)")
 
             return {
                 "exists": True,
