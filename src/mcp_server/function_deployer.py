@@ -30,7 +30,7 @@ PROJECT_ID = os.environ.get("PROJECT_ID", "iosl-faas-scheduling")
 GCS_BUCKET = os.environ.get("GCS_BUCKET", "faas-scheduling-us-east1")
 ARTIFACT_REPO = os.environ.get("ARTIFACT_REPO", "function-images")
 DEFAULT_RUNTIME = "python312"
-DEFAULT_TIMEOUT = 60
+DEFAULT_TIMEOUT = 360
 DEFAULT_ENTRY_POINT = "main"
 
 # Dockerfile template for user functions
@@ -473,7 +473,7 @@ if __name__ == '__main__':
             runtime: Python runtime version (ignored, uses python:3.12-slim)
             memory_mb: Memory allocation in MB (default: 512, minimum for Cloud Run)
             cpu: Number of vCPUs as string (e.g., "1", "2", "4"). If None, defaults to "1".
-            timeout_seconds: Request timeout (default: 60)
+            timeout_seconds: Request timeout (default: 360)
             entry_point: Function entry point name (default: "main")
             requirements: Optional requirements.txt content
 
@@ -530,7 +530,8 @@ if __name__ == '__main__':
                 image=image_uri,
                 ports=[run_v2.ContainerPort(container_port=8080)],
                 resources=run_v2.ResourceRequirements(
-                    limits={"memory": memory_str, "cpu": cpu_str}
+                    limits={"memory": memory_str, "cpu": cpu_str},
+                    cpu_idle=True,  
                 ),
             )
 
