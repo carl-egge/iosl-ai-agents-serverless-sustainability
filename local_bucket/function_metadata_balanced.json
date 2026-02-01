@@ -11,7 +11,7 @@
       "source_location": "us-east1",
       "invocations_per_day": 1000,
       "priority": "balanced",
-      "latency_important": false,
+      "latency_important": true,
       "allowed_regions": [
         "europe-north2",
         "us-east1",
@@ -30,7 +30,7 @@
       "data_input_gb": 0.034,
       "data_output_gb": 0.005,
       "source_location": "us-east1",
-      "invocations_per_day": 10,
+      "invocations_per_day": 200,
       "priority": "balanced",
       "latency_important": false,
       "allowed_regions": [
