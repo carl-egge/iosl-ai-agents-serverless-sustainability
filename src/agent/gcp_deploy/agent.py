@@ -37,7 +37,7 @@ MCP_SERVER_URL = os.environ.get("MCP_SERVER_URL", "http://localhost:8080")
 MCP_API_KEY = os.environ.get("MCP_API_KEY", "")
 
 # Forecast caching configuration
-MAX_FORECAST_AGE_DAYS = 7  # Regenerate schedule if older than this many days
+MAX_FORECAST_AGE_HOURS = 23  # Regenerate schedule if older than this many hours
 
 # ElectricityMaps API mode configuration
 # Set to True only if you have premium API access with forecast endpoint
@@ -1271,7 +1271,7 @@ def is_cached_schedule_valid(function_name: str, function_metadata: dict) -> tup
     1. allow_schedule_caching is True in metadata
     2. Schedule file exists
     3. Metadata hash matches current metadata
-    4. Schedule is not older than MAX_FORECAST_AGE_DAYS
+    4. Schedule is not older than MAX_FORECAST_AGE_HOURS
 
     Returns:
         tuple: (is_valid: bool, cached_schedule: dict or None, schedule_path: str or None)
@@ -1307,9 +1307,9 @@ def is_cached_schedule_valid(function_name: str, function_metadata: dict) -> tup
 
     try:
         created_at = datetime.fromisoformat(created_at_str)
-        age_days = (datetime.now() - created_at).days
+        age_hours = (datetime.now() - created_at).total_seconds() / 3600
 
-        if age_days > MAX_FORECAST_AGE_DAYS:
+        if age_hours > MAX_FORECAST_AGE_HOURS:
             # Schedule too old
             return False, None, None
     except Exception:
@@ -1457,11 +1457,11 @@ def run_scheduler() -> tuple:
             now = datetime.now()
             created_at_str = cached_schedule["metadata"]["created_at"]
             created_at = datetime.fromisoformat(created_at_str)
-            age_days = (now - created_at).days
+            age_hours = (now - created_at).total_seconds() / 3600
 
             print(f"\n  {func_name}:")
             print(f"    Originally created: {created_at_str}")
-            print(f"    Age: {age_days} day(s)")
+            print(f"    Age: {age_hours:.1f} hour(s)")
 
             # Update recommendation dates to today
             if "recommendations" in cached_schedule:
@@ -1581,12 +1581,17 @@ def run_scheduler() -> tuple:
         carbon_forecasts, failed_regions = get_carbon_forecasts_all_regions()
 
     # Save raw forecast data to storage
+    now = datetime.now()
     forecast_data = {
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": now.isoformat(),
         "regions": carbon_forecasts,
         "failed_regions": failed_regions,
     }
+    # Save as latest (overwritten each time)
     forecast_path = write_to_storage(forecast_data, "carbon_forecasts.json")
+    # Also save timestamped version for history
+    timestamp_str = now.strftime("%Y%m%d_%H%M%S")
+    write_to_storage(forecast_data, f"carbon_forecasts_{timestamp_str}.json")
 
     # Step 5: Generate schedules for functions needing new schedules, update cached ones
     print(f"\n5. Processing schedules")
@@ -1599,12 +1604,12 @@ def run_scheduler() -> tuple:
         now = datetime.now()
         created_at_str = cached_schedule["metadata"]["created_at"]
         created_at = datetime.fromisoformat(created_at_str)
-        age_days = (now - created_at).days
+        age_hours = (now - created_at).total_seconds() / 3600
 
         print(f"\n  Using cached schedule for {func_name}")
         print(f"    Originally created: {created_at_str}")
-        print(f"    Age: {age_days} day(s)")
-        print(f"    Reason: Metadata unchanged and forecast still fresh (< {MAX_FORECAST_AGE_DAYS} days)")
+        print(f"    Age: {age_hours:.1f} hour(s)")
+        print(f"    Reason: Metadata unchanged and forecast still fresh (< {MAX_FORECAST_AGE_HOURS} hours)")
 
         # Update recommendation dates to today
         if "recommendations" in cached_schedule:

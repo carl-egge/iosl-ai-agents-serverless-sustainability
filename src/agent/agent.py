@@ -1271,7 +1271,7 @@ def is_cached_schedule_valid(function_name: str, function_metadata: dict) -> tup
     1. allow_schedule_caching is True in metadata
     2. Schedule file exists
     3. Metadata hash matches current metadata
-    4. Schedule is not older than MAX_FORECAST_AGE_DAYS
+    4. Schedule is not older than MAX_FORECAST_AGE_HOURS
 
     Returns:
         tuple: (is_valid: bool, cached_schedule: dict or None, schedule_path: str or None)
@@ -1457,11 +1457,11 @@ def run_scheduler() -> tuple:
             now = datetime.now()
             created_at_str = cached_schedule["metadata"]["created_at"]
             created_at = datetime.fromisoformat(created_at_str)
-            age_days = (now - created_at).days
+            age_hours = (now - created_at).total_seconds() / 3600
 
             print(f"\n  {func_name}:")
             print(f"    Originally created: {created_at_str}")
-            print(f"    Age: {age_days} day(s)")
+            print(f"    Age: {age_hours:.1f} hour(s)")
 
             # Update recommendation dates to today
             if "recommendations" in cached_schedule:
@@ -1794,6 +1794,8 @@ def create_flask_app():
             requirements = data.get("requirements", "")
             description = data.get("description", "User-submitted function")
             memory_mb = data.get("memory_mb", 256)
+            vcpus = data.get("vcpus")  # None means use default based on gpu_required
+            gpu_required = data.get("gpu_required", False)
             timeout_seconds = data.get("timeout_seconds", 360)
             priority = data.get("priority", "balanced")
 
@@ -1815,6 +1817,8 @@ def create_flask_app():
                 "description": description,
                 "runtime_ms": 1000,  # Default estimate
                 "memory_mb": memory_mb,
+                "vcpus": vcpus,
+                "gpu_required": gpu_required,
                 "data_input_gb": 0.001,
                 "data_output_gb": 0.001,
                 "source_location": "us-east1",
@@ -1866,6 +1870,15 @@ def create_flask_app():
             if health_status.get("status") != "healthy":
                 print(f"Warning: MCP server health check: {health_status}")
 
+            # Calculate vCPUs: use specified value or defaults based on gpu_required
+            if vcpus is None:
+                if gpu_required:
+                    vcpus_to_use = static_config.get("agent_defaults", {}).get("vcpus_if_gpu", 8)
+                else:
+                    vcpus_to_use = static_config.get("agent_defaults", {}).get("vcpus_default", 1)
+            else:
+                vcpus_to_use = vcpus
+
             # Deploy the function
             deployment_result = mcp_client.deploy_function(
                 function_name=function_name,
@@ -1873,6 +1886,7 @@ def create_flask_app():
                 region=optimal_region,
                 runtime="python312",
                 memory_mb=memory_mb,
+                cpu=str(vcpus_to_use),
                 timeout_seconds=timeout_seconds,
                 entry_point="main",
                 requirements=requirements
