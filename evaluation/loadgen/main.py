@@ -15,6 +15,7 @@ import time
 from email.utils import parsedate_to_datetime
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from typing import Any, Dict, List, Optional
 
 import requests
@@ -101,6 +102,7 @@ class LogCollector:
 
 
 _log_collector: Optional[LogCollector] = None
+EASTERN_TZ = ZoneInfo("America/New_York")
 
 
 def now_utc() -> datetime:
@@ -167,6 +169,23 @@ def parse_trace_hour(value: Optional[str]) -> datetime:
     else:
         dt = now_utc()
     return dt.replace(minute=0, second=0, microsecond=0)
+
+
+def compute_dispatch_deadline(trace_hour_utc: datetime) -> datetime:
+    local_time = trace_hour_utc.astimezone(EASTERN_TZ)
+    # Forecast window ends at 6am Eastern the following day.
+    next_day = (local_time + timedelta(days=1)).date()
+    deadline_local = datetime(
+        year=next_day.year,
+        month=next_day.month,
+        day=next_day.day,
+        hour=6,
+        minute=0,
+        second=0,
+        microsecond=0,
+        tzinfo=EASTERN_TZ,
+    )
+    return deadline_local.astimezone(timezone.utc)
 
 
 def resolve_path(path: str) -> str:
@@ -704,7 +723,7 @@ def run_scenario_c(cfg: Config, invocations: List[Invocation]) -> None:
         cfg.dispatcher_extra_headers if cfg.dispatcher_extra_headers is not None else cfg.extra_headers,
     )
     trace_hour_str = format_dt(cfg.trace_hour)
-    deadline = cfg.trace_hour + timedelta(hours=1)
+    deadline = compute_dispatch_deadline(cfg.trace_hour)
     deadline_str = format_dt(deadline)
 
     for inv in invocations:
@@ -713,7 +732,7 @@ def run_scenario_c(cfg: Config, invocations: List[Invocation]) -> None:
         dispatch_payload = {
             "function_name": inv.function_id,
             "function_param": function_param,
-            "delay": "true",
+            "delay": "false" if inv.function_id == "api_health_check" else "true",
             "deadline": deadline_str,
         }
         dispatch_sent = now_utc()
