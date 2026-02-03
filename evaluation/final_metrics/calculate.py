@@ -148,6 +148,18 @@ def get_carbon_intensity(gcp_metrics: Dict, cli_override: float = None) -> tuple
     return (400.0, "fallback")
 
 
+def normalize_function_name(function_name: str) -> str:
+    """
+    Normalize function name for lookup in function_metadata.json.
+
+    GCP/Cloud Run uses hyphens (e.g., 'video-transcoder')
+    function_metadata.json uses underscores (e.g., 'video_transcoder')
+
+    This function converts hyphens to underscores for consistent lookup.
+    """
+    return function_name.replace('-', '_')
+
+
 def get_function_allocation(function_name: str) -> Dict:
     """
     Get allocated memory, vCPUs, and GPU requirement for a function.
@@ -171,15 +183,19 @@ def get_function_allocation(function_name: str) -> Dict:
         return AGENT_CONFIG.copy()
 
     # Look up in function_metadata.json
+    # Normalize name: GCP uses hyphens, function_metadata uses underscores
     metadata = load_function_metadata()
     static_config = load_static_config()
+    normalized_name = normalize_function_name(function_name)
 
-    if function_name in metadata['functions']:
-        func_data = metadata['functions'][function_name]
+    if normalized_name in metadata['functions']:
+        func_data = metadata['functions'][normalized_name]
         gpu_required = func_data.get('gpu_required', False)
 
-        # Get vCPUs from static_config defaults based on GPU requirement
-        if gpu_required:
+        # Get vCPUs: prefer explicit value from function_metadata, fall back to static_config defaults
+        if 'vcpus' in func_data:
+            vcpus = func_data['vcpus']
+        elif gpu_required:
             vcpus = static_config['agent_defaults']['vcpus_if_gpu']  # 8
         else:
             vcpus = static_config['agent_defaults']['vcpus_default']  # 1
@@ -190,12 +206,10 @@ def get_function_allocation(function_name: str) -> Dict:
             'gpu_required': gpu_required
         }
     else:
-        # Fallback to defaults
-        return {
-            'allocated_memory_mb': 512,  # Default
-            'allocated_vcpus': static_config['agent_defaults']['vcpus_default'],
-            'gpu_required': False
-        }
+        raise ValueError(
+            f"Function '{function_name}' (normalized: '{normalized_name}') not found in function_metadata.json. "
+            f"Available functions: {list(metadata['functions'].keys())}"
+        )
 
 
 def calculate_energy_per_invocation(
@@ -234,7 +248,7 @@ def calculate_energy_per_invocation(
     Args:
         allocated_vcpus: Number of vCPUs allocated to the function
         allocated_memory_mb: Memory allocation in MB
-        runtime_ms: Runtime per invocation (billable_instance_time / request_count)
+        runtime_ms: Runtime per invocation (mean request latency from GCP)
         cpu_utilization_actual: Actual CPU utilization from GCP (0.0-1.0)
         data_received_gb: Total data received (GB)
         data_sent_gb: Total data sent (GB)
@@ -266,8 +280,9 @@ def calculate_energy_per_invocation(
 
     # GPU constants (load from static_config.json if GPU required)
     # GPU uses same CCF min/max model as CPU
-    # GCP doesn't expose GPU utilization, so we assume 50% for compute workloads
-    GPU_UTILIZATION_ASSUMED = 0.5
+    # GCP doesn't expose GPU utilization, so we assume 10% mean utilization
+    # Rationale: CPU data shows mean utilization is typically much lower than p95
+    GPU_UTILIZATION_ASSUMED = 0.1
     if gpu_required:
         GPU_MIN_WATTS = power_constants['gpu_min_watts']['nvidia-l4']
         GPU_MAX_WATTS = power_constants['gpu_max_watts']['nvidia-l4']
@@ -406,6 +421,69 @@ def calculate_transfer_cost_per_invocation(
     }
 
 
+def calculate_agent_setup_cost_per_invocation(
+    function_name: str,
+    billable_instance_time_s: float,
+    request_count: int,
+    allocated_vcpus: float,
+    allocated_memory_mb: int,
+    region: str,
+    static_config: Dict
+) -> Optional[Dict]:
+    """
+    Calculate compute cost overhead for agent infrastructure functions (dispatcher, agent).
+
+    This cost is only calculated for 'dispatcher' and 'agent' functions, as these
+    represent additional compute overhead in agent-based approaches compared to baseline.
+
+    Uses billable_instance_time (what GCP actually charges), NOT request_latency.
+    Cost calculation differs from energy calculation which uses request_latency.
+
+    Args:
+        function_name: Name of the function
+        billable_instance_time_s: Total billable instance time from GCP
+        request_count: Number of requests
+        allocated_vcpus: vCPUs allocated to the function
+        allocated_memory_mb: Memory allocated in MB
+        region: GCP region (for pricing tier lookup)
+        static_config: Static configuration with pricing info
+
+    Returns:
+        Dict with cost breakdown, or None if not an agent infrastructure function
+    """
+    # Only calculate for agent infrastructure functions
+    if function_name not in ('dispatcher', 'agent'):
+        return None
+
+    # Get billable time per request (what GCP charges)
+    billable_time_per_request_s = billable_instance_time_s / request_count
+
+    # Determine pricing tier based on region
+    region_info = static_config['regions'].get(region, {})
+    pricing_tier = region_info.get('pricing_tier', 1)
+    tier_key = f'tier{pricing_tier}'
+    tier = static_config['pricing'].get(tier_key, static_config['pricing']['tier1'])
+
+    # Calculate per-invocation compute costs
+    allocated_memory_gib = allocated_memory_mb / 1024
+    vcpu_cost = allocated_vcpus * billable_time_per_request_s * tier['vcpu_second_usd']
+    gib_cost = allocated_memory_gib * billable_time_per_request_s * tier['memory_gib_second_usd']
+    invocation_cost = tier['invocation_usd']
+
+    total_cost = vcpu_cost + gib_cost + invocation_cost
+
+    return {
+        'agent_setup_cost_usd': total_cost,
+        'breakdown': {
+            'vcpu_cost_usd': vcpu_cost,
+            'memory_cost_usd': gib_cost,
+            'invocation_cost_usd': invocation_cost,
+            'billable_time_per_request_s': billable_time_per_request_s,
+            'pricing_tier': pricing_tier
+        }
+    }
+
+
 def calculate_per_year_metrics(
     per_invocation_metrics: Dict,
     function_name: str,
@@ -435,7 +513,9 @@ def calculate_per_year_metrics(
     # Get per_invocation values
     per_inv_energy = per_invocation_metrics['per_invocation']['energy']
     per_inv_emissions = per_invocation_metrics['per_invocation']['emissions']
-    per_inv_transfer = per_invocation_metrics['per_invocation']['cost_overhead']['transfer_cost_usd']
+    per_inv_cost = per_invocation_metrics['per_invocation']['cost_overhead']
+    per_inv_transfer = per_inv_cost['transfer_cost_usd']
+    per_inv_agent_setup = per_inv_cost.get('agent_setup_cost_usd')  # None for non-agent functions
 
     # Scale compute energy (per_invocation × annual_invocations)
     annual_compute_energy_kwh = per_inv_energy['compute_energy_kwh'] * annual_invocations
@@ -447,9 +527,15 @@ def calculate_per_year_metrics(
     # Scale transfer costs
     annual_transfer_cost = per_inv_transfer * annual_invocations
 
+    # Scale agent setup costs (for dispatcher/agent only)
+    annual_agent_setup_cost = (per_inv_agent_setup * annual_invocations) if per_inv_agent_setup else None
+
     # Total = compute + network (no API at function level)
     annual_total_energy_kwh = annual_compute_energy_kwh + annual_network_energy_kwh
     annual_total_emissions_kg = annual_compute_emissions_kg
+
+    # Total cost = transfer + agent setup (if applicable)
+    total_cost_overhead = annual_transfer_cost + (annual_agent_setup_cost or 0)
 
     return {
         'latency': {
@@ -468,7 +554,8 @@ def calculate_per_year_metrics(
         },
         'cost_overhead': {
             'annual_transfer_cost_usd': annual_transfer_cost,
-            'total_cost_overhead_usd': annual_transfer_cost
+            'annual_agent_setup_cost_usd': annual_agent_setup_cost,
+            'total_cost_overhead_usd': total_cost_overhead
         }
     }
 
@@ -491,15 +578,27 @@ def resolve_function_config(function_name: str, gcp_metrics: Dict) -> Dict:
     request_count = gcp_metrics['gcp_metrics']['request_count']
     billable_instance_time_s = gcp_metrics['gcp_metrics'].get('billable_instance_time_s')
 
-    # Runtime calculation: use billable_instance_time / request_count
-    # GCP allocates CPU during billable time, which includes container startup.
-    # It is likely (though not explicitly documented) that CPU utilization is
-    # measured over this same period. Using billable_time ensures consistency
-    # between runtime and utilization in the energy formula.
-    # Reference: https://docs.cloud.google.com/run/docs/configuring/billing-settings
-    # Note: Even if this assumption is imperfect, using the same approach across
-    # all scenarios ensures results remain comparable.
-    runtime_ms = (billable_instance_time_s / request_count) * 1000
+    # Runtime calculation: use mean request latency from GCP Cloud Monitoring
+    #
+    # Why request latency instead of billable_instance_time / request_count?
+    # - Empirical evidence shows CPU utilization is measured over actual request
+    #   processing time, not billable instance time
+    # - We observed up to 83× discrepancy between billable time per request and
+    #   mean request latency, yet CPU utilization remained similar across projects
+    # - This indicates GCP measures CPU utilization over actual request runtime
+    # - The energy formula (power × runtime) requires both factors to use the same
+    #   time window for mathematical correctness
+    # - Using billable time with request-time utilization produces incorrect results
+    #
+    # Note on idle energy: Idle instances do consume some energy, but we lack
+    # reliable metrics for idle-time energy. Mixing billable time (includes idle)
+    # with request-time CPU utilization would produce inaccurate results.
+    request_latencies = gcp_metrics['gcp_metrics'].get('request_latencies_ms', {})
+    runtime_ms = request_latencies.get('mean')
+
+    if runtime_ms is None:
+        # Fallback to billable time if latency not available
+        runtime_ms = (billable_instance_time_s / request_count) * 1000
 
     from_gcp = {
         'region': gcp_metrics['region'],
@@ -579,6 +678,17 @@ def calculate_metrics_for_function(
         static_config=static_config
     )
 
+    # 4.5 Calculate agent setup costs (for dispatcher/agent functions only)
+    agent_setup_costs = calculate_agent_setup_cost_per_invocation(
+        function_name=function_name,
+        billable_instance_time_s=config['billable_instance_time_s'],
+        request_count=config['request_count'],
+        allocated_vcpus=config['allocated_vcpus'],
+        allocated_memory_mb=config['allocated_memory_mb'],
+        region=config['region'],
+        static_config=static_config
+    )
+
     # 5. Get invocations_per_day for inputs section
     if function_name == 'dispatcher':
         invocations_per_day = sum(
@@ -588,10 +698,17 @@ def calculate_metrics_for_function(
         ) if function_metadata else 100
     elif function_name == 'agent':
         invocations_per_day = 1
-    elif function_metadata and function_name in function_metadata['functions']:
-        invocations_per_day = function_metadata['functions'][function_name]['invocations_per_day']
+    elif function_metadata:
+        normalized_name = normalize_function_name(function_name)
+        if normalized_name in function_metadata['functions']:
+            invocations_per_day = function_metadata['functions'][normalized_name]['invocations_per_day']
+        else:
+            raise ValueError(
+                f"Function '{function_name}' (normalized: '{normalized_name}') not found in function_metadata.json. "
+                f"Available functions: {list(function_metadata['functions'].keys())}"
+            )
     else:
-        invocations_per_day = 100
+        invocations_per_day = 100  # No function_metadata provided
 
     # 6. Get region-specific transfer rate
     data_transfer_cost_per_gb_usd = static_config['regions'].get(
@@ -640,8 +757,13 @@ def calculate_metrics_for_function(
             },
             'cost_overhead': {
                 'transfer_cost_usd': transfer_costs['transfer_cost_usd'],
-                'total_cost_overhead_usd': transfer_costs['transfer_cost_usd'],
-                'transfer_breakdown': transfer_costs['breakdown']
+                'agent_setup_cost_usd': agent_setup_costs['agent_setup_cost_usd'] if agent_setup_costs else None,
+                'total_cost_overhead_usd': (
+                    transfer_costs['transfer_cost_usd'] +
+                    (agent_setup_costs['agent_setup_cost_usd'] if agent_setup_costs else 0)
+                ),
+                'transfer_breakdown': transfer_costs['breakdown'],
+                'agent_setup_breakdown': agent_setup_costs['breakdown'] if agent_setup_costs else None
             }
         }
     }
@@ -676,7 +798,7 @@ def build_calculation_constants(static_config: Dict) -> Dict:
             'gpu_min_watts_nvidia_l4': power_constants['gpu_min_watts']['nvidia-l4'],
             'gpu_max_watts_nvidia_l4': power_constants['gpu_max_watts']['nvidia-l4'],
             'gpu_formula': 'gpu_count × (min_watts + gpu_utilization × (max_watts - min_watts))',
-            'gpu_utilization_assumed': 0.5
+            'gpu_utilization_assumed': 0.1
         },
         'agent_api_overhead': {
             'per_api_call': AGENT_API_OVERHEAD['per_api_call'],
@@ -718,11 +840,16 @@ def calculate_project_aggregation(function_results: list, project_id: str = None
     total_compute_emissions_kg = 0.0
     total_transfer_cost_usd = 0.0
 
+    # Track agent setup costs (for dispatcher/agent functions)
+    dispatcher_annual_cost = 0.0
+    agent_annual_cost = 0.0
+
     # Collect latencies for mean calculation (only non-null values)
     latencies = []
 
     for func in functions_with_yearly:
         per_year = func['per_year']
+        func_name = func.get('function_name', '')
 
         # Sum energy
         energy = per_year.get('energy', {})
@@ -736,6 +863,14 @@ def calculate_project_aggregation(function_results: list, project_id: str = None
         # Sum costs
         cost_overhead = per_year.get('cost_overhead', {})
         total_transfer_cost_usd += cost_overhead.get('annual_transfer_cost_usd', 0) or 0
+
+        # Track agent setup costs by function (dispatcher/agent only)
+        agent_setup_cost = cost_overhead.get('annual_agent_setup_cost_usd')
+        if agent_setup_cost is not None:
+            if func_name == 'dispatcher':
+                dispatcher_annual_cost = agent_setup_cost
+            elif func_name == 'agent':
+                agent_annual_cost = agent_setup_cost
 
         # Collect latency (if available)
         latency = per_year.get('latency', {})
@@ -757,10 +892,18 @@ def calculate_project_aggregation(function_results: list, project_id: str = None
         api_overhead_emissions_kg = 0.0
         api_overhead_cost_usd = 0.0
 
-    # Calculate totals including API overhead
+    # Calculate execution cost overhead (dispatcher + agent setup costs)
+    # This uses billable_instance_time (what GCP actually charges)
+    execution_cost_overhead = dispatcher_annual_cost + agent_annual_cost
+
+    # Calculate totals including API overhead and execution cost overhead
     total_energy_kwh = total_compute_energy_kwh + total_network_energy_kwh + api_overhead_energy_kwh
     total_emissions_kg = total_compute_emissions_kg + api_overhead_emissions_kg
-    total_cost_overhead_usd = total_transfer_cost_usd + api_overhead_cost_usd
+    total_cost_overhead_usd = (
+        total_transfer_cost_usd +
+        api_overhead_cost_usd +
+        execution_cost_overhead
+    )
 
     return {
         'description': 'Aggregated yearly metrics across all functions in this project',
@@ -785,8 +928,11 @@ def calculate_project_aggregation(function_results: list, project_id: str = None
             'annual_transfer_cost_usd': total_transfer_cost_usd,
             'agent_overhead': {
                 'api_overhead_usd': api_overhead_cost_usd,
-                'execution_cost_overhead_usd': None,
-                'note': 'Placeholder for execution_cost_overhead until defined'
+                'execution_cost_overhead_usd': execution_cost_overhead if execution_cost_overhead > 0 else None,
+                'breakdown': {
+                    'dispatcher_annual_usd': dispatcher_annual_cost if dispatcher_annual_cost > 0 else None,
+                    'agent_annual_usd': agent_annual_cost if agent_annual_cost > 0 else None
+                }
             },
             'total_cost_overhead_usd': total_cost_overhead_usd
         }

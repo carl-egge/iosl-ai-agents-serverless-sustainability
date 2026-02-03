@@ -1,0 +1,31 @@
+{
+  "experiment_name": "static-green",
+  "project_id": "iosl-project-static-green",
+  "description": "Green approach - All functions deployed to europe-north2 & for GPU jobs europe-west1 (fixed regions)",
+  "functions": [
+    {
+      "url": "https://video-transcoder-h57ri6ezoq-ew.a.run.app/",
+      "label": "video-transcoder",
+      "region": "europe-west1"
+    },
+    {
+      "url": "https://crypto-key-gen-h57ri6ezoq-ma.a.run.app/",
+      "label": "crypto-key-gen",
+      "region": "europe-north2"
+    },
+    {
+      "url": "https://image-format-converter-h57ri6ezoq-ma.a.run.app/",
+      "label": "image-format-converter",
+      "region": "europe-north2"
+    },
+    {
+      "url": "https://api-health-check-h57ri6ezoq-ma.a.run.app/",
+      "label": "api-health-check",
+      "region": "europe-north2"
+    }
+  ],
+  "time_window": {
+    "start": "2026-01-30T13:00:00Z",
+    "end": "2026-02-03T23:00:00Z"
+  }
+}

@@ -52,21 +52,20 @@ total_energy_kwh   = compute_energy_kwh + network_energy_kwh
   - Formula: `gpu_count × (min_watts + gpu_util × (max_watts - min_watts))`
   - NVIDIA L4 values: min=8W (idle), max=72W (TDP)
   - L4 idle power estimated from T4 ratio (CCF T4: 8W/71W ≈ 11% idle → L4: 72W × 0.11 ≈ 8W)
-  - GCP doesn't expose GPU utilization, so we assume 50% for compute workloads
-  - At 50% utilization: 8 + 0.5 × 64 = 40W
+  - GCP doesn't expose GPU utilization, so we assume 10% mean utilization (CPU data shows mean utilization is typically much lower than p95)
+  - At 10% utilization: 8 + 0.1 × 64 = 14.4W
 - PUE (Power Usage Effectiveness) = 1.09 (Google datacenter efficiency)
 
 **Runtime calculation:**
 ```
-runtime_s = billable_instance_time_s / request_count
+runtime_s = request_latencies_ms.mean / 1000
 ```
-- We use `billable_instance_time` divided by `request_count` from GCP Cloud Monitoring
-- GCP allocates CPU during billable time, which includes container initialization
-- It is likely (though not explicitly documented by GCP) that CPU utilization is measured over this same period
-- Using billable time ensures consistency between runtime and utilization in the energy formula
-- Reference: [GCP Cloud Run billing settings](https://cloud.google.com/run/docs/configuring/billing-settings)
+- We use mean request latency from GCP Cloud Monitoring (`request_latencies_ms.mean`)
+- **Why not billable_instance_time?** We observed up to 83× discrepancy between `billable_instance_time / request_count` and mean request latency, yet CPU utilization remained similar across projects. This strongly suggests CPU utilization is **not** measured over billable instance time.
+- Mean request latency better approximates the time window over which CPU utilization is measured, making the energy formula (`power × runtime`) more accurate
+- Using request latency ensures consistency in the energy formula — both factors use a comparable time base
 
-*Note: Even if this assumption is imperfect, using the same methodology across all scenarios ensures results remain comparable.*
+*Note on idle energy:* Idle instances do consume some energy (memory refresh, CPU idle baseline). However, we lack reliable metrics for idle-time energy consumption. The `billable_instance_time` metric includes idle periods, but the CPU utilization metric does not. Mixing these incompatible measurements would produce inaccurate results.
 
 ---
 
@@ -97,7 +96,7 @@ Additional costs compared to baseline (executing in home region with no agent).
 
 **Components:**
 1. **Transfer costs** — regional data transfer vs home region
-2. **Agent architecture costs** (agent scenario only) — execution, request, and API costs
+2. **Agent architecture costs** (agent scenario only) — execution and API costs
 
 ```
 transfer_cost_usd   = transfer_gb × region_rate_per_gb
@@ -111,6 +110,20 @@ total_cost_overhead = transfer_cost + agent_architecture_costs
 | Europe | $0.05/GB |
 
 Reference: [GCP Cloud Storage pricing](https://cloud.google.com/storage/pricing#network-buckets)
+
+**Agent Execution Cost Overhead:**
+
+For agent projects, the dispatcher and agent functions add compute cost overhead. This is calculated using `billable_instance_time` (what GCP actually charges):
+
+```
+billable_time_per_request_s = billable_instance_time_s / request_count
+
+vcpu_cost      = allocated_vcpus × billable_time_per_request_s × tier_vcpu_rate
+memory_cost    = (allocated_memory_mb / 1024) × billable_time_per_request_s × tier_memory_rate
+invocation_cost = tier_invocation_rate
+
+agent_setup_cost_per_invocation = vcpu_cost + memory_cost + invocation_cost
+```
 
 ---
 
@@ -182,7 +195,7 @@ Reference: [Cloud Carbon Footprint methodology](https://www.cloudcarbonfootprint
 | Memory power | 0.4 W/GiB | Cloud Carbon Footprint (~0.392 W/GB industry standard) |
 | GPU power (L4 idle) | 8W | Estimated from CCF T4 ratio ([T4: 8W/71W](https://github.com/cloud-carbon-footprint/cloud-carbon-footprint/blob/trunk/packages/gcp/src/domain/GcpFootprintEstimationConstants.ts)) |
 | GPU power (L4 max) | 72W | [NVIDIA L4 datasheet](https://www.nvidia.com/en-us/data-center/l4/) |
-| GPU utilization (assumed) | 0.5 (50%) | Assumption for compute workloads (GCP doesn't expose GPU utilization) |
+| GPU utilization (assumed) | 0.1 (10%) | Conservative estimate (CPU data shows mean << p95; GCP doesn't expose GPU metrics) |
 | Network energy | 0.001 kWh/GB | Cloud Carbon Footprint (hyperscale optical fiber) |
 | Datacenter PUE | 1.09 | [Google Data Centers](https://datacenters.google/efficiency/) (2024) |
 
@@ -200,8 +213,10 @@ All constants stored in `local_bucket/static_config.json`.
 | Network Energy Proportional to Transfer | Linear model (bytes × 0.001 kWh/GB) | Excludes complex routing effects |
 | Free Tier Exhaustion | All executions incur costs at standard rates | May overestimate costs (especially for small projects) |
 | MCP Deployment Costs Not Measured | Deployment overhead not explicitly tracked | Negligible impact on yearly totals |
-| Runtime from Billable Instance Time | CPU utilization assumed measured during billable time | Consistent approach across all scenarios |
+| Runtime from Request Latency | Mean request latency from GCP used; evidence suggests this better matches CPU utilization measurement window than billable time | Energy formula uses consistent time base |
 | Stable Inputs Throughout Year | Function metadata and priorities unchanged | Allows upscaling of our results to a whole year |
+
+**Note on Runtime Choice:** We observed that billable instance time can be up to 83× higher than mean request latency, yet CPU utilization remains similar across projects. This strongly suggests GCP does not measure CPU utilization over billable instance time. Using request latency ensures the energy formula (`power × runtime`) uses a consistent time base for both factors.
 
 ---
 

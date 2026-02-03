@@ -1,0 +1,553 @@
+{
+  "calculation_metadata": {
+    "source_gcp_metrics": "evaluation/results/iosl-project-agent-emissions/gcp_metrics_iosl-project-agent-emissions_agent-emissions_20260203_091519.json",
+    "project_id": "iosl-project-agent-emissions",
+    "static_config_version": "1.0.0",
+    "calculation_timestamp": "2026-02-03T09:18:35.633637+00:00",
+    "basis": "per_invocation_and_per_year"
+  },
+  "calculation_constants": {
+    "power": {
+      "cpu_min_watts_per_vcpu": 0.71,
+      "cpu_max_watts_per_vcpu": 4.26,
+      "cpu_formula": "vcpus \u00d7 (min_watts + cpu_utilization \u00d7 (max_watts - min_watts))",
+      "memory_watts_per_gib": 0.4,
+      "datacenter_pue": 1.09,
+      "network_kwh_per_gb": 0.001,
+      "gpu_min_watts_nvidia_l4": 8,
+      "gpu_max_watts_nvidia_l4": 72,
+      "gpu_formula": "gpu_count \u00d7 (min_watts + gpu_utilization \u00d7 (max_watts - min_watts))",
+      "gpu_utilization_assumed": 0.1
+    },
+    "agent_api_overhead": {
+      "per_api_call": {
+        "energy_kwh": 0.01,
+        "emissions_g": 1.0,
+        "cost_usd": 0.0054
+      },
+      "per_year": {
+        "api_calls": 365,
+        "energy_kwh": 3.65,
+        "emissions_g": 365.0,
+        "emissions_kg": 0.365,
+        "cost_usd": 1.97
+      },
+      "source": "evaluation/AGENT_API_OVERHEAD.md",
+      "note": "API overhead applies only to agent function in Agent approach projects"
+    }
+  },
+  "functions": [
+    {
+      "function_name": "crypto-key-gen",
+      "region": "europe-north2",
+      "inputs": {
+        "allocated_memory_mb": 4096,
+        "allocated_vcpus": 1,
+        "gpu_required": false,
+        "invocations_per_day": 30,
+        "data_transfer_cost_per_gb_usd": 0.05,
+        "carbon_intensity_g_per_kwh": 22.3,
+        "from_gcp_metrics": {
+          "request_count": 39,
+          "runtime_ms_mean": 1047.6891249001549,
+          "cpu_utilization_mean": 0.00578415139392834,
+          "memory_utilization_mean": 0.019015963691356007,
+          "billable_instance_time_s": 1805.4359816185013,
+          "data_received_gb": 0.0,
+          "data_sent_gb": 8.29063355922699e-06
+        },
+        "latency": {
+          "mean_latency_ms": null,
+          "note": "Placeholder - to be measured by loadgen tool"
+        }
+      },
+      "per_invocation": {
+        "latency": {
+          "mean_ms": null,
+          "note": "Placeholder - to be measured by loadgen tool"
+        },
+        "energy": {
+          "compute_energy_kwh": 0.0007392848857255659,
+          "network_energy_kwh": 2.1258034767248693e-10,
+          "total_energy_kwh": 0.0007392850983059135,
+          "breakdown": {
+            "cpu_power_w": 0.7305337374484455,
+            "memory_power_w": 1.6,
+            "gpu_power_w": 0,
+            "runtime_s": 1.0476891249001548
+          }
+        },
+        "emissions": {
+          "compute_emissions_g": 0.016486057692221872,
+          "total_carbon_g": 0.016486057692221872
+        },
+        "cost_overhead": {
+          "transfer_cost_usd": 1.0629017383624346e-08,
+          "agent_setup_cost_usd": null,
+          "total_cost_overhead_usd": 1.0629017383624346e-08,
+          "transfer_breakdown": {
+            "total_transfer_gb": 8.29063355922699e-06,
+            "transfer_rate_per_gb": 0.05
+          },
+          "agent_setup_breakdown": null
+        }
+      },
+      "per_year": {
+        "latency": {
+          "mean_ms": null,
+          "note": "Mean latency from load testing; not scaled yearly"
+        },
+        "annual_invocations": 10950,
+        "energy": {
+          "compute_energy_kwh": 8.095169498694947,
+          "network_energy_kwh": 2.3277548070137317e-06,
+          "total_energy_kwh": 8.095171826449754
+        },
+        "emissions": {
+          "compute_emissions_kg": 0.18052233172982948,
+          "total_carbon_kg": 0.18052233172982948
+        },
+        "cost_overhead": {
+          "annual_transfer_cost_usd": 0.0001163877403506866,
+          "annual_agent_setup_cost_usd": null,
+          "total_cost_overhead_usd": 0.0001163877403506866
+        }
+      },
+      "carbon_intensity_source": "gcp_metrics"
+    },
+    {
+      "function_name": "image-format-converter",
+      "region": "europe-north2",
+      "inputs": {
+        "allocated_memory_mb": 2048,
+        "allocated_vcpus": 1,
+        "gpu_required": false,
+        "invocations_per_day": 200,
+        "data_transfer_cost_per_gb_usd": 0.05,
+        "carbon_intensity_g_per_kwh": 22.45,
+        "from_gcp_metrics": {
+          "request_count": 38,
+          "runtime_ms_mean": 10882.222527361111,
+          "cpu_utilization_mean": 0.021792617284187143,
+          "memory_utilization_mean": 0.09324011231657323,
+          "billable_instance_time_s": 2123.0027746937285,
+          "data_received_gb": 1.2731724549084902,
+          "data_sent_gb": 0.20292834378778934
+        },
+        "latency": {
+          "mean_latency_ms": null,
+          "note": "Placeholder - to be measured by loadgen tool"
+        }
+      },
+      "per_invocation": {
+        "latency": {
+          "mean_ms": null,
+          "note": "Placeholder - to be measured by loadgen tool"
+        },
+        "energy": {
+          "compute_energy_kwh": 0.005230197263970175,
+          "network_energy_kwh": 3.8844757860428414e-05,
+          "total_energy_kwh": 0.005269042021830604,
+          "breakdown": {
+            "cpu_power_w": 0.7873637913588644,
+            "memory_power_w": 0.8,
+            "gpu_power_w": 0,
+            "runtime_s": 10.882222527361112
+          }
+        },
+        "emissions": {
+          "compute_emissions_g": 0.11828999339009706,
+          "total_carbon_g": 0.11828999339009706
+        },
+        "cost_overhead": {
+          "transfer_cost_usd": 0.0019422378930214206,
+          "agent_setup_cost_usd": null,
+          "total_cost_overhead_usd": 0.0019422378930214206,
+          "transfer_breakdown": {
+            "total_transfer_gb": 1.4761007986962795,
+            "transfer_rate_per_gb": 0.05
+          },
+          "agent_setup_breakdown": null
+        }
+      },
+      "per_year": {
+        "latency": {
+          "mean_ms": null,
+          "note": "Mean latency from load testing; not scaled yearly"
+        },
+        "annual_invocations": 73000,
+        "energy": {
+          "compute_energy_kwh": 381.8044002698228,
+          "network_energy_kwh": 2.835667323811274,
+          "total_energy_kwh": 384.64006759363406
+        },
+        "emissions": {
+          "compute_emissions_kg": 8.635169517477085,
+          "total_carbon_kg": 8.635169517477085
+        },
+        "cost_overhead": {
+          "annual_transfer_cost_usd": 141.7833661905637,
+          "annual_agent_setup_cost_usd": null,
+          "total_cost_overhead_usd": 141.7833661905637
+        }
+      },
+      "carbon_intensity_source": "gcp_metrics"
+    },
+    {
+      "function_name": "video-transcoder",
+      "region": "europe-west1",
+      "inputs": {
+        "allocated_memory_mb": 8192,
+        "allocated_vcpus": 4,
+        "gpu_required": true,
+        "invocations_per_day": 10,
+        "data_transfer_cost_per_gb_usd": 0.05,
+        "carbon_intensity_g_per_kwh": 290.58,
+        "from_gcp_metrics": {
+          "request_count": 55,
+          "runtime_ms_mean": 116685.64175682592,
+          "cpu_utilization_mean": 0.042158277122280145,
+          "memory_utilization_mean": 0.03485417750797699,
+          "billable_instance_time_s": 7757.538619066376,
+          "data_received_gb": 24.66576827224344,
+          "data_sent_gb": 24.027970279566944
+        },
+        "latency": {
+          "mean_latency_ms": null,
+          "note": "Placeholder - to be measured by loadgen tool"
+        }
+      },
+      "per_invocation": {
+        "latency": {
+          "mean_ms": null,
+          "note": "Placeholder - to be measured by loadgen tool"
+        },
+        "energy": {
+          "compute_energy_kwh": 0.7432916159369519,
+          "network_energy_kwh": 0.000885340700942007,
+          "total_energy_kwh": 0.744176956637894,
+          "breakdown": {
+            "cpu_power_w": 3.438647535136378,
+            "memory_power_w": 3.2,
+            "gpu_power_w": 14.4,
+            "runtime_s": 116.68564175682592
+          }
+        },
+        "emissions": {
+          "compute_emissions_g": 216.2429400598392,
+          "total_carbon_g": 216.2429400598392
+        },
+        "cost_overhead": {
+          "transfer_cost_usd": 0.04426703504710035,
+          "agent_setup_cost_usd": null,
+          "total_cost_overhead_usd": 0.04426703504710035,
+          "transfer_breakdown": {
+            "total_transfer_gb": 48.693738551810384,
+            "transfer_rate_per_gb": 0.05
+          },
+          "agent_setup_breakdown": null
+        }
+      },
+      "per_year": {
+        "latency": {
+          "mean_ms": null,
+          "note": "Mean latency from load testing; not scaled yearly"
+        },
+        "annual_invocations": 3650,
+        "energy": {
+          "compute_energy_kwh": 2713.0143981698743,
+          "network_energy_kwh": 3.2314935584383258,
+          "total_energy_kwh": 2716.2458917283125
+        },
+        "emissions": {
+          "compute_emissions_kg": 789.2867312184131,
+          "total_carbon_kg": 789.2867312184131
+        },
+        "cost_overhead": {
+          "annual_transfer_cost_usd": 161.57467792191628,
+          "annual_agent_setup_cost_usd": null,
+          "total_cost_overhead_usd": 161.57467792191628
+        }
+      },
+      "carbon_intensity_source": "gcp_metrics"
+    },
+    {
+      "function_name": "api-health-check",
+      "region": "northamerica-northeast1",
+      "inputs": {
+        "allocated_memory_mb": 512,
+        "allocated_vcpus": 1,
+        "gpu_required": false,
+        "invocations_per_day": 1000,
+        "data_transfer_cost_per_gb_usd": 0.02,
+        "carbon_intensity_g_per_kwh": 33.23,
+        "from_gcp_metrics": {
+          "request_count": 22,
+          "runtime_ms_mean": 646.6945379750001,
+          "cpu_utilization_mean": 0.007169359782900679,
+          "memory_utilization_mean": 0.13925337060097537,
+          "billable_instance_time_s": 47.4,
+          "data_received_gb": 0.0,
+          "data_sent_gb": 7.4375420808792114e-06
+        },
+        "latency": {
+          "mean_latency_ms": null,
+          "note": "Placeholder - to be measured by loadgen tool"
+        }
+      },
+      "per_invocation": {
+        "latency": {
+          "mean_ms": null,
+          "note": "Placeholder - to be measured by loadgen tool"
+        },
+        "energy": {
+          "compute_energy_kwh": 0.00018316577975511253,
+          "network_energy_kwh": 3.380700945854187e-10,
+          "total_energy_kwh": 0.00018316611782520713,
+          "breakdown": {
+            "cpu_power_w": 0.7354512272292973,
+            "memory_power_w": 0.2,
+            "gpu_power_w": 0,
+            "runtime_s": 0.6466945379750001
+          }
+        },
+        "emissions": {
+          "compute_emissions_g": 0.0060866100953316325,
+          "total_carbon_g": 0.0060866100953316325
+        },
+        "cost_overhead": {
+          "transfer_cost_usd": 6.761401891708374e-09,
+          "agent_setup_cost_usd": null,
+          "total_cost_overhead_usd": 6.761401891708374e-09,
+          "transfer_breakdown": {
+            "total_transfer_gb": 7.4375420808792114e-06,
+            "transfer_rate_per_gb": 0.02
+          },
+          "agent_setup_breakdown": null
+        }
+      },
+      "per_year": {
+        "latency": {
+          "mean_ms": null,
+          "note": "Mean latency from load testing; not scaled yearly"
+        },
+        "annual_invocations": 365000,
+        "energy": {
+          "compute_energy_kwh": 66.85550961061607,
+          "network_energy_kwh": 0.00012339558452367783,
+          "total_energy_kwh": 66.85563300620059
+        },
+        "emissions": {
+          "compute_emissions_kg": 2.221612684796046,
+          "total_carbon_kg": 2.221612684796046
+        },
+        "cost_overhead": {
+          "annual_transfer_cost_usd": 0.0024679116904735565,
+          "annual_agent_setup_cost_usd": null,
+          "total_cost_overhead_usd": 0.0024679116904735565
+        }
+      },
+      "carbon_intensity_source": "gcp_metrics"
+    },
+    {
+      "function_name": "dispatcher",
+      "region": "us-east1",
+      "inputs": {
+        "allocated_memory_mb": 512,
+        "allocated_vcpus": 0.333,
+        "gpu_required": false,
+        "invocations_per_day": 1240,
+        "data_transfer_cost_per_gb_usd": 0.0,
+        "carbon_intensity_g_per_kwh": 794.26,
+        "from_gcp_metrics": {
+          "request_count": 156,
+          "runtime_ms_mean": 527.22355832044,
+          "cpu_utilization_mean": 0.013171575673560316,
+          "memory_utilization_mean": 0.6475411921737717,
+          "billable_instance_time_s": 431.77871761789805,
+          "data_received_gb": 0.006873204372823238,
+          "data_sent_gb": 0.0007739542052149773
+        },
+        "latency": {
+          "mean_latency_ms": null,
+          "note": "Placeholder - to be measured by loadgen tool"
+        }
+      },
+      "per_invocation": {
+        "latency": {
+          "mean_ms": null,
+          "note": "Placeholder - to be measured by loadgen tool"
+        },
+        "energy": {
+          "compute_energy_kwh": 7.215359719842053e-05,
+          "network_energy_kwh": 4.902024729511677e-08,
+          "total_energy_kwh": 7.220261744571565e-05,
+          "breakdown": {
+            "cpu_power_w": 0.25200077818249933,
+            "memory_power_w": 0.2,
+            "gpu_power_w": 0,
+            "runtime_s": 0.52722355832044
+          }
+        },
+        "emissions": {
+          "compute_emissions_g": 0.05734765093243411,
+          "total_carbon_g": 0.05734765093243411
+        },
+        "cost_overhead": {
+          "transfer_cost_usd": 0.0,
+          "agent_setup_cost_usd": 2.598012120656804e-05,
+          "total_cost_overhead_usd": 2.598012120656804e-05,
+          "transfer_breakdown": {
+            "total_transfer_gb": 0.007647158578038216,
+            "transfer_rate_per_gb": 0.0
+          },
+          "agent_setup_breakdown": {
+            "vcpu_cost_usd": 2.212035584104001e-05,
+            "memory_cost_usd": 3.4597653655280293e-06,
+            "invocation_cost_usd": 4e-07,
+            "billable_time_per_request_s": 2.7678122924224233,
+            "pricing_tier": 1
+          }
+        }
+      },
+      "per_year": {
+        "latency": {
+          "mean_ms": null,
+          "note": "Mean latency from load testing; not scaled yearly"
+        },
+        "annual_invocations": 452600,
+        "energy": {
+          "compute_energy_kwh": 32.65671809200513,
+          "network_energy_kwh": 0.02218656392576985,
+          "total_energy_kwh": 32.6789046559309
+        },
+        "emissions": {
+          "compute_emissions_kg": 25.95554681201968,
+          "total_carbon_kg": 25.95554681201968
+        },
+        "cost_overhead": {
+          "annual_transfer_cost_usd": 0.0,
+          "annual_agent_setup_cost_usd": 11.758602858092694,
+          "total_cost_overhead_usd": 11.758602858092694
+        }
+      },
+      "carbon_intensity_source": "gcp_metrics"
+    },
+    {
+      "function_name": "agent",
+      "region": "us-east1",
+      "inputs": {
+        "allocated_memory_mb": 1024,
+        "allocated_vcpus": 1.0,
+        "gpu_required": false,
+        "invocations_per_day": 1,
+        "data_transfer_cost_per_gb_usd": 0.0,
+        "carbon_intensity_g_per_kwh": 739.4,
+        "from_gcp_metrics": {
+          "request_count": 18,
+          "runtime_ms_mean": 242212.53573658332,
+          "cpu_utilization_mean": 0.03312277310890471,
+          "memory_utilization_mean": 0.3212781173165477,
+          "billable_instance_time_s": 16438.572462538126,
+          "data_received_gb": 0.5338807022199035,
+          "data_sent_gb": 0.008093563839793205
+        },
+        "latency": {
+          "mean_latency_ms": null,
+          "note": "Placeholder - to be measured by loadgen tool"
+        }
+      },
+      "per_invocation": {
+        "latency": {
+          "mean_ms": null,
+          "note": "Placeholder - to be measured by loadgen tool"
+        },
+        "energy": {
+          "compute_energy_kwh": 0.090026939294752,
+          "network_energy_kwh": 3.0109681447760927e-05,
+          "total_energy_kwh": 0.09005704897619976,
+          "breakdown": {
+            "cpu_power_w": 0.8275858445366117,
+            "memory_power_w": 0.4,
+            "gpu_power_w": 0,
+            "runtime_s": 242.2125357365833
+          }
+        },
+        "emissions": {
+          "compute_emissions_g": 66.5881820130021,
+          "total_carbon_g": 66.5881820130021
+        },
+        "cost_overhead": {
+          "transfer_cost_usd": 0.0,
+          "agent_setup_cost_usd": 0.024201631680958912,
+          "total_cost_overhead_usd": 0.024201631680958912,
+          "transfer_breakdown": {
+            "total_transfer_gb": 0.5419742660596967,
+            "transfer_rate_per_gb": 0.0
+          },
+          "agent_setup_breakdown": {
+            "vcpu_cost_usd": 0.021918096616717505,
+            "memory_cost_usd": 0.002283135064241407,
+            "invocation_cost_usd": 4e-07,
+            "billable_time_per_request_s": 913.2540256965626,
+            "pricing_tier": 1
+          }
+        }
+      },
+      "per_year": {
+        "latency": {
+          "mean_ms": null,
+          "note": "Mean latency from load testing; not scaled yearly"
+        },
+        "annual_invocations": 365,
+        "energy": {
+          "compute_energy_kwh": 32.85983284258448,
+          "network_energy_kwh": 0.01099003372843274,
+          "total_energy_kwh": 32.870822876312914
+        },
+        "emissions": {
+          "compute_emissions_kg": 24.30468643474577,
+          "total_carbon_kg": 24.30468643474577
+        },
+        "cost_overhead": {
+          "annual_transfer_cost_usd": 0.0,
+          "annual_agent_setup_cost_usd": 8.833595563550002,
+          "total_cost_overhead_usd": 8.833595563550002
+        }
+      },
+      "carbon_intensity_source": "gcp_metrics"
+    }
+  ],
+  "project_aggregation": {
+    "description": "Aggregated yearly metrics across all functions in this project",
+    "function_count": 6,
+    "is_agent_approach": true,
+    "latency": {
+      "mean_ms": null,
+      "note": "Mean of per-function latencies (null if no latency data available)"
+    },
+    "energy": {
+      "compute_energy_kwh": 3235.286028483598,
+      "network_energy_kwh": 6.100463203243134,
+      "api_overhead_kwh": 3.65,
+      "total_energy_kwh": 3245.036491686841
+    },
+    "emissions": {
+      "compute_emissions_kg": 850.5842689991815,
+      "api_overhead_kg": 0.365,
+      "total_carbon_kg": 850.9492689991815
+    },
+    "cost_overhead": {
+      "annual_transfer_cost_usd": 303.3606284119108,
+      "agent_overhead": {
+        "api_overhead_usd": 1.97,
+        "execution_cost_overhead_usd": 20.592198421642696,
+        "breakdown": {
+          "dispatcher_annual_usd": 11.758602858092694,
+          "agent_annual_usd": 8.833595563550002
+        }
+      },
+      "total_cost_overhead_usd": 325.92282683355353
+    }
+  }
+}

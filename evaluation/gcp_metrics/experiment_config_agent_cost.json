@@ -1,0 +1,41 @@
+{
+  "experiment_name": "agent-cost",
+  "project_id": "iosl-project-agent-cost",
+  "description": "Agent approach - Cost-aware scheduling with dynamic region selection (scheduling_priority: cost)",
+  "functions": [
+    {
+      "url": "https://crypto-key-gen-q2kjbaaiea-ma.a.run.app/",
+      "label": "crypto-key-gen",
+      "region": "europe-north2"
+    },
+    {
+      "url": "https://image-format-converter-q2kjbaaiea-nn.a.run.app/",
+      "label": "image-format-converter",
+      "region": "northamerica-northeast1"
+    },
+    {
+      "url": "https://api-health-check-q2kjbaaiea-nn.a.run.app/",
+      "label": "api-health-check",
+      "region": "northamerica-northeast1"
+    },
+    {
+      "url": "https://video-transcoder-q2kjbaaiea-uc.a.run.app/",
+      "label": "video-transcoder",
+      "region": "us-central1"
+    },
+    {
+      "url": "https://dispatcher-function-q2kjbaaiea-ue.a.run.app/",
+      "label": "dispatcher",
+      "region": "us-east1"
+    },
+    {
+      "url": "https://agent-function-q2kjbaaiea-ue.a.run.app/",
+      "label": "agent",
+      "region": "us-east1"
+    }
+  ],
+  "time_window": {
+    "start": "2026-01-30T13:00:00Z",
+    "end": "2026-02-03T23:00:00Z"
+  }
+}

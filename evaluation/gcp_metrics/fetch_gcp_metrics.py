@@ -155,13 +155,16 @@ def extract_service_name_from_url(url: str) -> str:
 
     if len(segments) >= 2:
         # Try to find where the hash starts (looking for typical hash pattern)
-        # Hashes are lowercase alphanumeric, typically 10+ chars
+        # Cloud Run hashes are alphanumeric, 10+ chars, and contain digits (e.g., "g53ddzsogq")
+        # Words like "converter" or "transcoder" are pure letters, not hashes
         for i in range(1, len(segments)):
-            # If this segment looks like a hash (long alphanumeric), service name is everything before
-            if len(segments[i]) >= 8 and segments[i].isalnum():
+            seg = segments[i]
+            # Hash must be: alphanumeric, 10+ chars, AND contain at least one digit
+            has_digit = any(c.isdigit() for c in seg)
+            if len(seg) >= 10 and seg.isalnum() and has_digit:
                 return '-'.join(segments[:i])
 
-        # Fallback: assume last 1-2 segments are hash/region
+        # Fallback: assume last 2 segments are hash + region code
         if len(segments) >= 3:
             return '-'.join(segments[:-2])
         else:
@@ -548,33 +551,47 @@ def fetch_request_count_hourly(
     hourly_counts = {}
     for result in results:
         for point in result.points:
-            if point.value.int64_value and point.value.int64_value > 0:
+            # GCP may return aggregated values as double_value instead of int64_value
+            count = point.value.int64_value
+            if count == 0:
+                count = int(point.value.double_value)
+
+            if count > 0:
                 # Convert end_time to UTC ISO format (truncated to hour)
-                # GCP returns end_time of the interval
-                ts = datetime.fromtimestamp(
-                    point.interval.end_time.seconds,
-                    tz=timezone.utc
-                )
+                # GCP returns DatetimeWithNanoseconds - use timestamp() method
+                pt_end_time = point.interval.end_time
+                if hasattr(pt_end_time, 'timestamp'):
+                    ts = datetime.fromtimestamp(pt_end_time.timestamp(), tz=timezone.utc)
+                else:
+                    # Fallback for protobuf Timestamp
+                    ts = datetime.fromtimestamp(pt_end_time.seconds, tz=timezone.utc)
+
                 # Truncate to hour start
                 hour_start = ts.replace(minute=0, second=0, microsecond=0)
                 hour_key = hour_start.strftime('%Y-%m-%dT%H:%M:%SZ')
 
                 # Accumulate (in case multiple series)
-                hourly_counts[hour_key] = hourly_counts.get(hour_key, 0) + point.value.int64_value
+                hourly_counts[hour_key] = hourly_counts.get(hour_key, 0) + count
 
-    return hourly_counts
+    # Sort by time ascending
+    sorted_counts = dict(sorted(hourly_counts.items()))
+    return sorted_counts
 
 
 # -----------------------------------------------------------------------------
 # Carbon Intensity Functions
 # -----------------------------------------------------------------------------
 
-def load_carbon_forecast(experiment_date: datetime) -> Optional[Dict[str, Dict[str, int]]]:
+def load_carbon_forecast(experiment_date: datetime, end_date: datetime = None) -> Optional[Dict[str, Dict[str, int]]]:
     """
-    Load carbon forecast from results/carbon_forecasts/ matching the experiment date.
+    Load carbon forecasts from results/carbon_forecasts/ covering the experiment time range.
+
+    Forecasts from day N contain hours for day N and day N+1. So for an experiment
+    spanning multiple days, we load ALL available forecast files to maximize coverage.
 
     Args:
-        experiment_date: Date of the experiment (used to find matching forecast file)
+        experiment_date: Start date of the experiment
+        end_date: End date of the experiment (optional, defaults to experiment_date + 1 day)
 
     Returns:
         Dict mapping region to {hour_iso: intensity} or None if no forecast found.
@@ -598,52 +615,62 @@ def load_carbon_forecast(experiment_date: datetime) -> Optional[Dict[str, Dict[s
         print(f"  Warning: No carbon forecast files found in {forecasts_dir}")
         return None
 
-    # Find file matching experiment date (YYYYMMDD)
-    target_date = experiment_date.strftime('%Y%m%d')
-    matching_file = None
+    # Determine date range to cover
+    if end_date is None:
+        end_date = experiment_date + timedelta(days=1)
 
+    # Build list of target dates: all dates from (start-1) to end
+    # (day before start may have forecasts that cover start hours)
+    target_dates = set()
+    current = experiment_date - timedelta(days=1)
+    while current <= end_date:
+        target_dates.add(current.strftime('%Y%m%d'))
+        current += timedelta(days=1)
+
+    matching_files = []
     for filepath in forecast_files:
         filename = os.path.basename(filepath)
         # Parse date from filename: carbon_forecasts_YYYYMMDD_HHMMSS.json
         try:
             parts = filename.replace('.json', '').split('_')
             file_date = parts[2]  # YYYYMMDD
-            if file_date == target_date:
-                matching_file = filepath
-                break
+            if file_date in target_dates:
+                matching_files.append(filepath)
         except (IndexError, ValueError):
             continue
 
-    if not matching_file:
-        print(f"  Warning: No carbon forecast file found for date {target_date}")
+    if not matching_files:
+        print(f"  Warning: No carbon forecast files found for date range {experiment_date.strftime('%Y%m%d')} to {end_date.strftime('%Y%m%d')}")
         return None
 
-    print(f"  Loading carbon forecast from: {os.path.basename(matching_file)}")
-
-    # Load and parse forecast
-    with open(matching_file, 'r') as f:
-        data = json.load(f)
-
-    # Build lookup: {region: {hour_iso: intensity}}
+    # Build merged lookup: {region: {hour_iso: intensity}}
     result = {}
-    regions = data.get('regions', {})
 
-    for region_name, region_data in regions.items():
-        forecast = region_data.get('forecast', [])
-        hour_lookup = {}
+    for matching_file in matching_files:
+        print(f"  Loading carbon forecast from: {os.path.basename(matching_file)}")
 
-        for entry in forecast:
-            intensity = entry.get('carbonIntensity')
-            dt_str = entry.get('datetime', '')
+        with open(matching_file, 'r') as f:
+            data = json.load(f)
 
-            if intensity is not None and dt_str:
-                # Normalize datetime format (remove milliseconds)
-                # Input: "2026-01-29T18:00:00.000Z" -> "2026-01-29T18:00:00Z"
-                normalized = dt_str.replace('.000Z', 'Z')
-                hour_lookup[normalized] = intensity
+        regions = data.get('regions', {})
 
-        if hour_lookup:
-            result[region_name] = hour_lookup
+        for region_name, region_data in regions.items():
+            forecast = region_data.get('forecast', [])
+
+            if region_name not in result:
+                result[region_name] = {}
+
+            for entry in forecast:
+                intensity = entry.get('carbonIntensity')
+                dt_str = entry.get('datetime', '')
+
+                if intensity is not None and dt_str:
+                    # Normalize datetime format (remove milliseconds)
+                    # Input: "2026-01-29T18:00:00.000Z" -> "2026-01-29T18:00:00Z"
+                    normalized = dt_str.replace('.000Z', 'Z')
+                    # Only add if not already present (prefer newer forecast)
+                    if normalized not in result[region_name]:
+                        result[region_name][normalized] = intensity
 
     return result if result else None
 
@@ -691,40 +718,39 @@ def calculate_weighted_carbon_intensity(
     if carbon_forecast and region in carbon_forecast:
         region_forecast = carbon_forecast[region]
 
-    weighted_sum = 0.0
-    total_requests = 0
-    hours_matched = 0
-    hours_with_fallback = 0
+    # First pass: count matched vs unmatched hours
+    matched_data = []  # [(hour_key, request_count, intensity)]
+    unmatched_hours = []
 
     for hour_key, request_count in hourly_requests.items():
-        intensity = None
-
-        # Try to get intensity from forecast
         if region_forecast and hour_key in region_forecast:
-            intensity = region_forecast[hour_key]
-            hours_matched += 1
+            matched_data.append((hour_key, request_count, region_forecast[hour_key]))
         else:
-            intensity = fallback_intensity
-            hours_with_fallback += 1
+            unmatched_hours.append(hour_key)
 
-        weighted_sum += request_count * intensity
-        total_requests += request_count
+    hours_matched = len(matched_data)
+    hours_with_fallback = len(unmatched_hours)
+    total_requests_all = sum(hourly_requests.values())
 
-    weighted_avg = weighted_sum / total_requests if total_requests > 0 else fallback_intensity
-
-    # Determine source
-    if hours_matched > 0 and hours_with_fallback == 0:
-        source = "forecast"
-    elif hours_matched > 0:
-        source = "mixed"
+    # Calculate weighted average using ONLY matched hours if any exist
+    # (don't pollute the average with fallback values)
+    if hours_matched > 0:
+        weighted_sum = sum(count * intensity for _, count, intensity in matched_data)
+        matched_requests = sum(count for _, count, _ in matched_data)
+        weighted_avg = weighted_sum / matched_requests
+        source = "forecast" if hours_with_fallback == 0 else "forecast_partial"
     else:
+        # No matches at all - use fallback for everything
+        weighted_avg = fallback_intensity
         source = "fallback"
 
     return {
         "weighted_average_gco2_kwh": round(weighted_avg, 2),
-        "total_requests": total_requests,
+        "total_requests": total_requests_all,
+        "requests_with_forecast": sum(count for _, count, _ in matched_data) if matched_data else 0,
         "hours_matched": hours_matched,
         "hours_with_fallback": hours_with_fallback,
+        "unmatched_hours": unmatched_hours if unmatched_hours else None,
         "source": source,
         "fallback_value": fallback_intensity
     }
@@ -889,7 +915,7 @@ def main():
 
         # Load carbon forecast once for all functions
         print("\nLoading carbon forecast...")
-        carbon_forecast = load_carbon_forecast(start_time)
+        carbon_forecast = load_carbon_forecast(start_time, end_time)
         if carbon_forecast:
             print(f"  Loaded forecast for {len(carbon_forecast)} region(s)")
         else:
@@ -1009,7 +1035,7 @@ def main():
 
         # Load carbon forecast
         print("\nLoading carbon forecast...")
-        carbon_forecast = load_carbon_forecast(start_time)
+        carbon_forecast = load_carbon_forecast(start_time, end_time)
         if carbon_forecast:
             print(f"  Loaded forecast for {len(carbon_forecast)} region(s)")
         else:

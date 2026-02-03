@@ -1,0 +1,31 @@
+{
+  "experiment_name": "baseline",
+  "project_id": "iosl-project-baseline",
+  "description": "Baseline approach - All functions deployed to us-east1 (fixed region)",
+  "functions": [
+    {
+      "url": "https://video-transcoder-xmstag4bka-ue.a.run.app/",
+      "label": "video-transcoder",
+      "region": "us-east1"
+    },
+    {
+      "url": "https://crypto-key-gen-xmstag4bka-ue.a.run.app/",
+      "label": "crypto-key-gen",
+      "region": "us-east1"
+    },
+    {
+      "url": "https://image-format-converter-xmstag4bka-ue.a.run.app/",
+      "label": "image-format-converter",
+      "region": "us-east1"
+    },
+    {
+      "url": "https://api-health-check-xmstag4bka-ue.a.run.app/",
+      "label": "api-health-check",
+      "region": "us-east1"
+    }
+  ],
+  "time_window": {
+    "start": "2026-01-30T13:00:00Z",
+    "end": "2026-02-03T23:00:00Z"
+  }
+}

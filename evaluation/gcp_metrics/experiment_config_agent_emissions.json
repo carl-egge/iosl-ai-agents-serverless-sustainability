@@ -1,0 +1,41 @@
+{
+  "experiment_name": "agent-emissions",
+  "project_id": "iosl-project-agent-emissions",
+  "description": "Agent approach - Carbon-aware scheduling with dynamic region selection (scheduling_priority: emissions)",
+  "functions": [
+    {
+      "url": "https://crypto-key-gen-g53ddzsogq-ma.a.run.app/",
+      "label": "crypto-key-gen",
+      "region": "europe-north2"
+    },
+    {
+      "url": "https://image-format-converter-g53ddzsogq-ma.a.run.app/",
+      "label": "image-format-converter",
+      "region": "europe-north2"
+    },
+    {
+      "url": "https://video-transcoder-g53ddzsogq-ew.a.run.app/",
+      "label": "video-transcoder",
+      "region": "europe-west1"
+    },
+    {
+      "url": "https://api-health-check-g53ddzsogq-nn.a.run.app/",
+      "label": "api-health-check",
+      "region": "northamerica-northeast1"
+    },
+    {
+      "url": "https://dispatcher-function-g53ddzsogq-ue.a.run.app/",
+      "label": "dispatcher",
+      "region": "us-east1"
+    },
+    {
+      "url": "https://agent-function-g53ddzsogq-ue.a.run.app/",
+      "label": "agent",
+      "region": "us-east1"
+    }
+  ],
+  "time_window": {
+    "start": "2026-01-30T13:00:00Z",
+    "end": "2026-02-03T23:00:00Z"
+  }
+}

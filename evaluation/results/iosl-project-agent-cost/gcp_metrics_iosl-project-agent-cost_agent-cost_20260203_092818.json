@@ -1,0 +1,416 @@
+{
+  "experiment_name": "agent-cost",
+  "project_id": "iosl-project-agent-cost",
+  "description": "Agent approach - Cost-aware scheduling with dynamic region selection (scheduling_priority: cost)",
+  "generated_at": "2026-02-03T09:27:36.553697+00:00",
+  "time_window": {
+    "start": "2026-01-30T13:00:00Z",
+    "end": "2026-02-03T23:00:00Z"
+  },
+  "functions": {
+    "crypto-key-gen": {
+      "service_name": "crypto-key-gen",
+      "region": "europe-north2",
+      "url": "https://crypto-key-gen-q2kjbaaiea-ma.a.run.app/",
+      "gcp_metrics": {
+        "request_count": 31,
+        "hourly_request_counts": {
+          "2026-01-31T16:00:00Z": 1,
+          "2026-01-31T18:00:00Z": 1,
+          "2026-01-31T19:00:00Z": 1,
+          "2026-01-31T20:00:00Z": 2,
+          "2026-01-31T22:00:00Z": 2,
+          "2026-02-01T00:00:00Z": 2,
+          "2026-02-01T14:00:00Z": 1,
+          "2026-02-01T15:00:00Z": 1,
+          "2026-02-01T16:00:00Z": 1,
+          "2026-02-01T18:00:00Z": 1,
+          "2026-02-01T19:00:00Z": 1,
+          "2026-02-01T20:00:00Z": 2,
+          "2026-02-01T22:00:00Z": 2,
+          "2026-02-02T00:00:00Z": 2,
+          "2026-02-02T14:00:00Z": 1,
+          "2026-02-02T23:00:00Z": 9,
+          "2026-02-03T00:00:00Z": 1
+        },
+        "request_latencies_ms": {
+          "p50": 1023.7110595,
+          "p95": 2023.6235122000003,
+          "p99": 2114.24385328,
+          "mean": 1069.7920776927083
+        },
+        "cpu_utilization": {
+          "mean": 0.005970477914356626,
+          "p95": 0.023435639714636955
+        },
+        "memory_utilization": {
+          "mean": 0.018801832900327796,
+          "p95": 0.020394325256347656
+        },
+        "billable_instance_time_s": 51.49233982171993,
+        "network": {
+          "received_bytes_total": 0,
+          "sent_bytes_total": 7082,
+          "received_gb": 0.0,
+          "sent_gb": 6.595626473426819e-06
+        },
+        "carbon_intensity": {
+          "weighted_average_gco2_kwh": 22.32,
+          "total_requests": 31,
+          "requests_with_forecast": 22,
+          "hours_matched": 11,
+          "hours_with_fallback": 6,
+          "unmatched_hours": [
+            "2026-01-31T16:00:00Z",
+            "2026-01-31T18:00:00Z",
+            "2026-01-31T19:00:00Z",
+            "2026-01-31T20:00:00Z",
+            "2026-01-31T22:00:00Z",
+            "2026-02-01T00:00:00Z"
+          ],
+          "source": "forecast_partial",
+          "fallback_value": 400.0
+        }
+      }
+    },
+    "image-format-converter": {
+      "service_name": "image-format-converter",
+      "region": "northamerica-northeast1",
+      "url": "https://image-format-converter-q2kjbaaiea-nn.a.run.app/",
+      "gcp_metrics": {
+        "request_count": 22,
+        "hourly_request_counts": {
+          "2026-02-01T15:00:00Z": 1,
+          "2026-02-01T16:00:00Z": 2,
+          "2026-02-01T17:00:00Z": 1,
+          "2026-02-01T18:00:00Z": 1,
+          "2026-02-01T19:00:00Z": 1,
+          "2026-02-01T20:00:00Z": 1,
+          "2026-02-01T21:00:00Z": 1,
+          "2026-02-01T22:00:00Z": 1,
+          "2026-02-01T23:00:00Z": 1,
+          "2026-02-02T01:00:00Z": 1,
+          "2026-02-02T15:00:00Z": 1,
+          "2026-02-02T16:00:00Z": 2,
+          "2026-02-02T17:00:00Z": 1,
+          "2026-02-02T18:00:00Z": 1,
+          "2026-02-02T19:00:00Z": 1,
+          "2026-02-02T20:00:00Z": 1,
+          "2026-02-02T21:00:00Z": 1,
+          "2026-02-02T22:00:00Z": 1,
+          "2026-02-02T23:00:00Z": 1,
+          "2026-02-03T00:00:00Z": 1
+        },
+        "request_latencies_ms": {
+          "p50": 9485.7526025,
+          "p95": 10382.5023883,
+          "p99": 10711.912186009999,
+          "mean": 9334.10686418182
+        },
+        "cpu_utilization": {
+          "mean": 0.013425234705626921,
+          "p95": 0.15300350765996934
+        },
+        "memory_utilization": {
+          "mean": 0.070442418239362,
+          "p95": 0.10696601867675781
+        },
+        "billable_instance_time_s": 240.2,
+        "network": {
+          "received_bytes_total": 791548795,
+          "sent_bytes_total": 126130414,
+          "received_gb": 0.7371872616931796,
+          "sent_gb": 0.1174681019037962
+        },
+        "carbon_intensity": {
+          "weighted_average_gco2_kwh": 33.23,
+          "total_requests": 22,
+          "requests_with_forecast": 22,
+          "hours_matched": 20,
+          "hours_with_fallback": 0,
+          "unmatched_hours": null,
+          "source": "forecast",
+          "fallback_value": 400.0
+        }
+      }
+    },
+    "api-health-check": {
+      "service_name": "api-health-check",
+      "region": "northamerica-northeast1",
+      "url": "https://api-health-check-q2kjbaaiea-nn.a.run.app/",
+      "gcp_metrics": {
+        "request_count": 22,
+        "hourly_request_counts": {
+          "2026-02-01T15:00:00Z": 1,
+          "2026-02-01T16:00:00Z": 2,
+          "2026-02-01T17:00:00Z": 1,
+          "2026-02-01T18:00:00Z": 1,
+          "2026-02-01T19:00:00Z": 1,
+          "2026-02-01T20:00:00Z": 1,
+          "2026-02-01T21:00:00Z": 1,
+          "2026-02-01T22:00:00Z": 1,
+          "2026-02-01T23:00:00Z": 1,
+          "2026-02-02T01:00:00Z": 1,
+          "2026-02-02T15:00:00Z": 2,
+          "2026-02-02T16:00:00Z": 1,
+          "2026-02-02T17:00:00Z": 1,
+          "2026-02-02T18:00:00Z": 1,
+          "2026-02-02T19:00:00Z": 1,
+          "2026-02-02T20:00:00Z": 1,
+          "2026-02-02T21:00:00Z": 1,
+          "2026-02-02T22:00:00Z": 1,
+          "2026-02-02T23:00:00Z": 1,
+          "2026-02-03T00:00:00Z": 1
+        },
+        "request_latencies_ms": {
+          "p50": 855.5063230000001,
+          "p95": 1168.5421600000002,
+          "p99": 1286.2823328,
+          "mean": 860.2756530999999
+        },
+        "cpu_utilization": {
+          "mean": 0.007951482143845445,
+          "p95": 0.0163932685762831
+        },
+        "memory_utilization": {
+          "mean": 0.12957514950846613,
+          "p95": 0.14740557718271674
+        },
+        "billable_instance_time_s": 53.724261326951655,
+        "network": {
+          "received_bytes_total": 0,
+          "sent_bytes_total": 7986,
+          "received_gb": 0.0,
+          "sent_gb": 7.4375420808792114e-06
+        },
+        "carbon_intensity": {
+          "weighted_average_gco2_kwh": 33.23,
+          "total_requests": 22,
+          "requests_with_forecast": 22,
+          "hours_matched": 20,
+          "hours_with_fallback": 0,
+          "unmatched_hours": null,
+          "source": "forecast",
+          "fallback_value": 400.0
+        }
+      }
+    },
+    "video-transcoder": {
+      "service_name": "video-transcoder",
+      "region": "us-central1",
+      "url": "https://video-transcoder-q2kjbaaiea-uc.a.run.app/",
+      "gcp_metrics": {
+        "request_count": 31,
+        "hourly_request_counts": {
+          "2026-01-31T17:00:00Z": 1,
+          "2026-01-31T18:00:00Z": 1,
+          "2026-01-31T19:00:00Z": 1,
+          "2026-01-31T20:00:00Z": 1,
+          "2026-01-31T21:00:00Z": 2,
+          "2026-01-31T22:00:00Z": 1,
+          "2026-01-31T23:00:00Z": 1,
+          "2026-02-01T00:00:00Z": 1,
+          "2026-02-01T15:00:00Z": 1,
+          "2026-02-01T16:00:00Z": 1,
+          "2026-02-01T17:00:00Z": 1,
+          "2026-02-01T18:00:00Z": 1,
+          "2026-02-01T19:00:00Z": 1,
+          "2026-02-01T20:00:00Z": 1,
+          "2026-02-01T21:00:00Z": 2,
+          "2026-02-01T22:00:00Z": 1,
+          "2026-02-01T23:00:00Z": 1,
+          "2026-02-02T00:00:00Z": 1,
+          "2026-02-02T15:00:00Z": 1,
+          "2026-02-02T21:00:00Z": 7,
+          "2026-02-02T22:00:00Z": 1,
+          "2026-02-02T23:00:00Z": 1,
+          "2026-02-03T08:00:00Z": 1
+        },
+        "request_latencies_ms": {
+          "p50": 106734.046704,
+          "p95": 177936.47592489995,
+          "p99": 290290.8836161198,
+          "mean": 117677.591226787
+        },
+        "cpu_utilization": {
+          "mean": 0.0387226391815747,
+          "p95": 0.2424432141159277
+        },
+        "memory_utilization": {
+          "mean": 0.031893553918086445,
+          "p95": 0.1490349292755127
+        },
+        "billable_instance_time_s": 3023.4,
+        "network": {
+          "received_bytes_total": 15221796477,
+          "sent_bytes_total": 15095016242,
+          "received_gb": 14.17640268523246,
+          "sent_gb": 14.058329390361905
+        },
+        "carbon_intensity": {
+          "weighted_average_gco2_kwh": 520.45,
+          "total_requests": 31,
+          "requests_with_forecast": 22,
+          "hours_matched": 15,
+          "hours_with_fallback": 8,
+          "unmatched_hours": [
+            "2026-01-31T17:00:00Z",
+            "2026-01-31T18:00:00Z",
+            "2026-01-31T19:00:00Z",
+            "2026-01-31T20:00:00Z",
+            "2026-01-31T21:00:00Z",
+            "2026-01-31T22:00:00Z",
+            "2026-01-31T23:00:00Z",
+            "2026-02-01T00:00:00Z"
+          ],
+          "source": "forecast_partial",
+          "fallback_value": 400.0
+        }
+      }
+    },
+    "dispatcher": {
+      "service_name": "dispatcher-function",
+      "region": "us-east1",
+      "url": "https://dispatcher-function-q2kjbaaiea-ue.a.run.app/",
+      "gcp_metrics": {
+        "request_count": 147,
+        "hourly_request_counts": {
+          "2026-01-30T21:00:00Z": 4,
+          "2026-01-30T22:00:00Z": 4,
+          "2026-01-30T23:00:00Z": 4,
+          "2026-01-31T00:00:00Z": 4,
+          "2026-01-31T14:00:00Z": 4,
+          "2026-01-31T15:00:00Z": 3,
+          "2026-01-31T16:00:00Z": 4,
+          "2026-01-31T17:00:00Z": 4,
+          "2026-01-31T18:00:00Z": 4,
+          "2026-01-31T19:00:00Z": 4,
+          "2026-01-31T20:00:00Z": 4,
+          "2026-01-31T21:00:00Z": 4,
+          "2026-01-31T22:00:00Z": 4,
+          "2026-01-31T23:00:00Z": 4,
+          "2026-02-01T00:00:00Z": 4,
+          "2026-02-01T14:00:00Z": 4,
+          "2026-02-01T15:00:00Z": 4,
+          "2026-02-01T16:00:00Z": 4,
+          "2026-02-01T17:00:00Z": 4,
+          "2026-02-01T18:00:00Z": 4,
+          "2026-02-01T19:00:00Z": 4,
+          "2026-02-01T20:00:00Z": 4,
+          "2026-02-01T21:00:00Z": 4,
+          "2026-02-01T22:00:00Z": 4,
+          "2026-02-01T23:00:00Z": 4,
+          "2026-02-02T00:00:00Z": 4,
+          "2026-02-02T14:00:00Z": 4,
+          "2026-02-02T15:00:00Z": 4,
+          "2026-02-02T16:00:00Z": 4,
+          "2026-02-02T17:00:00Z": 4,
+          "2026-02-02T18:00:00Z": 4,
+          "2026-02-02T19:00:00Z": 4,
+          "2026-02-02T20:00:00Z": 4,
+          "2026-02-02T21:00:00Z": 4,
+          "2026-02-02T22:00:00Z": 4,
+          "2026-02-02T23:00:00Z": 4,
+          "2026-02-03T00:00:00Z": 4
+        },
+        "request_latencies_ms": {
+          "p50": 656.7089679999999,
+          "p95": 835.1828809999998,
+          "p99": 907.3586194999996,
+          "mean": 617.3931988744799
+        },
+        "cpu_utilization": {
+          "mean": 0.01790893124269236,
+          "p95": 0.02896706802643881
+        },
+        "memory_utilization": {
+          "mean": 0.6405147061305233,
+          "p95": 0.6649280000000024
+        },
+        "billable_instance_time_s": 371.80000000000007,
+        "network": {
+          "received_bytes_total": 6233593,
+          "sent_bytes_total": 708623,
+          "received_gb": 0.005805485881865025,
+          "sent_gb": 0.0006599565967917442
+        },
+        "carbon_intensity": {
+          "weighted_average_gco2_kwh": 797.91,
+          "total_requests": 147,
+          "requests_with_forecast": 88,
+          "hours_matched": 22,
+          "hours_with_fallback": 15,
+          "unmatched_hours": [
+            "2026-01-30T21:00:00Z",
+            "2026-01-30T22:00:00Z",
+            "2026-01-30T23:00:00Z",
+            "2026-01-31T00:00:00Z",
+            "2026-01-31T14:00:00Z",
+            "2026-01-31T15:00:00Z",
+            "2026-01-31T16:00:00Z",
+            "2026-01-31T17:00:00Z",
+            "2026-01-31T18:00:00Z",
+            "2026-01-31T19:00:00Z",
+            "2026-01-31T20:00:00Z",
+            "2026-01-31T21:00:00Z",
+            "2026-01-31T22:00:00Z",
+            "2026-01-31T23:00:00Z",
+            "2026-02-01T00:00:00Z"
+          ],
+          "source": "forecast_partial",
+          "fallback_value": 400.0
+        }
+      }
+    },
+    "agent": {
+      "service_name": "agent-function",
+      "region": "us-east1",
+      "url": "https://agent-function-q2kjbaaiea-ue.a.run.app/",
+      "gcp_metrics": {
+        "request_count": 5,
+        "hourly_request_counts": {
+          "2026-01-31T06:00:00Z": 1,
+          "2026-01-31T15:00:00Z": 1,
+          "2026-02-01T12:00:00Z": 1,
+          "2026-02-01T13:00:00Z": 1,
+          "2026-02-02T12:00:00Z": 1
+        },
+        "request_latencies_ms": {
+          "p50": 277668.949214,
+          "p95": 279170.90526780003,
+          "p99": 279208.61131436,
+          "mean": 201407.6128331
+        },
+        "cpu_utilization": {
+          "mean": 0.031609683745662774,
+          "p95": 0.21205438083341588
+        },
+        "memory_utilization": {
+          "mean": 0.2932005852079644,
+          "p95": 0.3684654235839844
+        },
+        "billable_instance_time_s": 7753.536244675719,
+        "network": {
+          "received_bytes_total": 263607470,
+          "sent_bytes_total": 2310343,
+          "received_gb": 0.24550358764827251,
+          "sent_gb": 0.0021516745910048485
+        },
+        "carbon_intensity": {
+          "weighted_average_gco2_kwh": 788.5,
+          "total_requests": 5,
+          "requests_with_forecast": 2,
+          "hours_matched": 2,
+          "hours_with_fallback": 3,
+          "unmatched_hours": [
+            "2026-01-31T06:00:00Z",
+            "2026-01-31T15:00:00Z",
+            "2026-02-01T12:00:00Z"
+          ],
+          "source": "forecast_partial",
+          "fallback_value": 400.0
+        }
+      }
+    }
+  }
+}
