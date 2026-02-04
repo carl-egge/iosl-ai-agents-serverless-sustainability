@@ -525,7 +525,8 @@ def calculate_emissions_per_execution(
     config: dict,
     vcpus: int = 1,
     gpu_count: int = 0,
-    gpu_type: str = "nvidia-l4"
+    gpu_type: str = "nvidia-l4",
+    region: str = None
 ) -> float:
     """
     Calculate CO2 emissions for a single function execution using static_config formulas.
@@ -540,6 +541,7 @@ def calculate_emissions_per_execution(
         vcpus: Number of vCPUs (default: 1)
         gpu_count: Number of GPUs (default: 0)
         gpu_type: GPU type if used (default: "nvidia-l4")
+        region: GCP region for region-specific PUE lookup (default: None, uses fleet average)
 
     Returns:
         CO2 emissions in grams for one execution
@@ -579,7 +581,13 @@ def calculate_emissions_per_execution(
 
     # Calculate compute energy (kWh)
     total_power_w = cpu_power_w + memory_power_w + gpu_power_w
-    datacenter_pue = power_constants.get("datacenter_pue", 1.1)
+    # Region-specific PUE: look up from region config, fall back to fleet average
+    if region and region in config.get("regions", {}):
+        datacenter_pue = config["regions"][region].get(
+            "datacenter_pue", power_constants.get("datacenter_pue", 1.1)
+        )
+    else:
+        datacenter_pue = power_constants.get("datacenter_pue", 1.1)
     compute_energy_kwh = (total_power_w * (runtime_s / 3600)) * datacenter_pue
 
     # Calculate transfer energy (kWh)
@@ -1123,7 +1131,8 @@ def calculate_region_metrics(
             avg_carbon_intensity,
             static_config,
             vcpus=vcpus_to_use,
-            gpu_count=gpu_count
+            gpu_count=gpu_count,
+            region=region_code
         )
 
         # Calculate yearly totals

@@ -246,8 +246,6 @@ For detailed methodology, see [METRICS.md](METRICS.md).
 - **Limited experiment duration** — 7 days of data scaled to yearly projections
 - **Constant daily load** — we use a fixed invocation count per day to estimate per-invocation values, rather than actual production traffic. This is cost-efficient and adequate because mean metric values (CPU utilization, latency, etc.) should remain rather stable with larger invocation volume.
 
-These limitations are acceptable for a feasibility study and must be stated explicitly in any report.
-
 ---
 
 ## 9. Expected Outcome

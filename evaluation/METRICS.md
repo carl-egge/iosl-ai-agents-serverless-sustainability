@@ -54,7 +54,7 @@ total_energy_kwh   = compute_energy_kwh + network_energy_kwh
   - L4 idle power estimated from T4 ratio (CCF T4: 8W/71W ≈ 11% idle → L4: 72W × 0.11 ≈ 8W)
   - GCP doesn't expose GPU utilization, so we assume 10% mean utilization (CPU data shows mean utilization is typically much lower than p95)
   - At 10% utilization: 8 + 0.1 × 64 = 14.4W
-- PUE (Power Usage Effectiveness) = 1.09 (Google datacenter efficiency)
+- PUE (Power Usage Effectiveness) = region-specific values (1.08–1.10) from [Google Data Centers](https://datacenters.google/efficiency/) Q3 2025 TTM. Fleet average 1.09 used as fallback for regions without a published value.
 
 **Runtime calculation:**
 ```
@@ -197,13 +197,29 @@ Reference: [Cloud Carbon Footprint methodology](https://www.cloudcarbonfootprint
 | GPU power (L4 max) | 72W | [NVIDIA L4 datasheet](https://www.nvidia.com/en-us/data-center/l4/) |
 | GPU utilization (assumed) | 0.1 (10%) | Conservative estimate (CPU data shows mean << p95; GCP doesn't expose GPU metrics) |
 | Network energy | 0.001 kWh/GB | Cloud Carbon Footprint (hyperscale optical fiber) |
-| Datacenter PUE | 1.09 | [Google Data Centers](https://datacenters.google/efficiency/) (2024) |
+| Datacenter PUE | 1.08–1.10 (per region) | [Google Data Centers](https://datacenters.google/efficiency/) (Q3 2025 TTM) |
 
 All constants stored in `local_bucket/static_config.json`.
 
 ---
 
-## 5. Calculation Assumptions
+## 5. Why We Calculate Instead of Using GCP Data
+
+| Metric | Reason |
+|--------|--------|
+| **Latency*** | End-to-end latency needs client-side measurement; GCP only has server-side |
+| **Energy** | Not provided by GCP |
+| **Emissions** | GCP carbon data may not be available in time; doesn't include API emissions |
+| **Costs** | Experiments don't exhaust GCP's free compute tier, so billed costs are lower than actual compute costs outside free tier. Scaling from experiment to yearly rates is non-linear because the free tier would eventually be exhausted. Also doesn't include API costs. |
+
+
+**Loadgen Latency* measurement source:** The loadgen job logs `end_to_end_latency_ms` for
+each direct invocation (scenario A/B). For scenario C, `end_to_end_latency_ms`
+is `null` when the dispatcher schedules execution for a later time (time-shift).
+
+---
+
+## 6. Calculation Assumptions
 
 | Assumption | Description | Effect |
 |------------|-------------|--------|
@@ -211,28 +227,13 @@ All constants stored in `local_bucket/static_config.json`.
 | Hourly Carbon Intensity Resolution | CI piecewise constant within each hour | One CI lookup per invocation |
 | Forecasted Carbon Intensity Accuracy | Forecasts assumed correct | Real-world forecast error not modeled |
 | Network Energy Proportional to Transfer | Linear model (bytes × 0.001 kWh/GB) | Excludes complex routing effects |
-| Free Tier Exhaustion | All executions incur costs at standard rates | May overestimate costs (especially for small projects) |
+| Equal Compute Costs Across Approaches | Compute costs (CPU, memory, invocation) are identical across approaches for the same function. Since experiments don't exhaust GCP's free compute tier, absolute cost scaling is unreliable. We therefore only measure *cost overhead* relative to baseline: data transfer costs, dispatcher/agent execution costs, and API costs. | Focuses comparison on costs that actually differ between approaches |
 | MCP Deployment Costs Not Measured | Deployment overhead not explicitly tracked | Negligible impact on yearly totals |
 | Runtime from Request Latency | Mean request latency from GCP used; evidence suggests this better matches CPU utilization measurement window than billable time | Energy formula uses consistent time base |
 | Stable Inputs Throughout Year | Function metadata and priorities unchanged | Allows upscaling of our results to a whole year |
+| Region-Specific PUE Coverage | Google only publishes PUE for owned-and-operated data centers; 12 of 22 regions lack published values and use the fleet average 1.09 as fallback. Of our 5 experiment regions, 3 have published PUE (us-east1: 1.10, us-central1: 1.10, europe-west1: 1.08) while 2 use the fleet average (europe-north2, northamerica-northeast1). | Slight inaccuracy for regions without published PUE |
 
 **Note on Runtime Choice:** We observed that billable instance time can be up to 83× higher than mean request latency, yet CPU utilization remains similar across projects. This strongly suggests GCP does not measure CPU utilization over billable instance time. Using request latency ensures the energy formula (`power × runtime`) uses a consistent time base for both factors.
-
----
-
-## 6. Why We Calculate Instead of Using GCP Data
-
-| Metric | Reason |
-|--------|--------|
-| **Latency*** | End-to-end latency needs client-side measurement; GCP only has server-side |
-| **Energy** | Not provided by GCP |
-| **Emissions** | GCP carbon data may not be available in time; doesn't include API emissions |
-| **Costs** | Free tier complicates scaling; doesn't include API costs |
-
-
-**Loadgen Latency* measurement source:** The loadgen job logs `end_to_end_latency_ms` for
-each direct invocation (scenario A/B). For scenario C, `end_to_end_latency_ms`
-is `null` when the dispatcher schedules execution for a later time (time-shift).
 
 ---
 
@@ -293,7 +294,7 @@ Output structure:
   - Source for CPU min/max model (GCP: 0.71-4.26 W/vCPU from SPECPower)
   - Source for memory power (0.392 W/GB ≈ 0.4 W/GiB)
   - Source for network energy (0.001 kWh/GB for hyperscale optical fiber)
-  - Source for PUE (GCP: 1.1)
+  - Source for PUE methodology (GCP region-specific: 1.08–1.10, fleet avg 1.09)
 
 **Evaluation Metrics:**
 - Abdulsalam, S., Laber, D., Pasricha, S., & Bradley, A. (2015). "Using the Greenup, Powerup, and Speedup metrics to evaluate software energy efficiency." *2015 Sixth International Green and Sustainable Computing Conference (IGSC)*. IEEE.

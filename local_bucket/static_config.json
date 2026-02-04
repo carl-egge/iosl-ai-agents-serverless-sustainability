@@ -25,7 +25,8 @@
         "nvidia-l4"
       ],
       "data_transfer_cost_per_gb_usd": 0.02,
-      "electricity_maps_zone": "US-MIDW-MISO"
+      "electricity_maps_zone": "US-MIDW-MISO",
+      "datacenter_pue": 1.10
     },
     "us-east1": {
       "name": "South Carolina",
@@ -35,7 +36,8 @@
       "data_transfer_cost_per_gb_usd": 0.0,
       "electricity_maps_zone": "US-CAR-SC",
       "notes": "Same region as bucket - no transfer cost",
-      "continent": "north-america"
+      "continent": "north-america",
+      "datacenter_pue": 1.10
     },
     "us-east4": {
       "name": "Northern Virginia",
@@ -46,7 +48,8 @@
       ],
       "data_transfer_cost_per_gb_usd": 0.02,
       "electricity_maps_zone": "US-MIDA-PJM",
-      "continent": "north-america"
+      "continent": "north-america",
+      "datacenter_pue": 1.08
     },
     "us-east5": {
       "name": "Columbus, Ohio",
@@ -55,7 +58,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
       "electricity_maps_zone": "US-MIDA-PJM",
-      "continent": "north-america"
+      "continent": "north-america",
+      "datacenter_pue": 1.06
     },
     "us-south1": {
       "name": "Dallas, Texas",
@@ -64,7 +68,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
       "electricity_maps_zone": "US-TEX-ERCO",
-      "continent": "north-america"
+      "continent": "north-america",
+      "datacenter_pue": 1.10
     },
     "us-west1": {
       "name": "Oregon",
@@ -73,7 +78,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
       "electricity_maps_zone": "US-NW-BPAT",
-      "continent": "north-america"
+      "continent": "north-america",
+      "datacenter_pue": 1.09
     },
     "us-west2": {
       "name": "Los Angeles",
@@ -82,7 +88,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
       "electricity_maps_zone": "US-CAL-CISO",
-      "continent": "north-america"
+      "continent": "north-america",
+      "datacenter_pue": 1.09
     },
     "us-west3": {
       "name": "Salt Lake City",
@@ -91,7 +98,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
       "electricity_maps_zone": "US-NW-PACE",
-      "continent": "north-america"
+      "continent": "north-america",
+      "datacenter_pue": 1.09
     },
     "us-west4": {
       "name": "Las Vegas",
@@ -100,7 +108,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
       "electricity_maps_zone": "US-NW-NEVP",
-      "continent": "north-america"
+      "continent": "north-america",
+      "datacenter_pue": 1.09
     },
     "northamerica-northeast1": {
       "name": "Montreal",
@@ -109,7 +118,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
       "electricity_maps_zone": "CA-QC",
-      "continent": "north-america"
+      "continent": "north-america",
+      "datacenter_pue": 1.09
     },
     "northamerica-northeast2": {
       "name": "Toronto",
@@ -118,7 +128,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
       "electricity_maps_zone": "CA-ON",
-      "continent": "north-america"
+      "continent": "north-america",
+      "datacenter_pue": 1.09
     },
     "northamerica-south1": {
       "name": "Queretaro, Mexico",
@@ -127,7 +138,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.02,
       "electricity_maps_zone": "MX",
-      "continent": "north-america"
+      "continent": "north-america",
+      "datacenter_pue": 1.09
     },
     "europe-central2": {
       "name": "Warsaw",
@@ -136,7 +148,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
       "electricity_maps_zone": "PL",
-      "continent": "europe"
+      "continent": "europe",
+      "datacenter_pue": 1.09
     },
     "europe-north1": {
       "name": "Finland",
@@ -145,7 +158,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
       "electricity_maps_zone": "FI",
-      "continent": "europe"
+      "continent": "europe",
+      "datacenter_pue": 1.10
     },
     "europe-north2": {
       "name": "Stockholm, Sweden",
@@ -154,7 +168,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
       "electricity_maps_zone": "SE-SE3",
-      "continent": "europe"
+      "continent": "europe",
+      "datacenter_pue": 1.09
     },
     "europe-west1": {
       "name": "Belgium",
@@ -165,7 +180,8 @@
       ],
       "data_transfer_cost_per_gb_usd": 0.05,
       "electricity_maps_zone": "BE",
-      "continent": "europe"
+      "continent": "europe",
+      "datacenter_pue": 1.08
     },
     "europe-west2": {
       "name": "London",
@@ -174,7 +190,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
       "electricity_maps_zone": "GB",
-      "continent": "europe"
+      "continent": "europe",
+      "datacenter_pue": 1.09
     },
     "europe-west3": {
       "name": "Frankfurt",
@@ -183,7 +200,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
       "electricity_maps_zone": "DE",
-      "continent": "europe"
+      "continent": "europe",
+      "datacenter_pue": 1.09
     },
     "europe-west4": {
       "name": "Netherlands",
@@ -194,7 +212,8 @@
       ],
       "data_transfer_cost_per_gb_usd": 0.05,
       "electricity_maps_zone": "NL",
-      "continent": "europe"
+      "continent": "europe",
+      "datacenter_pue": 1.07
     },
     "europe-west6": {
       "name": "Zurich",
@@ -203,7 +222,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
       "electricity_maps_zone": "CH",
-      "continent": "europe"
+      "continent": "europe",
+      "datacenter_pue": 1.09
     },
     "europe-west8": {
       "name": "Milan",
@@ -212,7 +232,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
       "electricity_maps_zone": "IT-NO",
-      "continent": "europe"
+      "continent": "europe",
+      "datacenter_pue": 1.09
     },
     "europe-west9": {
       "name": "Paris",
@@ -221,7 +242,8 @@
       "gpu_types": [],
       "data_transfer_cost_per_gb_usd": 0.05,
       "electricity_maps_zone": "FR",
-      "continent": "europe"
+      "continent": "europe",
+      "datacenter_pue": 1.09
     }
   },
   "pricing": {
@@ -278,6 +300,7 @@
       "cpu_power_model": "CCF min/max model: cpu_power_w = vcpus × (min_watts + cpu_utilization × (max_watts - min_watts)). GCP values: min=0.71W, max=4.26W per vCPU. At 50% utilization this equals ~2.5W/vCPU.",
       "memory_utilization": "NO memory_utilization_factor is defined. Memory power is calculated based on ALLOCATED capacity (allocation-based) rather than utilization. This follows standard Cloud Carbon Footprint methodology (~0.392 W/GB industry standard) where DRAM refresh power is independent of access patterns. Even if full memory isn't used, it still consumes power.",
       "network_energy": "CCF specifies 0.001 kWh/GB for hyperscale data center optical fiber transfers.",
+      "datacenter_pue": "Fleet-average PUE (1.09) used as fallback. Region-specific PUE values are in regions[].datacenter_pue. Source: https://datacenters.google/efficiency/ (Q3 2025 TTM).",
       "calculation_methodology": "CPU power scales with utilization (dynamic), memory power is allocation-based (static), following hardware power characteristics. This asymmetry is intentional and validated by industry research.",
       "references": [
         "Cloud Carbon Footprint: https://www.cloudcarbonfootprint.org/docs/methodology/",
@@ -299,7 +322,7 @@
       "cpu_min_watts_per_vcpu": "CONSTANT: 0.71W (GCP idle)",
       "cpu_max_watts_per_vcpu": "CONSTANT: 4.26W (GCP 100% load)",
       "memory_watts_per_gib": "CONSTANT: 0.4W",
-      "datacenter_pue": "CONSTANT: 1.09 (Google reported)",
+      "datacenter_pue": "PER-REGION: regions[region].datacenter_pue (range 1.08-1.10). Fallback: power_constants.datacenter_pue (1.09 fleet average). Source: Google Q3 2025 TTM",
       "network_kwh_per_gb": "CONSTANT: 0.001",
       "gpu_min_watts": "CONSTANT: 8W (nvidia-l4 idle, estimated from T4 ratio)",
       "gpu_max_watts": "CONSTANT: 72W (nvidia-l4 TDP)"
@@ -333,7 +356,8 @@
       "pricing_tiers": "https://cloud.google.com/run/pricing",
       "gpu_availability": "https://cloud.google.com/run/docs/locations#gpu",
       "transfer_costs": "https://cloud.google.com/storage/pricing#network-buckets",
-      "electricity_maps_zones": "https://portal.electricitymaps.com/docs"
+      "electricity_maps_zones": "https://portal.electricitymaps.com/docs",
+      "datacenter_pue": "https://datacenters.google/efficiency/ (Q3 2025 TTM)"
     },
     "important_notes": {
       "data_transfer": "Costs apply for BOTH download AND upload. Total = (input_gb + output_gb) * rate",

@@ -221,7 +221,8 @@ def calculate_energy_per_invocation(
     data_sent_gb: float,
     request_count: int,
     gpu_required: bool = False,
-    static_config: Dict = None
+    static_config: Dict = None,
+    region: str = None
 ) -> Dict:
     """
     Calculate energy consumption per invocation.
@@ -275,7 +276,13 @@ def calculate_energy_per_invocation(
     CPU_MIN_WATTS_PER_VCPU = power_constants['cpu_min_watts_per_vcpu']
     CPU_MAX_WATTS_PER_VCPU = power_constants['cpu_max_watts_per_vcpu']
     MEMORY_WATTS_PER_GIB = power_constants['memory_watts_per_gib']
-    DATACENTER_PUE = power_constants['datacenter_pue']
+    # Region-specific PUE: look up from region config, fall back to fleet average
+    if region and region in static_config.get('regions', {}):
+        DATACENTER_PUE = static_config['regions'][region].get(
+            'datacenter_pue', power_constants['datacenter_pue']
+        )
+    else:
+        DATACENTER_PUE = power_constants['datacenter_pue']
     NETWORK_KWH_PER_GB = power_constants['network_kwh_per_gb']
 
     # GPU constants (load from static_config.json if GPU required)
@@ -360,7 +367,8 @@ def calculate_energy_per_invocation(
             'cpu_power_w': cpu_power_w,
             'memory_power_w': memory_power_w,
             'gpu_power_w': gpu_power_w,
-            'runtime_s': runtime_s
+            'runtime_s': runtime_s,
+            'datacenter_pue': DATACENTER_PUE
         }
     }
 
@@ -660,7 +668,8 @@ def calculate_metrics_for_function(
         data_sent_gb=config['data_sent_gb'],
         request_count=config['request_count'],
         gpu_required=config['gpu_required'],
-        static_config=static_config
+        static_config=static_config,
+        region=config['region']
     )
 
     # 3. Calculate emissions
@@ -794,6 +803,7 @@ def build_calculation_constants(static_config: Dict) -> Dict:
             'cpu_formula': 'vcpus × (min_watts + cpu_utilization × (max_watts - min_watts))',
             'memory_watts_per_gib': power_constants['memory_watts_per_gib'],
             'datacenter_pue': power_constants['datacenter_pue'],
+            'datacenter_pue_note': 'Fleet average fallback; per-function PUE in energy.breakdown.datacenter_pue',
             'network_kwh_per_gb': power_constants['network_kwh_per_gb'],
             'gpu_min_watts_nvidia_l4': power_constants['gpu_min_watts']['nvidia-l4'],
             'gpu_max_watts_nvidia_l4': power_constants['gpu_max_watts']['nvidia-l4'],
